@@ -1,13 +1,13 @@
 interface Settings {
     parentId: string;
-    interval?: boolean;
+    type?: string;
     minValue?: number;
     maxValue?: number;
-    value?: number;
+    value?: number | number[];
     step?: number;
-    horizontal?: boolean;
-    hint?: boolean;
-    configure?: boolean;
+    direction?: string;
+    hint?: string;
+    configure?: string;
 }
 
 export default Settings;

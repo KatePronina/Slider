@@ -1,11 +1,11 @@
 const DEFAULT_SETTINGS = {
-    INTERVAL: false,
+    TYPE: 'range',
     MIN_VALUE: 0,
     MAX_VALUE: 100,
     STEP: 1,
-    HORIZONTAL: true,
-    HINT: true,
-    CONFIGURE: false,
+    DIRECTION: 'horizontal',
+    HINT: 'yes',
+    CONFIGURE: 'no',
 }
 
 export default DEFAULT_SETTINGS;
