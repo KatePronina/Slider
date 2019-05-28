@@ -1,4 +1,4 @@
-
+import Model from './model';
 
 test('Should set default settings', (): void => {
   const model = new Model({parentId: 'id'});
