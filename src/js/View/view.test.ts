@@ -2,6 +2,7 @@ import View from './view';
 import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
 import HintView from './Views/hintView';
+import ScaleView from './Views/scaleView';
 
 test('Should create right slider view', (): void => {
   const view = new View({parentId: 'bar', type: 'range'});
