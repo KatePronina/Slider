@@ -13,3 +13,15 @@ test('Should create right slider view for interval', (): void => {
 
   expect(view.slider).toEqual(expect.any(IntervalSliderView));
 })
+
+test('Should create hint', (): void => {
+  const view = new View({parentId: 'bar', hint: 'yes'});
+
+  expect(view.hint).toEqual(expect.any(HintView));
+})
+
+test('Should not create hint', (): void => {
+  const view = new View({parentId: 'bar', hint: 'no'});
+
+  expect(view.hint).toBeUndefined();
+})
