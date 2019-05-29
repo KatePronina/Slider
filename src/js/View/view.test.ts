@@ -39,3 +39,15 @@ test('Should not create scale', (): void => {
 
   expect(view.scale).toBeUndefined();
 })
+
+test('Should create configuration panel', (): void => {
+  const view = new View({parentId: 'bar', configure: 'yes'});
+
+  expect(view.configure).toEqual(expect.any(ConfigureView));
+})
+
+test('Should not create configuration panel', (): void => {
+  const view = new View({parentId: 'bar', configure: 'no'});
+
+  expect(view.configure).toBeUndefined();
+})
