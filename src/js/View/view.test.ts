@@ -26,3 +26,15 @@ test('Should not create hint', (): void => {
 
   expect(view.hint).toBeUndefined();
 })
+
+test('Should create scale', (): void => {
+  const view = new View({parentId: 'bar', scale: 'yes'});
+
+  expect(view.scale).toEqual(expect.any(ScaleView));
+})
+
+test('Should not create scale', (): void => {
+  const view = new View({parentId: 'bar', scale: 'no'});
+
+  expect(view.scale).toBeUndefined();
+})
