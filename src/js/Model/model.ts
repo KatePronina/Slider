@@ -13,6 +13,7 @@ class Model {
     this.state.step = settings.step || DEFAULT_SETTINGS.STEP;
     this.state.direction = settings.direction || DEFAULT_SETTINGS.DIRECTION;
     this.state.hint = settings.hint || DEFAULT_SETTINGS.HINT;
+    this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
   }
 }

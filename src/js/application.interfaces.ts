@@ -7,6 +7,7 @@ interface Settings {
     step?: number;
     direction?: string;
     hint?: string;
+    scale?: string;
     configure?: string;
 }
 

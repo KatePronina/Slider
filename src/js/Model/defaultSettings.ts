@@ -5,6 +5,7 @@ const DEFAULT_SETTINGS = {
     STEP: 1,
     DIRECTION: 'horizontal',
     HINT: 'yes',
+    SCALE: 'no',
     CONFIGURE: 'no',
 }
 
