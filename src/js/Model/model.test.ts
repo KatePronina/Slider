@@ -1,22 +1,22 @@
 import Model from './model';
 
 test('Should set default settings', (): void => {
-  const model = new Model({parentId: 'id'});
+  const model = new Model({parentId: 'foo'});
 
-  expect(model.parentId).toEqual('id');
-  expect(model.type).toEqual('range');
-  expect(model.minValue).toEqual(0);
-  expect(model.maxValue).toEqual(100);
-  expect(model.value).toEqual(model.minValue);
-  expect(model.step).toEqual(1);
-  expect(model.direction).toEqual('horizontal');
-  expect(model.hint).toEqual('yes');
-  expect(model.configure).toEqual('no');
+  expect(model.state.parentId).toEqual('foo');
+  expect(model.state.type).toEqual('range');
+  expect(model.state.minValue).toEqual(0);
+  expect(model.state.maxValue).toEqual(100);
+  expect(model.state.value).toEqual(model.state.minValue);
+  expect(model.state.step).toEqual(1);
+  expect(model.state.direction).toEqual('horizontal');
+  expect(model.state.hint).toEqual('yes');
+  expect(model.state.configure).toEqual('no');
 })
 
 test('Should set custom settings', (): void => {
   const model = new Model({
-    parentId: 'id',
+    parentId: 'bar',
     type: 'interval',
     minValue: 5,
     maxValue: 30,
@@ -27,13 +27,13 @@ test('Should set custom settings', (): void => {
     configure: 'yes',
   });
 
-  expect(model.parentId).toEqual('id');
-  expect(model.type).toEqual('interval');
-  expect(model.minValue).toEqual(5);
-  expect(model.maxValue).toEqual(30);
-  expect(model.value).toEqual([20, 25]);
-  expect(model.step).toEqual(5);
-  expect(model.direction).toEqual('vertical');
-  expect(model.hint).toEqual('no');
-  expect(model.configure).toEqual('yes');
+  expect(model.state.parentId).toEqual('bar');
+  expect(model.state.type).toEqual('interval');
+  expect(model.state.minValue).toEqual(5);
+  expect(model.state.maxValue).toEqual(30);
+  expect(model.state.value).toEqual([20, 25]);
+  expect(model.state.step).toEqual(5);
+  expect(model.state.direction).toEqual('vertical');
+  expect(model.state.hint).toEqual('no');
+  expect(model.state.configure).toEqual('yes');
 })
