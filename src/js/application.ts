@@ -1,4 +1,6 @@
 import Settings from './application.interfaces';
+import Model from './Model/model';
+import Controller from './Controller/controller';
 
 class Application {
   public constructor(settings: Settings) {
