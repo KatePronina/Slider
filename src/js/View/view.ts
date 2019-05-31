@@ -10,6 +10,8 @@ class View {
   public state: Settings;
   public parentElement: HTMLElement | null;
   public sliderElement: HTMLElement | null;
+  public hintElement: HTMLElement;
+
   public slider: RangeSliderView | IntervalSliderView;
   public hint?: HintView;
   public scale?: ScaleView;
@@ -31,6 +33,8 @@ class View {
 
     if (this.state.hint === 'yes') {
       this.hint = new HintView(this.state);
+      this.hintElement = this.hint.getDOMElement();
+      this.appendElementToSlider(this.hintElement);
     }
 
     if (this.state.scale === 'yes') {
@@ -44,6 +48,11 @@ class View {
 
   public appendElementToParent(element: HTMLElement): void {
     (this.parentElement as HTMLElement).appendChild(element);
+  }
+
+  public appendElementToSlider(element: HTMLElement): void {
+    const slider = (this.parentElement as HTMLElement).querySelector('.slider');
+    (slider as HTMLElement).appendChild(element);
   }
 }
 
