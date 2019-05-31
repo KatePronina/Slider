@@ -1,6 +1,3 @@
-body {
-  padding: 30px;
-}
 .slider-wrapper {
   display: inline-block;
   margin-bottom: 20px;
@@ -26,4 +23,14 @@ body {
   width: 0;
   height: .25rem;
   background-color: #e85019;
+}
+.slider__hint {
+  min-width: 1.5rem;
+  padding: .1rem;
+  position: absolute;
+  top: -2.5rem;
+  background-color: #e85019;
+  border-radius: .3rem;
+  color: #ffffff;
+  text-align: center;
 }
