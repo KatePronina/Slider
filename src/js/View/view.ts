@@ -8,6 +8,7 @@ import ConfigureView from './Views/configureView';
 
 class View {
   public state: Settings;
+  public parentElement: HTMLElement | null;
   public slider: RangeSliderView | IntervalSliderView;
   public hint?: HintView;
   public scale?: ScaleView;
@@ -15,6 +16,7 @@ class View {
 
   public constructor(state: Settings) {
     this.state = state;
+    this.parentElement = document.getElementById(state.parentId);
 
     if (this.state.type === 'range') {
       this.slider = new RangeSliderView(this.state);

@@ -54,6 +54,8 @@ test('Should not create configuration panel', (): void => {
 })
 
 test('Should save parent element', (): void => {
+  document.body.innerHTML = '<div id="bar"></div>';
+
   const view = new View({parentId: 'bar'});
 
   expect(view.parentElement).toBeDefined();
