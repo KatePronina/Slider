@@ -41,6 +41,9 @@ let conf = {
             }
         ]
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.json']
+    },
     plugins: [
         new ExtractTextPlugin('style.css')
     ]

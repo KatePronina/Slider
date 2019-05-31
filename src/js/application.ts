@@ -12,3 +12,5 @@ class Application {
     const controller: Controller = new Controller(model);
   }
 }
+
+const firstSlider = new Application({parentId: 'first-slider'});
