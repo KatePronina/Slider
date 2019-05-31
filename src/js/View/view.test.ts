@@ -52,3 +52,10 @@ test('Should not create configuration panel', (): void => {
 
   expect(view.configure).toBeUndefined();
 })
+
+test('Should save parent element', (): void => {
+  const view = new View({parentId: 'bar'});
+
+  expect(view.parentElement).toBeDefined();
+  expect(view.parentElement).toEqual(expect.anything());
+})
