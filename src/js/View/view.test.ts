@@ -59,3 +59,14 @@ test('Should save parent element', (): void => {
   expect(view.parentElement).toBeDefined();
   expect(view.parentElement).toEqual(expect.anything());
 })
+
+test('Should add slider in DOM', (): void => {
+  document.body.innerHTML = '<div id="first-slider"></div>';
+
+  const view = new View({parentId: 'first-slider', type: 'range'});
+
+  expect(document.querySelectorAll('#first-slider .slider-wrapper').length).toEqual(1);
+  expect(document.querySelectorAll('#first-slider .slider').length).toEqual(1);
+  expect(document.querySelectorAll('#first-slider .slider__bar').length).toEqual(1);
+  expect(document.querySelectorAll('#first-slider .slider__point').length).toEqual(1);
+})
