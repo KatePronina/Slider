@@ -1,0 +1,29 @@
+body {
+  padding: 30px;
+}
+.slider-wrapper {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 1rem 0;
+}
+.slider {
+  width: 18rem;
+  height: .25rem;
+  position: relative;
+  background-color: #bfbfbf;
+}
+.slider__point {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: #e85019;
+  position: absolute;
+  top: -.45rem;
+  left: 0;
+  cursor: pointer;
+}
+.slider__bar {
+  width: 0;
+  height: .25rem;
+  background-color: #e85019;
+}
