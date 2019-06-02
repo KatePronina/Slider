@@ -79,12 +79,13 @@ test('Should add slider in DOM', (): void => {
   expect(document.querySelectorAll('#first-slider .slider__point').length).toEqual(1);
 })
 
-test('Should add hint in DOM', (): void => {
+test('Should add hint in DOM with correct value', (): void => {
   document.body.innerHTML = '<div id="foo"></div>';
 
   const view = new View({parentId: 'foo', type: 'range', hint: 'yes'});
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
+  expect(document.querySelector('#foo .slider__hint').textContent).toEqual('0');
 })
 
 test('Should not add hint in DOM', (): void => {
