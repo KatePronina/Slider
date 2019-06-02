@@ -11,6 +11,7 @@ class HintView extends ComponentView {
 
   public createHintDOMElement(): void {
     const hintElement = document.createElement('div');
+    hintElement.textContent = (this.state.value as number).toString();
     hintElement.classList.add('slider__hint'); // TO DO: add binding events
     this.hintDOMElement = hintElement;
   }
