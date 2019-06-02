@@ -1,4 +1,5 @@
 import Model from './model';
+import {FullSettings, Settings} from '../application.interfaces';
 
 test('Should set default settings', (): void => {
   const model = new Model({parentId: 'foo'});
@@ -39,4 +40,12 @@ test('Should set custom settings', (): void => {
   expect(model.state.hint).toEqual('no');
   expect(model.state.scale).toEqual('yes');
   expect(model.state.configure).toEqual('yes');
+})
+
+test('Should update value', (): void => {
+  const model = new Model({parentId: 'foo'});
+
+  model.setValue(10);
+
+  expect(model.state.value).toEqual(10);
 })
