@@ -8,6 +8,10 @@ class Controller {
     public constructor(model: Model) {
         this.model = model;
         this.view = new View(this.model.state);
+
+        this.view.onNewValue = (value): void => {
+            this.model.setValue(value);
+        }
     }
 }
 

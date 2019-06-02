@@ -2,7 +2,18 @@ import DEFAULT_SETTINGS from './defaultSettings';
 import {Settings, FullSettings} from '../application.interfaces';
 
 class Model {
-  public state: FullSettings;
+  public state: FullSettings = {
+    parentId: '',
+    type: 'range',
+    minValue: 0,
+    maxValue: 100,
+    value: 0,
+    step: 1,
+    direction: 'horizontal',
+    hint: 'yes',
+    scale: 'no',
+    configure: 'no'
+  };
 
   public constructor(settings: Settings) {
     this.state.parentId = settings.parentId;
@@ -15,6 +26,12 @@ class Model {
     this.state.hint = settings.hint || DEFAULT_SETTINGS.HINT;
     this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
+  }
+
+  public setValue(value: number | number[]): void {
+    if(value <= this.state.maxValue && value >= this.state.minValue) {
+      this.state.value = value;
+    } 
   }
 }
 

@@ -57,8 +57,13 @@ class RangeSliderView extends ComponentView {
     if (this.isMouseDown) {
       const EventX: number = e.pageX - this.sliderOffsetLeft;
       const percent: number = this.countPercent(EventX, this.sliderWidth);
-      const value = percent * (this.state.maxValue - this.state.minValue) + this.state.minValue;
+      const value: number = (percent * (this.state.maxValue - this.state.minValue) + this.state.minValue);
+      this.onNewValue(value);
     }
+  }
+
+  public onNewValue(value: number): void {
+
   }
 
   private countPercent(coordinate: number, length: number): number {

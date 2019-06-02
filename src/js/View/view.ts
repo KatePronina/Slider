@@ -24,6 +24,9 @@ class View {
 
     if (this.state.type === 'range') {
       this.slider = new RangeSliderView(this.state);
+      (this.slider as RangeSliderView).onNewValue = (value): void => {
+        this.onNewValue(value);
+      }
     } else if (this.state.type === 'interval') {
       this.slider = new IntervalSliderView(this.state);
     }
@@ -55,6 +58,10 @@ class View {
   public appendElementToSlider(element: HTMLElement): void {
     const slider = (this.parentElement as HTMLElement).querySelector('.slider');
     (slider as HTMLElement).appendChild(element);
+  }
+
+  public onNewValue(value: number): void {
+
   }
 }
 
