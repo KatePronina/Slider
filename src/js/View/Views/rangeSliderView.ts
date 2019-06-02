@@ -3,7 +3,7 @@ import Settings from '../../application.interfaces';
 
 class RangeSliderView extends ComponentView {
   public sliderDOMElement: HTMLElement;
-  public isMouseDown: boolean;
+  private isMouseDown: boolean;
 
   public constructor(state: Settings) {
     super(state);
