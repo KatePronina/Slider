@@ -42,6 +42,7 @@ class View {
       this.hint = new HintView(this.state);
       this.hintElement = this.hint.getDOMElement();
       this.appendElementToSlider(this.hintElement);
+      this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
     }
 
     if (this.state.scale === 'yes') {
@@ -66,6 +67,9 @@ class View {
     this.state.value = value;
 
     (this.slider as RangeSliderView).onChangedValue(value);
+    if (this.hint) {
+      this.hint.onChangedValue(value, (this.slider as RangeSliderView).percent);
+    }
   }
 
   public onNewValue(value: number): void {
