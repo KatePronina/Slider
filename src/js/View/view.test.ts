@@ -104,29 +104,3 @@ test('Should set isMouseDown variable value false by default', (): void => {
 
   expect((slider as RangeSliderView).isMouseDown).toEqual(false);
 })
-
-test('Should change isMouseDown variable by mousedown event', (): void => {
-  document.body.innerHTML = '<div id="foo"></div>';
-
-  const view = new View({parentId: 'foo', type: 'range', hint: 'yes', value: 0});
-  const slider = view.slider;
-
-  const eventMouseDown = new MouseEvent('mousedown');
-  document.querySelector('#foo .slider__point').dispatchEvent(eventMouseDown);
-
-  expect((slider as RangeSliderView).isMouseDown).toEqual(true);
-})
-
-test('Should change isMouseDown variable by mouseup event', (): void => {
-  document.body.innerHTML = '<div id="foo"></div>';
-
-  const view = new View({parentId: 'foo', type: 'range', hint: 'yes', value: 0});
-  const slider = view.slider;
-  
-  const eventMouseDown = new MouseEvent('mousedown');
-  const eventMouseUp = new MouseEvent('mouseup');
-  document.querySelector('#foo .slider__point').dispatchEvent(eventMouseDown);
-  document.querySelector('#foo .slider__point').dispatchEvent(eventMouseUp);
-
-  expect((slider as RangeSliderView).isMouseDown).toEqual(false);
-})
