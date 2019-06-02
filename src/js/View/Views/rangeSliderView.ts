@@ -3,6 +3,8 @@ import Settings from '../../application.interfaces';
 
 class RangeSliderView extends ComponentView {
   public sliderDOMElement: HTMLElement;
+  public sliderWidth: number;
+
   private isMouseDown: boolean;
 
   public constructor(state: Settings) {
@@ -31,8 +33,12 @@ class RangeSliderView extends ComponentView {
 
   public bindEventsToSlider(sliderElement: HTMLElement): void {
     const point = sliderElement.querySelector('.slider__point');
-    (point as HTMLElement).addEventListener('mousedown', this.onPointMouseDown);
-    (point as HTMLElement).addEventListener('mouseup', this.onPointMouseUp);
+    (point as HTMLElement).addEventListener('mousedown', (): void => {
+      this.onPointMouseDown();
+    });
+    (point as HTMLElement).addEventListener('mouseup', (): void => {
+      this.onPointMouseUp();
+    });
     document.addEventListener('mousemove', (e): void => {
       this.onDocumentMouseMove(e);
     })
@@ -48,7 +54,7 @@ class RangeSliderView extends ComponentView {
 
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMouseDown) {
-      
+
     }
   }
 }

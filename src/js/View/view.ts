@@ -30,6 +30,7 @@ class View {
 
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
+    (this.slider as RangeSliderView).sliderWidth = ((this.parentElement as HTMLElement).querySelector('.slider') as HTMLElement).offsetWidth;
 
     if (this.state.hint === 'yes') {
       this.hint = new HintView(this.state);
