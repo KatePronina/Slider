@@ -49,3 +49,19 @@ test('Should update value', (): void => {
 
   expect(model.state.value).toEqual(10);
 })
+
+test('Should not update wrong value', (): void => {
+  const model = new Model({parentId: 'foo'});
+
+  model.setValue(10000);
+
+  expect(model.state.value).toEqual(0);
+})
+
+test('Should not update wrong value', (): void => {
+  const model = new Model({parentId: 'foo'});
+
+  model.setValue(-10000);
+
+  expect(model.state.value).toEqual(0);
+})
