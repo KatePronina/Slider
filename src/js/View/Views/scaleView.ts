@@ -1,10 +1,10 @@
 import ComponentView from './componentView';
-import Settings from '../../application.interfaces';
+import {FullSettings} from '../../application.interfaces';
 
 class ScaleView extends ComponentView {
   public scaleDOMElement: HTMLElement;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     super(state);
   }
 

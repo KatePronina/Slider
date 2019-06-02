@@ -1,10 +1,10 @@
 import ComponentView from './componentView';
-import Settings from '../../application.interfaces';
+import {FullSettings} from '../../application.interfaces';
 
 class ConfigureView extends ComponentView {
   public configureDOMElement: HTMLElement;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     super(state);
   }
 

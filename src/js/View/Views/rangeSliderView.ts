@@ -1,13 +1,14 @@
 import ComponentView from './componentView';
-import Settings from '../../application.interfaces';
+import {FullSettings} from '../../application.interfaces';
 
 class RangeSliderView extends ComponentView {
   public sliderDOMElement: HTMLElement;
   public sliderWidth: number;
+  public sliderOffsetLeft: number;
 
   private isMouseDown: boolean;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     super(state);
     this.isMouseDown = false;
     this.createSliderDOMElement();
@@ -54,8 +55,17 @@ class RangeSliderView extends ComponentView {
 
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMouseDown) {
-
+      const EventX: number = e.pageX - this.sliderOffsetLeft;
+      const percent: number = this.countPercent(EventX, this.sliderWidth);
+      const value = percent * (this.state.maxValue - this.state.minValue) + this.state.minValue;
     }
+  }
+
+  private countPercent(coordinate: number, length: number): number {
+    let percent = coordinate / length;
+    if (percent > 1) percent = 1;
+    if (percent < 0) percent = 0;
+    return percent;
   }
 }
 

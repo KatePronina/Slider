@@ -1,4 +1,4 @@
-import Settings from './application.interfaces';
+import {Settings} from './application.interfaces';
 import Model from './Model/model';
 import Controller from './Controller/controller';
 

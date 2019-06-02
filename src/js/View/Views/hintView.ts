@@ -1,10 +1,10 @@
 import ComponentView from './componentView';
-import Settings from '../../application.interfaces';
+import {FullSettings} from '../../application.interfaces';
 
 class HintView extends ComponentView {
   public hintDOMElement: HTMLElement;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     super(state);
     this.createHintDOMElement();
   }

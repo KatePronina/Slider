@@ -1,4 +1,4 @@
-import Settings from '../application.interfaces';
+import {FullSettings} from '../application.interfaces';
 
 import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
@@ -7,7 +7,7 @@ import ScaleView from './Views/scaleView';
 import ConfigureView from './Views/configureView';
 
 class View {
-  public state: Settings;
+  public state: FullSettings;
   public parentElement: HTMLElement | null;
   public sliderElement: HTMLElement | null;
   public hintElement: HTMLElement;
@@ -17,7 +17,7 @@ class View {
   public scale?: ScaleView;
   public configure?: ConfigureView;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     this.state = state;
     
     this.parentElement = document.getElementById(state.parentId);
@@ -30,7 +30,8 @@ class View {
 
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
-    (this.slider as RangeSliderView).sliderWidth = ((this.parentElement as HTMLElement).querySelector('.slider') as HTMLElement).offsetWidth;
+    (this.slider as RangeSliderView).sliderWidth = this.sliderElement.offsetWidth;
+    (this.slider as RangeSliderView).sliderOffsetLeft = this.sliderElement.offsetLeft;
 
     if (this.state.hint === 'yes') {
       this.hint = new HintView(this.state);

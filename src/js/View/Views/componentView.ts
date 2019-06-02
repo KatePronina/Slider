@@ -1,9 +1,9 @@
-import Settings from '../../application.interfaces';
+import {FullSettings} from '../../application.interfaces';
 
 abstract class ComponentView {
-  public state: Settings;
+  public state: FullSettings;
 
-  public constructor(state: Settings) {
+  public constructor(state: FullSettings) {
     this.state = state;
   }
 

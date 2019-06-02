@@ -1,11 +1,11 @@
 import DEFAULT_SETTINGS from './defaultSettings';
-import Settings from '../application.interfaces';
+import {Settings, FullSettings} from '../application.interfaces';
 
 class Model {
-  public state: Settings;
+  public state: FullSettings;
 
   public constructor(settings: Settings) {
-    this.state = {parentId: settings.parentId};
+    this.state.parentId = settings.parentId;
     this.state.type = settings.type || DEFAULT_SETTINGS.TYPE;
     this.state.minValue = settings.minValue || DEFAULT_SETTINGS.MIN_VALUE;
     this.state.maxValue = settings.maxValue || DEFAULT_SETTINGS.MAX_VALUE;
