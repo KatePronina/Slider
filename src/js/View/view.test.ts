@@ -8,7 +8,17 @@ import ConfigureView from './Views/configureView';
 test('Should create right slider view', (): void => {
   document.body.innerHTML = '<div id="bar"></div>';
 
-  const view = new View({parentId: 'bar', type: 'range'});
+  const view = new View({parentId: 'bar', 
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.slider).toEqual(expect.any(RangeSliderView));
 })
@@ -18,43 +28,113 @@ test('Should create right slider view', (): void => {
 // test('Should create right slider view for interval', (): void => {
 //   document.body.innerHTML = '<div id="bar"></div>';
 
-//   const view = new View({parentId: 'bar', type: 'interval'});
+//   const view = new View({parentId: 'bar', 
+//                         type: 'interval',
+//                         minValue: 0,
+//                         maxValue: 100,
+//                         value: 0,
+//                         step: 1,
+//                         direction: 'horizontal',
+//                         hint: 'yes',
+//                         scale: 'no',
+//                         configure: 'no',
+//                       });
 
 //   expect(view.slider).toEqual(expect.any(IntervalSliderView));
 // })
 
 test('Should create hint', (): void => {
-  const view = new View({parentId: 'bar', hint: 'yes', type: 'range', value: 0});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.hint).toEqual(expect.any(HintView));
 })
 
 test('Should not create hint', (): void => {
-  const view = new View({parentId: 'bar', hint: 'no', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'no',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.hint).toBeUndefined();
 })
 
 test('Should create scale', (): void => {
-  const view = new View({parentId: 'bar', scale: 'yes', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'yes',
+                        configure: 'no',
+                      });
 
   expect(view.scale).toEqual(expect.any(ScaleView));
 })
 
 test('Should not create scale', (): void => {
-  const view = new View({parentId: 'bar', scale: 'no', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.scale).toBeUndefined();
 })
 
 test('Should create configuration panel', (): void => {;
-  const view = new View({parentId: 'bar', configure: 'yes', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'yes',
+                      });
 
   expect(view.configure).toEqual(expect.any(ConfigureView));
 })
 
 test('Should not create configuration panel', (): void => {
-  const view = new View({parentId: 'bar', configure: 'no', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.configure).toBeUndefined();
 })
@@ -62,7 +142,17 @@ test('Should not create configuration panel', (): void => {
 test('Should save parent element', (): void => {
   document.body.innerHTML = '<div id="bar"></div>';
 
-  const view = new View({parentId: 'bar', type: 'range'});
+  const view = new View({parentId: 'bar',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(view.parentElement).toBeDefined();
   expect(view.parentElement).toEqual(expect.anything());
@@ -71,7 +161,17 @@ test('Should save parent element', (): void => {
 test('Should add slider in DOM', (): void => {
   document.body.innerHTML = '<div id="first-slider"></div>';
 
-  const view = new View({parentId: 'first-slider', type: 'range'});
+  const view = new View({parentId: 'first-slider',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(document.querySelectorAll('#first-slider .slider-wrapper').length).toEqual(1);
   expect(document.querySelectorAll('#first-slider .slider').length).toEqual(1);
@@ -82,7 +182,17 @@ test('Should add slider in DOM', (): void => {
 test('Should add hint in DOM with correct value', (): void => {
   document.body.innerHTML = '<div id="foo"></div>';
 
-  const view = new View({parentId: 'foo', type: 'range', hint: 'yes', value: 0});
+  const view = new View({parentId: 'foo', 
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'yes',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
   expect((document.querySelector('#foo .slider__hint') as HTMLElement).textContent).toEqual('0');
@@ -91,7 +201,17 @@ test('Should add hint in DOM with correct value', (): void => {
 test('Should not add hint in DOM', (): void => {
   document.body.innerHTML = '<div id="foo"></div>';
 
-  const view = new View({parentId: 'foo', type: 'range', hint: 'no'});
+  const view = new View({parentId: 'foo',
+                        type: 'range',
+                        minValue: 0,
+                        maxValue: 100,
+                        value: 0,
+                        step: 1,
+                        direction: 'horizontal',
+                        hint: 'no',
+                        scale: 'no',
+                        configure: 'no',
+                      });
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
 })
