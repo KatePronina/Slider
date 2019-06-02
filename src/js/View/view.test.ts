@@ -24,7 +24,7 @@ test('Should create right slider view', (): void => {
 // })
 
 test('Should create hint', (): void => {
-  const view = new View({parentId: 'bar', hint: 'yes', type: 'range'});
+  const view = new View({parentId: 'bar', hint: 'yes', type: 'range', value: 0});
 
   expect(view.hint).toEqual(expect.any(HintView));
 })
@@ -82,10 +82,10 @@ test('Should add slider in DOM', (): void => {
 test('Should add hint in DOM with correct value', (): void => {
   document.body.innerHTML = '<div id="foo"></div>';
 
-  const view = new View({parentId: 'foo', type: 'range', hint: 'yes'});
+  const view = new View({parentId: 'foo', type: 'range', hint: 'yes', value: 0});
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
-  expect(document.querySelector('#foo .slider__hint').textContent).toEqual('0');
+  expect((document.querySelector('#foo .slider__hint') as HTMLElement).textContent).toEqual('0');
 })
 
 test('Should not add hint in DOM', (): void => {
