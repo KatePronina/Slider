@@ -35,6 +35,8 @@ class View {
     this.appendElementToParent(this.sliderElement);
     (this.slider as RangeSliderView).sliderWidth = this.sliderElement.offsetWidth;
     (this.slider as RangeSliderView).sliderOffsetLeft = this.sliderElement.offsetLeft;
+    (this.slider as RangeSliderView).pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
+    (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
 
     if (this.state.hint === 'yes') {
       this.hint = new HintView(this.state);
@@ -58,6 +60,12 @@ class View {
   public appendElementToSlider(element: HTMLElement): void {
     const slider = (this.parentElement as HTMLElement).querySelector('.slider');
     (slider as HTMLElement).appendChild(element);
+  }
+
+  public onChangedValue(value: number | number[]): void {
+    this.state.value = value;
+
+    (this.slider as RangeSliderView).onChangedValue(value);
   }
 
   public onNewValue(value: number): void {

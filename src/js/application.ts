@@ -14,3 +14,4 @@ class Application {
 }
 
 const firstSlider = new Application({parentId: 'first-slider'});
+const secondSlider = new Application({parentId: 'second-slider'});

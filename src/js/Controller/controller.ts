@@ -12,6 +12,9 @@ class Controller {
         this.view.onNewValue = (value): void => {
             this.model.setValue(value);
         }
+        this.model.onSetValue = (value): void => {
+            this.view.onChangedValue(value);
+        }
     }
 }
 

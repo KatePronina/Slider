@@ -3,8 +3,14 @@ import {FullSettings} from '../../application.interfaces';
 
 class RangeSliderView extends ComponentView {
   public sliderDOMElement: HTMLElement;
+  public sliderBarDOMElement: HTMLElement | null;
+  public sliderPointDOMElement: HTMLElement | null;
+
   public sliderWidth: number;
   public sliderOffsetLeft: number;
+  public pointWidth: number;
+  public pointOffset: number;
+  public percent: number;
 
   private isMouseDown: boolean;
 
@@ -24,8 +30,10 @@ class RangeSliderView extends ComponentView {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
     sliderElement.innerHTML = this.template;
-    this.bindEventsToSlider(sliderElement);
     this.sliderDOMElement = sliderElement;
+    this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
+    this.sliderPointDOMElement = sliderElement.querySelector('.slider__point');
+    this.bindEventsToSlider(sliderElement);
   }
 
   public getDOMElement(): HTMLElement {
@@ -33,11 +41,10 @@ class RangeSliderView extends ComponentView {
   }
 
   public bindEventsToSlider(sliderElement: HTMLElement): void {
-    const point = sliderElement.querySelector('.slider__point');
-    (point as HTMLElement).addEventListener('mousedown', (): void => {
+    (this.sliderPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
       this.onPointMouseDown();
     });
-    (point as HTMLElement).addEventListener('mouseup', (): void => {
+    (this.sliderPointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
       this.onPointMouseUp();
     });
     document.addEventListener('mousemove', (e): void => {
@@ -56,10 +63,15 @@ class RangeSliderView extends ComponentView {
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMouseDown) {
       const EventX: number = e.pageX - this.sliderOffsetLeft;
-      const percent: number = this.countPercent(EventX, this.sliderWidth);
-      const value: number = (percent * (this.state.maxValue - this.state.minValue) + this.state.minValue);
+      this.percent = this.countPercent(EventX, this.sliderWidth);
+      const value: number = (this.percent * (this.state.maxValue - this.state.minValue) + this.state.minValue);
       this.onNewValue(value);
     }
+  }
+
+  public onChangedValue(value: number | number[]): void {
+    (this.sliderBarDOMElement as HTMLElement).style.width = (this.percent * 100) + '%';
+    (this.sliderPointDOMElement as HTMLElement).style.left = (this.percent * 100) - (this.pointOffset * 100) + '%';
   }
 
   public onNewValue(value: number): void {

@@ -28,10 +28,16 @@ class Model {
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
   }
 
-  public setValue(value: number | number[]): void {
+  public setValue(value: number): void {
     if(value <= this.state.maxValue && value >= this.state.minValue) {
       this.state.value = value;
-    } 
+    }
+    
+    this.onSetValue(this.state.value);
+  }
+
+  public onSetValue(value: number | number[]): void {
+
   }
 }
 
