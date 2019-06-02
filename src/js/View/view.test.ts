@@ -95,3 +95,11 @@ test('Should not add hint in DOM', (): void => {
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
 })
+
+test('Should get correct slider width', (): void => {
+  document.body.innerHTML = '<div id="foo"></div>';
+
+  const view = new View({parentId: 'foo', type: 'range', hint: 'no'});
+
+  expect(view.slider.sliderWidth).toEqual(288);
+})

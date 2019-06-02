@@ -33,6 +33,9 @@ class RangeSliderView extends ComponentView {
     const point = sliderElement.querySelector('.slider__point');
     (point as HTMLElement).addEventListener('mousedown', this.onPointMouseDown);
     (point as HTMLElement).addEventListener('mouseup', this.onPointMouseUp);
+    document.addEventListener('mousemove', (e): void => {
+      this.onDocumentMouseMove(e);
+    })
   }
 
   public onPointMouseDown(): void {
@@ -41,6 +44,12 @@ class RangeSliderView extends ComponentView {
 
   public onPointMouseUp(): void {
     this.isMouseDown = false;
+  }
+
+  public onDocumentMouseMove(e: MouseEvent): void {
+    if (this.isMouseDown) {
+      
+    }
   }
 }
 
