@@ -13,5 +13,5 @@ class Application {
   }
 }
 
-const firstSlider = new Application({parentId: 'first-slider'});
-const secondSlider = new Application({parentId: 'second-slider', minValue: 10, maxValue: 50, step: 5});
+const firstSlider = new Application({parentId: 'first-slider', value: 67});
+const secondSlider = new Application({parentId: 'second-slider', minValue: 10, maxValue: 50, step: 5, value: 45});

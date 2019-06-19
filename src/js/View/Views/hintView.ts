@@ -26,6 +26,10 @@ class HintView extends ComponentView {
     this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
     this.hintDOMElement.textContent = (this.state.value as number).toString();
   }
+
+  public setStartValueWidth(percent: number): void {
+    this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
+  }
 }
 
 export default HintView;

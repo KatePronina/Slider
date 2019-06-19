@@ -37,12 +37,14 @@ class View {
     (this.slider as RangeSliderView).sliderOffsetLeft = this.sliderElement.offsetLeft;
     (this.slider as RangeSliderView).pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
     (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
+    (this.slider as RangeSliderView).setStartValueWidth();
 
     if (this.state.hint === 'yes') {
       this.hint = new HintView(this.state);
       this.hintElement = this.hint.getDOMElement();
       this.appendElementToSlider(this.hintElement);
       this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
+      this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueWidth());
     }
 
     if (this.state.scale === 'yes') {
