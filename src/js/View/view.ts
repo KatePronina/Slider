@@ -66,9 +66,9 @@ class View {
   public onChangedValue(value: number | number[]): void {
     this.state.value = value;
 
-    (this.slider as RangeSliderView).onChangedValue(value);
+    (this.slider as RangeSliderView).onChangedValue();
     if (this.hint) {
-      this.hint.onChangedValue(value, (this.slider as RangeSliderView).percent);
+      this.hint.onChangedValue(value, (this.slider as RangeSliderView).countPercentStep());
     }
   }
 

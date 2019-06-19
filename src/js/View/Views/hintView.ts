@@ -23,7 +23,7 @@ class HintView extends ComponentView {
 
   public onChangedValue(value: number | number[], percent: number): void {
     this.state.value = value;
-    this.hintDOMElement.style.left = (percent * 100) - (this.hintOffset * 100) + '%';
+    this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
     this.hintDOMElement.textContent = (this.state.value as number).toString();
   }
 }
