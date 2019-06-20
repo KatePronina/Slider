@@ -26,10 +26,10 @@ class Model {
     this.state.hint = settings.hint || DEFAULT_SETTINGS.HINT;
     this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
-
-    this.state.value = this.checkValue((this.state.value) as number);
+    
     this.state.minValue = this.checkStep(this.state.minValue);
     this.state.maxValue = this.checkStep(this.state.maxValue);
+    this.state.value = this.checkValue((this.state.value) as number);
   }
 
   public setValue(value: number): void {
