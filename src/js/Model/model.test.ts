@@ -22,7 +22,6 @@ test('Should set custom settings', (): void => {
     type: 'interval',
     minValue: 5,
     maxValue: 30,
-    value: [20, 25],
     step: 5,
     direction: 'vertical',
     hint: 'no',
@@ -34,7 +33,6 @@ test('Should set custom settings', (): void => {
   expect(model.state.type).toEqual('interval');
   expect(model.state.minValue).toEqual(5);
   expect(model.state.maxValue).toEqual(30);
-  expect(model.state.value).toEqual([20, 25]);
   expect(model.state.step).toEqual(5);
   expect(model.state.direction).toEqual('vertical');
   expect(model.state.hint).toEqual('no');
@@ -55,7 +53,7 @@ test('Should not update wrong value', (): void => {
 
   model.setValue(10000);
 
-  expect(model.state.value).toEqual(0);
+  expect(model.state.value).toEqual(100);
 })
 
 test('Should not update wrong value', (): void => {

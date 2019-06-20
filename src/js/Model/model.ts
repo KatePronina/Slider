@@ -26,18 +26,34 @@ class Model {
     this.state.hint = settings.hint || DEFAULT_SETTINGS.HINT;
     this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
+
+    this.state.value = this.checkValue((this.state.value) as number);
   }
 
   public setValue(value: number): void {
-    if(value <= this.state.maxValue && value >= this.state.minValue) {
-      this.state.value = value;
-    }
+    this.state.value = this.checkValue(value);
     
     this.onSetValue(this.state.value);
   }
 
   public onSetValue(value: number | number[]): void {
 
+  }
+
+  private checkValue(value: number): number {
+    if(value >= this.state.maxValue) {
+      return this.state.maxValue;
+    } else if(value <= this.state.minValue) {
+      return this.state.minValue;
+    } else if (value % this.state.step != 0) {
+      return this.checkValueStep(value);
+    } else {
+      return value;
+    }
+  }
+
+  private checkValueStep(value: number): number {
+    return (Math.round(value / this.state.step)) * this.state.step;
   }
 }
 
