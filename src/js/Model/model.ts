@@ -28,6 +28,8 @@ class Model {
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
 
     this.state.value = this.checkValue((this.state.value) as number);
+    this.state.minValue = this.checkStep(this.state.minValue);
+    this.state.maxValue = this.checkStep(this.state.maxValue);
   }
 
   public setValue(value: number): void {
@@ -46,13 +48,13 @@ class Model {
     } else if(value <= this.state.minValue) {
       return this.state.minValue;
     } else if (value % this.state.step != 0) {
-      return this.checkValueStep(value);
+      return this.checkStep(value);
     } else {
       return value;
     }
   }
 
-  private checkValueStep(value: number): number {
+  private checkStep(value: number): number {
     return (Math.round(value / this.state.step)) * this.state.step;
   }
 }
