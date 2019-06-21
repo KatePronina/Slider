@@ -18,7 +18,7 @@ class RangeSliderView extends ComponentView {
   public constructor(state: FullSettings) {
     super(state);
     this.isMouseDown = false;
-    this.percentStep = 100 / ((this.state.maxValue - this.state.minValue) / this.state.step);
+    this.percentStep = 100 / (((this.state.maxValue - this.state.minValue) / this.state.step));
     this.createSliderDOMElement();
   }
 
@@ -71,17 +71,17 @@ class RangeSliderView extends ComponentView {
     }
   }
 
-  public onChangedValue(): void {
-    (this.sliderBarDOMElement as HTMLElement).style.width = this.countPercentStep() + '%';
-    (this.sliderPointDOMElement as HTMLElement).style.left = this.countPercentStep() - (this.pointOffset * 100) + '%';
+  public onChangedValue(value: number): void {
+    (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value) + '%';
+    (this.sliderPointDOMElement as HTMLElement).style.left = this.countWidth(value) - (this.pointOffset * 100) + '%';
+  }
+
+  public countWidth(value: number): number {
+    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
   public onNewValue(value: number): void {
 
-  }
-
-  public countPercentStep(): number {
-    return this.checkValueStep(this.percent * 100, this.percentStep);
   }
 
   public setStartValueWidth(): void {
@@ -101,12 +101,7 @@ class RangeSliderView extends ComponentView {
   }
 
   private countValue(percent: number): number {
-    const value: number = parseInt(((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue)).toFixed());
-    return value;
-  }
-
-  private checkValueStep(value: number, step: number): number {
-    return (Math.round(value / step)) * step;
+    return parseInt(((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue)).toFixed());  
   }
 }
 

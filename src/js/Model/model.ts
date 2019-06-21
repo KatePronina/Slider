@@ -27,8 +27,6 @@ class Model {
     this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
     this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
     
-    this.state.minValue = this.checkStep(this.state.minValue);
-    this.state.maxValue = this.checkStep(this.state.maxValue);
     this.state.value = this.checkValue((this.state.value) as number);
   }
 
@@ -47,15 +45,23 @@ class Model {
       return this.state.maxValue;
     } else if(value <= this.state.minValue) {
       return this.state.minValue;
-    } else if (value % this.state.step != 0) {
-      return this.checkStep(value);
     } else {
-      return value;
+      return this.checkStep(value);
     }
   }
 
   private checkStep(value: number): number {
-    return (Math.round(value / this.state.step)) * this.state.step;
+    let valueStepCheck = ((Math.floor(value / this.state.step)) * this.state.step) + this.state.minValue;
+
+    if (this.state.minValue > this.state.step) {
+      valueStepCheck = ((Math.floor(value / this.state.step)) * this.state.step) + this.state.minValue - this.state.step;
+    }
+
+    if (valueStepCheck >= this.state.maxValue) {
+      return this.state.maxValue;
+    }
+
+    return valueStepCheck;
   }
 }
 
