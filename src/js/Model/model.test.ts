@@ -11,9 +11,9 @@ test('Should set default settings', (): void => {
   expect(model.state.value).toEqual(model.state.minValue);
   expect(model.state.step).toEqual(1);
   expect(model.state.direction).toEqual('horizontal');
-  expect(model.state.hint).toEqual('yes');
-  expect(model.state.scale).toEqual('no');
-  expect(model.state.configure).toEqual('no');
+  expect(model.state.hint).toEqual(true);
+  expect(model.state.scale).toEqual(false);
+  expect(model.state.configure).toEqual(false);
 })
 
 test('Should set custom settings', (): void => {
@@ -24,9 +24,9 @@ test('Should set custom settings', (): void => {
     maxValue: 30,
     step: 5,
     direction: 'vertical',
-    hint: 'no',
-    scale: 'yes',
-    configure: 'yes',
+    hint: false,
+    scale: true,
+    configure: true,
   });
 
   expect(model.state.parentId).toEqual('bar');
@@ -35,9 +35,9 @@ test('Should set custom settings', (): void => {
   expect(model.state.maxValue).toEqual(30);
   expect(model.state.step).toEqual(5);
   expect(model.state.direction).toEqual('vertical');
-  expect(model.state.hint).toEqual('no');
-  expect(model.state.scale).toEqual('yes');
-  expect(model.state.configure).toEqual('yes');
+  expect(model.state.hint).toEqual(false);
+  expect(model.state.scale).toEqual(true);
+  expect(model.state.configure).toEqual(true);
 })
 
 test('Should update value', (): void => {
