@@ -4,9 +4,9 @@ const DEFAULT_SETTINGS = {
     MAX_VALUE: 100,
     STEP: 1,
     DIRECTION: 'horizontal',
-    HINT: 'yes',
-    SCALE: 'no',
-    CONFIGURE: 'no',
+    HINT: true,
+    SCALE: false,
+    CONFIGURE: false,
 }
 
 export default DEFAULT_SETTINGS;

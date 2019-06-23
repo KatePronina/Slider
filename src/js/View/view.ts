@@ -39,7 +39,7 @@ class View {
     (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
     (this.slider as RangeSliderView).setStartValueWidth();
 
-    if (this.state.hint === 'yes') {
+    if (this.state.hint) {
       this.hint = new HintView(this.state);
       this.hintElement = this.hint.getDOMElement();
       this.appendElementToSlider(this.hintElement);
@@ -47,11 +47,11 @@ class View {
       this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueWidth());
     }
 
-    if (this.state.scale === 'yes') {
+    if (this.state.scale) {
       this.scale = new ScaleView(this.state);
     }
 
-    if (this.state.configure === 'yes') {
+    if (this.state.configure) {
       this.configure = new ConfigureView(this.state);
     }
   }

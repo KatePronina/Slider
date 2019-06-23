@@ -10,9 +10,9 @@ class Model {
     value: 0,
     step: 1,
     direction: 'horizontal',
-    hint: 'yes',
-    scale: 'no',
-    configure: 'no'
+    hint: true,
+    scale: false,
+    configure: false
   };
 
   public constructor(settings: Settings) {
@@ -23,9 +23,24 @@ class Model {
     this.state.value = settings.value || this.state.minValue;
     this.state.step = settings.step || DEFAULT_SETTINGS.STEP;
     this.state.direction = settings.direction || DEFAULT_SETTINGS.DIRECTION;
-    this.state.hint = settings.hint || DEFAULT_SETTINGS.HINT;
-    this.state.scale = settings.scale || DEFAULT_SETTINGS.SCALE;
-    this.state.configure = settings.configure || DEFAULT_SETTINGS.CONFIGURE;
+
+    if (typeof settings.hint === 'undefined') {
+      this.state.hint = DEFAULT_SETTINGS.HINT;
+    } else {
+      this.state.hint = settings.hint;
+    }
+
+    if (typeof settings.scale === 'undefined') {
+      this.state.scale = DEFAULT_SETTINGS.SCALE;
+    } else {
+      this.state.scale = settings.scale;
+    }
+
+    if (typeof settings.configure === 'undefined') {
+      this.state.configure = DEFAULT_SETTINGS.CONFIGURE;
+    } else {
+      this.state.configure = settings.configure;
+    }
     
     this.state.value = this.checkValue((this.state.value) as number);
   }

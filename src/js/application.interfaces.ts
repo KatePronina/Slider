@@ -6,9 +6,9 @@ interface Settings {
     value?: number | number[];
     step?: number;
     direction?: string;
-    hint?: string;
-    scale?: string;
-    configure?: string;
+    hint?: boolean;
+    scale?: boolean;
+    configure?: boolean;
 }
 
 interface FullSettings {
@@ -19,9 +19,9 @@ interface FullSettings {
     value: number | number[];
     step: number;
     direction: string;
-    hint: string;
-    scale: string;
-    configure: string;
+    hint: boolean;
+    scale: boolean;
+    configure: boolean;
 }
 
 export {Settings, FullSettings};
