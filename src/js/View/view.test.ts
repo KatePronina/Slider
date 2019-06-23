@@ -15,9 +15,9 @@ test('Should create right slider view', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.slider).toEqual(expect.any(RangeSliderView));
@@ -51,9 +51,9 @@ test('Should create hint', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.hint).toEqual(expect.any(HintView));
@@ -67,9 +67,9 @@ test('Should not create hint', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'no',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: false,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.hint).toBeUndefined();
@@ -83,9 +83,9 @@ test('Should create scale', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'yes',
-                        configure: 'no',
+                        hint: true,
+                        scale: true,
+                        configure: false,
                       });
 
   expect(view.scale).toEqual(expect.any(ScaleView));
@@ -99,9 +99,9 @@ test('Should not create scale', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.scale).toBeUndefined();
@@ -115,9 +115,9 @@ test('Should create configuration panel', (): void => {;
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'yes',
+                        hint: true,
+                        scale: false,
+                        configure: true,
                       });
 
   expect(view.configure).toEqual(expect.any(ConfigureView));
@@ -131,9 +131,9 @@ test('Should not create configuration panel', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.configure).toBeUndefined();
@@ -149,9 +149,9 @@ test('Should save parent element', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(view.parentElement).toBeDefined();
@@ -168,9 +168,9 @@ test('Should add slider in DOM', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(document.querySelectorAll('#first-slider .slider-wrapper').length).toEqual(1);
@@ -189,9 +189,9 @@ test('Should add hint in DOM with correct value', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'yes',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: true,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
@@ -208,9 +208,9 @@ test('Should not add hint in DOM', (): void => {
                         value: 0,
                         step: 1,
                         direction: 'horizontal',
-                        hint: 'no',
-                        scale: 'no',
-                        configure: 'no',
+                        hint: false,
+                        scale: false,
+                        configure: false,
                       });
 
   expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
