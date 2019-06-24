@@ -33,18 +33,29 @@ class View {
 
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
-    (this.slider as RangeSliderView).sliderWidth = this.sliderElement.offsetWidth;
-    (this.slider as RangeSliderView).sliderOffsetLeft = this.sliderElement.offsetLeft;
+
+    if (this.state.direction === 'vertical') {
+      (this.slider as RangeSliderView).sliderLength = this.sliderElement.offsetHeight;
+      (this.slider as RangeSliderView).sliderOffset = this.sliderElement.offsetTop;
+    } else {
+      (this.slider as RangeSliderView).sliderLength = this.sliderElement.offsetWidth;
+      (this.slider as RangeSliderView).sliderOffset = this.sliderElement.offsetLeft;
+    }
+
     (this.slider as RangeSliderView).pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
-    (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
-    (this.slider as RangeSliderView).setStartValueWidth();
+    (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
+    (this.slider as RangeSliderView).setStartValueLength();
 
     if (this.state.hint) {
       this.hint = new HintView(this.state);
       this.hintElement = this.hint.getDOMElement();
       this.appendElementToSlider(this.hintElement);
-      this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / (this.slider as RangeSliderView).sliderWidth;
-      this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueWidth());
+      if (this.state.direction === 'vertical') {
+        this.hint.hintOffset = (this.hintElement.offsetHeight / 2) / (this.slider as RangeSliderView).sliderLength;
+      } else {
+        this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / (this.slider as RangeSliderView).sliderLength;
+      }
+      this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueLength());
     }
 
     if (this.state.scale) {

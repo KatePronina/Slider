@@ -6,32 +6,42 @@ class RangeSliderView extends ComponentView {
   public sliderBarDOMElement: HTMLElement | null;
   public sliderPointDOMElement: HTMLElement | null;
 
-  public sliderWidth: number;
-  public sliderOffsetLeft: number;
+  public sliderLength: number;
+  public sliderOffset: number;
   public pointWidth: number;
   public pointOffset: number;
   public percent: number;
-  public percentStep: number;
 
   private isMouseDown: boolean;
 
   public constructor(state: FullSettings) {
     super(state);
     this.isMouseDown = false;
-    this.percentStep = 100 / (((this.state.maxValue - this.state.minValue) / this.state.step));
     this.createSliderDOMElement();
   }
 
-  private template: string = 
+  private templateHorizontal: string = 
       '<div class="slider">' +
         '<div class="slider__bar"></div>' +
         '<div class="slider__point"></div>' +
       '</div>';
+
+  private templateVertical: string = 
+  '<div class="slider slider--vertical">' +
+    '<div class="slider__bar slider__bar--vertical"></div>' +
+    '<div class="slider__point slider__point--vertical"></div>' +
+  '</div>';
   
   public createSliderDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
-    sliderElement.innerHTML = this.template;
+
+    if (this.state.direction === 'vertical') {
+      sliderElement.innerHTML = this.templateVertical;
+    } else {
+      sliderElement.innerHTML = this.templateHorizontal;
+    }
+    
     this.sliderDOMElement = sliderElement;
     this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
     this.sliderPointDOMElement = sliderElement.querySelector('.slider__point');
@@ -54,26 +64,34 @@ class RangeSliderView extends ComponentView {
     })
   }
 
-  public onPointMouseDown(): void {
+  private onPointMouseDown(): void {
     this.isMouseDown = true;
   }
 
-  public onPointMouseUp(): void {
+  private onPointMouseUp(): void {
     this.isMouseDown = false;
   }
 
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMouseDown) {
-      const EventX: number = e.pageX - this.sliderOffsetLeft;
-      this.percent = this.countPercent(EventX, this.sliderWidth);
+      let eventCoordinate = e.pageX - this.sliderOffset;
+      if (this.state.direction === 'vertical') {
+        eventCoordinate = e.pageY - this.sliderOffset;
+      }
 
+      this.percent = this.countPercent(eventCoordinate, this.sliderLength);
       this.onNewValue(this.countValue(this.percent));
     }
   }
 
   public onChangedValue(value: number): void {
-    (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value) + '%';
-    (this.sliderPointDOMElement as HTMLElement).style.left = this.countWidth(value) - (this.pointOffset * 100) + '%';
+    if (this.state.direction === 'vertical') {
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.countWidth(value) + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.top = this.countWidth(value) - (this.pointOffset * 100) + '%';
+    } else {
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value) + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.left = this.countWidth(value) - (this.pointOffset * 100) + '%';
+    }  
   }
 
   public countWidth(value: number): number {
@@ -84,12 +102,17 @@ class RangeSliderView extends ComponentView {
 
   }
 
-  public setStartValueWidth(): void {
-    (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueWidth() + '%';
-    (this.sliderPointDOMElement as HTMLElement).style.left = this.startValueWidth() - (this.pointOffset * 100) + '%';
+  public setStartValueLength(): void {
+    if (this.state.direction === 'vertical') {
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength() + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.top = this.startValueLength() - (this.pointOffset * 100) + '%';
+    } else {
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength() + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.left = this.startValueLength() - (this.pointOffset * 100) + '%';
+    }
   }
 
-  public startValueWidth(): number {
+  public startValueLength(): number {
     return (((this.state.value as number) - this.state.minValue) / (this.state.maxValue - this.state.minValue)) * 100;
   }
 

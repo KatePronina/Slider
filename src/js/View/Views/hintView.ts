@@ -14,6 +14,9 @@ class HintView extends ComponentView {
     const hintElement = document.createElement('div');
     hintElement.textContent = (this.state.value as number).toString();
     hintElement.classList.add('slider__hint');
+    if (this.state.direction === 'vertical') {
+      hintElement.classList.add('slider__hint--vertical');
+    }
     this.hintDOMElement = hintElement;
   }
 
@@ -23,12 +26,21 @@ class HintView extends ComponentView {
 
   public onChangedValue(value: number | number[], percent: number): void {
     this.state.value = value;
-    this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
+    if (this.state.direction === 'vertical') {
+      this.hintDOMElement.style.top = percent - (this.hintOffset * 100) + '%';
+    } else {
+      this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
+    }
+    
     this.hintDOMElement.textContent = (this.state.value as number).toString();
   }
 
   public setStartValueWidth(percent: number): void {
-    this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
+    if (this.state.direction === 'vertical') {
+      this.hintDOMElement.style.top = percent - (this.hintOffset * 100) + '%';
+    } else {
+      this.hintDOMElement.style.left = percent - (this.hintOffset * 100) + '%';
+    }
   }
 }
 

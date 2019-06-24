@@ -8,6 +8,11 @@
   height: .25rem;
   position: relative;
   background-color: #bfbfbf;
+
+  &--vertical {
+    height: 18rem;
+    width: .25rem;
+  }
 }
 .slider__point {
   width: 1.2rem;
@@ -17,10 +22,18 @@
   position: absolute;
   top: -.45rem;
   cursor: pointer;
+
+  &--vertical {
+    left: -.47rem;
+  }
 }
 .slider__bar {
   height: .25rem;
   background-color: #e85019;
+
+  &--vertical {
+    width: .25rem;
+  }
 }
 .slider__hint {
   min-width: 1.5rem;
@@ -31,4 +44,8 @@
   border-radius: .3rem;
   color: #ffffff;
   text-align: center;
+
+  &--vertical {
+    left: 1.2rem;
+  }
 }
