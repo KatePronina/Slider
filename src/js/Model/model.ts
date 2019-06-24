@@ -46,9 +46,10 @@ class Model {
   }
 
   public setValue(value: number): void {
-    this.state.value = this.checkValue(value);
-    
-    this.onSetValue(this.state.value);
+    if (this.state.value != this.checkValue(value)) {
+      this.state.value = this.checkValue(value);
+      this.onSetValue(this.state.value);
+    }
   }
 
   public onSetValue(value: number | number[]): void {
