@@ -20,6 +20,7 @@ describe('Constructor', (): void => {
     const model = new Model({
       parentId: 'bar',
       type: 'interval',
+      value: [15, 20],
       minValue: 5,
       maxValue: 30,
       step: 5,
@@ -31,6 +32,7 @@ describe('Constructor', (): void => {
 
     expect(model.state.parentId).toEqual('bar');
     expect(model.state.type).toEqual('interval');
+    expect(model.state.value).toEqual([15, 20]);
     expect(model.state.minValue).toEqual(5);
     expect(model.state.maxValue).toEqual(30);
     expect(model.state.step).toEqual(5);
@@ -65,5 +67,102 @@ describe('Setting value', (): void => {
 
     expect(model.state.value).toEqual(0);
   })
-});
 
+  test('Should update interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval'});
+
+    model.setValue([5, 10]);
+
+    expect(model.state.value).toEqual([5, 10]);
+  })
+
+  test('Should update and correct interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5});
+
+    model.setValue([6, 9]);
+
+    expect(model.state.value).toEqual([5, 10]);
+  })
+
+  test('Should correct interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval'});
+
+    model.setValue([10, 15]);
+    model.setValue([10, 9]);
+
+    expect(model.state.value).toEqual([10, 10]);
+  })
+
+  test('Should correct interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval'});
+
+    model.setValue([5, 9]);
+    model.setValue([10, 9]);
+
+    expect(model.state.value).toEqual([9, 9]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [50, 55]});
+
+    model.setValue([5, 70]);
+
+    expect(model.state.value).toEqual([5, 70]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([30, 35]);
+
+    expect(model.state.value).toEqual([30, 35]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([70, 70]);
+
+    expect(model.state.value).toEqual([70, 70]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([5, 50]);
+
+    expect(model.state.value).toEqual([5, 50]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([50, 72]);
+
+    expect(model.state.value).toEqual([50, 70]);
+  })
+
+  test('Should set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([-50, 110]);
+
+    expect(model.state.value).toEqual([0, 100]);
+  })
+
+  test('Should not set interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60], maxValue: 90});
+
+    model.setValue([100, 100]);
+
+    expect(model.state.value).toEqual([90, 90]);
+  })
+
+  test('Should set and correct interval value', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue([33, 36]);
+
+    expect(model.state.value).toEqual([35, 35]);
+  })
+});
