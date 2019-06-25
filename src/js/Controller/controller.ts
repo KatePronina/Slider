@@ -9,8 +9,8 @@ class Controller {
         this.model = model;
         this.view = new View(this.model.state);
 
-        this.view.onNewValue = (value): void => {
-            this.model.setValue(value);
+        this.view.onNewValue = (value, valueType?: string): void => {
+            this.model.setValue(value, valueType);
         }
         this.model.onSetValue = (value): void => {
             this.view.onChangedValue(value);

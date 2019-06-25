@@ -116,7 +116,7 @@ class IntervalSliderView extends ComponentView {
 
       this.minPercent = this.countPercent(eventCoordinate, this.sliderLength);
       (this.state.value as number[])[0] = this.countValue(this.minPercent); 
-      this.onNewValue((this.state.value as number[]));
+      this.onNewValue((this.state.value as number[]), 'min');
     }
 
     if (this.isMaxMouseDown) {
@@ -126,8 +126,8 @@ class IntervalSliderView extends ComponentView {
       }
 
       this.maxPercent = this.countPercent(eventCoordinate, this.sliderLength);
-      (this.state.value as number[])[1] = this.countValue(this.maxPercent); 
-      this.onNewValue((this.state.value as number[]));
+      (this.state.value as number[])[1] = this.countValue(this.maxPercent);
+      this.onNewValue((this.state.value as number[]), 'max');
     }
   }
 
@@ -160,7 +160,7 @@ class IntervalSliderView extends ComponentView {
     return this.sliderDOMElement;
   }
 
-  public onNewValue(value: number[]): void {
+  public onNewValue(value: number[], valueType: string): void {
 
   }
 }

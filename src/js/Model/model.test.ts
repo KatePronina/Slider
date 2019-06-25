@@ -89,6 +89,7 @@ describe('Setting value', (): void => {
 
     model.setValue([10, 15]);
     model.setValue([10, 9]);
+    model.setValue([10, 1]);
 
     expect(model.state.value).toEqual([10, 10]);
   })

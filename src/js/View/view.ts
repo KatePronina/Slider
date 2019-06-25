@@ -28,8 +28,8 @@ class View {
       this.slider = new IntervalSliderView(this.state);
     }
 
-    this.slider.onNewValue = (value: number | number[]): void => {
-      this.onNewValue(value);
+    this.slider.onNewValue = (value: number | number[], valueType?: string): void => {
+      this.onNewValue(value, valueType);
     }
 
     this.sliderElement = this.slider.getDOMElement();
@@ -96,7 +96,7 @@ class View {
     }
   }
 
-  public onNewValue(value: number | number[]): void {
+  public onNewValue(value: number | number[], valueType?: string): void {
 
   }
 }

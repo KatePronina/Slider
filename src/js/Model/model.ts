@@ -31,12 +31,12 @@ class Model {
     this.setValue(value);
   }
 
-  public setValue(value: number | number[]): void {
+  public setValue(value: number | number[], valueType?: string): void {
     if (this.state.type === 'interval') {
       const checkedValues = (value as number[]).map((val): number => {
         return this.checkValue(val);
       })
-      this.state.value = this.checkInterval(checkedValues);
+      this.state.value = this.checkInterval(checkedValues, valueType);
       this.onSetValue(this.state.value);
     } else if (this.state.value != this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
@@ -48,14 +48,27 @@ class Model {
 
   }
 
-  private checkInterval(values: number[]): number[] {
-    if (values[1] < (this.state.value as number[])[1] && values[1] <= values [0]) {
-      return [values[0], values[0]];
-    } else if (values[0] > (this.state.value as number[])[0] && values[0] >= values[1]) {
-      return [values[1], values[1]];
-    } else {
-      return values;
+  private checkInterval(values: number[], valueType?: string): number[] {
+    if (valueType === 'min') {
+      if (values[0] > values[1]) {
+        return [values[1], values[1]];
+      }
     }
+
+    if (valueType === 'max') {
+      if (values[0] > values[1]) {
+        return [values[0], values[0]];
+      }
+    }
+
+    return values;
+    // if (values[1] < (this.state.value as number[])[1] && values[1] <= values [0]) {
+    //   return [values[0], values[0]];
+    // } else if (values[0] > (this.state.value as number[])[0] && values[0] >= values[1]) {
+    //   return [values[1], values[1]];
+    // } else {
+    //   return values;
+    // }
   }
 
   private checkValue(value: number): number {
