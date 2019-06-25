@@ -24,27 +24,33 @@ class View {
 
     if (this.state.type === 'range') {
       this.slider = new RangeSliderView(this.state);
-      (this.slider as RangeSliderView).onNewValue = (value): void => {
-        this.onNewValue(value);
-      }
     } else if (this.state.type === 'interval') {
       this.slider = new IntervalSliderView(this.state);
+    }
+
+    this.slider.onNewValue = (value: number | number[]): void => {
+      this.onNewValue(value);
     }
 
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
 
     if (this.state.direction === 'vertical') {
-      (this.slider as RangeSliderView).sliderLength = this.sliderElement.offsetHeight;
-      (this.slider as RangeSliderView).sliderOffset = this.sliderElement.offsetTop;
+      this.slider.sliderLength = this.sliderElement.offsetHeight;
+      this.slider.sliderOffset = this.sliderElement.offsetTop;
     } else {
-      (this.slider as RangeSliderView).sliderLength = this.sliderElement.offsetWidth;
-      (this.slider as RangeSliderView).sliderOffset = this.sliderElement.offsetLeft;
+      this.slider.sliderLength = this.sliderElement.offsetWidth;
+      this.slider.sliderOffset = this.sliderElement.offsetLeft;
     }
 
-    (this.slider as RangeSliderView).pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
-    (this.slider as RangeSliderView).pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
-    (this.slider as RangeSliderView).setStartValueLength();
+    if (this.state.type === 'interval') {
+      this.slider.pointWidth = (((this.slider as IntervalSliderView).minPointDOMElement as HTMLElement)).offsetWidth;
+    } else {
+      this.slider.pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
+    }
+    
+    this.slider.pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
+    this.slider.setStartValueLength();
 
     if (this.state.hint) {
       this.hint = new HintView(this.state);
@@ -79,13 +85,18 @@ class View {
   public onChangedValue(value: number | number[]): void {
     this.state.value = value;
 
-    (this.slider as RangeSliderView).onChangedValue((value as number));
+    if (this.state.type === 'interval') {
+      (this.slider as IntervalSliderView).onChangedValue((value as number[]));
+    } else {
+      (this.slider as RangeSliderView).onChangedValue((value as number));
+    }
+    
     if (this.hint) {
       this.hint.onChangedValue(value, (this.slider as RangeSliderView).countWidth((value as number)));
     }
   }
 
-  public onNewValue(value: number): void {
+  public onNewValue(value: number | number[]): void {
 
   }
 }

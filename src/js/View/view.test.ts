@@ -26,23 +26,23 @@ describe('Constructor', (): void => {
 
   // TO DO: add getDOMElement to IntervalSLider view
 
-  // test('Should create right slider view for interval', (): void => {
-  //   document.body.innerHTML = '<div id="bar"></div>';
+  test('Should create right slider view for interval', (): void => {
+    document.body.innerHTML = '<div id="bar"></div>';
 
-  //   const view = new View({parentId: 'bar', 
-  //                         type: 'interval',
-  //                         minValue: 0,
-  //                         maxValue: 100,
-  //                         value: 0,
-  //                         step: 1,
-  //                         direction: 'horizontal',
-  //                         hint: 'yes',
-  //                         scale: 'no',
-  //                         configure: 'no',
-  //                       });
+    const view = new View({parentId: 'bar', 
+                          type: 'interval',
+                          minValue: 0,
+                          maxValue: 100,
+                          value: 0,
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: true,
+                          scale: false,
+                          configure: false,
+                        });
 
-  //   expect(view.slider).toEqual(expect.any(IntervalSliderView));
-  // })
+    expect(view.slider).toEqual(expect.any(IntervalSliderView));
+  })
 
   test('Should create hint', (): void => {
     const view = new View({parentId: 'bar',
