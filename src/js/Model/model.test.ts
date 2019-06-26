@@ -88,8 +88,8 @@ describe('Setting value', (): void => {
     const model = new Model({parentId: 'foo', type: 'interval'});
 
     model.setValue([10, 15]);
-    model.setValue([10, 9]);
-    model.setValue([10, 1]);
+    model.setValue([10, 9], 'max');
+    model.setValue([10, 1], 'max');
 
     expect(model.state.value).toEqual([10, 10]);
   })

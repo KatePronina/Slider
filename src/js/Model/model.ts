@@ -61,14 +61,11 @@ class Model {
       }
     }
 
+    if(values[0] > values[1]) {
+      return [values[1], values[1]];
+    }
+
     return values;
-    // if (values[1] < (this.state.value as number[])[1] && values[1] <= values [0]) {
-    //   return [values[0], values[0]];
-    // } else if (values[0] > (this.state.value as number[])[0] && values[0] >= values[1]) {
-    //   return [values[1], values[1]];
-    // } else {
-    //   return values;
-    // }
   }
 
   private checkValue(value: number): number {
