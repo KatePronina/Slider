@@ -33,6 +33,7 @@
 }
 .slider__bar {
   height: .25rem;
+  position: absolute;
   background-color: #e85019;
 
   &--vertical {

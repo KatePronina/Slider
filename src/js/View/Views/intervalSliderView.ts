@@ -59,9 +59,13 @@ class IntervalSliderView extends ComponentView {
     if (this.state.direction === 'vertical') {
       (this.minPointDOMElement as HTMLElement).style.top = this.startValueLength((this.state.value as number[])[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.top = this.startValueLength((this.state.value as number[])[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.top = this.countWidth((this.state.value as number[])[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength((this.state.value as number[])[1]) - this.startValueLength((this.state.value as number[])[0]) + '%';
     } else {
       (this.minPointDOMElement as HTMLElement).style.left = this.startValueLength((this.state.value as number[])[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.left = this.startValueLength((this.state.value as number[])[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.left = this.countWidth((this.state.value as number[])[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength((this.state.value as number[])[1]) - this.startValueLength((this.state.value as number[])[0]) + '%';
     } 
   }
 
@@ -135,9 +139,13 @@ class IntervalSliderView extends ComponentView {
     if (this.state.direction === 'vertical') {
       (this.minPointDOMElement as HTMLElement).style.top = this.countWidth(value[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.top = this.countWidth(value[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.top = this.countWidth(value[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.countWidth(value[1]) - this.countWidth(value[0]) + '%';
     } else {
       (this.minPointDOMElement as HTMLElement).style.left = this.countWidth(value[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.left = this.countWidth(value[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.left = this.countWidth(value[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value[1]) - this.countWidth(value[0]) + '%';
     }
   }
 
