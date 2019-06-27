@@ -33,7 +33,7 @@ describe('Constructor', (): void => {
                           type: 'interval',
                           minValue: 0,
                           maxValue: 100,
-                          value: 0,
+                          value: [0, 1],
                           step: 1,
                           direction: 'horizontal',
                           hint: true,
@@ -217,6 +217,24 @@ describe('DOM actions', (): void => {
                         });
 
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
+  })
+
+  test('Should add hints in DOM for interval', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'interval',
+                          minValue: 0,
+                          maxValue: 100,
+                          value: [2, 5],
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: true,
+                          scale: false,
+                          configure: false,
+                        });
+
+    expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(2);
   })
 });
 
