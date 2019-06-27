@@ -11,9 +11,11 @@ class View {
   public parentElement: HTMLElement | null;
   public sliderElement: HTMLElement | null;
   public hintElement: HTMLElement;
+  public hintMaxValueElement: HTMLElement;
 
   public slider: RangeSliderView | IntervalSliderView;
   public hint?: HintView;
+  public hintMaxValue?: HintView;
   public scale?: ScaleView;
   public configure?: ConfigureView;
 
@@ -56,12 +58,31 @@ class View {
       this.hint = new HintView(this.state);
       this.hintElement = this.hint.getDOMElement();
       this.appendElementToSlider(this.hintElement);
+
       if (this.state.direction === 'vertical') {
-        this.hint.hintOffset = (this.hintElement.offsetHeight / 2) / (this.slider as RangeSliderView).sliderLength;
+        this.hint.hintOffset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
       } else {
-        this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / (this.slider as RangeSliderView).sliderLength;
+        this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
       }
-      this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueLength());
+
+      if (this.state.type === 'interval') {
+        this.hintMaxValue = new HintView(this.state, true);
+        this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
+        this.appendElementToSlider(this.hintMaxValueElement);
+
+        if (this.state.direction === 'vertical') {
+          this.hintMaxValue.hintOffset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
+        } else {
+          this.hintMaxValue.hintOffset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
+        }
+      } 
+
+      if (this.state.type === 'interval') {
+        this.hint.setStartValueWidth((this.slider as IntervalSliderView).startValueLength((this.state.value as number[])[0]));
+        (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).startValueLength((this.state.value as number[])[1]));
+      } else {
+        this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueLength());
+      } 
     }
 
     if (this.state.scale) {
@@ -92,7 +113,13 @@ class View {
     }
     
     if (this.hint) {
-      this.hint.onChangedValue(value, (this.slider as RangeSliderView).countWidth((value as number)));
+      if(this.state.type === 'range') {
+        this.hint.onChangedValue(value, (this.slider as RangeSliderView).countWidth((value as number)));
+      } else {
+        this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countWidth((value as number[])[0]));
+        (this.hintMaxValue as HintView).onChangedValue(value, (this.slider as IntervalSliderView).countWidth((value as number[])[1]));
+      }
+      
     }
   }
 
