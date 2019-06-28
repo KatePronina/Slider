@@ -1,16 +1,10 @@
-import ComponentView from './componentView';
+import ComponentSlider from './componentSliderView';
 import {FullSettings} from '../../application.interfaces';
 
-class IntervalSliderView extends ComponentView {
-  public sliderDOMElement: HTMLElement;
-  public sliderBarDOMElement: HTMLElement | null;
+class IntervalSliderView extends ComponentSlider {
   public minPointDOMElement: HTMLElement | null;
   public maxPointDOMElement: HTMLElement | null;
 
-  public sliderLength: number;
-  public sliderOffset: number;
-  public pointWidth: number;
-  public pointOffset: number;
   public minPercent: number;
   public maxPercent: number;
 
@@ -133,25 +127,6 @@ class IntervalSliderView extends ComponentView {
       (this.sliderBarDOMElement as HTMLElement).style.left = this.countLength(value[0]) + '%';
       (this.sliderBarDOMElement as HTMLElement).style.width = this.countLength(value[1]) - this.countLength(value[0]) + '%';
     }
-  }
-
-  public countLength(value: number): number {
-    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
-  }
-
-  private countPercent(coordinate: number, length: number): number {
-    let percent = coordinate / length;
-    if (percent > 1) percent = 1;
-    if (percent < 0) percent = 0;
-    return percent;
-  }
-
-  private countValue(percent: number): number {
-    return parseInt(((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue)).toFixed());  
-  }
-
-  public getDOMElement(): HTMLElement {
-    return this.sliderDOMElement;
   }
 
   public onNewValue(value: number[], valueType: string): void {

@@ -1,17 +1,9 @@
-import ComponentView from './componentView';
+import ComponentSlider from './componentSliderView';
 import {FullSettings} from '../../application.interfaces';
 
-class RangeSliderView extends ComponentView {
-  public sliderDOMElement: HTMLElement;
-  public sliderBarDOMElement: HTMLElement | null;
+class RangeSliderView extends ComponentSlider {
   public sliderPointDOMElement: HTMLElement | null;
-
-  public sliderLength: number;
-  public sliderOffset: number;
-  public pointWidth: number;
-  public pointOffset: number;
   public percent: number;
-
   private isMouseDown: boolean;
 
   public constructor(state: FullSettings) {
@@ -46,10 +38,6 @@ class RangeSliderView extends ComponentView {
     this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
     this.sliderPointDOMElement = sliderElement.querySelector('.slider__point');
     this.bindEventsToSlider(sliderElement);
-  }
-
-  public getDOMElement(): HTMLElement {
-    return this.sliderDOMElement;
   }
 
   public bindEventsToSlider(sliderElement: HTMLElement): void {
@@ -94,37 +82,8 @@ class RangeSliderView extends ComponentView {
     }  
   }
 
-  public countLength(value: number): number {
-    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
-  }
-
   public onNewValue(value: number): void {
 
-  }
-
-  // public setStartValueLength(): void {
-  //   if (this.state.direction === 'vertical') {
-  //     (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength() + '%';
-  //     (this.sliderPointDOMElement as HTMLElement).style.top = this.startValueLength() - (this.pointOffset * 100) + '%';
-  //   } else {
-  //     (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength() + '%';
-  //     (this.sliderPointDOMElement as HTMLElement).style.left = this.startValueLength() - (this.pointOffset * 100) + '%';
-  //   }
-  // }
-
-  // public startValueLength(): number {
-  //   return (((this.state.value as number) - this.state.minValue) / (this.state.maxValue - this.state.minValue)) * 100;
-  // }
-
-  private countPercent(coordinate: number, length: number): number {
-    let percent = coordinate / length;
-    if (percent > 1) percent = 1;
-    if (percent < 0) percent = 0;
-    return percent;
-  }
-
-  private countValue(percent: number): number {
-    return parseInt(((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue)).toFixed());  
   }
 }
 
