@@ -52,7 +52,13 @@ class View {
     }
     
     this.slider.pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
-    this.slider.setStartValueLength();
+    // this.slider.setStartValueLength();
+    if (this.state.type === 'interval') {
+      (this.slider as IntervalSliderView).onChangedValue(this.state.value as number[]);
+    } else {
+      (this.slider as RangeSliderView).onChangedValue(this.state.value as number);
+    }
+    
 
     if (this.state.hint) {
       this.hint = new HintView(this.state);
@@ -78,10 +84,10 @@ class View {
       } 
 
       if (this.state.type === 'interval') {
-        this.hint.setStartValueWidth((this.slider as IntervalSliderView).startValueLength((this.state.value as number[])[0]));
-        (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).startValueLength((this.state.value as number[])[1]));
+        this.hint.setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[0]));
+        (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[1]));
       } else {
-        this.hint.setStartValueWidth((this.slider as RangeSliderView).startValueLength());
+        this.hint.setStartValueWidth((this.slider as RangeSliderView).countLength(this.state.value as number));
       } 
     }
 
@@ -114,10 +120,10 @@ class View {
     
     if (this.hint) {
       if(this.state.type === 'range') {
-        this.hint.onChangedValue(value, (this.slider as RangeSliderView).countWidth((value as number)));
+        this.hint.onChangedValue(value, (this.slider as RangeSliderView).countLength((value as number)));
       } else {
-        this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countWidth((value as number[])[0]));
-        (this.hintMaxValue as HintView).onChangedValue(value, (this.slider as IntervalSliderView).countWidth((value as number[])[1]));
+        this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[0]));
+        (this.hintMaxValue as HintView).onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[1]));
       }
       
     }

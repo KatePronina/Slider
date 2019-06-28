@@ -86,15 +86,15 @@ class RangeSliderView extends ComponentView {
 
   public onChangedValue(value: number): void {
     if (this.state.direction === 'vertical') {
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.countWidth(value) + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.top = this.countWidth(value) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.countLength(value) + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.top = this.countLength(value) - (this.pointOffset * 100) + '%';
     } else {
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value) + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.left = this.countWidth(value) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.countLength(value) + '%';
+      (this.sliderPointDOMElement as HTMLElement).style.left = this.countLength(value) - (this.pointOffset * 100) + '%';
     }  
   }
 
-  public countWidth(value: number): number {
+  public countLength(value: number): number {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
@@ -102,19 +102,19 @@ class RangeSliderView extends ComponentView {
 
   }
 
-  public setStartValueLength(): void {
-    if (this.state.direction === 'vertical') {
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength() + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.top = this.startValueLength() - (this.pointOffset * 100) + '%';
-    } else {
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength() + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.left = this.startValueLength() - (this.pointOffset * 100) + '%';
-    }
-  }
+  // public setStartValueLength(): void {
+  //   if (this.state.direction === 'vertical') {
+  //     (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength() + '%';
+  //     (this.sliderPointDOMElement as HTMLElement).style.top = this.startValueLength() - (this.pointOffset * 100) + '%';
+  //   } else {
+  //     (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength() + '%';
+  //     (this.sliderPointDOMElement as HTMLElement).style.left = this.startValueLength() - (this.pointOffset * 100) + '%';
+  //   }
+  // }
 
-  public startValueLength(): number {
-    return (((this.state.value as number) - this.state.minValue) / (this.state.maxValue - this.state.minValue)) * 100;
-  }
+  // public startValueLength(): number {
+  //   return (((this.state.value as number) - this.state.minValue) / (this.state.maxValue - this.state.minValue)) * 100;
+  // }
 
   private countPercent(coordinate: number, length: number): number {
     let percent = coordinate / length;

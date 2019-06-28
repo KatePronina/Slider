@@ -55,24 +55,6 @@ class IntervalSliderView extends ComponentView {
     this.bindEventsToSlider(sliderElement);
   }
 
-  public setStartValueLength(): void {
-    if (this.state.direction === 'vertical') {
-      (this.minPointDOMElement as HTMLElement).style.top = this.startValueLength((this.state.value as number[])[0]) - (this.pointOffset * 100) + '%';
-      (this.maxPointDOMElement as HTMLElement).style.top = this.startValueLength((this.state.value as number[])[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.top = this.countWidth((this.state.value as number[])[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.startValueLength((this.state.value as number[])[1]) - this.startValueLength((this.state.value as number[])[0]) + '%';
-    } else {
-      (this.minPointDOMElement as HTMLElement).style.left = this.startValueLength((this.state.value as number[])[0]) - (this.pointOffset * 100) + '%';
-      (this.maxPointDOMElement as HTMLElement).style.left = this.startValueLength((this.state.value as number[])[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.left = this.countWidth((this.state.value as number[])[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.startValueLength((this.state.value as number[])[1]) - this.startValueLength((this.state.value as number[])[0]) + '%';
-    } 
-  }
-
-  public startValueLength(value: number): number {
-    return ((value - this.state.minValue) / (this.state.maxValue - this.state.minValue)) * 100;
-  }
-
   public bindEventsToSlider(slider: HTMLElement): void {
     (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
       this.onMinPointMouseDown();
@@ -141,19 +123,19 @@ class IntervalSliderView extends ComponentView {
 
   public onChangedValue(value: number[]): void {
     if (this.state.direction === 'vertical') {
-      (this.minPointDOMElement as HTMLElement).style.top = this.countWidth(value[0]) - (this.pointOffset * 100) + '%';
-      (this.maxPointDOMElement as HTMLElement).style.top = this.countWidth(value[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.top = this.countWidth(value[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.countWidth(value[1]) - this.countWidth(value[0]) + '%';
+      (this.minPointDOMElement as HTMLElement).style.top = this.countLength(value[0]) - (this.pointOffset * 100) + '%';
+      (this.maxPointDOMElement as HTMLElement).style.top = this.countLength(value[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.top = this.countLength(value[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.height = this.countLength(value[1]) - this.countLength(value[0]) + '%';
     } else {
-      (this.minPointDOMElement as HTMLElement).style.left = this.countWidth(value[0]) - (this.pointOffset * 100) + '%';
-      (this.maxPointDOMElement as HTMLElement).style.left = this.countWidth(value[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.left = this.countWidth(value[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.countWidth(value[1]) - this.countWidth(value[0]) + '%';
+      (this.minPointDOMElement as HTMLElement).style.left = this.countLength(value[0]) - (this.pointOffset * 100) + '%';
+      (this.maxPointDOMElement as HTMLElement).style.left = this.countLength(value[1]) - (this.pointOffset * 100) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.left = this.countLength(value[0]) + '%';
+      (this.sliderBarDOMElement as HTMLElement).style.width = this.countLength(value[1]) - this.countLength(value[0]) + '%';
     }
   }
 
-  public countWidth(value: number): number {
+  public countLength(value: number): number {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
