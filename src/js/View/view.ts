@@ -12,6 +12,7 @@ class View {
   public sliderElement: HTMLElement | null;
   public hintElement: HTMLElement;
   public hintMaxValueElement: HTMLElement;
+  public scaleElement: HTMLElement;
 
   public slider: RangeSliderView | IntervalSliderView;
   public hint?: HintView;
@@ -52,7 +53,7 @@ class View {
     }
     
     this.slider.pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
-    // this.slider.setStartValueLength();
+
     if (this.state.type === 'interval') {
       (this.slider as IntervalSliderView).onChangedValue(this.state.value as number[]);
     } else {
@@ -93,6 +94,8 @@ class View {
 
     if (this.state.scale) {
       this.scale = new ScaleView(this.state);
+      this.scaleElement = this.scale.getDOMElement();
+      this.appendElementToSlider(this.scaleElement);
     }
 
     if (this.state.configure) {

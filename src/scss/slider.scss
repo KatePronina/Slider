@@ -50,3 +50,14 @@
     left: 1.2rem;
   }
 }
+.slider__scale {
+  width: 18rem;
+  top: .7rem;
+  position: relative;
+}
+
+.slider__scale-value {
+  color: #bfbfbf;
+  font-size: .8rem;
+  cursor: pointer;
+}
