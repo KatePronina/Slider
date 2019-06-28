@@ -97,10 +97,14 @@ class IntervalSliderView extends ComponentView {
 
   private onMinPointMouseDown(): void {
     this.isMinMouseDown = true;
+    (this.minPointDOMElement as HTMLElement).style.zIndex = '2';
+    (this.maxPointDOMElement as HTMLElement).style.zIndex = '1';
   }
 
   private onMaxPointMouseDown(): void {
     this.isMaxMouseDown = true;
+    (this.minPointDOMElement as HTMLElement).style.zIndex = '1';
+    (this.maxPointDOMElement as HTMLElement).style.zIndex = '2';
   }
 
   private onMinPointMouseUp(): void {
