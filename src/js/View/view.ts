@@ -96,6 +96,7 @@ class View {
       this.scale = new ScaleView(this.state);
       this.scaleElement = this.scale.getDOMElement();
       this.appendElementToSlider(this.scaleElement);
+      this.scale.alignValues((this.sliderElement as HTMLElement).offsetWidth);
     }
 
     if (this.state.configure) {
