@@ -93,10 +93,14 @@ class View {
     }
 
     if (this.state.scale) {
-      this.scale = new ScaleView(this.state);
+      if (this.state.direction === 'horizontal') {
+        this.scale = new ScaleView(this.state, (this.slider.sliderStripDOMElement as HTMLElement).offsetWidth);
+      } else {
+        this.scale = new ScaleView(this.state, (this.slider.sliderStripDOMElement as HTMLElement).offsetHeight);
+      }
       this.scaleElement = this.scale.getDOMElement();
       this.appendElementToSlider(this.scaleElement);
-      this.scale.alignValues((this.sliderElement as HTMLElement).offsetWidth);
+      this.scale.alignValues();
     }
 
     if (this.state.configure) {

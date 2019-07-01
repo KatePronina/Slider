@@ -44,6 +44,7 @@ class IntervalSliderView extends ComponentSlider {
     
     this.sliderDOMElement = sliderElement;
     this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
+    this.sliderStripDOMElement = sliderElement.querySelector('.slider');
     this.minPointDOMElement = sliderElement.querySelector('.slider__point--min');
     this.maxPointDOMElement = sliderElement.querySelector('.slider__point--max');
     this.bindEventsToSlider(sliderElement);

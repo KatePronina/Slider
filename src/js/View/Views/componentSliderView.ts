@@ -4,6 +4,7 @@ import {FullSettings} from '../../application.interfaces';
 abstract class ComponentSlider extends ComponentView {
   public sliderDOMElement: HTMLElement;
   public sliderBarDOMElement: HTMLElement | null;
+  public sliderStripDOMElement: HTMLElement | null;
 
   public sliderLength: number;
   public sliderOffset: number;
