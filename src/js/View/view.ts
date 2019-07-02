@@ -101,6 +101,9 @@ class View {
       this.scaleElement = this.scale.getDOMElement();
       this.appendElementToSlider(this.scaleElement);
       this.scale.alignValues();
+      this.scale.onNewValue = (value: number): void => {
+        this.onNewValue(value);
+      }
     }
 
     if (this.state.configure) {

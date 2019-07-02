@@ -166,4 +166,20 @@ describe('Setting value', (): void => {
 
     expect(model.state.value).toEqual([35, 35]);
   })
+
+  test('Should set one value for interval slider', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue(51);
+
+    expect(model.state.value).toEqual([10, 50]);
+  })
+
+  test('Should set one value for interval slider', (): void => {
+    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+
+    model.setValue(21);
+
+    expect(model.state.value).toEqual([20, 50]);
+  })
 });

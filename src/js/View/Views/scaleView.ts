@@ -9,6 +9,7 @@ class ScaleView extends ComponentView {
     super(state);
     this.sliderLength = sliderLength;
     this.createDOMElement();
+    this.bindEvents();
   }
 
   public getDOMElement(): HTMLElement {
@@ -70,8 +71,20 @@ class ScaleView extends ComponentView {
     })
   }
 
+  private bindEvents(): void {
+    this.scaleDOMElement.addEventListener('click', (e): void => {
+      if((e.target as HTMLElement).classList.contains('slider__scale-value')) {
+        this.onNewValue(parseInt(((e.target as HTMLElement).textContent as string)));
+      }
+    })
+  }
+
   private countLength(value: number): number {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
+  }
+
+  public onNewValue(value: number): void {
+
   }
 }
 
