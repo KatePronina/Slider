@@ -33,10 +33,15 @@ class Model {
 
   public setValue(value: number | number[], valueType?: string): void {
     if (this.state.type === 'interval') {
-      const checkedValues = (value as number[]).map((val): number => {
-        return this.checkValue(val);
-      })
-      this.state.value = this.checkInterval(checkedValues, valueType);
+      if (typeof value === 'number') {
+        const checkedValue = this.checkValue(value);
+        this.state.value = this.createIntervalValue(checkedValue);
+      } else {
+        const checkedValues = (value as number[]).map((val): number => {
+          return this.checkValue(val);
+        })
+        this.state.value = this.checkInterval(checkedValues, valueType);
+      }
       this.onSetValue(this.state.value);
     } else if (this.state.value != this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
@@ -86,6 +91,14 @@ class Model {
     }
 
     return valueStepCheck;
+  }
+
+  private createIntervalValue(value: number): number[] {
+    if ((this.state.value as number[])[1] - value < value - (this.state.value as number[])[0]) {
+      return [(this.state.value as number[])[0], value];
+    } else {
+      return [value, (this.state.value as number[])[1]];
+    }
   }
 }
 
