@@ -13,7 +13,7 @@ describe('Constructor', (): void => {
     expect(model.state.direction).toEqual('horizontal');
     expect(model.state.hint).toEqual(true);
     expect(model.state.scale).toEqual(false);
-    expect(model.state.configure).toEqual(false);
+    expect(model.state.configuration).toEqual(false);
   })
 
   test('Should set custom settings', (): void => {
@@ -27,7 +27,7 @@ describe('Constructor', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configure: true,
+      configuration: true,
     });
 
     expect(model.state.parentId).toEqual('bar');
@@ -39,7 +39,7 @@ describe('Constructor', (): void => {
     expect(model.state.direction).toEqual('vertical');
     expect(model.state.hint).toEqual(false);
     expect(model.state.scale).toEqual(true);
-    expect(model.state.configure).toEqual(true);
+    expect(model.state.configuration).toEqual(true);
   })
 });
 

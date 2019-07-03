@@ -4,7 +4,7 @@ import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
 import HintView from './Views/hintView';
 import ScaleView from './Views/scaleView';
-import ConfigureView from './Views/configureView';
+import ConfigurationView from './Views/configurationView';
 
 class View {
   public state: FullSettings;
@@ -18,7 +18,7 @@ class View {
   public hint?: HintView;
   public hintMaxValue?: HintView;
   public scale?: ScaleView;
-  public configure?: ConfigureView;
+  public configuration?: ConfigurationView;
 
   public constructor(state: FullSettings) {
     this.state = state;
@@ -106,8 +106,8 @@ class View {
       }
     }
 
-    if (this.state.configure) {
-      this.configure = new ConfigureView(this.state);
+    if (this.state.configuration) {
+      this.configuration = new ConfigurationView(this.state);
     }
   }
 

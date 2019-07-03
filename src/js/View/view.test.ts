@@ -3,7 +3,7 @@ import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
 import HintView from './Views/hintView';
 import ScaleView from './Views/scaleView';
-import ConfigureView from './Views/configureView';
+import configurationView from './Views/configurationView';
 
 describe('Constructor', (): void => {
   test('Should create right slider view', (): void => {
@@ -18,7 +18,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.slider).toEqual(expect.any(RangeSliderView));
@@ -38,7 +38,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.slider).toEqual(expect.any(IntervalSliderView));
@@ -54,7 +54,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.hint).toEqual(expect.any(HintView));
@@ -70,7 +70,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: false,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.hint).toBeUndefined();
@@ -86,7 +86,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: true,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.scale).toEqual(expect.any(ScaleView));
@@ -102,7 +102,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.scale).toBeUndefined();
@@ -118,10 +118,10 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: true,
+                          configuration: true,
                         });
 
-    expect(view.configure).toEqual(expect.any(ConfigureView));
+    expect(view.configuration).toEqual(expect.any(configurationView));
   })
 
   test('Should not create configuration panel', (): void => {
@@ -134,10 +134,10 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
-    expect(view.configure).toBeUndefined();
+    expect(view.configuration).toBeUndefined();
   })
 
   test('Should save parent element', (): void => {
@@ -152,7 +152,7 @@ describe('Constructor', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(view.parentElement).toBeDefined();
@@ -173,7 +173,7 @@ describe('DOM actions', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(document.querySelectorAll('#first-slider .slider-wrapper').length).toEqual(1);
@@ -194,7 +194,7 @@ describe('DOM actions', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
@@ -213,7 +213,7 @@ describe('DOM actions', (): void => {
                           direction: 'horizontal',
                           hint: false,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
@@ -231,10 +231,35 @@ describe('DOM actions', (): void => {
                           direction: 'horizontal',
                           hint: true,
                           scale: false,
-                          configure: false,
+                          configuration: false,
                         });
 
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(2);
+  })
+
+  test('Should add scale with correct values', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'range',
+                          minValue: 0,
+                          maxValue: 95,
+                          value: 6,
+                          step: 3,
+                          direction: 'vertical',
+                          hint: true,
+                          scale: false,
+                          configuration: true,
+                        });
+
+    expect((document.getElementById('currentValue') as HTMLInputElement).value).toEqual(6);
+    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual(3);
+    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual(0);
+    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual(95);
+    expect((document.getElementById('toggleHint') as HTMLInputElement).checked).toEqual(true);
+    expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(false);
+    expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(false);
+    expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(true);
   })
 });
 

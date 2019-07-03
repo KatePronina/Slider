@@ -8,7 +8,7 @@ interface Settings {
     direction?: string;
     hint?: boolean;
     scale?: boolean;
-    configure?: boolean;
+    configuration?: boolean;
 }
 
 interface FullSettings {
@@ -21,7 +21,7 @@ interface FullSettings {
     direction: string;
     hint: boolean;
     scale: boolean;
-    configure: boolean;
+    configuration: boolean;
 }
 
 export {Settings, FullSettings};

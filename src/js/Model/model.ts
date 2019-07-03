@@ -12,7 +12,7 @@ class Model {
     direction: 'horizontal',
     hint: true,
     scale: false,
-    configure: false
+    configuration: false
   };
 
   public constructor({parentId,
@@ -24,9 +24,9 @@ class Model {
                       direction = DEFAULT_SETTINGS.DIRECTION,
                       hint = DEFAULT_SETTINGS.HINT,
                       scale = DEFAULT_SETTINGS.SCALE,
-                      configure = DEFAULT_SETTINGS.CONFIGURE
+                      configuration = DEFAULT_SETTINGS.CONFIGURATION
                     }: Settings) {
-    this.state = {parentId, type, minValue, maxValue, value, step, direction, hint, scale, configure}
+    this.state = {parentId, type, minValue, maxValue, value, step, direction, hint, scale, configuration}
     
     this.setValue(value);
   }

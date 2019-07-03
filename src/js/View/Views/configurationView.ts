@@ -1,10 +1,10 @@
 import ComponentView from './componentView';
 import {FullSettings} from '../../application.interfaces';
 
-class ConfigureView extends ComponentView {
+class ConfigurationView extends ComponentView {
   public constructor(state: FullSettings) {
     super(state);
   }
 }
 
-export default ConfigureView;
+export default ConfigurationView;
