@@ -13,6 +13,7 @@ class View {
   public hintElement: HTMLElement;
   public hintMaxValueElement: HTMLElement;
   public scaleElement: HTMLElement;
+  public configurationDOMElement: HTMLElement;
 
   public slider: RangeSliderView | IntervalSliderView;
   public hint?: HintView;
@@ -59,7 +60,6 @@ class View {
     } else {
       (this.slider as RangeSliderView).onChangedValue(this.state.value as number);
     }
-    
 
     if (this.state.hint) {
       this.hint = new HintView(this.state);
@@ -108,6 +108,12 @@ class View {
 
     if (this.state.configuration) {
       this.configuration = new ConfigurationView(this.state);
+      this.configurationDOMElement = this.configuration.getDOMElement();
+      this.appendElementToParent(this.configurationDOMElement);
+      this.configuration.onChangedValue(this.state.value);
+      this.configuration.onNewValue = (value: number | number[]): void => {
+        this.onNewValue(value);
+      }
     }
   }
 
@@ -136,7 +142,12 @@ class View {
         this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[0]));
         (this.hintMaxValue as HintView).onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[1]));
       }
-      
+    }
+
+    if (this.configuration) {
+      if(this.state.type === 'range') {
+        this.configuration.onChangedValue(value);
+      }
     }
   }
 

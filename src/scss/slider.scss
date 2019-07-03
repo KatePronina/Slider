@@ -62,8 +62,10 @@
 
 .configuration {
   display: flex;
+  max-width: 30rem;
   border: 2px dashed #e85019;
   margin-top: 1rem;
+  margin-bottom: 3rem;
 }
 .configuration__fieldset {
   border: none;
@@ -74,4 +76,5 @@
 }
 .configuration__value-input {
   max-width: 3rem;
+  margin-left: .3rem;
 }
