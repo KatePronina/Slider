@@ -252,10 +252,10 @@ describe('DOM actions', (): void => {
                           configuration: true,
                         });
 
-    expect((document.getElementById('currentValue') as HTMLInputElement).value).toEqual(6);
-    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual(3);
-    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual(0);
-    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual(95);
+    expect((document.getElementById('currentValue') as HTMLInputElement).value).toEqual('6');
+    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual('3');
+    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual('0');
+    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual('95');
     expect((document.getElementById('toggleHint') as HTMLInputElement).checked).toEqual(true);
     expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(false);
     expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(false);

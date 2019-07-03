@@ -110,7 +110,6 @@ class View {
       this.configuration = new ConfigurationView(this.state);
       this.configurationDOMElement = this.configuration.getDOMElement();
       this.appendElementToParent(this.configurationDOMElement);
-      this.configuration.onChangedValue(this.state.value);
       this.configuration.onNewValue = (value: number | number[]): void => {
         this.onNewValue(value);
       }

@@ -134,6 +134,7 @@ class ConfigurationView extends ComponentView {
     this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
 
     this.bindEvents();
+    this.setStartValues();
   }
 
   public onChangedValue(value: number | number[]): void {
@@ -154,6 +155,17 @@ class ConfigurationView extends ComponentView {
         this.onNewValue(parseInt((this.currentValueInput as HTMLInputElement).value));
       }
     })
+  }
+
+  private setStartValues(): void {
+    (this.currentValueInput as HTMLInputElement).value = (this.state.value as number).toString();
+    (this.stepSizeInput as HTMLInputElement).value = (this.state.step).toString();
+    (this.minValueInput as HTMLInputElement).value = (this.state.minValue).toString();
+    (this.maxValueInput as HTMLInputElement).value = (this.state.maxValue).toString();
+    (this.hintToggle as HTMLInputElement).checked = this.state.hint;
+    (this.scaleToggle as HTMLInputElement).checked = this.state.scale;
+    (this.typeToggle as HTMLInputElement).checked = this.state.type === 'range'? false : true;
+    (this.verticalToggle as HTMLInputElement).checked = this.state.direction === 'horizontal'? false : true;
   }
 }
 
