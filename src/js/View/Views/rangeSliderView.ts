@@ -2,7 +2,7 @@ import ComponentSlider from './componentSliderView';
 import {FullSettings} from '../../application.interfaces';
 
 class RangeSliderView extends ComponentSlider {
-  public sliderPointDOMElement: HTMLElement | null;
+  public pointDOMElement: HTMLElement | null;
   public percent: number;
   private isMouseDown: boolean;
 
@@ -34,18 +34,18 @@ class RangeSliderView extends ComponentSlider {
       sliderElement.innerHTML = this.templateHorizontal;
     }
     
-    this.sliderDOMElement = sliderElement;
-    this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
-    this.sliderPointDOMElement = sliderElement.querySelector('.slider__point');
-    this.sliderStripDOMElement = sliderElement.querySelector('.slider');
+    this.DOMElement = sliderElement;
+    this.barDOMElement = sliderElement.querySelector('.slider__bar');
+    this.pointDOMElement = sliderElement.querySelector('.slider__point');
+    this.stripDOMElement = sliderElement.querySelector('.slider');
     this.bindEventsToSlider(sliderElement);
   }
 
   public bindEventsToSlider(sliderElement: HTMLElement): void {
-    (this.sliderPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
+    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
       this.onPointMouseDown();
     });
-    (this.sliderPointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
+    (this.pointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
       this.onPointMouseUp();
     });
     document.addEventListener('mousemove', (e): void => {
@@ -75,11 +75,11 @@ class RangeSliderView extends ComponentSlider {
 
   public onChangedValue(value: number): void {
     if (this.state.direction === 'vertical') {
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.countLength(value) + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.top = this.countLength(value) - (this.pointOffset * 100) + '%';
+      (this.barDOMElement as HTMLElement).style.height = this.countLength(value) + '%';
+      (this.pointDOMElement as HTMLElement).style.top = this.countLength(value) - (this.pointOffset * 100) + '%';
     } else {
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.countLength(value) + '%';
-      (this.sliderPointDOMElement as HTMLElement).style.left = this.countLength(value) - (this.pointOffset * 100) + '%';
+      (this.barDOMElement as HTMLElement).style.width = this.countLength(value) + '%';
+      (this.pointDOMElement as HTMLElement).style.left = this.countLength(value) - (this.pointOffset * 100) + '%';
     }  
   }
 

@@ -2,9 +2,8 @@ import ComponentView from './componentView';
 import {FullSettings} from '../../application.interfaces';
 
 abstract class ComponentSlider extends ComponentView {
-  public sliderDOMElement: HTMLElement;
-  public sliderBarDOMElement: HTMLElement | null;
-  public sliderStripDOMElement: HTMLElement | null;
+  public barDOMElement: HTMLElement | null;
+  public stripDOMElement: HTMLElement | null;
 
   public sliderLength: number;
   public sliderOffset: number;
@@ -13,10 +12,6 @@ abstract class ComponentSlider extends ComponentView {
 
   public constructor(state: FullSettings) {
     super(state);
-  }
-
-  public getDOMElement(): HTMLElement {
-    return this.sliderDOMElement;
   }
 
   public countLength(value: number): number {

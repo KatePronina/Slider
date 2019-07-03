@@ -42,9 +42,9 @@ class IntervalSliderView extends ComponentSlider {
       sliderElement.innerHTML = this.templateHorizontal;
     }
     
-    this.sliderDOMElement = sliderElement;
-    this.sliderBarDOMElement = sliderElement.querySelector('.slider__bar');
-    this.sliderStripDOMElement = sliderElement.querySelector('.slider');
+    this.DOMElement = sliderElement;
+    this.barDOMElement = sliderElement.querySelector('.slider__bar');
+    this.stripDOMElement = sliderElement.querySelector('.slider');
     this.minPointDOMElement = sliderElement.querySelector('.slider__point--min');
     this.maxPointDOMElement = sliderElement.querySelector('.slider__point--max');
     this.bindEventsToSlider(sliderElement);
@@ -120,13 +120,13 @@ class IntervalSliderView extends ComponentSlider {
     if (this.state.direction === 'vertical') {
       (this.minPointDOMElement as HTMLElement).style.top = this.countLength(value[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.top = this.countLength(value[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.top = this.countLength(value[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.height = this.countLength(value[1]) - this.countLength(value[0]) + '%';
+      (this.barDOMElement as HTMLElement).style.top = this.countLength(value[0]) + '%';
+      (this.barDOMElement as HTMLElement).style.height = this.countLength(value[1]) - this.countLength(value[0]) + '%';
     } else {
       (this.minPointDOMElement as HTMLElement).style.left = this.countLength(value[0]) - (this.pointOffset * 100) + '%';
       (this.maxPointDOMElement as HTMLElement).style.left = this.countLength(value[1]) - (this.pointOffset * 100) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.left = this.countLength(value[0]) + '%';
-      (this.sliderBarDOMElement as HTMLElement).style.width = this.countLength(value[1]) - this.countLength(value[0]) + '%';
+      (this.barDOMElement as HTMLElement).style.left = this.countLength(value[0]) + '%';
+      (this.barDOMElement as HTMLElement).style.width = this.countLength(value[1]) - this.countLength(value[0]) + '%';
     }
   }
 

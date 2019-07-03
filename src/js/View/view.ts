@@ -49,7 +49,7 @@ class View {
     if (this.state.type === 'interval') {
       this.slider.pointWidth = (((this.slider as IntervalSliderView).minPointDOMElement as HTMLElement)).offsetWidth;
     } else {
-      this.slider.pointWidth = (((this.slider as RangeSliderView).sliderPointDOMElement as HTMLElement)).offsetWidth;
+      this.slider.pointWidth = (((this.slider as RangeSliderView).pointDOMElement as HTMLElement)).offsetWidth;
     }
     
     this.slider.pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
@@ -67,9 +67,9 @@ class View {
       this.appendElementToSlider(this.hintElement);
 
       if (this.state.direction === 'vertical') {
-        this.hint.hintOffset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
+        this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
       } else {
-        this.hint.hintOffset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
+        this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
       }
 
       if (this.state.type === 'interval') {
@@ -78,9 +78,9 @@ class View {
         this.appendElementToSlider(this.hintMaxValueElement);
 
         if (this.state.direction === 'vertical') {
-          this.hintMaxValue.hintOffset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
+          this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
         } else {
-          this.hintMaxValue.hintOffset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
+          this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
         }
       } 
 
@@ -94,9 +94,9 @@ class View {
 
     if (this.state.scale) {
       if (this.state.direction === 'horizontal') {
-        this.scale = new ScaleView(this.state, (this.slider.sliderStripDOMElement as HTMLElement).offsetWidth);
+        this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetWidth);
       } else {
-        this.scale = new ScaleView(this.state, (this.slider.sliderStripDOMElement as HTMLElement).offsetHeight);
+        this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetHeight);
       }
       this.scaleElement = this.scale.getDOMElement();
       this.appendElementToSlider(this.scaleElement);

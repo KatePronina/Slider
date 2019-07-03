@@ -2,7 +2,6 @@ import ComponentView from './componentView';
 import {FullSettings} from '../../application.interfaces';
 
 class ScaleView extends ComponentView {
-  public scaleDOMElement: HTMLElement;
   public sliderLength: number;
 
   public constructor(state: FullSettings, sliderLength: number) {
@@ -10,10 +9,6 @@ class ScaleView extends ComponentView {
     this.sliderLength = sliderLength;
     this.createDOMElement();
     this.bindEvents();
-  }
-
-  public getDOMElement(): HTMLElement {
-    return this.scaleDOMElement;
   }
 
   private createDOMElement(): void {
@@ -54,11 +49,11 @@ class ScaleView extends ComponentView {
     }
 
     scale.append(valuesFragment);
-    this.scaleDOMElement = scale;
+    this.DOMElement = scale;
   }
 
   public alignValues(): void {
-    const valueElements = this.scaleDOMElement.querySelectorAll('.slider__scale-value');
+    const valueElements = this.DOMElement.querySelectorAll('.slider__scale-value');
     valueElements.forEach((element): void => {
       const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
       if (this.state.direction === 'horizontal') {
@@ -72,7 +67,7 @@ class ScaleView extends ComponentView {
   }
 
   private bindEvents(): void {
-    this.scaleDOMElement.addEventListener('click', (e): void => {
+    this.DOMElement.addEventListener('click', (e): void => {
       if((e.target as HTMLElement).classList.contains('slider__scale-value')) {
         this.onNewValue(parseInt(((e.target as HTMLElement).textContent as string)));
       }
