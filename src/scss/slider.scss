@@ -53,10 +53,25 @@
 .slider__scale {
   position: relative;
 }
-
 .slider__scale-value {
   position: absolute;
   color: #bfbfbf;
   font-size: .8rem;
   cursor: pointer;
+}
+
+.configuration {
+  display: flex;
+  border: 2px dashed #e85019;
+  margin-top: 1rem;
+}
+.configuration__fieldset {
+  border: none;
+}
+.configuration__value,
+.configuration__checkbox {
+  margin-top: .5rem;
+}
+.configuration__value-input {
+  max-width: 3rem;
 }
