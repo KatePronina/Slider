@@ -287,5 +287,47 @@ describe('DOM actions', (): void => {
     expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(true);
     expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(false);
   })
+
+  test('Should hide hint', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'range',
+                          minValue: 10,
+                          maxValue: 95,
+                          value: 10,
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: true,
+                          scale: true,
+                          configuration: true,
+                        });
+    
+    const event = new Event('click');
+    (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
+
+    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint--disable')).toEqual(true);
+  })
+
+  test('Should show hint', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'range',
+                          minValue: 10,
+                          maxValue: 95,
+                          value: 10,
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: false,
+                          scale: true,
+                          configuration: true,
+                        });
+    
+    const event = new Event('click');
+    (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
+
+    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint--disable')).toEqual(false);
+  })
 });
 
