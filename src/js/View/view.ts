@@ -66,17 +66,7 @@ class View {
     }
 
     if (this.state.scale) {
-      if (this.state.direction === 'horizontal') {
-        this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetWidth);
-      } else {
-        this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetHeight);
-      }
-      this.scaleElement = this.scale.getDOMElement();
-      this.appendElementToSlider(this.scaleElement);
-      this.scale.alignValues();
-      this.scale.onNewValue = (value: number): void => {
-        this.onNewValue(value);
-      }
+      this.initScale();
     }
 
     if (this.state.configuration) {
@@ -95,6 +85,13 @@ class View {
           }
         } else {
           this.initHint();
+        }
+      }
+      this.configuration.onScaleChange = (): void => {
+        if (this.scale) {
+          this.scale.toggleDisplay();
+        } else {
+          this.initScale();
         }
       }
     }
@@ -161,6 +158,20 @@ class View {
     } else {
       this.hint.setStartValueWidth((this.slider as RangeSliderView).countLength(this.state.value as number));
     } 
+  }
+
+  private initScale(): void {
+    if (this.state.direction === 'horizontal') {
+      this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetWidth);
+    } else {
+      this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetHeight);
+    }
+    this.scaleElement = this.scale.getDOMElement();
+    this.appendElementToSlider(this.scaleElement);
+    this.scale.alignValues();
+    this.scale.onNewValue = (value: number): void => {
+      this.onNewValue(value);
+    }
   }
 
   public onNewValue(value: number | number[], valueType?: string): void {

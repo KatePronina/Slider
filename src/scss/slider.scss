@@ -56,6 +56,10 @@
 }
 .slider__scale {
   position: relative;
+
+  &--disable {
+    display: none;
+  }
 }
 .slider__scale-value {
   position: absolute;

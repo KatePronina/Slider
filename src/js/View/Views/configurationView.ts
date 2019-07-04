@@ -158,6 +158,10 @@ class ConfigurationView extends ComponentView {
   }
 
   public onHintChange(): void {
+
+  }
+
+  public onScaleChange(): void {
     
   }
 
@@ -170,6 +174,9 @@ class ConfigurationView extends ComponentView {
     }
     (this.hintToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onHintChange();
+    });
+    (this.scaleToggle as HTMLInputElement).addEventListener('change', (): void => {
+      this.onScaleChange();
     })
   }
 

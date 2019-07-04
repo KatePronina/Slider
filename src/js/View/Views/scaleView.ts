@@ -66,6 +66,14 @@ class ScaleView extends ComponentView {
     })
   }
 
+  public toggleDisplay(): void {
+    if (this.DOMElement.classList.contains('slider__scale--disable')) {
+      this.DOMElement.classList.remove('slider__scale--disable');
+    } else {
+      this.DOMElement.classList.add('slider__scale--disable');
+    }
+  }
+
   private bindEvents(): void {
     this.DOMElement.addEventListener('click', (e): void => {
       if((e.target as HTMLElement).classList.contains('slider__scale-value')) {
