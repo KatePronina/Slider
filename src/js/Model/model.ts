@@ -35,7 +35,13 @@ class Model {
     if (this.state.type === 'interval') {
       if (typeof value === 'number') {
         const checkedValue = this.checkValue(value);
-        this.state.value = this.createIntervalValue(checkedValue);
+        if (valueType === 'min') {
+          this.state.value = this.checkInterval([checkedValue, (this.state.value as number[])[1]], valueType);
+        } else if (valueType === 'max') {
+          this.state.value = this.checkInterval([(this.state.value as number[])[0], checkedValue], valueType);
+        } else {
+          this.state.value = this.createIntervalValue(checkedValue);
+        }
       } else {
         const checkedValues = (value as number[]).map((val): number => {
           return this.checkValue(val);

@@ -110,8 +110,8 @@ class View {
       this.configuration = new ConfigurationView(this.state);
       this.configurationDOMElement = this.configuration.getDOMElement();
       this.appendElementToParent(this.configurationDOMElement);
-      this.configuration.onNewValue = (value: number | number[]): void => {
-        this.onNewValue(value);
+      this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
+        this.onNewValue(value, valueType);
       }
     }
   }
@@ -135,7 +135,7 @@ class View {
     }
     
     if (this.hint) {
-      if(this.state.type === 'range') {
+      if (this.state.type === 'range') {
         this.hint.onChangedValue(value, (this.slider as RangeSliderView).countLength((value as number)));
       } else {
         this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[0]));
@@ -144,9 +144,7 @@ class View {
     }
 
     if (this.configuration) {
-      if(this.state.type === 'range') {
-        this.configuration.onChangedValue(value);
-      }
+      this.configuration.onChangedValue(value);
     }
   }
 

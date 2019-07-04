@@ -3,6 +3,8 @@ import {FullSettings} from '../../application.interfaces';
 
 class ConfigurationView extends ComponentView {
   public currentValueInput: HTMLInputElement | null;
+  public currentMinValueInput: HTMLInputElement | null;
+  public currentMaxValueInput: HTMLInputElement | null;
   public stepSizeInput: HTMLInputElement | null;
   public minValueInput: HTMLInputElement | null;
   public maxValueInput: HTMLInputElement | null;
@@ -66,12 +68,12 @@ class ConfigurationView extends ComponentView {
   '<fieldset class="configuration__fieldset">' +
     '<div class="configuration__value">' +
       '<label class="configuration__label">Текущее минимальное значение' +
-        '<input class="configuration__value-input" type="number" id="currentMinValue" />' +
+        `<input class="configuration__value-input" type="number" step="${this.state.step}" id="currentMinValue" />` +
       '</label>' +
     '</div>' +
     '<div class="configuration__value">' +
       '<label class="configuration__label">Текущее максимальное значение' +
-        '<input class="configuration__value-input" type="number" id="currentMaxValue" />' +
+        `<input class="configuration__value-input" type="number" step="${this.state.step}" id="currentMaxValue" />` +
       '</label>' +
     '</div>' +
     '<div class="configuration__value">' +
@@ -124,7 +126,12 @@ class ConfigurationView extends ComponentView {
     }
     
     this.DOMElement = configurationForm;
-    this.currentValueInput = this.DOMElement.querySelector('#currentValue');
+    if(this.state.type === 'range') {
+      this.currentValueInput = this.DOMElement.querySelector('#currentValue');
+    } else {
+      this.currentMinValueInput = this.DOMElement.querySelector('#currentMinValue');
+      this.currentMaxValueInput = this.DOMElement.querySelector('#currentMaxValue');
+    }
     this.stepSizeInput = this.DOMElement.querySelector('#stepSize');
     this.minValueInput = this.DOMElement.querySelector('#minValue');
     this.maxValueInput = this.DOMElement.querySelector('#maxValue');
@@ -138,27 +145,49 @@ class ConfigurationView extends ComponentView {
   }
 
   public onChangedValue(value: number | number[]): void {
-    if(this.state.type === 'range') {
+    if (this.state.type === 'range') {
       (this.currentValueInput as HTMLInputElement).value = (value as number).toString();
+    } else {
+      (this.currentMinValueInput as HTMLInputElement).value = (value as number[])[0].toString();
+      (this.currentMaxValueInput as HTMLInputElement).value = (value as number[])[1].toString();
     }
   }
 
-  public onNewValue(value: number | number[]): void {
+  public onNewValue(value: number | number[], valueType?: string): void {
 
   }
 
   private bindEvents(): void {
-    (this.currentValueInput as HTMLInputElement).addEventListener('input', (): void => {
-      if ((this.currentValueInput as HTMLInputElement).value.length === 0) {
-        this.onNewValue(this.state.minValue);
-      } else {
-        this.onNewValue(parseInt((this.currentValueInput as HTMLInputElement).value));
-      }
+    if (this.state.type === 'range') {
+      this.bindInputEvent((this.currentValueInput as HTMLInputElement));
+    } else {
+      this.bindInputEvent((this.currentMinValueInput as HTMLInputElement), 'min');
+      this.bindInputEvent((this.currentMaxValueInput as HTMLInputElement), 'max');
+    }
+
+  }
+
+  private bindInputEvent(input: HTMLInputElement, valueType?: string): void {
+    input.addEventListener('input', (): void => {
+      setTimeout((): void => {
+        if (input.value.length === 0) {
+          this.onNewValue(this.state.minValue);
+        } else if (valueType) {
+          this.onNewValue(parseInt(input.value), valueType);
+        } else {
+          this.onNewValue(parseInt(input.value));
+        }
+      }, 800)
     })
   }
 
   private setStartValues(): void {
-    (this.currentValueInput as HTMLInputElement).value = (this.state.value as number).toString();
+    if (this.state.type === 'range') {
+      (this.currentValueInput as HTMLInputElement).value = (this.state.value as number).toString();
+    } else {
+      (this.currentMinValueInput as HTMLInputElement).value = (this.state.value as number[])[0].toString();
+      (this.currentMaxValueInput as HTMLInputElement).value = (this.state.value as number[])[1].toString();
+    }
     (this.stepSizeInput as HTMLInputElement).value = (this.state.step).toString();
     (this.minValueInput as HTMLInputElement).value = (this.state.minValue).toString();
     (this.maxValueInput as HTMLInputElement).value = (this.state.maxValue).toString();
