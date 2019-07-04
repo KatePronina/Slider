@@ -329,5 +329,47 @@ describe('DOM actions', (): void => {
 
     expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint--disable')).toEqual(false);
   })
+
+  test('Should hide scale', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'range',
+                          minValue: 10,
+                          maxValue: 95,
+                          value: 10,
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: true,
+                          scale: true,
+                          configuration: true,
+                        });
+    
+    const event = new Event('click');
+    (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
+
+    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale--disable')).toEqual(true);
+  })
+
+  test('Should show hint', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'range',
+                          minValue: 10,
+                          maxValue: 95,
+                          value: 10,
+                          step: 1,
+                          direction: 'horizontal',
+                          hint: false,
+                          scale: false,
+                          configuration: true,
+                        });
+    
+    const event = new Event('click');
+    (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
+
+    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale--disable')).toEqual(false);
+  })
 });
 
