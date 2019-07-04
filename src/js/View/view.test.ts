@@ -237,7 +237,7 @@ describe('DOM actions', (): void => {
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(2);
   })
 
-  test('Should add scale with correct values', (): void => {
+  test('Should add configuration with correct values', (): void => {
     document.body.innerHTML = '<div id="foo"></div>';
 
     const view = new View({parentId: 'foo',
@@ -260,6 +260,32 @@ describe('DOM actions', (): void => {
     expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(false);
     expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(false);
     expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(true);
+  })
+
+  test('Should add configuration with correct values fot interval slider', (): void => {
+    document.body.innerHTML = '<div id="foo"></div>';
+
+    const view = new View({parentId: 'foo',
+                          type: 'interval',
+                          minValue: 10,
+                          maxValue: 95,
+                          value: [14, 94],
+                          step: 3,
+                          direction: 'horizontal',
+                          hint: false,
+                          scale: true,
+                          configuration: true,
+                        });
+
+    expect((document.getElementById('currentMinValue') as HTMLInputElement).value).toEqual('13');
+    expect((document.getElementById('currentMinValue') as HTMLInputElement).value).toEqual('95');
+    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual('3');
+    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual('0');
+    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual('95');
+    expect((document.getElementById('toggleHint') as HTMLInputElement).checked).toEqual(false);
+    expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(true);
+    expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(false);
+    expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(false);
   })
 });
 
