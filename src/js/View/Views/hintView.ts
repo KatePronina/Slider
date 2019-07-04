@@ -53,6 +53,14 @@ class HintView extends ComponentView {
       this.DOMElement.style.left = percent - (this.offset * 100) + '%';
     }
   }
+
+  public toggleDisplay(): void {
+    if (this.DOMElement.classList.contains('slider__hint--disable')) {
+      this.DOMElement.classList.remove('slider__hint--disable');
+    } else {
+      this.DOMElement.classList.add('slider__hint--disable');
+    }
+  }
 }
 
 export default HintView;

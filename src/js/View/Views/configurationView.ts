@@ -157,6 +157,10 @@ class ConfigurationView extends ComponentView {
 
   }
 
+  public onHintChange(): void {
+    
+  }
+
   private bindEvents(): void {
     if (this.state.type === 'range') {
       this.bindInputEvent((this.currentValueInput as HTMLInputElement));
@@ -164,7 +168,9 @@ class ConfigurationView extends ComponentView {
       this.bindInputEvent((this.currentMinValueInput as HTMLInputElement), 'min');
       this.bindInputEvent((this.currentMaxValueInput as HTMLInputElement), 'max');
     }
-
+    (this.hintToggle as HTMLInputElement).addEventListener('change', (): void => {
+      this.onHintChange();
+    })
   }
 
   private bindInputEvent(input: HTMLInputElement, valueType?: string): void {

@@ -49,6 +49,10 @@
   &--vertical {
     left: 1.2rem;
   }
+
+  &--disable {
+    display: none;
+  }
 }
 .slider__scale {
   position: relative;

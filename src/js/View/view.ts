@@ -62,34 +62,7 @@ class View {
     }
 
     if (this.state.hint) {
-      this.hint = new HintView(this.state);
-      this.hintElement = this.hint.getDOMElement();
-      this.appendElementToSlider(this.hintElement);
-
-      if (this.state.direction === 'vertical') {
-        this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
-      } else {
-        this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
-      }
-
-      if (this.state.type === 'interval') {
-        this.hintMaxValue = new HintView(this.state, true);
-        this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
-        this.appendElementToSlider(this.hintMaxValueElement);
-
-        if (this.state.direction === 'vertical') {
-          this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
-        } else {
-          this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
-        }
-      } 
-
-      if (this.state.type === 'interval') {
-        this.hint.setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[0]));
-        (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[1]));
-      } else {
-        this.hint.setStartValueWidth((this.slider as RangeSliderView).countLength(this.state.value as number));
-      } 
+      this.initHint();
     }
 
     if (this.state.scale) {
@@ -110,8 +83,19 @@ class View {
       this.configuration = new ConfigurationView(this.state);
       this.configurationDOMElement = this.configuration.getDOMElement();
       this.appendElementToParent(this.configurationDOMElement);
+
       this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
         this.onNewValue(value, valueType);
+      }
+      this.configuration.onHintChange = (): void => {
+        if (this.hint) {
+          this.hint.toggleDisplay();
+          if (this.hintMaxValue) {
+            this.hintMaxValue.toggleDisplay();
+          }
+        } else {
+          this.initHint();
+        }
       }
     }
   }
@@ -146,6 +130,37 @@ class View {
     if (this.configuration) {
       this.configuration.onChangedValue(value);
     }
+  }
+
+  private initHint(): void {
+    this.hint = new HintView(this.state);
+    this.hintElement = this.hint.getDOMElement();
+    this.appendElementToSlider(this.hintElement);
+
+    if (this.state.direction === 'vertical') {
+      this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
+    } else {
+      this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
+    }
+
+    if (this.state.type === 'interval') {
+      this.hintMaxValue = new HintView(this.state, true);
+      this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
+      this.appendElementToSlider(this.hintMaxValueElement);
+
+      if (this.state.direction === 'vertical') {
+        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
+      } else {
+        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
+      }
+    } 
+
+    if (this.state.type === 'interval') {
+      this.hint.setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[0]));
+      (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[1]));
+    } else {
+      this.hint.setStartValueWidth((this.slider as RangeSliderView).countLength(this.state.value as number));
+    } 
   }
 
   public onNewValue(value: number | number[], valueType?: string): void {
