@@ -27,7 +27,7 @@ class ConfigurationView extends ComponentView {
       '</div>' +
       '<div class="configuration__value">' +
         '<label class="configuration__label">Размер шага' +
-          '<input class="configuration__value-input" type="number" id="stepSize" />' +
+          '<input class="configuration__value-input" min="1" type="number" id="stepSize" />' +
         '</label>' +
       '</div>' +
       '<div class="configuration__value">' +
@@ -78,7 +78,7 @@ class ConfigurationView extends ComponentView {
     '</div>' +
     '<div class="configuration__value">' +
       '<label class="configuration__label">Размер шага' +
-        '<input class="configuration__value-input" type="number" id="stepSize" />' +
+        '<input class="configuration__value-input" min="1" type="number" id="stepSize" />' +
       '</label>' +
     '</div>' +
     '<div class="configuration__value">' +
@@ -157,6 +157,18 @@ class ConfigurationView extends ComponentView {
 
   }
 
+  public onStepChange(newStep: number): void {
+
+  }
+
+  public onMinValueChange(newMinValue: number): void {
+
+  }
+
+  public onMaxValueChange(newMaxValue: number): void {
+
+  }
+
   public onHintChange(): void {
 
   }
@@ -170,31 +182,53 @@ class ConfigurationView extends ComponentView {
   }
 
   public onTypeChange(): void {
-    
+
   }
 
   private bindEvents(): void {
     if (this.state.type === 'range') {
-      this.bindInputEvent((this.currentValueInput as HTMLInputElement));
+      this.bindInputValueEvent((this.currentValueInput as HTMLInputElement));
     } else {
-      this.bindInputEvent((this.currentMinValueInput as HTMLInputElement), 'min');
-      this.bindInputEvent((this.currentMaxValueInput as HTMLInputElement), 'max');
+      this.bindInputValueEvent((this.currentMinValueInput as HTMLInputElement), 'min');
+      this.bindInputValueEvent((this.currentMaxValueInput as HTMLInputElement), 'max');
     }
+
+    (this.stepSizeInput as HTMLInputElement).addEventListener('input', (): void => {
+      if (parseInt((this.stepSizeInput as HTMLInputElement).value) > 0) {
+        this.onStepChange(parseInt((this.stepSizeInput as HTMLInputElement).value));
+      }
+    });
+
+    (this.minValueInput as HTMLInputElement).addEventListener('input', (): void => {
+      if ((this.minValueInput as HTMLInputElement).value.length > 0) {
+        this.onMinValueChange(parseInt((this.minValueInput as HTMLInputElement).value));
+      }
+    });
+
+    (this.maxValueInput as HTMLInputElement).addEventListener('input', (): void => {
+      if ((this.maxValueInput as HTMLInputElement).value.length > 0) {
+        this.onMaxValueChange(parseInt((this.maxValueInput as HTMLInputElement).value));
+      }
+    });
+
     (this.hintToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onHintChange();
     });
+
     (this.scaleToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onScaleChange();
     });
+
     (this.verticalToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onDirectionChange();
     });
+
     (this.typeToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onTypeChange();
     });
   }
 
-  private bindInputEvent(input: HTMLInputElement, valueType?: string): void {
+  private bindInputValueEvent(input: HTMLInputElement, valueType?: string): void {
     input.addEventListener('input', (): void => {
       setTimeout((): void => {
         if (input.value.length === 0) {

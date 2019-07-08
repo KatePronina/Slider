@@ -82,6 +82,18 @@ class View {
         this.onNewValue(value, valueType);
       }
 
+      this.configuration.onStepChange = (newStep: number): void => {
+        this.onStateChange({...state, step: newStep});
+      }
+
+      this.configuration.onMinValueChange = (newMinValue: number): void => {
+        this.onStateChange({...state, minValue: newMinValue});
+      }
+
+      this.configuration.onMaxValueChange = (newMaxValue: number): void => {
+        this.onStateChange({...state, maxValue: newMaxValue});
+      }
+
       this.configuration.onHintChange = (): void => {
         if (this.state.hint) {
           (this.hint as HintView).toggleDisplay();
