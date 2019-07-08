@@ -22,6 +22,10 @@ class View {
   public configuration?: ConfigurationView;
 
   public constructor(state: FullSettings) {
+    this.initSlider(state);
+  }
+
+  public initSlider(state: FullSettings): void {
     this.state = state;
     
     this.parentElement = document.getElementById(state.parentId);
@@ -77,21 +81,35 @@ class View {
       this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
         this.onNewValue(value, valueType);
       }
+
       this.configuration.onHintChange = (): void => {
-        if (this.hint) {
-          this.hint.toggleDisplay();
+        if (this.state.hint) {
+          (this.hint as HintView).toggleDisplay();
+          this.state.hint = !this.state.hint;
           if (this.hintMaxValue) {
             this.hintMaxValue.toggleDisplay();
           }
         } else {
           this.initHint();
+          this.state.hint = true;
         }
       }
+
       this.configuration.onScaleChange = (): void => {
-        if (this.scale) {
-          this.scale.toggleDisplay();
+        if (this.state.scale) {
+          (this.scale as ScaleView).toggleDisplay();
+          this.state.scale = !this.state.scale;
         } else {
           this.initScale();
+          this.state.scale = true;
+        }
+      }
+
+      this.configuration.onDirectionChange = (): void => {
+        if (this.state.direction === 'horizontal') {
+          this.onDirectionChange({...state, direction: 'vertical'});
+        } else {
+          this.onDirectionChange({...state, direction: 'horizontal'});
         }
       }
     }
@@ -174,7 +192,18 @@ class View {
     }
   }
 
+  public remove(): void {
+    // while ((this.parentElement as HTMLElement).firstChild) {
+    //   (this.parentElement as HTMLElement).removeChild(((this.parentElement as HTMLElement).firstChild as ChildNode));
+    // }
+    (this.parentElement as HTMLElement).innerHTML = '';
+  }
+
   public onNewValue(value: number | number[], valueType?: string): void {
+
+  }
+
+  public onDirectionChange(newState: FullSettings): void {
 
   }
 }
