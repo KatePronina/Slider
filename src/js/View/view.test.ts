@@ -416,5 +416,45 @@ describe('DOM actions', (): void => {
 
     expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider--vertical')).toEqual(false);
   })
+
+  test('Should change slider type from range to interval', (): void => {
+    const model = new Model({parentId: 'foo',
+                            type: 'range',
+                            minValue: 10,
+                            maxValue: 95,
+                            value: 10,
+                            step: 1,
+                            direction: 'vertical',
+                            hint: false,
+                            scale: false,
+                            configuration: true,
+                          })
+    const controller = new Controller(model);
+    
+    const event = new Event('click');
+    (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
+
+    expect(document.querySelector('.slider__point--max')).toBeTruthy();
+  })
+
+  test('Should change slider type from interval to range', (): void => {
+    const model = new Model({parentId: 'foo',
+                            type: 'interval',
+                            minValue: 10,
+                            maxValue: 95,
+                            value: [10, 12],
+                            step: 1,
+                            direction: 'vertical',
+                            hint: false,
+                            scale: false,
+                            configuration: true,
+                          })
+    const controller = new Controller(model);
+    
+    const event = new Event('click');
+    (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
+
+    expect(document.querySelector('.slider__point--max')).toBeNull();
+  })
 });
 
