@@ -112,6 +112,14 @@ class View {
           this.onDirectionChange({...state, direction: 'horizontal'});
         }
       }
+
+      this.configuration.onTypeChange = (): void => {
+        if (this.state.type === 'range') {
+          this.onStateChange({...state, type: 'interval'});
+        } else {
+          this.onStateChange({...state, type: 'range'})
+        }
+      }
     }
   }
 
@@ -193,9 +201,6 @@ class View {
   }
 
   public remove(): void {
-    // while ((this.parentElement as HTMLElement).firstChild) {
-    //   (this.parentElement as HTMLElement).removeChild(((this.parentElement as HTMLElement).firstChild as ChildNode));
-    // }
     (this.parentElement as HTMLElement).innerHTML = '';
   }
 
@@ -204,6 +209,10 @@ class View {
   }
 
   public onDirectionChange(newState: FullSettings): void {
+
+  }
+
+  public onStateChange(newState: FullSettings): void {
 
   }
 }

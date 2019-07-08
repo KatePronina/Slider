@@ -14,13 +14,22 @@ class Controller {
       this.model.setValue(value, valueType);
     }
 
-    this.view.onDirectionChange = (newState: FullSettings): void => {
+    this.model.onSetValue = (value): void => {
+      this.view.onChangedValue(value);
+    }
+
+    this.view.onDirectionChange = (newState): void => {
       this.view.remove();
       this.view.initSlider(newState);
     }
 
-    this.model.onSetValue = (value): void => {
-      this.view.onChangedValue(value);
+    this.view.onStateChange = (newState): void => {
+      this.model.onNewState(newState);
+    }
+
+    this.model.onSetState = (newState): void => {
+      this.view.remove();
+      this.view.initSlider(newState);
     }
   }
 }

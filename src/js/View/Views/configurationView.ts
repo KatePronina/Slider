@@ -169,6 +169,10 @@ class ConfigurationView extends ComponentView {
     
   }
 
+  public onTypeChange(): void {
+    
+  }
+
   private bindEvents(): void {
     if (this.state.type === 'range') {
       this.bindInputEvent((this.currentValueInput as HTMLInputElement));
@@ -184,7 +188,10 @@ class ConfigurationView extends ComponentView {
     });
     (this.verticalToggle as HTMLInputElement).addEventListener('change', (): void => {
       this.onDirectionChange();
-    })
+    });
+    (this.typeToggle as HTMLInputElement).addEventListener('change', (): void => {
+      this.onTypeChange();
+    });
   }
 
   private bindInputEvent(input: HTMLInputElement, valueType?: string): void {

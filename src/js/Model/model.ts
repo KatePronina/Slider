@@ -39,6 +39,8 @@ class Model {
           this.state.value = this.checkInterval([checkedValue, (this.state.value as number[])[1]], valueType);
         } else if (valueType === 'max') {
           this.state.value = this.checkInterval([(this.state.value as number[])[0], checkedValue], valueType);
+        } else if (typeof value === 'number' && typeof this.state.value === 'number') {
+          this.state.value = [value, this.state.maxValue];
         } else {
           this.state.value = this.createIntervalValue(checkedValue);
         }
@@ -49,13 +51,25 @@ class Model {
         this.state.value = this.checkInterval(checkedValues, valueType);
       }
       this.onSetValue(this.state.value);
+    } else if (this.state.type === 'range' && Array.isArray(value)) {
+      this.state.value = value[0];
     } else if (this.state.value != this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
       this.onSetValue(this.state.value);
     }
   }
 
+  public onNewState(newState: FullSettings): void {
+    this.state = newState;
+    this.setValue(newState.value);
+    this.onSetState(this.state);
+  }
+
   public onSetValue(value: number | number[]): void {
+
+  }
+
+  public onSetState(newState: FullSettings): void {
 
   }
 
