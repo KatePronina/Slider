@@ -1,4 +1,7 @@
 import View from './view';
+import Model from '../Model/model';
+import Controller from '../Controller/controller';
+
 import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
 import HintView from './Views/hintView';
@@ -374,19 +377,20 @@ describe('DOM actions', (): void => {
 
   test('Should change slider direction from horizontal to vertical', (): void => {
     document.body.innerHTML = '<div id="foo"></div>';
-
-    const view = new View({parentId: 'foo',
-                          type: 'range',
-                          minValue: 10,
-                          maxValue: 95,
-                          value: 10,
-                          step: 1,
-                          direction: 'horizontal',
-                          hint: false,
-                          scale: false,
-                          configuration: true,
-                        });
     
+    const model = new Model({parentId: 'foo',
+                            type: 'range',
+                            minValue: 10,
+                            maxValue: 95,
+                            value: 10,
+                            step: 1,
+                            direction: 'horizontal',
+                            hint: false,
+                            scale: false,
+                            configuration: true,
+                          })
+    const controller = new Controller(model);
+
     const event = new Event('click');
     (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
 
@@ -394,19 +398,18 @@ describe('DOM actions', (): void => {
   })
 
   test('Should change slider direction from vertical to horizontal', (): void => {
-    document.body.innerHTML = '<div id="foo"></div>';
-
-    const view = new View({parentId: 'foo',
-                          type: 'range',
-                          minValue: 10,
-                          maxValue: 95,
-                          value: 10,
-                          step: 1,
-                          direction: 'vertical',
-                          hint: false,
-                          scale: false,
-                          configuration: true,
-                        });
+    const model = new Model({parentId: 'foo',
+                            type: 'range',
+                            minValue: 10,
+                            maxValue: 95,
+                            value: 10,
+                            step: 1,
+                            direction: 'vertical',
+                            hint: false,
+                            scale: false,
+                            configuration: true,
+                          })
+    const controller = new Controller(model);
     
     const event = new Event('click');
     (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
