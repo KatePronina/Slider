@@ -47,10 +47,10 @@ class IntervalSliderView extends ComponentSlider {
     this.stripDOMElement = sliderElement.querySelector('.slider');
     this.minPointDOMElement = sliderElement.querySelector('.slider__point--min');
     this.maxPointDOMElement = sliderElement.querySelector('.slider__point--max');
-    this.bindEventsToSlider(sliderElement);
+    this.bindEventsToSlider();
   }
 
-  public bindEventsToSlider(slider: HTMLElement): void {
+  public bindEventsToSlider(): void {
     (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
       this.onMinPointMouseDown();
     });
@@ -58,38 +58,34 @@ class IntervalSliderView extends ComponentSlider {
     (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
       this.onMaxPointMouseDown();
     });
-
-    (this.minPointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
-      this.onMinPointMouseUp();
-    });
-
-    (this.maxPointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
-      this.onMaxPointMouseUp();
-    });
-
-    document.addEventListener('mousemove', (e): void => {
-      this.onDocumentMouseMove(e);
-    })
   }
 
   private onMinPointMouseDown(): void {
     this.isMinMouseDown = true;
+
+    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
+    $(document).on('mouseup', this.onMouseUp.bind(this));
+
     (this.minPointDOMElement as HTMLElement).style.zIndex = '2';
     (this.maxPointDOMElement as HTMLElement).style.zIndex = '1';
   }
 
   private onMaxPointMouseDown(): void {
     this.isMaxMouseDown = true;
+
+    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
+    $(document).on('mouseup', this.onMouseUp.bind(this));
+
     (this.minPointDOMElement as HTMLElement).style.zIndex = '1';
     (this.maxPointDOMElement as HTMLElement).style.zIndex = '2';
   }
 
-  private onMinPointMouseUp(): void {
+  private onMouseUp(): void {
     this.isMinMouseDown = false;
-  }
-
-  private onMaxPointMouseUp(): void {
     this.isMaxMouseDown = false;
+
+    $(document).off('mousemove');
+    $(document).off('mouseup');
   }
 
   public onDocumentMouseMove(e: MouseEvent): void {

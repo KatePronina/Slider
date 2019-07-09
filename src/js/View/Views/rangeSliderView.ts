@@ -38,27 +38,25 @@ class RangeSliderView extends ComponentSlider {
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
     this.pointDOMElement = sliderElement.querySelector('.slider__point');
     this.stripDOMElement = sliderElement.querySelector('.slider');
-    this.bindEventsToSlider(sliderElement);
+    this.bindEventsToSlider();
   }
 
-  public bindEventsToSlider(sliderElement: HTMLElement): void {
-    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
-      this.onPointMouseDown();
-    });
-    (this.pointDOMElement as HTMLElement).addEventListener('mouseup', (): void => {
-      this.onPointMouseUp();
-    });
-    document.addEventListener('mousemove', (e): void => {
-      this.onDocumentMouseMove(e);
-    })
+  public bindEventsToSlider(): void {
+    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', this.onPointMouseDown.bind(this));
   }
 
   private onPointMouseDown(): void {
     this.isMouseDown = true;
+    
+    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
+    $(document).on('mouseup', this.onPointMouseUp.bind(this));
   }
 
   private onPointMouseUp(): void {
     this.isMouseDown = false;
+
+    $(document).off('mousemove');
+    $(document).off('mouseup');
   }
 
   public onDocumentMouseMove(e: MouseEvent): void {
