@@ -1,3 +1,3 @@
 import './scss/base.scss';
 
-import './js/application.ts';
+import './js/demo.js';

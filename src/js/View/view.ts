@@ -8,7 +8,6 @@ import ConfigurationView from './Views/configurationView';
 
 class View {
   public state: FullSettings;
-  public parentElement: HTMLElement | null;
   public sliderElement: HTMLElement | null;
   public hintElement: HTMLElement;
   public hintMaxValueElement: HTMLElement;
@@ -27,8 +26,6 @@ class View {
 
   public initSlider(state: FullSettings): void {
     this.state = state;
-    
-    this.parentElement = document.getElementById(state.parentId);
 
     if (this.state.type === 'range') {
       this.slider = new RangeSliderView(this.state);
@@ -136,12 +133,12 @@ class View {
   }
 
   public appendElementToParent(element: HTMLElement): void {
-    (this.parentElement as HTMLElement).appendChild(element);
+    this.state.parentElement.append(element);
   }
 
   public appendElementToSlider(element: HTMLElement): void {
-    const slider = (this.parentElement as HTMLElement).querySelector('.slider');
-    (slider as HTMLElement).appendChild(element);
+    const slider = this.state.parentElement.find('.slider');
+    slider.append(element);
   }
 
   public onChangedValue(value: number | number[]): void {
@@ -213,7 +210,7 @@ class View {
   }
 
   public remove(): void {
-    (this.parentElement as HTMLElement).innerHTML = '';
+    this.state.parentElement.html('');
   }
 
   public onNewValue(value: number | number[], valueType?: string): void {

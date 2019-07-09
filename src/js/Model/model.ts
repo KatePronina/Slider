@@ -2,20 +2,9 @@ import DEFAULT_SETTINGS from './defaultSettings';
 import {Settings, FullSettings} from '../application.interfaces';
 
 class Model {
-  public state: FullSettings = {
-    parentId: '',
-    type: 'range',
-    minValue: 0,
-    maxValue: 100,
-    value: 0,
-    step: 1,
-    direction: 'horizontal',
-    hint: true,
-    scale: false,
-    configuration: false
-  };
+  public state: FullSettings;
 
-  public constructor({parentId,
+  public constructor({parentElement,
                       type = DEFAULT_SETTINGS.TYPE,
                       minValue = DEFAULT_SETTINGS.MIN_VALUE,
                       maxValue = DEFAULT_SETTINGS.MAX_VALUE,
@@ -26,7 +15,7 @@ class Model {
                       scale = DEFAULT_SETTINGS.SCALE,
                       configuration = DEFAULT_SETTINGS.CONFIGURATION
                     }: Settings) {
-    this.state = {parentId, type, minValue, maxValue, value, step, direction, hint, scale, configuration}
+    this.state = {parentElement, type, minValue, maxValue, value, step, direction, hint, scale, configuration}
     
     this.setValue(value);
   }

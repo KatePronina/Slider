@@ -1,5 +1,5 @@
 interface Settings {
-    parentId: string;
+    parentElement: JQuery;
     type?: string;
     minValue?: number;
     maxValue?: number;
@@ -12,7 +12,7 @@ interface Settings {
 }
 
 interface FullSettings {
-    parentId: string;
+    parentElement: JQuery;
     type: string;
     minValue: number;
     maxValue: number;

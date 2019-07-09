@@ -1,6 +1,5 @@
 import Model from '../Model/model';
 import View from '../View/view';
-import {FullSettings} from '../application.interfaces';
 
 class Controller {
   public model: Model;
