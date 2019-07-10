@@ -31,6 +31,10 @@ class Controller {
       this.view.initSlider(newState);
     }
   }
+
+  public onNewValue(value: number | number[], valueType?: string): void {
+    this.model.setValue(value, valueType);
+  }
 }
 
 export default Controller;
