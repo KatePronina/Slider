@@ -1,10 +1,14 @@
+import * as $ from 'jquery';
 import Model from './model';
+
+beforeEach((): void => {
+  document.body.innerHTML = '<div id="foo"></div>';
+});
 
 describe('Constructor', (): void => {
   test('Should set default settings', (): void => {
-    const model = new Model({parentId: 'foo'});
+    const model = new Model({parentElement: $('.foo')});
 
-    expect(model.state.parentId).toEqual('foo');
     expect(model.state.type).toEqual('range');
     expect(model.state.minValue).toEqual(0);
     expect(model.state.maxValue).toEqual(100);
@@ -18,7 +22,7 @@ describe('Constructor', (): void => {
 
   test('Should set custom settings', (): void => {
     const model = new Model({
-      parentId: 'bar',
+     parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -30,7 +34,6 @@ describe('Constructor', (): void => {
       configuration: true,
     });
 
-    expect(model.state.parentId).toEqual('bar');
     expect(model.state.type).toEqual('interval');
     expect(model.state.value).toEqual([15, 20]);
     expect(model.state.minValue).toEqual(5);
@@ -45,7 +48,7 @@ describe('Constructor', (): void => {
 
 describe('Setting value', (): void => {
   test('Should update value', (): void => {
-    const model = new Model({parentId: 'foo'});
+    const model = new Model({parentElement: $('.foo')});
 
     model.setValue(10);
 
@@ -53,7 +56,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should not update wrong value', (): void => {
-    const model = new Model({parentId: 'foo'});
+    const model = new Model({parentElement: $('.foo')});
 
     model.setValue(10000);
 
@@ -61,7 +64,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should not update wrong value', (): void => {
-    const model = new Model({parentId: 'foo'});
+    const model = new Model({parentElement: $('.foo')});
 
     model.setValue(-10000);
 
@@ -69,7 +72,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should update interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval'});
+    const model = new Model({parentElement: $('.foo'), type: 'interval'});
 
     model.setValue([5, 10]);
 
@@ -77,7 +80,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should update and correct interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5});
 
     model.setValue([6, 9]);
 
@@ -85,7 +88,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should correct interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval'});
+    const model = new Model({parentElement: $('.foo'), type: 'interval'});
 
     model.setValue([10, 15]);
     model.setValue([10, 9], 'max');
@@ -95,7 +98,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should correct interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval'});
+    const model = new Model({parentElement: $('.foo'), type: 'interval'});
 
     model.setValue([5, 9]);
     model.setValue([10, 9]);
@@ -104,7 +107,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [50, 55]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [50, 55]});
 
     model.setValue([5, 70]);
 
@@ -112,7 +115,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([30, 35]);
 
@@ -120,7 +123,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([70, 70]);
 
@@ -128,7 +131,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([5, 50]);
 
@@ -136,7 +139,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([50, 72]);
 
@@ -144,7 +147,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([-50, 110]);
 
@@ -152,7 +155,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should not set interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60], maxValue: 90});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60], maxValue: 90});
 
     model.setValue([100, 100]);
 
@@ -160,7 +163,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set and correct interval value', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue([33, 36]);
 
@@ -168,7 +171,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set one value for interval slider', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue(51);
 
@@ -176,7 +179,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should set one value for interval slider', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue(21);
 
@@ -184,7 +187,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should not set one value for interval slider', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue(150);
 
@@ -192,7 +195,7 @@ describe('Setting value', (): void => {
   })
 
   test('Should not set one value for interval slider', (): void => {
-    const model = new Model({parentId: 'foo', type: 'interval', step: 5, value: [10, 60]});
+    const model = new Model({parentElement: $('.foo'), type: 'interval', step: 5, value: [10, 60]});
 
     model.setValue(-10);
 
