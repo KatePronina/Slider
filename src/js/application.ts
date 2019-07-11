@@ -1,6 +1,6 @@
-import { ISettings } from './application.interfaces';
 import Model from './Model/model';
 import Controller from './Controller/controller';
+import { ISettings } from './application.interfaces';
 
 class Application {
   private controller: Controller;

@@ -1,6 +1,5 @@
 import * as $ from 'jquery';
 
-import View from './view';
 import Model from '../Model/model';
 import Controller from '../Controller/controller';
 
@@ -9,6 +8,7 @@ import IntervalSliderView from './Views/intervalSliderView';
 import HintView from './Views/hintView';
 import ScaleView from './Views/scaleView';
 import configurationView from './Views/configurationView';
+import View from './view';
 
 beforeEach((): void => {
   document.body.innerHTML = '<div id="foo"></div>';

@@ -1,6 +1,6 @@
-import ComponentSlider from './componentSliderView';
 import { IFullSettings } from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
+import ComponentSlider from './componentSliderView';
 
 class IntervalSliderView extends ComponentSlider {
   public minPointDOMElement: HTMLElement | null;

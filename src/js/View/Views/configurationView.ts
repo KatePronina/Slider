@@ -1,6 +1,6 @@
-import ComponentView from './componentView';
 import { IFullSettings } from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
+import ComponentView from './componentView';
 
 class ConfigurationView extends ComponentView {
   public currentValueInput: HTMLInputElement | null;

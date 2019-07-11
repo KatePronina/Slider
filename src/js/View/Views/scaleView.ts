@@ -1,6 +1,6 @@
-import ComponentView from './componentView';
 import { IFullSettings } from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
+import ComponentView from './componentView';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
