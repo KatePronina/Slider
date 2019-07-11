@@ -54,13 +54,8 @@ class IntervalSliderView extends ComponentSlider {
   }
 
   public bindEventsToSlider(): void {
-    (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
-      this.onMinPointMouseDown();
-    });
-
-    (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', (): void => {
-      this.onMaxPointMouseDown();
-    });
+    (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMinPointMouseDown.bind(this));
+    (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMaxPointMouseDown.bind(this));
   }
 
   private onMinPointMouseDown(): void {

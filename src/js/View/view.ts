@@ -82,64 +82,7 @@ class View {
     }
 
     if (this.state.configuration) {
-      this.configuration = new ConfigurationView(this.state);
-      this.configurationDOMElement = this.configuration.getDOMElement();
-      this.appendElementToParent(this.configurationDOMElement);
-
-      this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
-        this.onNewValue(value, valueType);
-      };
-
-      this.configuration.onStepChange = (newStep: number): void => {
-        this.onStateChange({ ...state, step: newStep });
-      };
-
-      this.configuration.onMinValueChange = (newMinValue: number): void => {
-        this.onStateChange({ ...state, minValue: newMinValue });
-      };
-
-      this.configuration.onMaxValueChange = (newMaxValue: number): void => {
-        this.onStateChange({ ...state, maxValue: newMaxValue });
-      };
-
-      this.configuration.onHintChange = (): void => {
-        if (this.state.hint) {
-          (this.hint as HintView).toggleDisplay();
-          this.state.hint = !this.state.hint;
-          if (this.hintMaxValue) {
-            this.hintMaxValue.toggleDisplay();
-          }
-        } else {
-          this.initHint();
-          this.state.hint = true;
-        }
-      };
-
-      this.configuration.onScaleChange = (): void => {
-        if (this.state.scale) {
-          (this.scale as ScaleView).toggleDisplay();
-          this.state.scale = !this.state.scale;
-        } else {
-          this.initScale();
-          this.state.scale = true;
-        }
-      };
-
-      this.configuration.onDirectionChange = (): void => {
-        if (this.state.direction === 'horizontal') {
-          this.onDirectionChange({ ...state, direction: 'vertical' });
-        } else {
-          this.onDirectionChange({ ...state, direction: 'horizontal' });
-        }
-      };
-
-      this.configuration.onTypeChange = (): void => {
-        if (this.state.type === 'range') {
-          this.onStateChange({ ...state, type: 'interval' });
-        } else {
-          this.onStateChange({ ...state, type: 'range' });
-        }
-      };
+      this.initConfiguration();
     }
   }
 
@@ -221,9 +164,73 @@ class View {
     this.scaleElement = this.scale.getDOMElement();
     this.appendElementToSlider(this.scaleElement);
     this.scale.alignValues();
+
     this.scale.onNewValue = (value: number): void => {
       this.onNewValue(value);
     };
+  }
+
+  private initConfiguration(): void {
+    this.configuration = new ConfigurationView(this.state);
+    this.configurationDOMElement = this.configuration.getDOMElement();
+    this.appendElementToParent(this.configurationDOMElement);
+
+    this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
+      this.onNewValue(value, valueType);
+    };
+
+    this.configuration.onStepChange = (newStep: number): void => {
+      this.onStateChange({ ...this.state, step: newStep });
+    };
+
+    this.configuration.onMinValueChange = (newMinValue: number): void => {
+      this.onStateChange({ ...this.state, minValue: newMinValue });
+    };
+
+    this.configuration.onMaxValueChange = (newMaxValue: number): void => {
+      this.onStateChange({ ...this.state, maxValue: newMaxValue });
+    };
+
+    this.configuration.onHintChange = (): void => {
+      if (this.state.hint) {
+        (this.hint as HintView).toggleDisplay();
+        this.state.hint = !this.state.hint;
+        if (this.hintMaxValue) {
+          this.hintMaxValue.toggleDisplay();
+        }
+      } else {
+        this.initHint();
+        this.state.hint = true;
+      }
+    };
+
+    this.configuration.onScaleChange = (): void => {
+      if (this.state.scale) {
+        (this.scale as ScaleView).toggleDisplay();
+        this.state.scale = !this.state.scale;
+      } else {
+        this.initScale();
+        this.state.scale = true;
+      }
+    };
+
+    this.configuration.onDirectionChange = (): void => {
+      if (this.state.direction === 'horizontal') {
+        this.onDirectionChange({ ...this.state, direction: 'vertical' });
+      } else {
+        this.onDirectionChange({ ...this.state, direction: 'horizontal' });
+      }
+    };
+
+    this.configuration.onTypeChange = (): void => {
+      if (this.state.type === 'range') {
+        this.onStateChange({ ...this.state, type: 'interval' });
+      } else {
+        this.onStateChange({ ...this.state, type: 'range' });
+      }
+    };
+
+    this.configuration.bindEvents();
   }
 
   public remove(): void {

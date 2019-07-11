@@ -10,6 +10,14 @@ class Controller {
     this.model = model;
     this.view = new View(this.model.state);
 
+    this.bindEvents();
+  }
+
+  public onNewValue(value: number | number[], valueType?: string): void {
+    this.model.setValue(value, valueType);
+  }
+
+  private bindEvents(): void {
     this.view.onNewValue = (value, valueType?: string): void => {
       this.model.setValue(value, valueType);
     };
@@ -31,10 +39,6 @@ class Controller {
       this.view.remove();
       this.view.initSlider(newState);
     };
-  }
-
-  public onNewValue(value: number | number[], valueType?: string): void {
-    this.model.setValue(value, valueType);
   }
 }
 

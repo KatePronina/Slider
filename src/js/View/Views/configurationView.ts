@@ -149,7 +149,7 @@ class ConfigurationView extends ComponentView {
     this.typeToggle = this.DOMElement.querySelector('#toggleType');
     this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
 
-    this.bindEvents();
+    // this.bindEvents();
     this.setStartValues();
   }
 
@@ -194,7 +194,7 @@ class ConfigurationView extends ComponentView {
 
   }
 
-  private bindEvents(): void {
+  public bindEvents(): void {
     if (this.state.type === 'range') {
       this.bindInputValueEvent((this.currentValueInput as HTMLInputElement));
     } else {
@@ -220,21 +220,13 @@ class ConfigurationView extends ComponentView {
       }
     });
 
-    (this.hintToggle as HTMLInputElement).addEventListener('change', (): void => {
-      this.onHintChange();
-    });
+    (this.hintToggle as HTMLInputElement).addEventListener('change', this.onHintChange);
 
-    (this.scaleToggle as HTMLInputElement).addEventListener('change', (): void => {
-      this.onScaleChange();
-    });
+    (this.scaleToggle as HTMLInputElement).addEventListener('change', this.onScaleChange);
 
-    (this.verticalToggle as HTMLInputElement).addEventListener('change', (): void => {
-      this.onDirectionChange();
-    });
+    (this.verticalToggle as HTMLInputElement).addEventListener('change', this.onDirectionChange);
 
-    (this.typeToggle as HTMLInputElement).addEventListener('change', (): void => {
-      this.onTypeChange();
-    });
+    (this.typeToggle as HTMLInputElement).addEventListener('change', this.onTypeChange);
   }
 
   private bindInputValueEvent(input: HTMLInputElement, valueType?: string): void {
