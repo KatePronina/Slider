@@ -1,21 +1,22 @@
 import DEFAULT_SETTINGS from './defaultSettings';
 import { ISettings, IFullSettings } from '../application.interfaces';
+import sliderOptions from '../sliderOptions';
 
 class Model {
   public state: IFullSettings;
 
   public constructor({
-                      parentElement,
-                      type = DEFAULT_SETTINGS.TYPE,
-                      minValue = DEFAULT_SETTINGS.MIN_VALUE,
-                      maxValue = DEFAULT_SETTINGS.MAX_VALUE,
-                      value = type === 'interval' ? [minValue, maxValue] : minValue,
-                      step = DEFAULT_SETTINGS.STEP,
-                      direction = DEFAULT_SETTINGS.DIRECTION,
-                      hint = DEFAULT_SETTINGS.HINT,
-                      scale = DEFAULT_SETTINGS.SCALE,
-                      configuration = DEFAULT_SETTINGS.CONFIGURATION,
-                    }: ISettings) {
+                    parentElement,
+                    type = DEFAULT_SETTINGS.TYPE,
+                    minValue = DEFAULT_SETTINGS.MIN_VALUE,
+                    maxValue = DEFAULT_SETTINGS.MAX_VALUE,
+                    value = type === sliderOptions.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
+                    step = DEFAULT_SETTINGS.STEP,
+                    direction = DEFAULT_SETTINGS.DIRECTION,
+                    hint = DEFAULT_SETTINGS.HINT,
+                    scale = DEFAULT_SETTINGS.SCALE,
+                    configuration = DEFAULT_SETTINGS.CONFIGURATION,
+                  }: ISettings) {
     this.state = {
       parentElement, type, minValue, maxValue, value, step, direction, hint, scale, configuration,
     };
@@ -24,14 +25,14 @@ class Model {
   }
 
   public setValue(value: number | number[], valueType?: string): void {
-    if (this.state.type === 'interval') {
+    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       if (typeof value === 'number') {
         const checkedValue = this.checkValue(value);
         if (valueType === 'min') {
-          const newValue = [checkedValue, (this.state.value as number[])[1]];
+          const newValue = [checkedValue, (this.state.value as number[])[sliderOptions.VALUE_END]];
           this.state.value = Model.checkInterval(newValue, valueType);
         } else if (valueType === 'max') {
-          const newValue = [(this.state.value as number[])[0], checkedValue];
+          const newValue = [(this.state.value as number[])[sliderOptions.VALUE_START], checkedValue];
           this.state.value = Model.checkInterval(newValue, valueType);
         } else if (typeof value === 'number' && typeof this.state.value === 'number') {
           this.state.value = [value, this.state.maxValue];
@@ -43,7 +44,7 @@ class Model {
         this.state.value = Model.checkInterval(checkedValues, valueType);
       }
       this.onSetValue(this.state.value);
-    } else if (this.state.type === 'range' && Array.isArray(value)) {
+    } else if (this.state.type === sliderOptions.TYPE_RANGE && Array.isArray(value)) {
       [(this.state.value as number)] = value;
     } else if (this.state.value !== this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
@@ -66,20 +67,20 @@ class Model {
   }
 
   private static checkInterval(values: number[], valueType?: string): number[] {
-    if (valueType === 'min') {
-      if (values[0] > values[1]) {
-        return [values[1], values[1]];
+    if (valueType === sliderOptions.VALUE_TYPE_MIN) {
+      if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
+        return [values[sliderOptions.VALUE_END], values[sliderOptions.VALUE_END]];
       }
     }
 
-    if (valueType === 'max') {
-      if (values[0] > values[1]) {
-        return [values[0], values[0]];
+    if (valueType === sliderOptions.VALUE_TYPE_MAX) {
+      if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
+        return [values[sliderOptions.VALUE_START], values[sliderOptions.VALUE_START]];
       }
     }
 
-    if (values[0] > values[1]) {
-      return [values[1], values[1]];
+    if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
+      return [values[sliderOptions.VALUE_END], values[sliderOptions.VALUE_END]];
     }
 
     return values;
@@ -109,11 +110,11 @@ class Model {
   }
 
   private createIntervalValue(value: number): number[] {
-    if ((this.state.value as number[])[1] - value < value - (this.state.value as number[])[0]) {
-      return [(this.state.value as number[])[0], value];
+    if ((this.state.value as number[])[sliderOptions.VALUE_END] - value < value - (this.state.value as number[])[sliderOptions.VALUE_START]) {
+      return [(this.state.value as number[])[sliderOptions.VALUE_START], value];
     }
 
-    return [value, (this.state.value as number[])[1]];
+    return [value, (this.state.value as number[])[sliderOptions.VALUE_END]];
   }
 }
 

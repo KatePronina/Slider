@@ -1,5 +1,6 @@
 import ComponentSlider from './componentSliderView';
 import { IFullSettings } from '../../application.interfaces';
+import sliderOptions from '../../sliderOptions';
 
 class IntervalSliderView extends ComponentSlider {
   public minPointDOMElement: HTMLElement | null;
@@ -39,7 +40,7 @@ class IntervalSliderView extends ComponentSlider {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       sliderElement.innerHTML = this.templateVertical;
     } else {
       sliderElement.innerHTML = this.templateHorizontal;
@@ -89,7 +90,7 @@ class IntervalSliderView extends ComponentSlider {
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMinMouseDown) {
       let eventCoordinate = e.pageX - this.offset;
-      if (this.state.direction === 'vertical') {
+      if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
         eventCoordinate = e.pageY - this.offset;
       }
 
@@ -100,7 +101,7 @@ class IntervalSliderView extends ComponentSlider {
 
     if (this.isMaxMouseDown) {
       let eventCoordinate = e.pageX - this.offset;
-      if (this.state.direction === 'vertical') {
+      if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
         eventCoordinate = e.pageY - this.offset;
       }
 
@@ -111,7 +112,7 @@ class IntervalSliderView extends ComponentSlider {
   }
 
   public onChangedValue(value: number[]): void {
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[0]) - (this.pointOffset * 100)}%`;
       (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[1]) - (this.pointOffset * 100)}%`;
       (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[0])}%`;

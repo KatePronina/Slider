@@ -1,5 +1,6 @@
 import ComponentView from './componentView';
 import { IFullSettings } from '../../application.interfaces';
+import sliderOptions from '../../sliderOptions';
 
 class ConfigurationView extends ComponentView {
   public currentValueInput: HTMLInputElement | null;
@@ -128,14 +129,14 @@ class ConfigurationView extends ComponentView {
     const configurationForm = document.createElement('form');
     configurationForm.classList.add('configuration');
 
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       configurationForm.innerHTML = this.templateRange;
     } else {
       configurationForm.innerHTML = this.templateInterval;
     }
 
     this.DOMElement = configurationForm;
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       this.currentValueInput = this.DOMElement.querySelector('#currentValue');
     } else {
       this.currentMinValueInput = this.DOMElement.querySelector('#currentMinValue');
@@ -149,12 +150,11 @@ class ConfigurationView extends ComponentView {
     this.typeToggle = this.DOMElement.querySelector('#toggleType');
     this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
 
-    // this.bindEvents();
     this.setStartValues();
   }
 
   public onChangedValue(value: number | number[]): void {
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       (this.currentValueInput as HTMLInputElement).value = (value as number).toString();
     } else {
       (this.currentMinValueInput as HTMLInputElement).value = (value as number[])[0].toString();
@@ -195,11 +195,11 @@ class ConfigurationView extends ComponentView {
   }
 
   public bindEvents(): void {
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       this.bindInputValueEvent((this.currentValueInput as HTMLInputElement));
     } else {
-      this.bindInputValueEvent((this.currentMinValueInput as HTMLInputElement), 'min');
-      this.bindInputValueEvent((this.currentMaxValueInput as HTMLInputElement), 'max');
+      this.bindInputValueEvent((this.currentMinValueInput as HTMLInputElement), sliderOptions.VALUE_TYPE_MIN);
+      this.bindInputValueEvent((this.currentMaxValueInput as HTMLInputElement), sliderOptions.VALUE_TYPE_MAX);
     }
 
     (this.stepSizeInput as HTMLInputElement).addEventListener('input', (): void => {
@@ -244,7 +244,7 @@ class ConfigurationView extends ComponentView {
   }
 
   private setStartValues(): void {
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       const value = (this.state.value as number).toString();
       (this.currentValueInput as HTMLInputElement).value = value;
     } else {
@@ -258,8 +258,8 @@ class ConfigurationView extends ComponentView {
     (this.maxValueInput as HTMLInputElement).value = (this.state.maxValue).toString();
     (this.hintToggle as HTMLInputElement).checked = this.state.hint;
     (this.scaleToggle as HTMLInputElement).checked = this.state.scale;
-    (this.typeToggle as HTMLInputElement).checked = this.state.type === 'interval';
-    (this.verticalToggle as HTMLInputElement).checked = this.state.direction === 'vertical';
+    (this.typeToggle as HTMLInputElement).checked = this.state.type === sliderOptions.TYPE_INTERVAL;
+    (this.verticalToggle as HTMLInputElement).checked = this.state.direction === sliderOptions.DIRECTION_VERTICAL;
   }
 }
 

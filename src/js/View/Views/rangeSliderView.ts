@@ -1,5 +1,6 @@
 import ComponentSlider from './componentSliderView';
 import { IFullSettings } from '../../application.interfaces';
+import sliderOptions from '../../sliderOptions';
 
 class RangeSliderView extends ComponentSlider {
   public pointDOMElement: HTMLElement | null;
@@ -30,7 +31,7 @@ class RangeSliderView extends ComponentSlider {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       sliderElement.innerHTML = this.templateVertical;
     } else {
       sliderElement.innerHTML = this.templateHorizontal;
@@ -64,7 +65,7 @@ class RangeSliderView extends ComponentSlider {
   public onDocumentMouseMove(e: MouseEvent): void {
     if (this.isMouseDown) {
       let eventCoordinate = e.pageX - this.offset;
-      if (this.state.direction === 'vertical') {
+      if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
         eventCoordinate = e.pageY - this.offset;
       }
 
@@ -74,7 +75,7 @@ class RangeSliderView extends ComponentSlider {
   }
 
   public onChangedValue(value: number): void {
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value)}%`;
       (this.pointDOMElement as HTMLElement).style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`;
     } else {

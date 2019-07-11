@@ -1,4 +1,5 @@
 import { IFullSettings } from '../application.interfaces';
+import sliderOptions from '../sliderOptions';
 
 import RangeSliderView from './Views/rangeSliderView';
 import IntervalSliderView from './Views/intervalSliderView';
@@ -36,9 +37,9 @@ class View {
   public initSlider(state: IFullSettings): void {
     this.state = state;
 
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       this.slider = new RangeSliderView(this.state);
-    } else if (this.state.type === 'interval') {
+    } else if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       this.slider = new IntervalSliderView(this.state);
     }
 
@@ -49,7 +50,7 @@ class View {
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
 
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       this.slider.length = this.sliderElement.offsetHeight;
       this.slider.offset = this.sliderElement.offsetTop;
     } else {
@@ -57,7 +58,7 @@ class View {
       this.slider.offset = this.sliderElement.offsetLeft;
     }
 
-    if (this.state.type === 'interval') {
+    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       const point = (this.slider as IntervalSliderView).minPointDOMElement;
       this.slider.pointWidth = (point as HTMLElement).offsetWidth;
     } else {
@@ -67,7 +68,7 @@ class View {
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
-    if (this.state.type === 'interval') {
+    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       (this.slider as IntervalSliderView).onChangedValue(this.state.value as number[]);
     } else {
       (this.slider as RangeSliderView).onChangedValue(this.state.value as number);
@@ -98,18 +99,18 @@ class View {
   public onChangedValue(value: number | number[]): void {
     this.state.value = value;
 
-    if (this.state.type === 'interval') {
+    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       (this.slider as IntervalSliderView).onChangedValue((value as number[]));
     } else {
       (this.slider as RangeSliderView).onChangedValue((value as number));
     }
 
     if (this.hint) {
-      if (this.state.type === 'range') {
+      if (this.state.type === sliderOptions.TYPE_RANGE) {
         this.hint.onChangedValue(value, this.slider.countLength((value as number)));
       } else {
-        this.hint.onChangedValue(value, this.slider.countLength((value as number[])[0]));
-        const maxLength = this.slider.countLength((value as number[])[1]);
+        this.hint.onChangedValue(value, this.slider.countLength((value as number[])[sliderOptions.VALUE_START]));
+        const maxLength = this.slider.countLength((value as number[])[sliderOptions.VALUE_END]);
         (this.hintMaxValue as HintView).onChangedValue(value, maxLength);
       }
     }
@@ -124,37 +125,37 @@ class View {
     this.hintElement = this.hint.getDOMElement();
     this.appendElementToSlider(this.hintElement);
 
-    if (this.state.direction === 'vertical') {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
       this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
     } else {
       this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
     }
 
-    if (this.state.type === 'interval') {
+    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
       this.hintMaxValue = new HintView(this.state, true);
       this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
       this.appendElementToSlider(this.hintMaxValueElement);
 
-      if (this.state.direction === 'vertical') {
+      if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
         this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.length;
       } else {
         this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.length;
       }
     }
 
-    if (this.state.type === 'range') {
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
       const length = this.slider.countLength(this.state.value as number);
       this.hint.onChangedValue((this.state.value as number), length);
     } else {
-      const maxLength = this.slider.countLength((this.state.value as number[])[1]);
-      const minLength = this.slider.countLength((this.state.value as number[])[0]);
+      const maxLength = this.slider.countLength((this.state.value as number[])[sliderOptions.VALUE_END]);
+      const minLength = this.slider.countLength((this.state.value as number[])[sliderOptions.VALUE_START]);
       this.hint.onChangedValue((this.state.value as number[]), minLength);
       (this.hintMaxValue as HintView).onChangedValue((this.state.value as number[]), maxLength);
     }
   }
 
   private initScale(): void {
-    if (this.state.direction === 'horizontal') {
+    if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
       const width = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
       this.scale = new ScaleView(this.state, width);
     } else {
@@ -215,18 +216,18 @@ class View {
     };
 
     this.configuration.onDirectionChange = (): void => {
-      if (this.state.direction === 'horizontal') {
-        this.onDirectionChange({ ...this.state, direction: 'vertical' });
+      if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
+        this.onDirectionChange({ ...this.state, direction: sliderOptions.DIRECTION_VERTICAL });
       } else {
-        this.onDirectionChange({ ...this.state, direction: 'horizontal' });
+        this.onDirectionChange({ ...this.state, direction: sliderOptions.DIRECTION_HORIZONTAL });
       }
     };
 
     this.configuration.onTypeChange = (): void => {
-      if (this.state.type === 'range') {
-        this.onStateChange({ ...this.state, type: 'interval' });
+      if (this.state.type === sliderOptions.TYPE_RANGE) {
+        this.onStateChange({ ...this.state, type: sliderOptions.TYPE_INTERVAL });
       } else {
-        this.onStateChange({ ...this.state, type: 'range' });
+        this.onStateChange({ ...this.state, type: sliderOptions.TYPE_RANGE });
       }
     };
 
