@@ -12,12 +12,12 @@ import Application from './application';
     },
   };
 
-  $.fn.slider = function callSlider(method) {
+  $.fn.slider = function callSlider(method, ...args) {
     if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+      return methods[method].apply(this, args);
     }
-    if (typeof method === 'object' || !method) {
-      return methods.init.apply(this, arguments);
+    if (typeof method === 'object') {
+      return methods.init.call(this, method);
     }
     return $.error(`Метод с именем ${method} не существует`);
   };

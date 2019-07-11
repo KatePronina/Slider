@@ -50,20 +50,22 @@ class View {
     this.appendElementToParent(this.sliderElement);
 
     if (this.state.direction === 'vertical') {
-      this.slider.sliderLength = this.sliderElement.offsetHeight;
-      this.slider.sliderOffset = this.sliderElement.offsetTop;
+      this.slider.length = this.sliderElement.offsetHeight;
+      this.slider.offset = this.sliderElement.offsetTop;
     } else {
-      this.slider.sliderLength = this.sliderElement.offsetWidth;
-      this.slider.sliderOffset = this.sliderElement.offsetLeft;
+      this.slider.length = this.sliderElement.offsetWidth;
+      this.slider.offset = this.sliderElement.offsetLeft;
     }
 
     if (this.state.type === 'interval') {
-      this.slider.pointWidth = (((this.slider as IntervalSliderView).minPointDOMElement as HTMLElement)).offsetWidth;
+      const point = (this.slider as IntervalSliderView).minPointDOMElement;
+      this.slider.pointWidth = (point as HTMLElement).offsetWidth;
     } else {
-      this.slider.pointWidth = (((this.slider as RangeSliderView).pointDOMElement as HTMLElement)).offsetWidth;
+      const point = (this.slider as RangeSliderView).pointDOMElement;
+      this.slider.pointWidth = (point as HTMLElement).offsetWidth;
     }
 
-    this.slider.pointOffset = ((this.slider as RangeSliderView).pointWidth / 2) / (this.slider as RangeSliderView).sliderLength;
+    this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
     if (this.state.type === 'interval') {
       (this.slider as IntervalSliderView).onChangedValue(this.state.value as number[]);
@@ -161,10 +163,11 @@ class View {
 
     if (this.hint) {
       if (this.state.type === 'range') {
-        this.hint.onChangedValue(value, (this.slider as RangeSliderView).countLength((value as number)));
+        this.hint.onChangedValue(value, this.slider.countLength((value as number)));
       } else {
-        this.hint.onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[0]));
-        (this.hintMaxValue as HintView).onChangedValue(value, (this.slider as IntervalSliderView).countLength((value as number[])[1]));
+        this.hint.onChangedValue(value, this.slider.countLength((value as number[])[0]));
+        const maxLength = this.slider.countLength((value as number[])[1]);
+        (this.hintMaxValue as HintView).onChangedValue(value, maxLength);
       }
     }
 
@@ -179,9 +182,9 @@ class View {
     this.appendElementToSlider(this.hintElement);
 
     if (this.state.direction === 'vertical') {
-      this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.sliderLength;
+      this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
     } else {
-      this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.sliderLength;
+      this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
     }
 
     if (this.state.type === 'interval') {
@@ -190,25 +193,30 @@ class View {
       this.appendElementToSlider(this.hintMaxValueElement);
 
       if (this.state.direction === 'vertical') {
-        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.sliderLength;
+        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.length;
       } else {
-        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.sliderLength;
+        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.length;
       }
     }
 
-    if (this.state.type === 'interval') {
-      this.hint.setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[0]));
-      (this.hintMaxValue as HintView).setStartValueWidth((this.slider as IntervalSliderView).countLength((this.state.value as number[])[1]));
+    if (this.state.type === 'range') {
+      const length = this.slider.countLength(this.state.value as number);
+      this.hint.onChangedValue((this.state.value as number), length);
     } else {
-      this.hint.setStartValueWidth((this.slider as RangeSliderView).countLength(this.state.value as number));
+      const maxLength = this.slider.countLength((this.state.value as number[])[1]);
+      const minLength = this.slider.countLength((this.state.value as number[])[0]);
+      this.hint.onChangedValue((this.state.value as number[]), minLength);
+      (this.hintMaxValue as HintView).onChangedValue((this.state.value as number[]), maxLength);
     }
   }
 
   private initScale(): void {
     if (this.state.direction === 'horizontal') {
-      this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetWidth);
+      const width = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
+      this.scale = new ScaleView(this.state, width);
     } else {
-      this.scale = new ScaleView(this.state, (this.slider.stripDOMElement as HTMLElement).offsetHeight);
+      const height = (this.slider.stripDOMElement as HTMLElement).offsetHeight;
+      this.scale = new ScaleView(this.state, height);
     }
     this.scaleElement = this.scale.getDOMElement();
     this.appendElementToSlider(this.scaleElement);

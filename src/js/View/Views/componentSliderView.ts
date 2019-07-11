@@ -5,9 +5,9 @@ abstract class ComponentSlider extends ComponentView {
 
   public stripDOMElement: HTMLElement | null;
 
-  public sliderLength: number;
+  public length: number;
 
-  public sliderOffset: number;
+  public offset: number;
 
   public pointWidth: number;
 
@@ -18,7 +18,8 @@ abstract class ComponentSlider extends ComponentView {
   }
 
   protected countValue(percent: number): number {
-    return parseInt(((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue)).toFixed(), 10);
+    const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
+    return parseInt(value.toFixed(), 10);
   }
 
   protected static countPercent(coordinate: number, length: number): number {

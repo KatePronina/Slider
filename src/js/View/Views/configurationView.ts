@@ -253,10 +253,13 @@ class ConfigurationView extends ComponentView {
 
   private setStartValues(): void {
     if (this.state.type === 'range') {
-      (this.currentValueInput as HTMLInputElement).value = (this.state.value as number).toString();
+      const value = (this.state.value as number).toString();
+      (this.currentValueInput as HTMLInputElement).value = value;
     } else {
-      (this.currentMinValueInput as HTMLInputElement).value = (this.state.value as number[])[0].toString();
-      (this.currentMaxValueInput as HTMLInputElement).value = (this.state.value as number[])[1].toString();
+      const minValue = (this.state.value as number[])[0].toString();
+      const maxValue = (this.state.value as number[])[1].toString();
+      (this.currentMinValueInput as HTMLInputElement).value = minValue;
+      (this.currentMaxValueInput as HTMLInputElement).value = maxValue;
     }
     (this.stepSizeInput as HTMLInputElement).value = (this.state.step).toString();
     (this.minValueInput as HTMLInputElement).value = (this.state.minValue).toString();

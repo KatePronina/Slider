@@ -28,9 +28,11 @@ class Model {
       if (typeof value === 'number') {
         const checkedValue = this.checkValue(value);
         if (valueType === 'min') {
-          this.state.value = Model.checkInterval([checkedValue, (this.state.value as number[])[1]], valueType);
+          const newValue = [checkedValue, (this.state.value as number[])[1]];
+          this.state.value = Model.checkInterval(newValue, valueType);
         } else if (valueType === 'max') {
-          this.state.value = Model.checkInterval([(this.state.value as number[])[0], checkedValue], valueType);
+          const newValue = [(this.state.value as number[])[0], checkedValue];
+          this.state.value = Model.checkInterval(newValue, valueType);
         } else if (typeof value === 'number' && typeof this.state.value === 'number') {
           this.state.value = [value, this.state.maxValue];
         } else {
@@ -96,7 +98,8 @@ class Model {
   }
 
   private checkStep(value: number): number {
-    const valueStepCheck = ((Math.round((value - this.state.minValue) / this.state.step)) * this.state.step) + this.state.minValue;
+    let valueStepCheck = (Math.round((value - this.state.minValue) / this.state.step));
+    valueStepCheck = (valueStepCheck * this.state.step) + this.state.minValue;
 
     if (valueStepCheck >= this.state.maxValue) {
       return this.state.maxValue;

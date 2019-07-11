@@ -47,14 +47,6 @@ class HintView extends ComponentView {
     }
   }
 
-  public setStartValueWidth(percent: number): void {
-    if (this.state.direction === 'vertical') {
-      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
-    } else {
-      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
-    }
-  }
-
   public toggleDisplay(): void {
     if (this.DOMElement.classList.contains('slider__hint--disable')) {
       this.DOMElement.classList.remove('slider__hint--disable');

@@ -54,13 +54,17 @@ class ScaleView extends ComponentView {
 
   public alignValues(): void {
     const valueElements = this.DOMElement.querySelectorAll('.slider__scale-value');
+
     valueElements.forEach((element): void => {
       const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
+
       if (this.state.direction === 'horizontal') {
-        const elementCurrentOffset = parseInt(((element as HTMLElement).style.left as string).slice(0, -1), 10);
+        const { left } = (element as HTMLElement).style;
+        const elementCurrentOffset = parseInt((left as string).slice(0, -1), 10);
         (element as HTMLElement).style.left = `${elementCurrentOffset - elementOffset}%`;
       } else {
-        const elementCurrentOffset = parseInt(((element as HTMLElement).style.top as string).slice(0, -1), 10);
+        const { top } = (element as HTMLElement).style;
+        const elementCurrentOffset = parseInt((top as string).slice(0, -1), 10);
         (element as HTMLElement).style.top = `${elementCurrentOffset - elementOffset}%`;
       }
     });
