@@ -1,10 +1,10 @@
 import ComponentView from './componentView';
-import {FullSettings} from '../../application.interfaces';
+import { IFullSettings } from '../../application.interfaces';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
 
-  public constructor(state: FullSettings, sliderLength: number) {
+  public constructor(state: IFullSettings, sliderLength: number) {
     super(state);
     this.sliderLength = sliderLength;
     this.createDOMElement();
@@ -16,16 +16,16 @@ class ScaleView extends ComponentView {
     scale.classList.add('slider__scale');
     if (this.state.direction === 'horizontal') {
       scale.style.top = '.7rem';
-      scale.style.width = this.sliderLength + 'px';
+      scale.style.width = `${this.sliderLength}px`;
     } else {
       scale.style.left = '-1.7rem';
-      scale.style.height = this.sliderLength + 'px';
+      scale.style.height = `${this.sliderLength}px`;
     }
-    
+
     const values = [this.state.minValue];
     const valuesNumber = Math.floor((this.state.maxValue - this.state.minValue) / this.state.step);
     let currentValue = this.state.minValue;
-    for (let i = 0; i < valuesNumber; i++) {
+    for (let i = 0; i < valuesNumber; i += 1) {
       currentValue += this.state.step;
       if (currentValue < this.state.maxValue) {
         values.push(currentValue);
@@ -34,16 +34,16 @@ class ScaleView extends ComponentView {
     values.push(this.state.maxValue);
 
     const valuesFragment = document.createDocumentFragment();
-    for (let i = 0; i < values.length; i++) {
+    for (let i = 0; i < values.length; i += 1) {
       const valueElement = document.createElement('div');
       valueElement.classList.add('slider__scale-value');
       valueElement.textContent = values[i].toString();
 
       const offsetValue = valueElement.offsetWidth / 2;
       if (this.state.direction === 'horizontal') {
-        valueElement.style.left = this.countLength(values[i]) - offsetValue + '%';
+        valueElement.style.left = `${this.countLength(values[i]) - offsetValue}%`;
       } else {
-        valueElement.style.top = this.countLength(values[i]) - offsetValue + '%';
+        valueElement.style.top = `${this.countLength(values[i]) - offsetValue}%`;
       }
       valuesFragment.append(valueElement);
     }
@@ -57,13 +57,13 @@ class ScaleView extends ComponentView {
     valueElements.forEach((element): void => {
       const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
       if (this.state.direction === 'horizontal') {
-        const elementCurrentOffset = parseInt(((element as HTMLElement).style.left as string).slice(0, -1)); 
-        (element as HTMLElement).style.left = elementCurrentOffset - elementOffset + '%';
+        const elementCurrentOffset = parseInt(((element as HTMLElement).style.left as string).slice(0, -1), 10);
+        (element as HTMLElement).style.left = `${elementCurrentOffset - elementOffset}%`;
       } else {
-        const elementCurrentOffset = parseInt(((element as HTMLElement).style.top as string).slice(0, -1)); 
-        (element as HTMLElement).style.top = elementCurrentOffset - elementOffset + '%';
+        const elementCurrentOffset = parseInt(((element as HTMLElement).style.top as string).slice(0, -1), 10);
+        (element as HTMLElement).style.top = `${elementCurrentOffset - elementOffset}%`;
       }
-    })
+    });
   }
 
   public toggleDisplay(): void {
@@ -76,17 +76,17 @@ class ScaleView extends ComponentView {
 
   private bindEvents(): void {
     this.DOMElement.addEventListener('click', (e): void => {
-      if((e.target as HTMLElement).classList.contains('slider__scale-value')) {
-        this.onNewValue(parseInt(((e.target as HTMLElement).textContent as string)));
+      if ((e.target as HTMLElement).classList.contains('slider__scale-value')) {
+        this.onNewValue(parseInt(((e.target as HTMLElement).textContent as string), 10));
       }
-    })
+    });
   }
 
   private countLength(value: number): number {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
-  public onNewValue(value: number): void {
+  public onNewValue = (value: number): void => {
 
   }
 }

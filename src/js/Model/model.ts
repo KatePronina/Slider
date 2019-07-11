@@ -1,10 +1,11 @@
 import DEFAULT_SETTINGS from './defaultSettings';
-import {Settings, FullSettings} from '../application.interfaces';
+import { ISettings, IFullSettings } from '../application.interfaces';
 
 class Model {
-  public state: FullSettings;
+  public state: IFullSettings;
 
-  public constructor({parentElement,
+  public constructor({
+                      parentElement,
                       type = DEFAULT_SETTINGS.TYPE,
                       minValue = DEFAULT_SETTINGS.MIN_VALUE,
                       maxValue = DEFAULT_SETTINGS.MAX_VALUE,
@@ -13,10 +14,12 @@ class Model {
                       direction = DEFAULT_SETTINGS.DIRECTION,
                       hint = DEFAULT_SETTINGS.HINT,
                       scale = DEFAULT_SETTINGS.SCALE,
-                      configuration = DEFAULT_SETTINGS.CONFIGURATION
-                    }: Settings) {
-    this.state = {parentElement, type, minValue, maxValue, value, step, direction, hint, scale, configuration}
-    
+                      configuration = DEFAULT_SETTINGS.CONFIGURATION,
+                    }: ISettings) {
+    this.state = {
+      parentElement, type, minValue, maxValue, value, step, direction, hint, scale, configuration,
+    };
+
     this.setValue(value);
   }
 
@@ -25,44 +28,42 @@ class Model {
       if (typeof value === 'number') {
         const checkedValue = this.checkValue(value);
         if (valueType === 'min') {
-          this.state.value = this.checkInterval([checkedValue, (this.state.value as number[])[1]], valueType);
+          this.state.value = Model.checkInterval([checkedValue, (this.state.value as number[])[1]], valueType);
         } else if (valueType === 'max') {
-          this.state.value = this.checkInterval([(this.state.value as number[])[0], checkedValue], valueType);
+          this.state.value = Model.checkInterval([(this.state.value as number[])[0], checkedValue], valueType);
         } else if (typeof value === 'number' && typeof this.state.value === 'number') {
           this.state.value = [value, this.state.maxValue];
         } else {
           this.state.value = this.createIntervalValue(checkedValue);
         }
       } else {
-        const checkedValues = (value as number[]).map((val): number => {
-          return this.checkValue(val);
-        })
-        this.state.value = this.checkInterval(checkedValues, valueType);
+        const checkedValues = (value as number[]).map((val): number => this.checkValue(val));
+        this.state.value = Model.checkInterval(checkedValues, valueType);
       }
       this.onSetValue(this.state.value);
     } else if (this.state.type === 'range' && Array.isArray(value)) {
-      this.state.value = value[0];
-    } else if (this.state.value != this.checkValue((value as number))) {
+      [(this.state.value as number)] = value;
+    } else if (this.state.value !== this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
       this.onSetValue(this.state.value);
     }
   }
 
-  public onNewState(newState: FullSettings): void {
+  public onNewState(newState: IFullSettings): void {
     this.state = newState;
     this.setValue(newState.value);
     this.onSetState(this.state);
   }
 
-  public onSetValue(value: number | number[]): void {
+  public onSetValue = (value: number | number[]): void => {
 
   }
 
-  public onSetState(newState: FullSettings): void {
+  public onSetState = (newState: IFullSettings): void => {
 
   }
 
-  private checkInterval(values: number[], valueType?: string): number[] {
+  private static checkInterval(values: number[], valueType?: string): number[] {
     if (valueType === 'min') {
       if (values[0] > values[1]) {
         return [values[1], values[1]];
@@ -75,7 +76,7 @@ class Model {
       }
     }
 
-    if(values[0] > values[1]) {
+    if (values[0] > values[1]) {
       return [values[1], values[1]];
     }
 
@@ -83,13 +84,15 @@ class Model {
   }
 
   private checkValue(value: number): number {
-    if(value >= this.state.maxValue) {
+    if (value >= this.state.maxValue) {
       return this.state.maxValue;
-    } else if(value <= this.state.minValue) {
-      return this.state.minValue;
-    } else {
-      return this.checkStep(value);
     }
+
+    if (value <= this.state.minValue) {
+      return this.state.minValue;
+    }
+
+    return this.checkStep(value);
   }
 
   private checkStep(value: number): number {
@@ -105,9 +108,9 @@ class Model {
   private createIntervalValue(value: number): number[] {
     if ((this.state.value as number[])[1] - value < value - (this.state.value as number[])[0]) {
       return [(this.state.value as number[])[0], value];
-    } else {
-      return [value, (this.state.value as number[])[1]];
     }
+
+    return [value, (this.state.value as number[])[1]];
   }
 }
 

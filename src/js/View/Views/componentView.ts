@@ -1,10 +1,11 @@
-import {FullSettings} from '../../application.interfaces';
+import { IFullSettings } from '../../application.interfaces';
 
 abstract class ComponentView {
-  public state: FullSettings;
+  public state: IFullSettings;
+
   public DOMElement: HTMLElement;
 
-  public constructor(state: FullSettings) {
+  public constructor(state: IFullSettings) {
     this.state = state;
   }
 

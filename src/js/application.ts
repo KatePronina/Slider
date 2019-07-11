@@ -1,15 +1,15 @@
-import {Settings} from './application.interfaces';
+import { ISettings } from './application.interfaces';
 import Model from './Model/model';
 import Controller from './Controller/controller';
 
 class Application {
   private controller: Controller;
 
-  public constructor(settings: Settings) {
+  public constructor(settings: ISettings) {
     this.createSlider(settings);
   }
 
-  public createSlider(settings: Settings): void {
+  public createSlider(settings: ISettings): void {
     const model: Model = new Model(settings);
     this.controller = new Controller(model);
   }

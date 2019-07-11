@@ -1,11 +1,12 @@
 import ComponentView from './componentView';
-import {FullSettings} from '../../application.interfaces';
+import { IFullSettings } from '../../application.interfaces';
 
 class HintView extends ComponentView {
   public offset: number;
+
   public isMaxValue?: boolean;
 
-  public constructor(state: FullSettings, isMaxValue?: boolean) {
+  public constructor(state: IFullSettings, isMaxValue?: boolean) {
     super(state);
     this.isMaxValue = isMaxValue;
     this.createHintDOMElement();
@@ -32,11 +33,11 @@ class HintView extends ComponentView {
   public onChangedValue(value: number | number[], percent: number): void {
     this.state.value = value;
     if (this.state.direction === 'vertical') {
-      this.DOMElement.style.top = percent - (this.offset * 100) + '%';
+      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
     } else {
-      this.DOMElement.style.left = percent - (this.offset * 100) + '%';
+      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
     }
-    
+
     if (this.state.type === 'interval' && this.isMaxValue) {
       this.DOMElement.textContent = (this.state.value as number[])[1].toString();
     } else if (this.state.type === 'interval') {
@@ -48,9 +49,9 @@ class HintView extends ComponentView {
 
   public setStartValueWidth(percent: number): void {
     if (this.state.direction === 'vertical') {
-      this.DOMElement.style.top = percent - (this.offset * 100) + '%';
+      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
     } else {
-      this.DOMElement.style.left = percent - (this.offset * 100) + '%';
+      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
     }
   }
 

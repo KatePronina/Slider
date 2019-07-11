@@ -1,10 +1,12 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
-    plugins: ['@typescript-eslint'],
-    extends: ['plugin:@typescript-eslint/recommended'],
+    plugins: ['import'],
+    extends: 'typescript-airbnb-base',
     rules: {
-        '@typescript-eslint/indent': 'off',
-        '@typescript-eslint/no-var-requires': 'off',
-        '@typescript-eslint/no-unused-vars': 'off'
+        "import/no-unresolved": "error",
+        "no-param-reassign": [2, { "props": false }]
+    },
+    "env": {
+        "jquery": true
     }
   }

@@ -7,6 +7,6 @@ const DEFAULT_SETTINGS = {
     HINT: true,
     SCALE: false,
     CONFIGURATION: false,
-}
+};
 
 export default DEFAULT_SETTINGS;
