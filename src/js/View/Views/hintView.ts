@@ -1,14 +1,18 @@
 import IFullSettings from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
 import ComponentView from './componentView';
+import IHintSettings from './hint.interfaces';
 
 class HintView extends ComponentView {
   public offset: number;
 
   public isMaxValue?: boolean;
 
-  public constructor(state: IFullSettings, isMaxValue?: boolean) {
-    super(state);
+  private state: IHintSettings;
+
+  public constructor({ value, type, direction }: IFullSettings, isMaxValue?: boolean) {
+    super();
+    this.state = { value, type, direction };
     this.isMaxValue = isMaxValue;
     this.createHintDOMElement();
   }

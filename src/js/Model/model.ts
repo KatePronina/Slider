@@ -1,6 +1,6 @@
 import IFullSettings from '../application.interfaces';
 import sliderOptions from '../sliderOptions';
-import IModelSettings from './modelInterfaces';
+import IModelSettings from './model.interfaces';
 
 class Model {
   public state: IModelSettings;

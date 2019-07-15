@@ -23,16 +23,19 @@ class ConfigurationView extends ComponentView {
 
   public verticalToggle: HTMLInputElement | null;
 
+  private state: IFullSettings;
+
   public constructor(state: IFullSettings) {
-    super(state);
+    super();
+    this.state = state;
     this.createDOMElement();
   }
 
-  private templateRange =
+  public templateRange =
     '<fieldset class="configuration__fieldset">'
       + '<div class="configuration__value">'
         + '<label class="configuration__label"> Текущее значение'
-          + `<input class="configuration__value-input" type="number" step="${this.state.step}" id="currentValue" />`
+          + '<input class="configuration__value-input" type="number" id="currentValue" />'
         + '</label>'
       + '</div>'
       + '<div class="configuration__value">'
@@ -74,16 +77,16 @@ class ConfigurationView extends ComponentView {
       + '</div>'
     + '</fieldset>';
 
-  private templateInterval =
+  public templateInterval =
   '<fieldset class="configuration__fieldset">'
     + '<div class="configuration__value">'
       + '<label class="configuration__label">Текущее минимальное значение'
-        + `<input class="configuration__value-input" type="number" step="${this.state.step}" id="currentMinValue" />`
+        + '<input class="configuration__value-input" type="number" id="currentMinValue" />'
       + '</label>'
     + '</div>'
     + '<div class="configuration__value">'
       + '<label class="configuration__label">Текущее максимальное значение'
-        + `<input class="configuration__value-input" type="number" step="${this.state.step}" id="currentMaxValue" />`
+        + '<input class="configuration__value-input" type="number" id="currentMaxValue" />'
       + '</label>'
     + '</div>'
     + '<div class="configuration__value">'

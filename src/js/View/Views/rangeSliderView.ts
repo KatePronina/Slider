@@ -1,6 +1,6 @@
-import IFullSettings from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
 import ComponentSlider from './componentSliderView';
+import IFullSettings from '../../application.interfaces';
 
 class RangeSliderView extends ComponentSlider {
   public pointDOMElement: HTMLElement | null;
@@ -9,8 +9,19 @@ class RangeSliderView extends ComponentSlider {
 
   private isMouseDown: boolean;
 
-  public constructor(state: IFullSettings) {
-    super(state);
+  public constructor({
+              direction,
+              minValue,
+              maxValue,
+              value,
+            }: IFullSettings) {
+    super();
+    this.state = {
+              direction,
+              minValue,
+              maxValue,
+              value,
+            };
     this.isMouseDown = false;
     this.createSliderDOMElement();
   }

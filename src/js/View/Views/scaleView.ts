@@ -1,12 +1,26 @@
 import IFullSettings from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
 import ComponentView from './componentView';
+import IScaleSettings from './scale.interfaces';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
 
-  public constructor(state: IFullSettings, sliderLength: number) {
-    super(state);
+  private state: IScaleSettings;
+
+  public constructor({
+      direction,
+      minValue,
+      maxValue,
+      step,
+    }: IFullSettings, sliderLength: number) {
+    super();
+    this.state = {
+      direction,
+      minValue,
+      maxValue,
+      step,
+    };
     this.sliderLength = sliderLength;
     this.createDOMElement();
     this.bindEvents();

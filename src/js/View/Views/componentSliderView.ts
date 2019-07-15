@@ -1,4 +1,5 @@
 import ComponentView from './componentView';
+import ISliderSettings from './slider.interfaces';
 
 abstract class ComponentSlider extends ComponentView {
   public barDOMElement: HTMLElement | null;
@@ -12,6 +13,8 @@ abstract class ComponentSlider extends ComponentView {
   public pointWidth: number;
 
   public pointOffset: number;
+
+  protected state: ISliderSettings;
 
   public countLength(value: number): number {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
