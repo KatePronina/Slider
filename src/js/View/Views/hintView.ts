@@ -1,4 +1,4 @@
-import { IFullSettings } from '../../application.interfaces';
+import IFullSettings from '../../application.interfaces';
 import sliderOptions from '../../sliderOptions';
 import ComponentView from './componentView';
 

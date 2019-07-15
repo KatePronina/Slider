@@ -1,24 +1,19 @@
-import { ISettings, IFullSettings } from '../application.interfaces';
+import IFullSettings from '../application.interfaces';
 import sliderOptions from '../sliderOptions';
-import DEFAULT_SETTINGS from './defaultSettings';
+import IModelSettings from './modelInterfaces';
 
 class Model {
-  public state: IFullSettings;
+  public state: IModelSettings;
 
   public constructor({
-                    parentElement,
-                    type = DEFAULT_SETTINGS.TYPE,
-                    minValue = DEFAULT_SETTINGS.MIN_VALUE,
-                    maxValue = DEFAULT_SETTINGS.MAX_VALUE,
+                    type,
+                    minValue,
+                    maxValue,
                     value = type === sliderOptions.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
-                    step = DEFAULT_SETTINGS.STEP,
-                    direction = DEFAULT_SETTINGS.DIRECTION,
-                    hint = DEFAULT_SETTINGS.HINT,
-                    scale = DEFAULT_SETTINGS.SCALE,
-                    configuration = DEFAULT_SETTINGS.CONFIGURATION,
-                  }: ISettings) {
+                    step,
+                   }: IFullSettings) {
     this.state = {
-      parentElement, type, minValue, maxValue, value, step, direction, hint, scale, configuration,
+      type, minValue, maxValue, value, step,
     };
 
     this.setValue(value);
@@ -53,9 +48,12 @@ class Model {
   }
 
   public onNewState(newState: IFullSettings): void {
-    this.state = newState;
+    this.state.maxValue = newState.maxValue;
+    this.state.minValue = newState.minValue;
+    this.state.step = newState.step;
+    this.state.type = newState.type;
     this.setValue(newState.value);
-    this.onSetState(this.state);
+    this.onSetState({ ...newState, value: this.state.value });
   }
 
   public onSetValue = (value: number | number[]): void => {

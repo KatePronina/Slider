@@ -9,7 +9,6 @@ describe('Constructor', (): void => {
   test('Should set default settings', (): void => {
     const model = new Model({ parentElement: $('.foo') });
 
-    expect(model.state.type).toEqual('range');
     expect(model.state.minValue).toEqual(0);
     expect(model.state.maxValue).toEqual(100);
     expect(model.state.value).toEqual(model.state.minValue);

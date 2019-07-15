@@ -1,14 +1,15 @@
 import Model from '../Model/model';
 import View from '../View/view';
+import IFullSettings from '../application.interfaces';
 
 class Controller {
   public model: Model;
 
   public view: View;
 
-  public constructor(model: Model) {
-    this.model = model;
-    this.view = new View(this.model.state);
+  public constructor(settings: IFullSettings) {
+    this.model = new Model(settings);
+    this.view = new View({ ...settings, value: this.model.state.value });
 
     this.bindEvents();
   }

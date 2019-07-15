@@ -1,4 +1,4 @@
-import { IFullSettings } from '../../application.interfaces';
+import IFullSettings from '../../application.interfaces';
 
 abstract class ComponentView {
   public state: IFullSettings;

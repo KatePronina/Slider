@@ -1,17 +1,15 @@
-import Model from './Model/model';
 import Controller from './Controller/controller';
-import { ISettings } from './application.interfaces';
+import IFullSettings from './application.interfaces';
 
 class Application {
   private controller: Controller;
 
-  public constructor(settings: ISettings) {
+  public constructor(settings: IFullSettings) {
     this.createSlider(settings);
   }
 
-  public createSlider(settings: ISettings): void {
-    const model: Model = new Model(settings);
-    this.controller = new Controller(model);
+  public createSlider(settings: IFullSettings): void {
+    this.controller = new Controller(settings);
   }
 
   public setValue(value: number | number[], valueType?: string): void {

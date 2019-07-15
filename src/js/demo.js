@@ -1,4 +1,5 @@
 import Application from './application';
+import DEFAULT_SETTINGS from './defaultSettings';
 
 ((function createSlider($) {
   let slider;
@@ -17,7 +18,8 @@ import Application from './application';
       return methods[method].apply(this, args);
     }
     if (typeof method === 'object') {
-      return methods.init.call(this, method);
+      const fullSettings = $.extend(true, { ...DEFAULT_SETTINGS }, method);
+      return methods.init.call(this, fullSettings);
     }
     return $.error(`Метод с именем ${method} не существует`);
   };
