@@ -33,9 +33,9 @@ class RangeSliderView extends ComponentSlider {
       + '</div>';
 
   private templateVertical: string =
-  '<div class="slider slider--vertical">'
-    + '<div class="slider__bar slider__bar--vertical"></div>'
-    + '<div class="slider__point slider__point--vertical"></div>'
+  '<div class="slider slider_vertical">'
+    + '<div class="slider__bar slider__bar_vertical"></div>'
+    + '<div class="slider__point slider__point_vertical"></div>'
   + '</div>';
 
   public createSliderDOMElement(): void {

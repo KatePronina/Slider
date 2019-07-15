@@ -36,15 +36,15 @@ class IntervalSliderView extends ComponentSlider {
   private templateHorizontal: string =
   '<div class="slider">'
     + '<div class="slider__bar"></div>'
-    + '<div class="slider__point slider__point--min"></div>'
-    + '<div class="slider__point slider__point--max"></div>'
+    + '<div class="slider__point slider__point_min"></div>'
+    + '<div class="slider__point slider__point_max"></div>'
   + '</div>';
 
   private templateVertical: string =
-  '<div class="slider slider--vertical">'
-    + '<div class="slider__bar slider__bar--vertical"></div>'
-    + '<div class="slider__point slider__point--vertical slider__point--min"></div>'
-    + '<div class="slider__point slider__point--vertical slider__point--max"></div>'
+  '<div class="slider slider_vertical">'
+    + '<div class="slider__bar slider__bar_vertical"></div>'
+    + '<div class="slider__point slider__point_vertical slider__point_min"></div>'
+    + '<div class="slider__point slider__point_vertical slider__point_max"></div>'
   + '</div>';
 
   public createSliderDOMElement(): void {
@@ -60,8 +60,8 @@ class IntervalSliderView extends ComponentSlider {
     this.DOMElement = sliderElement;
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
     this.stripDOMElement = sliderElement.querySelector('.slider');
-    this.minPointDOMElement = sliderElement.querySelector('.slider__point--min');
-    this.maxPointDOMElement = sliderElement.querySelector('.slider__point--max');
+    this.minPointDOMElement = sliderElement.querySelector('.slider__point_min');
+    this.maxPointDOMElement = sliderElement.querySelector('.slider__point_max');
     this.bindEventsToSlider();
   }
 

@@ -8,7 +8,7 @@
   position: relative;
   background-color: #bfbfbf;
 
-  &--vertical {
+  &_vertical {
     height: 18rem;
     width: .25rem;
   }
@@ -22,7 +22,7 @@
   top: -.45rem;
   cursor: pointer;
 
-  &--vertical {
+  &_vertical {
     left: -.47rem;
   }
 }
@@ -31,7 +31,7 @@
   position: absolute;
   background-color: #e85019;
 
-  &--vertical {
+  &_vertical {
     width: .25rem;
   }
 }
@@ -45,18 +45,18 @@
   color: #ffffff;
   text-align: center;
 
-  &--vertical {
+  &_vertical {
     left: 1.2rem;
   }
 
-  &--disable {
+  &_disable {
     display: none;
   }
 }
 .slider__scale {
   position: relative;
 
-  &--disable {
+  &_disable {
     display: none;
   }
 }

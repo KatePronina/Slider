@@ -7,9 +7,9 @@ const sliderOptions = {
   DIRECTION_VERTICAL: 'vertical',
   VALUE_TYPE_MIN: 'min',
   VALUE_TYPE_MAX: 'max',
-  HINT_VERTICAL_CLASS: 'slider__hint--vertical',
-  HINT_DISABLE_CLASS: 'slider__hint--disable',
-  SCALE_DISABLE_CLASS: 'slider__scale--disable',
+  HINT_VERTICAL_CLASS: 'slider__hint_vertical',
+  HINT_DISABLE_CLASS: 'slider__hint_disable',
+  SCALE_DISABLE_CLASS: 'slider__scale_disable',
 };
 
 export default sliderOptions;
