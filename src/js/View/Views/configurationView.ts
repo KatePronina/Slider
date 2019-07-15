@@ -165,37 +165,21 @@ class ConfigurationView extends ComponentView {
     }
   }
 
-  public onNewValue = (value: number | number[], valueType?: string): void => {
+  public onNewValue = (value: number | number[], valueType?: string): void => {}
 
-  }
+  public onStepChange = (newStep: number): void => {}
 
-  public onStepChange = (newStep: number): void => {
+  public onMinValueChange = (newMinValue: number): void => {}
 
-  }
+  public onMaxValueChange = (newMaxValue: number): void => {}
 
-  public onMinValueChange = (newMinValue: number): void => {
+  public onHintChange = (): void => {}
 
-  }
+  public onScaleChange = (): void => {}
 
-  public onMaxValueChange = (newMaxValue: number): void => {
+  public onDirectionChange = (): void => {}
 
-  }
-
-  public onHintChange = (): void => {
-
-  }
-
-  public onScaleChange = (): void => {
-
-  }
-
-  public onDirectionChange = (): void => {
-
-  }
-
-  public onTypeChange = (): void => {
-
-  }
+  public onTypeChange = (): void => {}
 
   public bindEvents(): void {
     if (this.state.type === sliderOptions.TYPE_RANGE) {

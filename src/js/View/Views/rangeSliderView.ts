@@ -73,11 +73,11 @@ class RangeSliderView extends ComponentSlider {
     $(document).off('mouseup');
   }
 
-  public onDocumentMouseMove(e: MouseEvent): void {
+  public onDocumentMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
-      let eventCoordinate = e.pageX - this.offset;
+      let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-        eventCoordinate = e.pageY - this.offset;
+        eventCoordinate = event.pageY - this.offset;
       }
 
       this.percent = ComponentSlider.countPercent(eventCoordinate, this.length);
@@ -95,9 +95,7 @@ class RangeSliderView extends ComponentSlider {
     }
   }
 
-  public onNewValue = (value: number): void => {
-
-  }
+  public onNewValue = (value: number): void => {}
 }
 
 export default RangeSliderView;

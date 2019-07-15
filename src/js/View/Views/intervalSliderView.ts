@@ -98,11 +98,11 @@ class IntervalSliderView extends ComponentSlider {
     $(document).off('mouseup');
   }
 
-  public onDocumentMouseMove(e: MouseEvent): void {
+  public onDocumentMouseMove(event: MouseEvent): void {
     if (this.isMinMouseDown) {
-      let eventCoordinate = e.pageX - this.offset;
+      let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-        eventCoordinate = e.pageY - this.offset;
+        eventCoordinate = event.pageY - this.offset;
       }
 
       this.minPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
@@ -111,9 +111,9 @@ class IntervalSliderView extends ComponentSlider {
     }
 
     if (this.isMaxMouseDown) {
-      let eventCoordinate = e.pageX - this.offset;
+      let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-        eventCoordinate = e.pageY - this.offset;
+        eventCoordinate = event.pageY - this.offset;
       }
 
       this.maxPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
@@ -136,9 +136,7 @@ class IntervalSliderView extends ComponentSlider {
     }
   }
 
-  public onNewValue = (value: number[], valueType: string): void => {
-
-  }
+  public onNewValue = (value: number[], valueType: string): void => {}
 }
 
 export default IntervalSliderView;

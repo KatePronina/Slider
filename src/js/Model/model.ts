@@ -56,13 +56,9 @@ class Model {
     this.onSetState({ ...newState, value: this.state.value });
   }
 
-  public onSetValue = (value: number | number[]): void => {
+  public onSetValue = (value: number | number[]): void => {}
 
-  }
-
-  public onSetState = (newState: IFullSettings): void => {
-
-  }
+  public onSetState = (newState: IFullSettings): void => {}
 
   private static checkInterval(values: number[], valueType?: string): number[] {
     if (valueType === sliderOptions.VALUE_TYPE_MIN) {

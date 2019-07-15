@@ -238,17 +238,11 @@ class View {
     this.state.parentElement.html('');
   }
 
-  public onNewValue = (value: number | number[], valueType?: string): void => {
+  public onNewValue = (value: number | number[], valueType?: string): void => {}
 
-  }
+  public onDirectionChange = (newState: IFullSettings): void => {}
 
-  public onDirectionChange = (newState: IFullSettings): void => {
-
-  }
-
-  public onStateChange = (newState: IFullSettings): void => {
-
-  }
+  public onStateChange = (newState: IFullSettings): void => {}
 }
 
 export default View;
