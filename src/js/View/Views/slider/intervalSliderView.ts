@@ -109,8 +109,8 @@ class IntervalSliderView extends ComponentSlider {
       }
 
       this.minPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
-      (this.state.value as number[])[0] = this.countValue(this.minPercent);
-      this.onNewValue((this.state.value as number[]), 'min');
+      (this.state.value as number[])[sliderOptions.VALUE_START] = this.countValue(this.minPercent);
+      this.onNewValue((this.state.value as number[]), sliderOptions.VALUE_TYPE_MIN);
     }
 
     if (this.isMaxMouseDown) {
@@ -120,22 +120,23 @@ class IntervalSliderView extends ComponentSlider {
       }
 
       this.maxPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
-      (this.state.value as number[])[1] = this.countValue(this.maxPercent);
-      this.onNewValue((this.state.value as number[]), 'max');
+      (this.state.value as number[])[sliderOptions.VALUE_END] = this.countValue(this.maxPercent);
+      this.onNewValue((this.state.value as number[]), sliderOptions.VALUE_TYPE_MAX);
     }
   }
 
   public onChangedValue(value: number[]): void {
+    this.state.value = value;
     if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[0]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[1]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[0])}%`;
-      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value[1]) - this.countLength(value[0])}%`;
+      (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
+      (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
+      (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
+      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
     } else {
-      (this.minPointDOMElement as HTMLElement).style.left = `${this.countLength(value[0]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.left = `${this.countLength(value[1]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.left = `${this.countLength(value[0])}%`;
-      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value[1]) - this.countLength(value[0])}%`;
+      (this.minPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
+      (this.maxPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
+      (this.barDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
+      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
     }
   }
 

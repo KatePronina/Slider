@@ -48,7 +48,7 @@ $('#third-slider').slider({
 
 $('#fourth-slider').slider({
                           type: 'interval',
-                          value: [10, 31],
+                          value: [5, 31],
                           direction: 'vertical',
                           scale: true,
                           step: 5,

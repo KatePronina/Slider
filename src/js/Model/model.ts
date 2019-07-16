@@ -21,30 +21,34 @@ class Model {
 
   public setValue(value: number | number[], valueType?: string): void {
     if (this.state.type === sliderOptions.TYPE_INTERVAL) {
-      if (typeof value === 'number') {
-        const checkedValue = this.checkValue(value);
-        if (valueType === 'min') {
-          const newValue = [checkedValue, (this.state.value as number[])[sliderOptions.VALUE_END]];
-          this.state.value = Model.checkInterval(newValue, valueType);
-        } else if (valueType === 'max') {
-          const newValue = [(this.state.value as number[])[sliderOptions.VALUE_START], checkedValue];
-          this.state.value = Model.checkInterval(newValue, valueType);
-        } else if (typeof value === 'number' && typeof this.state.value === 'number') {
-          this.state.value = [value, this.state.maxValue];
-        } else {
-          this.state.value = this.createIntervalValue(checkedValue);
-        }
-      } else {
-        const checkedValues = (value as number[]).map((val): number => this.checkValue(val));
-        this.state.value = Model.checkInterval(checkedValues, valueType);
-      }
-      this.onSetValue(this.state.value);
+      this.setIntervalSliderValue(value, valueType);
     } else if (this.state.type === sliderOptions.TYPE_RANGE && Array.isArray(value)) {
       [(this.state.value as number)] = value;
     } else if (this.state.value !== this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
       this.onSetValue(this.state.value);
     }
+  }
+
+  private setIntervalSliderValue(value: number | number[], valueType?: string): void {
+    if (typeof value === 'number') {
+      const checkedValue = this.checkValue(value);
+      if (valueType === sliderOptions.VALUE_TYPE_MIN) {
+        const newValue = [checkedValue, (this.state.value as number[])[sliderOptions.VALUE_END]];
+        this.state.value = Model.checkInterval(newValue, valueType);
+      } else if (valueType === sliderOptions.VALUE_TYPE_MAX) {
+        const newValue = [(this.state.value as number[])[sliderOptions.VALUE_START], checkedValue];
+        this.state.value = Model.checkInterval(newValue, valueType);
+      } else if (typeof value === 'number' && typeof this.state.value === 'number') {
+        this.state.value = [value, this.state.maxValue];
+      } else {
+        this.state.value = this.createIntervalValue(checkedValue);
+      }
+    } else {
+      const checkedValues = (value as number[]).map((val): number => this.checkValue(val));
+      this.state.value = Model.checkInterval(checkedValues, valueType);
+    }
+    this.onSetValue(this.state.value);
   }
 
   public onNewState(newState: IFullSettings): void {
