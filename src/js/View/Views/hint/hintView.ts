@@ -1,6 +1,6 @@
-import IFullSettings from '../../application.interfaces';
-import sliderOptions from '../../sliderOptions';
-import ComponentView from './componentView';
+import IFullSettings from '../../../application.interfaces';
+import sliderOptions from '../../../sliderOptions';
+import ComponentView from '../componentView';
 import IHintSettings from './hint.interfaces';
 
 class HintView extends ComponentView {

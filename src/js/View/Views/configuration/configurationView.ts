@@ -1,6 +1,6 @@
-import IFullSettings from '../../application.interfaces';
-import sliderOptions from '../../sliderOptions';
-import ComponentView from './componentView';
+import IFullSettings from '../../../application.interfaces';
+import sliderOptions from '../../../sliderOptions';
+import ComponentView from '../componentView';
 
 class ConfigurationView extends ComponentView {
   public currentValueInput: HTMLInputElement | null;
@@ -167,11 +167,11 @@ class ConfigurationView extends ComponentView {
 
   public onNewValue = (value: number | number[], valueType?: string): void => {}
 
-  public onStepChange = (newStep: number): void => {}
+  public onStepChange = (event: Event): void => {}
 
-  public onMinValueChange = (newMinValue: number): void => {}
+  public onMinValueChange = (event: Event): void => {}
 
-  public onMaxValueChange = (newMaxValue: number): void => {}
+  public onMaxValueChange = (event: Event): void => {}
 
   public onHintChange = (): void => {}
 
@@ -189,23 +189,11 @@ class ConfigurationView extends ComponentView {
       this.bindInputValueEvent((this.currentMaxValueInput as HTMLInputElement), sliderOptions.VALUE_TYPE_MAX);
     }
 
-    (this.stepSizeInput as HTMLInputElement).addEventListener('input', (): void => {
-      if (parseInt((this.stepSizeInput as HTMLInputElement).value, 10) > 0) {
-        this.onStepChange(parseInt((this.stepSizeInput as HTMLInputElement).value, 10));
-      }
-    });
+    (this.stepSizeInput as HTMLInputElement).addEventListener('input', this.onStepChange);
 
-    (this.minValueInput as HTMLInputElement).addEventListener('input', (): void => {
-      if ((this.minValueInput as HTMLInputElement).value.length > 0) {
-        this.onMinValueChange(parseInt((this.minValueInput as HTMLInputElement).value, 10));
-      }
-    });
+    (this.minValueInput as HTMLInputElement).addEventListener('input', this.onMinValueChange);
 
-    (this.maxValueInput as HTMLInputElement).addEventListener('input', (): void => {
-      if ((this.maxValueInput as HTMLInputElement).value.length > 0) {
-        this.onMaxValueChange(parseInt((this.maxValueInput as HTMLInputElement).value, 10));
-      }
-    });
+    (this.maxValueInput as HTMLInputElement).addEventListener('input', this.onMaxValueChange);
 
     (this.hintToggle as HTMLInputElement).addEventListener('change', this.onHintChange);
 

@@ -1,6 +1,6 @@
-import sliderOptions from '../../sliderOptions';
+import sliderOptions from '../../../sliderOptions';
+import IFullSettings from '../../../application.interfaces';
 import ComponentSlider from './componentSliderView';
-import IFullSettings from '../../application.interfaces';
 
 class RangeSliderView extends ComponentSlider {
   public pointDOMElement: HTMLElement | null;
@@ -62,15 +62,19 @@ class RangeSliderView extends ComponentSlider {
   private onPointMouseDown(): void {
     this.isMouseDown = true;
 
-    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
-    $(document).on('mouseup', this.onPointMouseUp.bind(this));
+    this.bindEventsToDocument();
   }
 
-  private onPointMouseUp(): void {
+  private onDocumentMouseUp(): void {
     this.isMouseDown = false;
 
     $(document).off('mousemove');
     $(document).off('mouseup');
+  }
+
+  private bindEventsToDocument(): void {
+    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
+    $(document).on('mouseup', this.onDocumentMouseUp.bind(this));
   }
 
   public onDocumentMouseMove(event: MouseEvent): void {

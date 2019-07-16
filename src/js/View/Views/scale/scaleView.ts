@@ -1,6 +1,6 @@
-import IFullSettings from '../../application.interfaces';
-import sliderOptions from '../../sliderOptions';
-import ComponentView from './componentView';
+import IFullSettings from '../../../application.interfaces';
+import sliderOptions from '../../../sliderOptions';
+import ComponentView from '../componentView';
 import IScaleSettings from './scale.interfaces';
 
 class ScaleView extends ComponentView {

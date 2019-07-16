@@ -1,5 +1,5 @@
-import IFullSettings from '../../application.interfaces';
-import sliderOptions from '../../sliderOptions';
+import IFullSettings from '../../../application.interfaces';
+import sliderOptions from '../../../sliderOptions';
 import ComponentSlider from './componentSliderView';
 
 class IntervalSliderView extends ComponentSlider {
@@ -73,8 +73,7 @@ class IntervalSliderView extends ComponentSlider {
   private onMinPointMouseDown(): void {
     this.isMinMouseDown = true;
 
-    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
-    $(document).on('mouseup', this.onMouseUp.bind(this));
+    this.bindEventsToDocument();
 
     (this.minPointDOMElement as HTMLElement).style.zIndex = '2';
     (this.maxPointDOMElement as HTMLElement).style.zIndex = '1';
@@ -83,14 +82,18 @@ class IntervalSliderView extends ComponentSlider {
   private onMaxPointMouseDown(): void {
     this.isMaxMouseDown = true;
 
-    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
-    $(document).on('mouseup', this.onMouseUp.bind(this));
+    this.bindEventsToDocument();
 
     (this.minPointDOMElement as HTMLElement).style.zIndex = '1';
     (this.maxPointDOMElement as HTMLElement).style.zIndex = '2';
   }
 
-  private onMouseUp(): void {
+  private bindEventsToDocument(): void {
+    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
+    $(document).on('mouseup', this.onDocumentMouseUp.bind(this));
+  }
+
+  private onDocumentMouseUp(): void {
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
 

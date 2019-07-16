@@ -1,4 +1,4 @@
-import ComponentView from './componentView';
+import ComponentView from '../componentView';
 import ISliderSettings from './slider.interfaces';
 
 abstract class ComponentSlider extends ComponentView {

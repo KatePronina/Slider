@@ -1,11 +1,11 @@
 import IFullSettings from '../application.interfaces';
 import sliderOptions from '../sliderOptions';
 
-import RangeSliderView from './Views/rangeSliderView';
-import IntervalSliderView from './Views/intervalSliderView';
-import HintView from './Views/hintView';
-import ScaleView from './Views/scaleView';
-import ConfigurationView from './Views/configurationView';
+import RangeSliderView from './Views/slider/rangeSliderView';
+import IntervalSliderView from './Views/slider/intervalSliderView';
+import HintView from './Views/hint/hintView';
+import ScaleView from './Views/scale/scaleView';
+import ConfigurationView from './Views/configuration/configurationView';
 
 class View {
   public state: IFullSettings;
@@ -180,16 +180,25 @@ class View {
       this.onNewValue(value, valueType);
     };
 
-    this.configuration.onStepChange = (newStep: number): void => {
-      this.onStateChange({ ...this.state, step: newStep });
+    this.configuration.onStepChange = (event: Event): void => {
+      if (parseInt((event.target as HTMLInputElement).value, 10) > 0) {
+        const newStep = parseInt((event.target as HTMLInputElement).value, 10);
+        this.onStateChange({ ...this.state, step: newStep });
+      }
     };
 
-    this.configuration.onMinValueChange = (newMinValue: number): void => {
-      this.onStateChange({ ...this.state, minValue: newMinValue });
+    this.configuration.onMinValueChange = (event: Event): void => {
+      if ((event.target as HTMLInputElement).value.length > 0) {
+        const newMinValue = parseInt((event.target as HTMLInputElement).value, 10);
+        this.onStateChange({ ...this.state, minValue: newMinValue });
+      }
     };
 
-    this.configuration.onMaxValueChange = (newMaxValue: number): void => {
-      this.onStateChange({ ...this.state, maxValue: newMaxValue });
+    this.configuration.onMaxValueChange = (event: Event): void => {
+      if ((event.target as HTMLInputElement).value.length > 0) {
+        const newMaxValue = parseInt((event.target as HTMLInputElement).value, 10);
+        this.onStateChange({ ...this.state, maxValue: newMaxValue });
+      }
     };
 
     this.configuration.onHintChange = (): void => {
