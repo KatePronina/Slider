@@ -107,9 +107,11 @@ class View {
 
     if (this.hint) {
       if (this.state.type === sliderOptions.TYPE_RANGE) {
-        this.hint.onChangedValue(value, this.slider.countLength((value as number)));
+        const length = this.slider.countLength((value as number));
+        this.hint.onChangedValue(value, length);
       } else {
-        this.hint.onChangedValue(value, this.slider.countLength((value as number[])[sliderOptions.VALUE_START]));
+        const length = this.slider.countLength((value as number[])[sliderOptions.VALUE_START]);
+        this.hint.onChangedValue(value, length);
         const maxLength = this.slider.countLength((value as number[])[sliderOptions.VALUE_END]);
         (this.hintMaxValue as HintView).onChangedValue(value, maxLength);
       }
@@ -147,8 +149,10 @@ class View {
       const length = this.slider.countLength(this.state.value as number);
       this.hint.onChangedValue((this.state.value as number), length);
     } else {
-      const maxLength = this.slider.countLength((this.state.value as number[])[sliderOptions.VALUE_END]);
-      const minLength = this.slider.countLength((this.state.value as number[])[sliderOptions.VALUE_START]);
+      const maxValue = (this.state.value as number[])[sliderOptions.VALUE_END];
+      const minValue = (this.state.value as number[])[sliderOptions.VALUE_START];
+      const maxLength = this.slider.countLength(maxValue);
+      const minLength = this.slider.countLength(minValue);
       this.hint.onChangedValue((this.state.value as number[]), minLength);
       (this.hintMaxValue as HintView).onChangedValue((this.state.value as number[]), maxLength);
     }

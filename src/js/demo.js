@@ -55,4 +55,4 @@ $('#fourth-slider').slider({
                           configuration: true,
                           hint: false,
                         });
-$('#fourth-slider').slider('setValue', 20, 'min');
+$('#fourth-slider').slider('setValue', 20);

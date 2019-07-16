@@ -185,8 +185,10 @@ class ConfigurationView extends ComponentView {
     if (this.state.type === sliderOptions.TYPE_RANGE) {
       this.bindInputValueEvent((this.currentValueInput as HTMLInputElement));
     } else {
-      this.bindInputValueEvent((this.currentMinValueInput as HTMLInputElement), sliderOptions.VALUE_TYPE_MIN);
-      this.bindInputValueEvent((this.currentMaxValueInput as HTMLInputElement), sliderOptions.VALUE_TYPE_MAX);
+      const minInput = this.currentMinValueInput as HTMLInputElement;
+      const maxInput = this.currentMaxValueInput as HTMLInputElement;
+      this.bindInputValueEvent(minInput, sliderOptions.VALUE_TYPE_MIN);
+      this.bindInputValueEvent(maxInput, sliderOptions.VALUE_TYPE_MAX);
     }
 
     (this.stepSizeInput as HTMLInputElement).addEventListener('input', this.onStepChange);
@@ -233,8 +235,10 @@ class ConfigurationView extends ComponentView {
     (this.maxValueInput as HTMLInputElement).value = (this.state.maxValue).toString();
     (this.hintToggle as HTMLInputElement).checked = this.state.hint;
     (this.scaleToggle as HTMLInputElement).checked = this.state.scale;
-    (this.typeToggle as HTMLInputElement).checked = this.state.type === sliderOptions.TYPE_INTERVAL;
-    (this.verticalToggle as HTMLInputElement).checked = this.state.direction === sliderOptions.DIRECTION_VERTICAL;
+    const isInterval = this.state.type === sliderOptions.TYPE_INTERVAL;
+    (this.typeToggle as HTMLInputElement).checked = isInterval;
+    const isVertical = this.state.direction === sliderOptions.DIRECTION_VERTICAL;
+    (this.verticalToggle as HTMLInputElement).checked = isVertical;
   }
 }
 

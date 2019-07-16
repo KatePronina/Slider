@@ -108,11 +108,17 @@ class Model {
   }
 
   private createIntervalValue(value: number): number[] {
-    if ((this.state.value as number[])[sliderOptions.VALUE_END] - value < value - (this.state.value as number[])[sliderOptions.VALUE_START]) {
+    if (this.defineValueType(value)) {
       return [(this.state.value as number[])[sliderOptions.VALUE_START], value];
     }
 
     return [value, (this.state.value as number[])[sliderOptions.VALUE_END]];
+  }
+
+  private defineValueType(value: number): boolean {
+    const endValueDifference = (this.state.value as number[])[sliderOptions.VALUE_END] - value;
+    const startValueDifference = value - (this.state.value as number[])[sliderOptions.VALUE_START];
+    return endValueDifference < startValueDifference;
   }
 }
 
