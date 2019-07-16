@@ -8,27 +8,27 @@ import ScaleView from './Views/scale/scaleView';
 import ConfigurationView from './Views/configuration/configurationView';
 
 class View {
-  public state: IFullSettings;
+  private state: IFullSettings;
 
-  public sliderElement: HTMLElement | null;
+  private sliderElement: HTMLElement | null;
 
-  public hintElement: HTMLElement;
+  private hintElement: HTMLElement;
 
-  public hintMaxValueElement: HTMLElement;
+  private hintMaxValueElement: HTMLElement;
 
-  public scaleElement: HTMLElement;
+  private scaleElement: HTMLElement;
 
-  public configurationDOMElement: HTMLElement;
+  private configurationElement: HTMLElement;
 
-  public slider: RangeSliderView | IntervalSliderView;
+  private slider: RangeSliderView | IntervalSliderView;
 
-  public hint?: HintView;
+  private hint?: HintView;
 
-  public hintMaxValue?: HintView;
+  private hintMaxValue?: HintView;
 
-  public scale?: ScaleView;
+  private scale?: ScaleView;
 
-  public configuration?: ConfigurationView;
+  private configuration?: ConfigurationView;
 
   public constructor(state: IFullSettings) {
     this.initSlider(state);
@@ -87,15 +87,6 @@ class View {
     }
   }
 
-  public appendElementToParent(element: HTMLElement): void {
-    this.state.parentElement.append(element);
-  }
-
-  public appendElementToSlider(element: HTMLElement): void {
-    const slider = this.state.parentElement.find('.slider');
-    slider.append(element);
-  }
-
   public onChangedValue(value: number | number[]): void {
     this.state.value = value;
 
@@ -120,6 +111,25 @@ class View {
     if (this.configuration) {
       this.configuration.onChangedValue(value);
     }
+  }
+
+  public remove(): void {
+    this.state.parentElement.html('');
+  }
+
+  public onNewValue = (value: number | number[], valueType?: string): void => {}
+
+  public onDirectionChange = (newState: IFullSettings): void => {}
+
+  public onStateChange = (newState: IFullSettings): void => {}
+
+  private appendElementToParent(element: HTMLElement): void {
+    this.state.parentElement.append(element);
+  }
+
+  private appendElementToSlider(element: HTMLElement): void {
+    const slider = this.state.parentElement.find('.slider');
+    slider.append(element);
   }
 
   private initHint(): void {
@@ -177,8 +187,8 @@ class View {
 
   private initConfiguration(): void {
     this.configuration = new ConfigurationView(this.state);
-    this.configurationDOMElement = this.configuration.getDOMElement();
-    this.appendElementToParent(this.configurationDOMElement);
+    this.configurationElement = this.configuration.getDOMElement();
+    this.appendElementToParent(this.configurationElement);
 
     this.configuration.onNewValue = (value: number | number[], valueType?: string): void => {
       this.onNewValue(value, valueType);
@@ -246,16 +256,6 @@ class View {
 
     this.configuration.bindEvents();
   }
-
-  public remove(): void {
-    this.state.parentElement.html('');
-  }
-
-  public onNewValue = (value: number | number[], valueType?: string): void => {}
-
-  public onDirectionChange = (newState: IFullSettings): void => {}
-
-  public onStateChange = (newState: IFullSettings): void => {}
 }
 
 export default View;

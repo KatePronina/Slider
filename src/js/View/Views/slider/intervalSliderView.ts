@@ -7,9 +7,9 @@ class IntervalSliderView extends ComponentSlider {
 
   public maxPointDOMElement: HTMLElement | null;
 
-  public minPercent: number;
+  private minPercent: number;
 
-  public maxPercent: number;
+  private maxPercent: number;
 
   private isMinMouseDown: boolean;
 
@@ -47,7 +47,24 @@ class IntervalSliderView extends ComponentSlider {
     + '<div class="slider__point slider__point_vertical slider__point_max"></div>'
   + '</div>';
 
-  public createSliderDOMElement(): void {
+  public onChangedValue(value: number[]): void {
+    this.state.value = value;
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+      (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
+      (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
+      (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
+      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
+    } else {
+      (this.minPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
+      (this.maxPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
+      (this.barDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
+      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
+    }
+  }
+
+  public onNewValue = (value: number[], valueType: string): void => {}
+
+  private createSliderDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
@@ -65,7 +82,7 @@ class IntervalSliderView extends ComponentSlider {
     this.bindEventsToSlider();
   }
 
-  public bindEventsToSlider(): void {
+  private bindEventsToSlider(): void {
     (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMinPointMouseDown.bind(this));
     (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMaxPointMouseDown.bind(this));
   }
@@ -101,7 +118,7 @@ class IntervalSliderView extends ComponentSlider {
     $(document).off('mouseup');
   }
 
-  public onDocumentMouseMove(event: MouseEvent): void {
+  private onDocumentMouseMove(event: MouseEvent): void {
     if (this.isMinMouseDown) {
       let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
@@ -124,23 +141,6 @@ class IntervalSliderView extends ComponentSlider {
       this.onNewValue((this.state.value as number[]), sliderOptions.VALUE_TYPE_MAX);
     }
   }
-
-  public onChangedValue(value: number[]): void {
-    this.state.value = value;
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
-      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
-    } else {
-      (this.minPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_END]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.left = `${this.countLength(value[sliderOptions.VALUE_START])}%`;
-      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value[sliderOptions.VALUE_END]) - this.countLength(value[sliderOptions.VALUE_START])}%`;
-    }
-  }
-
-  public onNewValue = (value: number[], valueType: string): void => {}
 }
 
 export default IntervalSliderView;

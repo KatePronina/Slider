@@ -30,6 +30,19 @@ class Model {
     }
   }
 
+  public onNewState(newState: IFullSettings): void {
+    this.state.maxValue = newState.maxValue;
+    this.state.minValue = newState.minValue;
+    this.state.step = newState.step;
+    this.state.type = newState.type;
+    this.setValue(newState.value);
+    this.onSetState({ ...newState, value: this.state.value });
+  }
+
+  public onSetValue = (value: number | number[]): void => {}
+
+  public onSetState = (newState: IFullSettings): void => {}
+
   private setIntervalSliderValue(value: number | number[], valueType?: string): void {
     if (typeof value === 'number') {
       const checkedValue = this.checkValue(value);
@@ -50,19 +63,6 @@ class Model {
     }
     this.onSetValue(this.state.value);
   }
-
-  public onNewState(newState: IFullSettings): void {
-    this.state.maxValue = newState.maxValue;
-    this.state.minValue = newState.minValue;
-    this.state.step = newState.step;
-    this.state.type = newState.type;
-    this.setValue(newState.value);
-    this.onSetState({ ...newState, value: this.state.value });
-  }
-
-  public onSetValue = (value: number | number[]): void => {}
-
-  public onSetState = (newState: IFullSettings): void => {}
 
   private static checkInterval(values: number[], valueType?: string): number[] {
     if (valueType === sliderOptions.VALUE_TYPE_MIN) {

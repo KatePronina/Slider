@@ -5,7 +5,7 @@ import ComponentSlider from './componentSliderView';
 class RangeSliderView extends ComponentSlider {
   public pointDOMElement: HTMLElement | null;
 
-  public percent: number;
+  private percent: number;
 
   private isMouseDown: boolean;
 
@@ -26,6 +26,18 @@ class RangeSliderView extends ComponentSlider {
     this.createSliderDOMElement();
   }
 
+  public onChangedValue(value: number): void {
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value)}%`;
+      (this.pointDOMElement as HTMLElement).style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`;
+    } else {
+      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value)}%`;
+      (this.pointDOMElement as HTMLElement).style.left = `${this.countLength(value) - (this.pointOffset * 100)}%`;
+    }
+  }
+
+  public onNewValue = (value: number): void => {}
+
   private templateHorizontal: string =
       '<div class="slider">'
         + '<div class="slider__bar"></div>'
@@ -38,7 +50,7 @@ class RangeSliderView extends ComponentSlider {
     + '<div class="slider__point slider__point_vertical"></div>'
   + '</div>';
 
-  public createSliderDOMElement(): void {
+  private createSliderDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
@@ -55,7 +67,7 @@ class RangeSliderView extends ComponentSlider {
     this.bindEventsToSlider();
   }
 
-  public bindEventsToSlider(): void {
+  private bindEventsToSlider(): void {
     (this.pointDOMElement as HTMLElement).addEventListener('mousedown', this.onPointMouseDown.bind(this));
   }
 
@@ -77,7 +89,7 @@ class RangeSliderView extends ComponentSlider {
     $(document).on('mouseup', this.onDocumentMouseUp.bind(this));
   }
 
-  public onDocumentMouseMove(event: MouseEvent): void {
+  private onDocumentMouseMove(event: MouseEvent): void {
     if (this.isMouseDown) {
       let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
@@ -88,18 +100,6 @@ class RangeSliderView extends ComponentSlider {
       this.onNewValue(this.countValue(this.percent));
     }
   }
-
-  public onChangedValue(value: number): void {
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value)}%`;
-      (this.pointDOMElement as HTMLElement).style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`;
-    } else {
-      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value)}%`;
-      (this.pointDOMElement as HTMLElement).style.left = `${this.countLength(value) - (this.pointOffset * 100)}%`;
-    }
-  }
-
-  public onNewValue = (value: number): void => {}
 }
 
 export default RangeSliderView;

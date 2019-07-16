@@ -3,9 +3,9 @@ import View from '../View/view';
 import IFullSettings from '../application.interfaces';
 
 class Controller {
-  public model: Model;
+  private model: Model;
 
-  public view: View;
+  private view: View;
 
   public constructor(settings: IFullSettings) {
     this.model = new Model(settings);

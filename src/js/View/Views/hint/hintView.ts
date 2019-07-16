@@ -6,7 +6,7 @@ import IHintSettings from './hint.interfaces';
 class HintView extends ComponentView {
   public offset: number;
 
-  public isMaxValue?: boolean;
+  private isMaxValue?: boolean;
 
   private state: IHintSettings;
 
@@ -15,24 +15,6 @@ class HintView extends ComponentView {
     this.state = { value, type, direction };
     this.isMaxValue = isMaxValue;
     this.createHintDOMElement();
-  }
-
-  public createHintDOMElement(): void {
-    const hintElement = document.createElement('div');
-
-    if (this.state.type === sliderOptions.TYPE_INTERVAL && this.isMaxValue) {
-      hintElement.textContent = (this.state.value as number[])[1].toString();
-    } else if (this.state.type === sliderOptions.TYPE_INTERVAL) {
-      hintElement.textContent = (this.state.value as number[])[0].toString();
-    } else {
-      hintElement.textContent = (this.state.value as number).toString();
-    }
-
-    hintElement.classList.add('slider__hint');
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      hintElement.classList.add(sliderOptions.HINT_VERTICAL_CLASS);
-    }
-    this.DOMElement = hintElement;
   }
 
   public onChangedValue(value: number | number[], percent: number): void {
@@ -58,6 +40,24 @@ class HintView extends ComponentView {
     } else {
       this.DOMElement.classList.add(sliderOptions.HINT_DISABLE_CLASS);
     }
+  }
+
+  private createHintDOMElement(): void {
+    const hintElement = document.createElement('div');
+
+    if (this.state.type === sliderOptions.TYPE_INTERVAL && this.isMaxValue) {
+      hintElement.textContent = (this.state.value as number[])[1].toString();
+    } else if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+      hintElement.textContent = (this.state.value as number[])[0].toString();
+    } else {
+      hintElement.textContent = (this.state.value as number).toString();
+    }
+
+    hintElement.classList.add('slider__hint');
+    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+      hintElement.classList.add(sliderOptions.HINT_VERTICAL_CLASS);
+    }
+    this.DOMElement = hintElement;
   }
 }
 

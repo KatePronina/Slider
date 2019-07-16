@@ -3,25 +3,25 @@ import sliderOptions from '../../../sliderOptions';
 import ComponentView from '../componentView';
 
 class ConfigurationView extends ComponentView {
-  public currentValueInput: HTMLInputElement | null;
+  private currentValueInput: HTMLInputElement | null;
 
-  public currentMinValueInput: HTMLInputElement | null;
+  private currentMinValueInput: HTMLInputElement | null;
 
-  public currentMaxValueInput: HTMLInputElement | null;
+  private currentMaxValueInput: HTMLInputElement | null;
 
-  public stepSizeInput: HTMLInputElement | null;
+  private stepSizeInput: HTMLInputElement | null;
 
-  public minValueInput: HTMLInputElement | null;
+  private minValueInput: HTMLInputElement | null;
 
-  public maxValueInput: HTMLInputElement | null;
+  private maxValueInput: HTMLInputElement | null;
 
-  public hintToggle: HTMLInputElement | null;
+  private hintToggle: HTMLInputElement | null;
 
-  public scaleToggle: HTMLInputElement | null;
+  private scaleToggle: HTMLInputElement | null;
 
-  public typeToggle: HTMLInputElement | null;
+  private typeToggle: HTMLInputElement | null;
 
-  public verticalToggle: HTMLInputElement | null;
+  private verticalToggle: HTMLInputElement | null;
 
   private state: IFullSettings;
 
@@ -29,131 +29,6 @@ class ConfigurationView extends ComponentView {
     super();
     this.state = state;
     this.createDOMElement();
-  }
-
-  public templateRange =
-    '<fieldset class="configuration__fieldset">'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label"> Текущее значение'
-          + '<input class="configuration__value-input" type="number" id="currentValue" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Размер шага'
-          + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Минимальное значение'
-          + '<input class="configuration__value-input" type="number" id="minValue" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Максимальное значение'
-          + '<input class="configuration__value-input" type="number" id="maxValue" />'
-        + '</label>'
-      + '</div>'
-    + '</fieldset>'
-    + '<fieldset class="configuration__fieldset">'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Подсказка'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Шкала'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Два значения'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Вертикальный вид'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
-        + '</label>'
-      + '</div>'
-    + '</fieldset>';
-
-  public templateInterval =
-  '<fieldset class="configuration__fieldset">'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Текущее минимальное значение'
-        + '<input class="configuration__value-input" type="number" id="currentMinValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Текущее максимальное значение'
-        + '<input class="configuration__value-input" type="number" id="currentMaxValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Размер шага'
-        + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Минимальное значение'
-        + '<input class="configuration__value-input" type="number" id="minValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Максимальное значение'
-        + '<input class="configuration__value-input" type="number" id="maxValue" />'
-      + '</label>'
-    + '</div>'
-  + '</fieldset>'
-  + '<fieldset class="configuration__fieldset">'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Подсказка'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Шкала'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Два значения'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Вертикальный вид'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
-      + '</label>'
-    + '</div>'
-  + '</fieldset>';
-
-  public createDOMElement(): void {
-    const configurationForm = document.createElement('form');
-    configurationForm.classList.add('configuration');
-
-    if (this.state.type === sliderOptions.TYPE_RANGE) {
-      configurationForm.innerHTML = this.templateRange;
-    } else {
-      configurationForm.innerHTML = this.templateInterval;
-    }
-
-    this.DOMElement = configurationForm;
-    if (this.state.type === sliderOptions.TYPE_RANGE) {
-      this.currentValueInput = this.DOMElement.querySelector('#currentValue');
-    } else {
-      this.currentMinValueInput = this.DOMElement.querySelector('#currentMinValue');
-      this.currentMaxValueInput = this.DOMElement.querySelector('#currentMaxValue');
-    }
-    this.stepSizeInput = this.DOMElement.querySelector('#stepSize');
-    this.minValueInput = this.DOMElement.querySelector('#minValue');
-    this.maxValueInput = this.DOMElement.querySelector('#maxValue');
-    this.hintToggle = this.DOMElement.querySelector('#toggleHint');
-    this.scaleToggle = this.DOMElement.querySelector('#toggleScale');
-    this.typeToggle = this.DOMElement.querySelector('#toggleType');
-    this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
-
-    this.setStartValues();
   }
 
   public onChangedValue(value: number | number[]): void {
@@ -204,6 +79,131 @@ class ConfigurationView extends ComponentView {
     (this.verticalToggle as HTMLInputElement).addEventListener('change', this.onDirectionChange);
 
     (this.typeToggle as HTMLInputElement).addEventListener('change', this.onTypeChange);
+  }
+
+  private templateRange =
+    '<fieldset class="configuration__fieldset">'
+      + '<div class="configuration__value">'
+        + '<label class="configuration__label"> Текущее значение'
+          + '<input class="configuration__value-input" type="number" id="currentValue" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__value">'
+        + '<label class="configuration__label">Размер шага'
+          + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__value">'
+        + '<label class="configuration__label">Минимальное значение'
+          + '<input class="configuration__value-input" type="number" id="minValue" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__value">'
+        + '<label class="configuration__label">Максимальное значение'
+          + '<input class="configuration__value-input" type="number" id="maxValue" />'
+        + '</label>'
+      + '</div>'
+    + '</fieldset>'
+    + '<fieldset class="configuration__fieldset">'
+      + '<div class="configuration__checkbox">'
+        + '<label class="configuration__label">Подсказка'
+          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__checkbox">'
+      + '<label class="configuration__label">Шкала'
+        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__checkbox">'
+        + '<label class="configuration__label">Два значения'
+          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
+        + '</label>'
+      + '</div>'
+      + '<div class="configuration__checkbox">'
+        + '<label class="configuration__label">Вертикальный вид'
+          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
+        + '</label>'
+      + '</div>'
+    + '</fieldset>';
+
+  private templateInterval =
+  '<fieldset class="configuration__fieldset">'
+    + '<div class="configuration__value">'
+      + '<label class="configuration__label">Текущее минимальное значение'
+        + '<input class="configuration__value-input" type="number" id="currentMinValue" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__value">'
+      + '<label class="configuration__label">Текущее максимальное значение'
+        + '<input class="configuration__value-input" type="number" id="currentMaxValue" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__value">'
+      + '<label class="configuration__label">Размер шага'
+        + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__value">'
+      + '<label class="configuration__label">Минимальное значение'
+        + '<input class="configuration__value-input" type="number" id="minValue" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__value">'
+      + '<label class="configuration__label">Максимальное значение'
+        + '<input class="configuration__value-input" type="number" id="maxValue" />'
+      + '</label>'
+    + '</div>'
+  + '</fieldset>'
+  + '<fieldset class="configuration__fieldset">'
+    + '<div class="configuration__checkbox">'
+      + '<label class="configuration__label">Подсказка'
+        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__checkbox">'
+      + '<label class="configuration__label">Шкала'
+        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__checkbox">'
+      + '<label class="configuration__label">Два значения'
+        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
+      + '</label>'
+    + '</div>'
+    + '<div class="configuration__checkbox">'
+      + '<label class="configuration__label">Вертикальный вид'
+        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
+      + '</label>'
+    + '</div>'
+  + '</fieldset>';
+
+  private createDOMElement(): void {
+    const configurationForm = document.createElement('form');
+    configurationForm.classList.add('configuration');
+
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
+      configurationForm.innerHTML = this.templateRange;
+    } else {
+      configurationForm.innerHTML = this.templateInterval;
+    }
+
+    this.DOMElement = configurationForm;
+    if (this.state.type === sliderOptions.TYPE_RANGE) {
+      this.currentValueInput = this.DOMElement.querySelector('#currentValue');
+    } else {
+      this.currentMinValueInput = this.DOMElement.querySelector('#currentMinValue');
+      this.currentMaxValueInput = this.DOMElement.querySelector('#currentMaxValue');
+    }
+    this.stepSizeInput = this.DOMElement.querySelector('#stepSize');
+    this.minValueInput = this.DOMElement.querySelector('#minValue');
+    this.maxValueInput = this.DOMElement.querySelector('#maxValue');
+    this.hintToggle = this.DOMElement.querySelector('#toggleHint');
+    this.scaleToggle = this.DOMElement.querySelector('#toggleScale');
+    this.typeToggle = this.DOMElement.querySelector('#toggleType');
+    this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
+
+    this.setStartValues();
   }
 
   private bindInputValueEvent(input: HTMLInputElement, valueType?: string): void {
