@@ -6,22 +6,9 @@ beforeEach((): void => {
 });
 
 describe('Constructor', (): void => {
-  test('Should set default settings', (): void => {
-    const model = new Model({ parentElement: $('.foo') });
-
-    expect(model.state.minValue).toEqual(0);
-    expect(model.state.maxValue).toEqual(100);
-    expect(model.state.value).toEqual(model.state.minValue);
-    expect(model.state.step).toEqual(1);
-    expect(model.state.direction).toEqual('horizontal');
-    expect(model.state.hint).toEqual(true);
-    expect(model.state.scale).toEqual(false);
-    expect(model.state.configuration).toEqual(false);
-  });
-
   test('Should set custom settings', (): void => {
     const model = new Model({
-     parentElement: $('.foo'),
+      parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -38,16 +25,23 @@ describe('Constructor', (): void => {
     expect(model.state.minValue).toEqual(5);
     expect(model.state.maxValue).toEqual(30);
     expect(model.state.step).toEqual(5);
-    expect(model.state.direction).toEqual('vertical');
-    expect(model.state.hint).toEqual(false);
-    expect(model.state.scale).toEqual(true);
-    expect(model.state.configuration).toEqual(true);
   });
 });
 
 describe('Setting value', (): void => {
   test('Should update value', (): void => {
-    const model = new Model({ parentElement: $('.foo') });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'range',
+      value: 15,
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+     });
 
     model.setValue(10);
 
@@ -55,23 +49,56 @@ describe('Setting value', (): void => {
   });
 
   test('Should not update wrong value', (): void => {
-    const model = new Model({ parentElement: $('.foo') });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'range',
+      value: 15,
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+     });
 
     model.setValue(10000);
 
-    expect(model.state.value).toEqual(100);
+    expect(model.state.value).toEqual(30);
   });
 
   test('Should not update wrong value', (): void => {
-    const model = new Model({ parentElement: $('.foo') });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'range',
+      value: 15,
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+     });
 
     model.setValue(-10000);
 
-    expect(model.state.value).toEqual(0);
+    expect(model.state.value).toEqual(5);
   });
 
   test('Should update interval value', (): void => {
-    const model = new Model({ parentElement: $('.foo'), type: 'interval' });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+    });
 
     model.setValue([5, 10]);
 
@@ -79,7 +106,18 @@ describe('Setting value', (): void => {
   });
 
   test('Should update and correct interval value', (): void => {
-    const model = new Model({ parentElement: $('.foo'), type: 'interval', step: 5 });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+    });
 
     model.setValue([6, 9]);
 
@@ -87,7 +125,18 @@ describe('Setting value', (): void => {
   });
 
   test('Should correct interval value', (): void => {
-    const model = new Model({ parentElement: $('.foo'), type: 'interval' });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 0,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+    });
 
     model.setValue([10, 15]);
     model.setValue([10, 9], 'max');
@@ -97,7 +146,18 @@ describe('Setting value', (): void => {
   });
 
   test('Should correct interval value', (): void => {
-    const model = new Model({ parentElement: $('.foo'), type: 'interval' });
+    const model = new Model({
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [1, 9],
+      minValue: 0,
+      maxValue: 100,
+      step: 1,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+    });
 
     model.setValue([5, 9]);
     model.setValue([10, 9]);
@@ -107,10 +167,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [50, 55],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 0,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([5, 70]);
@@ -120,10 +186,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+    parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 0,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([30, 35]);
@@ -133,10 +205,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+    parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 300,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([70, 70]);
@@ -146,10 +224,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+    parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 5,
+      maxValue: 300,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([5, 50]);
@@ -159,10 +243,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 300,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([50, 72]);
@@ -172,10 +262,16 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+       parentElement: $('.foo'),
+        type: 'interval',
+        value: [15, 20],
+        minValue: 0,
+        maxValue: 100,
+        step: 5,
+        direction: 'vertical',
+        hint: false,
+        scale: true,
+        configuration: true,
                   });
 
     model.setValue([-50, 110]);
@@ -185,11 +281,16 @@ describe('Setting value', (): void => {
 
   test('Should not set interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
-                    maxValue: 90,
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 90,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([100, 100]);
@@ -199,10 +300,16 @@ describe('Setting value', (): void => {
 
   test('Should set and correct interval value', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue([33, 36]);
@@ -212,10 +319,16 @@ describe('Setting value', (): void => {
 
   test('Should set one value for interval slider', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue(51);
@@ -225,10 +338,16 @@ describe('Setting value', (): void => {
 
   test('Should set one value for interval slider', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 300,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue(21);
@@ -238,10 +357,16 @@ describe('Setting value', (): void => {
 
   test('Should not set one value for interval slider', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 5,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue(150);
@@ -251,10 +376,16 @@ describe('Setting value', (): void => {
 
   test('Should not set one value for interval slider', (): void => {
     const model = new Model({
-                    parentElement: $('.foo'),
-                    type: 'interval',
-                    step: 5,
-                    value: [10, 60],
+      parentElement: $('.foo'),
+      type: 'interval',
+      value: [10, 60],
+      minValue: 0,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
                   });
 
     model.setValue(-10);

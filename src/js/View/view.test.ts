@@ -1,13 +1,12 @@
 import * as $ from 'jquery';
 
-import Model from '../Model/model';
 import Controller from '../Controller/controller';
 
-import RangeSliderView from './Views/rangeSliderView';
-import IntervalSliderView from './Views/intervalSliderView';
-import HintView from './Views/hintView';
-import ScaleView from './Views/scaleView';
-import configurationView from './Views/configurationView';
+import RangeSliderView from './Views/slider/rangeSliderView';
+import IntervalSliderView from './Views/slider/intervalSliderView';
+import HintView from './Views/hint/hintView';
+import ScaleView from './Views/scale/scaleView';
+import configurationView from './Views/configuration/configurationView';
 import View from './view';
 
 beforeEach((): void => {
@@ -315,7 +314,7 @@ describe('DOM actions', (): void => {
     (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint--disable')).toEqual(true);
+    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint_disable')).toEqual(true);
   });
 
   test('Should show hint', (): void => {
@@ -336,7 +335,7 @@ describe('DOM actions', (): void => {
     (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint--disable')).toEqual(false);
+    expect((document.querySelector('.slider__hint') as HTMLElement).classList.contains('slider__hint_disable')).toEqual(false);
   });
 
   test('Should hide scale', (): void => {
@@ -357,7 +356,7 @@ describe('DOM actions', (): void => {
     (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale--disable')).toEqual(true);
+    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale_disable')).toEqual(true);
   });
 
   test('Should show hint', (): void => {
@@ -378,11 +377,11 @@ describe('DOM actions', (): void => {
     (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale--disable')).toEqual(false);
+    expect((document.querySelector('.slider__scale') as HTMLElement).classList.contains('slider__scale_disable')).toEqual(false);
   });
 
   test('Should change slider direction from horizontal to vertical', (): void => {
-    const model = new Model({
+    const controller = new Controller({
                             parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
@@ -394,17 +393,16 @@ describe('DOM actions', (): void => {
                             scale: false,
                             configuration: true,
                           });
-    const controller = new Controller(model);
 
     const event = new Event('click');
     (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider--vertical')).toEqual(true);
+    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider_vertical')).toEqual(true);
   });
 
   test('Should change slider direction from vertical to horizontal', (): void => {
-    const model = new Model({
+    const controller = new Controller({
                             parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
@@ -416,17 +414,16 @@ describe('DOM actions', (): void => {
                             scale: false,
                             configuration: true,
                           });
-    const controller = new Controller(model);
 
     const event = new Event('click');
     (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider--vertical')).toEqual(false);
+    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider_vertical')).toEqual(false);
   });
 
   test('Should change slider type from range to interval', (): void => {
-    const model = new Model({
+    const controller = new Controller({
                             parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
@@ -438,17 +435,16 @@ describe('DOM actions', (): void => {
                             scale: false,
                             configuration: true,
                           });
-    const controller = new Controller(model);
 
     const event = new Event('click');
     (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect(document.querySelector('.slider__point--max')).toBeTruthy();
+    expect(document.querySelector('.slider__point_max')).toBeTruthy();
   });
 
   test('Should change slider type from interval to range', (): void => {
-    const model = new Model({
+    const controller = new Controller({
                             parentElement: $('#foo'),
                             type: 'interval',
                             minValue: 10,
@@ -460,12 +456,11 @@ describe('DOM actions', (): void => {
                             scale: false,
                             configuration: true,
                           });
-    const controller = new Controller(model);
 
     const event = new Event('click');
     (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect(document.querySelector('.slider__point--max')).toBeNull();
+    expect(document.querySelector('.slider__point_max')).toBeNull();
   });
 });

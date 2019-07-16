@@ -8,7 +8,17 @@ import ScaleView from './Views/scale/scaleView';
 import ConfigurationView from './Views/configuration/configurationView';
 
 class View {
-  private state: IFullSettings;
+  public state: IFullSettings;
+
+  public slider: RangeSliderView | IntervalSliderView;
+
+  public hint?: HintView;
+
+  public hintMaxValue?: HintView;
+
+  public scale?: ScaleView;
+
+  public configuration?: ConfigurationView;
 
   private sliderElement: HTMLElement | null;
 
@@ -19,16 +29,6 @@ class View {
   private scaleElement: HTMLElement;
 
   private configurationElement: HTMLElement;
-
-  private slider: RangeSliderView | IntervalSliderView;
-
-  private hint?: HintView;
-
-  private hintMaxValue?: HintView;
-
-  private scale?: ScaleView;
-
-  private configuration?: ConfigurationView;
 
   public constructor(state: IFullSettings) {
     this.initSlider(state);
