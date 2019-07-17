@@ -96,10 +96,10 @@ class ScaleView extends ComponentView {
   }
 
   private bindEvents(): void {
-    this.DOMElement.addEventListener('click', this.onScaleClick.bind(this));
+    this.DOMElement.addEventListener('click', this.onScaleClick);
   }
 
-  private onScaleClick(event: Event): void {
+  private onScaleClick = (event: Event): void => {
     if ((event.target as HTMLElement).classList.contains('slider__scale-value')) {
       this.onNewValue(parseInt(((event.target as HTMLElement).textContent as string), 10));
     }

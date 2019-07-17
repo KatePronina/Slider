@@ -14,7 +14,7 @@ class HintView extends ComponentView {
     super();
     this.state = { value, type, direction };
     this.isMaxValue = isMaxValue;
-    this.createHintDOMElement();
+    this.createDOMElement();
   }
 
   public onChangedValue(value: number | number[], percent: number): void {
@@ -42,7 +42,7 @@ class HintView extends ComponentView {
     }
   }
 
-  private createHintDOMElement(): void {
+  private createDOMElement(): void {
     const hintElement = document.createElement('div');
 
     if (this.state.type === sliderOptions.TYPE_INTERVAL && this.isMaxValue) {

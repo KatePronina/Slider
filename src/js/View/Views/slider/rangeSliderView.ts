@@ -23,7 +23,7 @@ class RangeSliderView extends ComponentSlider {
               value,
             };
     this.isMouseDown = false;
-    this.createSliderDOMElement();
+    this.createDOMElement();
   }
 
   public onChangedValue(value: number): void {
@@ -50,7 +50,7 @@ class RangeSliderView extends ComponentSlider {
     + '<div class="slider__point slider__point_vertical"></div>'
   + '</div>';
 
-  private createSliderDOMElement(): void {
+  private createDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
@@ -68,28 +68,28 @@ class RangeSliderView extends ComponentSlider {
   }
 
   private bindEventsToSlider(): void {
-    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', this.onPointMouseDown.bind(this));
+    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', this.onPointMouseDown);
   }
 
-  private onPointMouseDown(): void {
+  private onPointMouseDown = (): void => {
     this.isMouseDown = true;
 
     this.bindEventsToDocument();
   }
 
-  private onDocumentMouseUp(): void {
+  private onDocumentMouseUp = (): void => {
     this.isMouseDown = false;
 
-    $(document).off('mousemove');
-    $(document).off('mouseup');
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp);
   }
 
   private bindEventsToDocument(): void {
-    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
-    $(document).on('mouseup', this.onDocumentMouseUp.bind(this));
+    document.addEventListener('mousemove', this.onDocumentMouseMove);
+    document.addEventListener('mouseup', this.onDocumentMouseUp);
   }
 
-  private onDocumentMouseMove(event: MouseEvent): void {
+  private onDocumentMouseMove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
       let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {

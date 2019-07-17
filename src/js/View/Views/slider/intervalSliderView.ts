@@ -30,7 +30,7 @@ class IntervalSliderView extends ComponentSlider {
             };
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
-    this.createSliderDOMElement();
+    this.createDOMElement();
   }
 
   private templateHorizontal: string =
@@ -64,7 +64,7 @@ class IntervalSliderView extends ComponentSlider {
 
   public onNewValue = (value: number[], valueType: string): void => {}
 
-  private createSliderDOMElement(): void {
+  private createDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
@@ -83,11 +83,11 @@ class IntervalSliderView extends ComponentSlider {
   }
 
   private bindEventsToSlider(): void {
-    (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMinPointMouseDown.bind(this));
-    (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMaxPointMouseDown.bind(this));
+    (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMinPointMouseDown);
+    (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMaxPointMouseDown);
   }
 
-  private onMinPointMouseDown(): void {
+  private onMinPointMouseDown = (): void => {
     this.isMinMouseDown = true;
 
     this.bindEventsToDocument();
@@ -96,7 +96,7 @@ class IntervalSliderView extends ComponentSlider {
     (this.maxPointDOMElement as HTMLElement).style.zIndex = '1';
   }
 
-  private onMaxPointMouseDown(): void {
+  private onMaxPointMouseDown = (): void => {
     this.isMaxMouseDown = true;
 
     this.bindEventsToDocument();
@@ -106,19 +106,19 @@ class IntervalSliderView extends ComponentSlider {
   }
 
   private bindEventsToDocument(): void {
-    $(document).on('mousemove', this.onDocumentMouseMove.bind(this));
-    $(document).on('mouseup', this.onDocumentMouseUp.bind(this));
+    document.addEventListener('mousemove', this.onDocumentMouseMove);
+    document.addEventListener('mouseup', this.onDocumentMouseUp);
   }
 
-  private onDocumentMouseUp(): void {
+  private onDocumentMouseUp = (): void => {
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
 
-    $(document).off('mousemove');
-    $(document).off('mouseup');
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp);
   }
 
-  private onDocumentMouseMove(event: MouseEvent): void {
+  private onDocumentMouseMove = (event: MouseEvent): void => {
     if (this.isMinMouseDown) {
       let eventCoordinate = event.pageX - this.offset;
       if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
