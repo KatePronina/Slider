@@ -16,7 +16,7 @@ beforeEach((): void => {
 describe('Constructor', (): void => {
   test('Should create right slider view', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -33,7 +33,7 @@ describe('Constructor', (): void => {
 
   test('Should create right slider view for interval', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'interval',
                           minValue: 0,
                           maxValue: 100,
@@ -50,7 +50,7 @@ describe('Constructor', (): void => {
 
   test('Should create hint', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -67,7 +67,7 @@ describe('Constructor', (): void => {
 
   test('Should not create hint', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -84,7 +84,7 @@ describe('Constructor', (): void => {
 
   test('Should create scale', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -101,7 +101,7 @@ describe('Constructor', (): void => {
 
   test('Should not create scale', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -118,7 +118,7 @@ describe('Constructor', (): void => {
 
   test('Should create configuration panel', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -135,7 +135,7 @@ describe('Constructor', (): void => {
 
   test('Should not create configuration panel', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -152,7 +152,7 @@ describe('Constructor', (): void => {
 
   test('Should save parent element', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -164,8 +164,8 @@ describe('Constructor', (): void => {
                           configuration: false,
                         });
 
-    expect(view.state.parentElement).toBeDefined();
-    expect(view.state.parentElement).toEqual(expect.anything());
+    expect(view.state.$parentElement).toBeDefined();
+    expect(view.state.$parentElement).toEqual(expect.anything());
   });
 });
 
@@ -173,7 +173,7 @@ describe('Constructor', (): void => {
 describe('DOM actions', (): void => {
   test('Should add slider in DOM', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -194,7 +194,7 @@ describe('DOM actions', (): void => {
 
   test('Should add hint in DOM with correct value', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -212,7 +212,7 @@ describe('DOM actions', (): void => {
 
   test('Should not add hint in DOM', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 100,
@@ -230,7 +230,7 @@ describe('DOM actions', (): void => {
 
   test('Should add hints in DOM for interval', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'interval',
                           minValue: 0,
                           maxValue: 100,
@@ -248,7 +248,7 @@ describe('DOM actions', (): void => {
 
   test('Should add configuration with correct values', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 0,
                           maxValue: 95,
@@ -272,7 +272,7 @@ describe('DOM actions', (): void => {
 
   test('Should add configuration with correct values fot interval slider', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'interval',
                           minValue: 10,
                           maxValue: 95,
@@ -298,7 +298,7 @@ describe('DOM actions', (): void => {
 
   test('Should hide hint', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 10,
                           maxValue: 95,
@@ -319,7 +319,7 @@ describe('DOM actions', (): void => {
 
   test('Should show hint', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 10,
                           maxValue: 95,
@@ -340,7 +340,7 @@ describe('DOM actions', (): void => {
 
   test('Should hide scale', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 10,
                           maxValue: 95,
@@ -361,7 +361,7 @@ describe('DOM actions', (): void => {
 
   test('Should show hint', (): void => {
     const view = new View({
-                          parentElement: $('#foo'),
+                          $parentElement: $('#foo'),
                           type: 'range',
                           minValue: 10,
                           maxValue: 95,
@@ -382,7 +382,7 @@ describe('DOM actions', (): void => {
 
   test('Should change slider direction from horizontal to vertical', (): void => {
     const controller = new Controller({
-                            parentElement: $('#foo'),
+                            $parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
                             maxValue: 95,
@@ -403,7 +403,7 @@ describe('DOM actions', (): void => {
 
   test('Should change slider direction from vertical to horizontal', (): void => {
     const controller = new Controller({
-                            parentElement: $('#foo'),
+                            $parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
                             maxValue: 95,
@@ -424,7 +424,7 @@ describe('DOM actions', (): void => {
 
   test('Should change slider type from range to interval', (): void => {
     const controller = new Controller({
-                            parentElement: $('#foo'),
+                            $parentElement: $('#foo'),
                             type: 'range',
                             minValue: 10,
                             maxValue: 95,
@@ -445,7 +445,7 @@ describe('DOM actions', (): void => {
 
   test('Should change slider type from interval to range', (): void => {
     const controller = new Controller({
-                            parentElement: $('#foo'),
+                            $parentElement: $('#foo'),
                             type: 'interval',
                             minValue: 10,
                             maxValue: 95,

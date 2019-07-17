@@ -6,7 +6,7 @@ import DEFAULT_SETTINGS from './defaultSettings';
 
   const methods = {
     init(options) {
-      slider = new Application({ parentElement: this, ...options });
+      slider = new Application({ $parentElement: this, ...options });
     },
     setValue(value, valueType) {
       slider.setValue(value, valueType);
@@ -28,7 +28,7 @@ import DEFAULT_SETTINGS from './defaultSettings';
 $('#first-slider').slider({ configuration: true });
 $('#first-slider').slider('setValue', 5);
 
-$('#second-slider').slider({
+$('.js-second-slider').slider({
                           minValue: 3,
                           maxValue: 19,
                           step: 5,
@@ -37,7 +37,7 @@ $('#second-slider').slider({
                           configuration: true,
                         });
 
-$('#third-slider').slider({
+$('.js-third-slider').slider({
                           minValue: 2,
                           maxValue: 31,
                           step: 8,
@@ -46,7 +46,7 @@ $('#third-slider').slider({
                           configuration: true,
                         });
 
-$('#fourth-slider').slider({
+$('.js-fourth-slider').slider({
                           type: 'interval',
                           value: [5, 31],
                           direction: 'vertical',
@@ -55,4 +55,4 @@ $('#fourth-slider').slider({
                           configuration: true,
                           hint: false,
                         });
-$('#fourth-slider').slider('setValue', 20);
+$('.js-fourth-slider').slider('setValue', 20);

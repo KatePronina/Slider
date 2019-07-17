@@ -1,5 +1,5 @@
 export default interface IFullSettings {
-  parentElement: JQuery;
+  $parentElement: JQuery;
   type: string;
   minValue: number;
   maxValue: number;

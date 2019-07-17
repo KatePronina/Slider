@@ -114,7 +114,7 @@ class View {
   }
 
   public remove(): void {
-    this.state.parentElement.html('');
+    this.state.$parentElement.html('');
   }
 
   public onNewValue = (value: number | number[], valueType?: string): void => {}
@@ -124,11 +124,11 @@ class View {
   public onStateChange = (newState: IFullSettings): void => {}
 
   private appendElementToParent(element: HTMLElement): void {
-    this.state.parentElement.append(element);
+    this.state.$parentElement.append(element);
   }
 
   private appendElementToSlider(element: HTMLElement): void {
-    const slider = this.state.parentElement.find('.slider');
+    const slider = this.state.$parentElement.find('.slider');
     slider.append(element);
   }
 
