@@ -37,7 +37,13 @@
   background-color: #e85019;
   border-radius: .3rem;
   color: #ffffff;
-  text-align: center; }
+  text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .slider__hint_vertical {
     left: 1.2rem; }
   .slider__hint_disable {
@@ -52,7 +58,13 @@
   position: absolute;
   color: #bfbfbf;
   font-size: .8rem;
-  cursor: pointer; }
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 
 .configuration {
   display: flex;
