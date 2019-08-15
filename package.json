@@ -19,6 +19,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.12",
     "@types/jquery": "^3.3.30",
+    "@types/webpack-env": "^1.14.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "babel-loader": "^8.0.4",
@@ -42,6 +43,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@types/node": "^12.7.2",
     "babel-polyfill": "^6.26.0",
     "jquery": "^3.4.1",
     "ts-loader": "^5.4.4",

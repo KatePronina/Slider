@@ -1,3 +1,5 @@
-import './scss/base.scss';
+function requireAll(r: any): void {
+  return r.keys().map(r);
+}
 
-import './js/demo';
+requireAll(require.context('./', true, /\.js|scss$/));
