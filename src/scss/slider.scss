@@ -1,3 +1,5 @@
+@import './colors.scss';
+
 .slider-wrapper {
   display: inline-block;
   padding: 1rem 0;
@@ -6,7 +8,7 @@
   width: 18rem;
   height: .25rem;
   position: relative;
-  background-color: #bfbfbf;
+  background-color: $lightgrey;
 
   &_vertical {
     height: 18rem;
@@ -17,7 +19,7 @@
   width: 1.2rem;
   height: 1.2rem;
   border-radius: 50%;
-  background-color: #e85019;
+  background-color: $orange;
   position: absolute;
   top: -.45rem;
   cursor: pointer;
@@ -29,7 +31,7 @@
 .slider__bar {
   height: .25rem;
   position: absolute;
-  background-color: #e85019;
+  background-color: $orange;
 
   &_vertical {
     width: .25rem;
@@ -40,9 +42,9 @@
   padding: .1rem;
   position: absolute;
   top: -2.5rem;
-  background-color: #e85019;
+  background-color: $orange;
   border-radius: .3rem;
-  color: #ffffff;
+  color: $white;
   text-align: center;
 
   -webkit-touch-callout: none;
@@ -69,7 +71,7 @@
 }
 .slider__scale-value {
   position: absolute;
-  color: #bfbfbf;
+  color: $lightgrey;
   font-size: .8rem;
   cursor: pointer;
 
@@ -84,7 +86,7 @@
 .configuration {
   display: flex;
   max-width: 30rem;
-  border: 2px dashed #e85019;
+  border: 2px dashed $orange;
   margin-top: 2rem;
   margin-bottom: 3rem;
 }
