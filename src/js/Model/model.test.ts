@@ -8,7 +8,7 @@ beforeEach((): void => {
 describe('Constructor', (): void => {
   test('Should set custom settings', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -31,7 +31,7 @@ describe('Constructor', (): void => {
 describe('Setting value', (): void => {
   test('Should update value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'range',
       value: 15,
       minValue: 5,
@@ -50,7 +50,7 @@ describe('Setting value', (): void => {
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'range',
       value: 15,
       minValue: 5,
@@ -69,7 +69,7 @@ describe('Setting value', (): void => {
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'range',
       value: 15,
       minValue: 5,
@@ -88,7 +88,7 @@ describe('Setting value', (): void => {
 
   test('Should update interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -107,7 +107,7 @@ describe('Setting value', (): void => {
 
   test('Should update and correct interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -126,7 +126,7 @@ describe('Setting value', (): void => {
 
   test('Should correct interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 0,
@@ -147,7 +147,7 @@ describe('Setting value', (): void => {
 
   test('Should correct interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [1, 9],
       minValue: 0,
@@ -167,7 +167,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 0,
@@ -186,7 +186,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    parentElement: $('.foo'),
+    $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 0,
@@ -205,7 +205,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    parentElement: $('.foo'),
+    $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -224,7 +224,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    parentElement: $('.foo'),
+    $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -243,7 +243,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -262,7 +262,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-       parentElement: $('.foo'),
+       $parentElement: $('.foo'),
         type: 'interval',
         value: [15, 20],
         minValue: 0,
@@ -281,7 +281,7 @@ describe('Setting value', (): void => {
 
   test('Should not set interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -300,7 +300,7 @@ describe('Setting value', (): void => {
 
   test('Should set and correct interval value', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -319,7 +319,7 @@ describe('Setting value', (): void => {
 
   test('Should set one value for interval slider', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -338,7 +338,7 @@ describe('Setting value', (): void => {
 
   test('Should set one value for interval slider', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -357,7 +357,7 @@ describe('Setting value', (): void => {
 
   test('Should not set one value for interval slider', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -376,7 +376,7 @@ describe('Setting value', (): void => {
 
   test('Should not set one value for interval slider', (): void => {
     const model = new Model({
-      parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 0,
