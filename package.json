@@ -13,17 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.6",
-    "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.12",
     "@types/jquery": "^3.3.30",
     "@types/webpack-env": "^1.14.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
-    "babel-loader": "^8.0.4",
-    "css-loader": "^2.1.0",
     "eslint": "^5.3.0",
     "eslint-config-typescript-airbnb-base": "^1.0.0-rc1",
     "eslint-import-resolver-typescript": "^1.1.1",
@@ -33,20 +27,26 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript-eslint-parser": "^22.0.0",
+    "webpack": "^4.26.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/node": "^12.7.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^2.1.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "ts-jest": "^24.0.2",
-    "typescript-eslint-parser": "^22.0.0",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
-  },
-  "dependencies": {
-    "@types/node": "^12.7.2",
-    "babel-polyfill": "^6.26.0",
     "jquery": "^3.4.1",
     "ts-loader": "^5.4.4",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   }
 }
