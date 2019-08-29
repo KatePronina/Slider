@@ -38,26 +38,18 @@ class RangeSliderView extends ComponentSliderView {
 
   public onNewValue = (value: number): void => {};
 
-  private templateHorizontal: string =
-      '<div class="slider">'
-        + '<div class="slider__bar"></div>'
-        + '<div class="slider__point"></div>'
-      + '</div>';
+  private templateHorizontal = require('./templates/rangeHorizontal.hbs');
 
-  private templateVertical: string =
-  '<div class="slider slider_vertical">'
-    + '<div class="slider__bar slider__bar_vertical"></div>'
-    + '<div class="slider__point slider__point_vertical"></div>'
-  + '</div>';
+  private templateVertical = require('./templates/rangeVertical.hbs');
 
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
     if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      sliderElement.innerHTML = this.templateVertical;
+      sliderElement.innerHTML = this.templateVertical();
     } else {
-      sliderElement.innerHTML = this.templateHorizontal;
+      sliderElement.innerHTML = this.templateHorizontal();
     }
 
     this.DOMElement = sliderElement;

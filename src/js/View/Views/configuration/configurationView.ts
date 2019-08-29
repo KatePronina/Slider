@@ -81,111 +81,18 @@ class ConfigurationView extends ComponentView {
     (this.typeToggle as HTMLInputElement).addEventListener('change', this.onTypeChange);
   }
 
-  private templateRange =
-    '<fieldset class="configuration__fieldset">'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label"> Текущее значение'
-          + '<input class="configuration__value-input" type="number" id="currentValue" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Размер шага'
-          + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Минимальное значение'
-          + '<input class="configuration__value-input" type="number" id="minValue" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__value">'
-        + '<label class="configuration__label">Максимальное значение'
-          + '<input class="configuration__value-input" type="number" id="maxValue" />'
-        + '</label>'
-      + '</div>'
-    + '</fieldset>'
-    + '<fieldset class="configuration__fieldset">'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Подсказка'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Шкала'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Два значения'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
-        + '</label>'
-      + '</div>'
-      + '<div class="configuration__checkbox">'
-        + '<label class="configuration__label">Вертикальный вид'
-          + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
-        + '</label>'
-      + '</div>'
-    + '</fieldset>';
+  private templateRange = require('./templates/range.hbs');
 
-  private templateInterval =
-  '<fieldset class="configuration__fieldset">'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Текущее минимальное значение'
-        + '<input class="configuration__value-input" type="number" id="currentMinValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Текущее максимальное значение'
-        + '<input class="configuration__value-input" type="number" id="currentMaxValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Размер шага'
-        + '<input class="configuration__value-input" min="1" type="number" id="stepSize" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Минимальное значение'
-        + '<input class="configuration__value-input" type="number" id="minValue" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__value">'
-      + '<label class="configuration__label">Максимальное значение'
-        + '<input class="configuration__value-input" type="number" id="maxValue" />'
-      + '</label>'
-    + '</div>'
-  + '</fieldset>'
-  + '<fieldset class="configuration__fieldset">'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Подсказка'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleHint" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Шкала'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleScale" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Два значения'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleType" />'
-      + '</label>'
-    + '</div>'
-    + '<div class="configuration__checkbox">'
-      + '<label class="configuration__label">Вертикальный вид'
-        + '<input class="configuration__checkbox-input" type="checkbox" id="toggleVertical" />'
-      + '</label>'
-    + '</div>'
-  + '</fieldset>';
+  private templateInterval = require('./templates/interval.hbs');
 
   private createDOMElement(): void {
     const configurationForm = document.createElement('form');
     configurationForm.classList.add('configuration');
 
     if (this.state.type === sliderOptions.TYPE_RANGE) {
-      configurationForm.innerHTML = this.templateRange;
+      configurationForm.innerHTML = this.templateRange();
     } else {
-      configurationForm.innerHTML = this.templateInterval;
+      configurationForm.innerHTML = this.templateInterval();
     }
 
     this.DOMElement = configurationForm;

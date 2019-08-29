@@ -33,19 +33,9 @@ class IntervalSliderView extends ComponentSliderView {
     this.createDOMElement();
   }
 
-  private templateHorizontal: string =
-  '<div class="slider">'
-    + '<div class="slider__bar"></div>'
-    + '<div class="slider__point slider__point_min"></div>'
-    + '<div class="slider__point slider__point_max"></div>'
-  + '</div>';
+  private templateHorizontal = require('./templates/intervalHorizontal.hbs');
 
-  private templateVertical: string =
-  '<div class="slider slider_vertical">'
-    + '<div class="slider__bar slider__bar_vertical"></div>'
-    + '<div class="slider__point slider__point_vertical slider__point_min"></div>'
-    + '<div class="slider__point slider__point_vertical slider__point_max"></div>'
-  + '</div>';
+  private templateVertical = require('./templates/intervalVertical.hbs');
 
   public onChangedValue(value: number[]): void {
     this.state.value = value;
@@ -69,9 +59,9 @@ class IntervalSliderView extends ComponentSliderView {
     sliderElement.classList.add('slider-wrapper');
 
     if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
-      sliderElement.innerHTML = this.templateVertical;
+      sliderElement.innerHTML = this.templateVertical();
     } else {
-      sliderElement.innerHTML = this.templateHorizontal;
+      sliderElement.innerHTML = this.templateHorizontal();
     }
 
     this.DOMElement = sliderElement;

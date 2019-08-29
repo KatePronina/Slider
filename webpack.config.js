@@ -25,6 +25,11 @@ let conf = {
                 loader: 'babel-loader'
             },
             {
+                test: /\.hbs/,
+                loader: 'handlebars-loader',
+                exclude: /node_modules/
+            },
+            {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
