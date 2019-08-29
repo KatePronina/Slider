@@ -1,8 +1,8 @@
 import sliderOptions from '../../../sliderOptions';
-import IFullSettings from '../../../application.interfaces';
-import ComponentSlider from './componentSliderView';
+import IFullSettings from '../../../IFullSettings';
+import ComponentSliderView from './ComponentSliderView';
 
-class RangeSliderView extends ComponentSlider {
+class RangeSliderView extends ComponentSliderView {
   public pointDOMElement: HTMLElement | null;
 
   private percent: number;
@@ -17,11 +17,11 @@ class RangeSliderView extends ComponentSlider {
             }: IFullSettings) {
     super();
     this.state = {
-              direction,
-              minValue,
-              maxValue,
-              value,
-            };
+      direction,
+      minValue,
+      maxValue,
+      value,
+    };
     this.isMouseDown = false;
     this.createDOMElement();
   }
@@ -36,7 +36,7 @@ class RangeSliderView extends ComponentSlider {
     }
   }
 
-  public onNewValue = (value: number): void => {}
+  public onNewValue = (value: number): void => {};
 
   private templateHorizontal: string =
       '<div class="slider">'
@@ -96,7 +96,7 @@ class RangeSliderView extends ComponentSlider {
         eventCoordinate = event.pageY - this.offset;
       }
 
-      this.percent = ComponentSlider.countPercent(eventCoordinate, this.length);
+      this.percent = ComponentSliderView.countPercent(eventCoordinate, this.length);
       this.onNewValue(this.countValue(this.percent));
     }
   }

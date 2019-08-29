@@ -1,11 +1,11 @@
-import IFullSettings from '../application.interfaces';
+import IFullSettings from '../IFullSettings';
 import sliderOptions from '../sliderOptions';
 
-import RangeSliderView from './Views/slider/rangeSliderView';
-import IntervalSliderView from './Views/slider/intervalSliderView';
-import HintView from './Views/hint/hintView';
-import ScaleView from './Views/scale/scaleView';
-import ConfigurationView from './Views/configuration/configurationView';
+import RangeSliderView from './Views/slider/RangeSliderView';
+import IntervalSliderView from './Views/slider/IntervalSliderView';
+import HintView from './Views/hint/HintView';
+import ScaleView from './Views/scale/ScaleView';
+import ConfigurationView from './Views/configuration/ConfigurationView';
 
 class View {
   public state: IFullSettings;

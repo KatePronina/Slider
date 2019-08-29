@@ -1,8 +1,8 @@
-import IFullSettings from '../../../application.interfaces';
+import IFullSettings from '../../../IFullSettings';
 import sliderOptions from '../../../sliderOptions';
-import ComponentSlider from './componentSliderView';
+import ComponentSliderView from './ComponentSliderView';
 
-class IntervalSliderView extends ComponentSlider {
+class IntervalSliderView extends ComponentSliderView {
   public minPointDOMElement: HTMLElement | null;
 
   public maxPointDOMElement: HTMLElement | null;
@@ -23,11 +23,11 @@ class IntervalSliderView extends ComponentSlider {
             }: IFullSettings) {
     super();
     this.state = {
-              direction,
-              minValue,
-              maxValue,
-              value,
-            };
+      direction,
+      minValue,
+      maxValue,
+      value,
+    };
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
     this.createDOMElement();
@@ -62,7 +62,7 @@ class IntervalSliderView extends ComponentSlider {
     }
   }
 
-  public onNewValue = (value: number[], valueType: string): void => {}
+  public onNewValue = (value: number[], valueType: string): void => {};
 
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
@@ -125,7 +125,7 @@ class IntervalSliderView extends ComponentSlider {
         eventCoordinate = event.pageY - this.offset;
       }
 
-      this.minPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
+      this.minPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
       (this.state.value as number[])[sliderOptions.VALUE_START] = this.countValue(this.minPercent);
       this.onNewValue((this.state.value as number[]), sliderOptions.VALUE_TYPE_MIN);
     }
@@ -136,7 +136,7 @@ class IntervalSliderView extends ComponentSlider {
         eventCoordinate = event.pageY - this.offset;
       }
 
-      this.maxPercent = ComponentSlider.countPercent(eventCoordinate, this.length);
+      this.maxPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
       (this.state.value as number[])[sliderOptions.VALUE_END] = this.countValue(this.maxPercent);
       this.onNewValue((this.state.value as number[]), sliderOptions.VALUE_TYPE_MAX);
     }

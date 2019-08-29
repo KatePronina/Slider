@@ -1,7 +1,7 @@
-import IFullSettings from '../../../application.interfaces';
+import IFullSettings from '../../../IFullSettings';
 import sliderOptions from '../../../sliderOptions';
-import ComponentView from '../componentView';
-import IHintSettings from './hint.interfaces';
+import ComponentView from '../ComponentView';
+import IHintSettings from './IHintSettings';
 
 class HintView extends ComponentView {
   public offset: number;

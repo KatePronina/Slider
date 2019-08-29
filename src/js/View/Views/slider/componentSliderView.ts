@@ -1,5 +1,5 @@
-import ComponentView from '../componentView';
-import ISliderSettings from './slider.interfaces';
+import ComponentView from '../ComponentView';
+import ISliderSettings from './ISliderSettings';
 
 abstract class ComponentSlider extends ComponentView {
   public barDOMElement: HTMLElement | null;

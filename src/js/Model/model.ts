@@ -1,6 +1,6 @@
-import IFullSettings from '../application.interfaces';
+import IFullSettings from '../IFullSettings';
 import sliderOptions from '../sliderOptions';
-import IModelSettings from './model.interfaces';
+import IModelSettings from './IModelSettings';
 
 class Model {
   public state: IModelSettings;
@@ -39,9 +39,9 @@ class Model {
     this.onSetState({ ...newState, value: this.state.value });
   }
 
-  public onSetValue = (value: number | number[]): void => {}
+  public onSetValue = (value: number | number[]): void => {};
 
-  public onSetState = (newState: IFullSettings): void => {}
+  public onSetState = (newState: IFullSettings): void => {};
 
   private setIntervalSliderValue(value: number | number[], valueType?: string): void {
     if (typeof value === 'number') {

@@ -1,7 +1,7 @@
-import IFullSettings from '../../../application.interfaces';
+import IFullSettings from '../../../IFullSettings';
 import sliderOptions from '../../../sliderOptions';
-import ComponentView from '../componentView';
-import IScaleSettings from './scale.interfaces';
+import ComponentView from '../ComponentView';
+import IScaleSettings from './IScaleSettings';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
@@ -52,7 +52,7 @@ class ScaleView extends ComponentView {
     }
   }
 
-  public onNewValue = (value: number): void => {}
+  public onNewValue = (value: number): void => {};
 
   private createDOMElement(): void {
     const scale = document.createElement('div');

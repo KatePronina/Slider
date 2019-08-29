@@ -4,4 +4,4 @@ export default interface IModelSettings {
   maxValue: number;
   value: number | number[];
   step: number;
-};
+}

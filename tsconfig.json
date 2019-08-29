@@ -1,13 +1,13 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "sourceMap": true,
-        "lib": ["es2015", "es2017", "dom"],
-    },
-    "exclude": [
-        "node_modules",
-        "src/**/**/*.test.ts"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "lib": ["es2015", "es2017", "dom"],
+  },
+  "exclude": [
+    "node_modules",
+    "src/**/**/*.test.ts"
+  ]
 }

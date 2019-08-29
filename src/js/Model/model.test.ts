@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import Model from './model';
+import Model from './Model';
 
 beforeEach((): void => {
   document.body.innerHTML = '<div id="foo"></div>';
@@ -41,7 +41,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-     });
+    });
 
     model.setValue(10);
 
@@ -60,7 +60,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-     });
+    });
 
     model.setValue(10000);
 
@@ -79,7 +79,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-     });
+    });
 
     model.setValue(-10000);
 
@@ -177,7 +177,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([5, 70]);
 
@@ -186,7 +186,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    $parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 0,
@@ -196,7 +196,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([30, 35]);
 
@@ -205,7 +205,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    $parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [10, 60],
       minValue: 5,
@@ -215,7 +215,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([70, 70]);
 
@@ -224,7 +224,7 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-    $parentElement: $('.foo'),
+      $parentElement: $('.foo'),
       type: 'interval',
       value: [15, 20],
       minValue: 5,
@@ -234,7 +234,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([5, 50]);
 
@@ -253,7 +253,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([50, 72]);
 
@@ -262,17 +262,17 @@ describe('Setting value', (): void => {
 
   test('Should set interval value', (): void => {
     const model = new Model({
-       $parentElement: $('.foo'),
-        type: 'interval',
-        value: [15, 20],
-        minValue: 0,
-        maxValue: 100,
-        step: 5,
-        direction: 'vertical',
-        hint: false,
-        scale: true,
-        configuration: true,
-                  });
+      $parentElement: $('.foo'),
+      type: 'interval',
+      value: [15, 20],
+      minValue: 0,
+      maxValue: 100,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      configuration: true,
+    });
 
     model.setValue([-50, 110]);
 
@@ -291,7 +291,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([100, 100]);
 
@@ -310,7 +310,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue([33, 36]);
 
@@ -329,7 +329,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue(51);
 
@@ -348,7 +348,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue(21);
 
@@ -367,7 +367,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue(150);
 
@@ -386,7 +386,7 @@ describe('Setting value', (): void => {
       hint: false,
       scale: true,
       configuration: true,
-                  });
+    });
 
     model.setValue(-10);
 

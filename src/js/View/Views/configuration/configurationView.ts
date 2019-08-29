@@ -1,6 +1,6 @@
-import IFullSettings from '../../../application.interfaces';
+import IFullSettings from '../../../IFullSettings';
 import sliderOptions from '../../../sliderOptions';
-import ComponentView from '../componentView';
+import ComponentView from '../ComponentView';
 
 class ConfigurationView extends ComponentView {
   private currentValueInput: HTMLInputElement | null;
@@ -40,21 +40,21 @@ class ConfigurationView extends ComponentView {
     }
   }
 
-  public onNewValue = (value: number | number[], valueType?: string): void => {}
+  public onNewValue = (value: number | number[], valueType?: string): void => {};
 
-  public onStepChange = (event: Event): void => {}
+  public onStepChange = (event: Event): void => {};
 
-  public onMinValueChange = (event: Event): void => {}
+  public onMinValueChange = (event: Event): void => {};
 
-  public onMaxValueChange = (event: Event): void => {}
+  public onMaxValueChange = (event: Event): void => {};
 
-  public onHintChange = (): void => {}
+  public onHintChange = (): void => {};
 
-  public onScaleChange = (): void => {}
+  public onScaleChange = (): void => {};
 
-  public onDirectionChange = (): void => {}
+  public onDirectionChange = (): void => {};
 
-  public onTypeChange = (): void => {}
+  public onTypeChange = (): void => {};
 
   public bindEvents(): void {
     if (this.state.type === sliderOptions.TYPE_RANGE) {
