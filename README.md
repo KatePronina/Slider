@@ -2,6 +2,9 @@
 
 [Демо-страница](https://katepronina.github.io/Slider/ "Демо-страница")
 
+### Clone repository
+`git clone https://github.com/KatePronina/Slider`
+
 ### Сборка (development)
 `npm run dev`
 
