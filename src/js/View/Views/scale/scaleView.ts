@@ -77,19 +77,16 @@ class ScaleView extends ComponentView {
     values.push(this.state.maxValue);
 
     const valuesFragment = document.createDocumentFragment();
-    for (let i = 0; i < values.length; i += 1) {
+    values.forEach((value) => {
       const valueElement = document.createElement('div');
       valueElement.classList.add('slider__scale-value');
-      valueElement.textContent = values[i].toString();
+      valueElement.textContent = value.toString();
 
-      const offsetValue = valueElement.offsetWidth / 2;
-      if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
-        valueElement.style.left = `${this.countLength(values[i]) - offsetValue}%`;
-      } else {
-        valueElement.style.top = `${this.countLength(values[i]) - offsetValue}%`;
-      }
+      const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
+      this.state.direction === sliderOptions.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
+      
       valuesFragment.append(valueElement);
-    }
+    })
 
     scale.append(valuesFragment);
     this.DOMElement = scale;
