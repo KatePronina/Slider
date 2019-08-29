@@ -97,9 +97,8 @@ class Model {
   }
 
   private checkStep(value: number): number {
-    let valueStepCheck = (Math.round((value - this.state.minValue) / this.state.step));
-    valueStepCheck = (valueStepCheck * this.state.step) + this.state.minValue;
-
+    const valueStepCheck = ((Math.round((value - this.state.minValue) / this.state.step)) * this.state.step) + this.state.minValue;
+    
     if (valueStepCheck >= this.state.maxValue) {
       return this.state.maxValue;
     }
