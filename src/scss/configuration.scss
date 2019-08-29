@@ -1,0 +1,23 @@
+@import './colors.scss';
+
+.configuration {
+  display: flex;
+  max-width: 30rem;
+  border: 2px dashed $orange;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+
+  &__fieldset {
+    border: none;
+  }
+
+  &__value,
+  &__checkbox {
+    margin-top: .5rem;
+  }
+
+  &__value-input {
+    max-width: 3rem;
+    margin-left: .3rem;
+  }
+}
