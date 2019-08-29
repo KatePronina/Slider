@@ -1,4 +1,4 @@
-import sliderOptions from '../../../sliderOptions';
+import constants from '../../../constants';
 import IFullSettings from '../../../IFullSettings';
 import ComponentSliderView from './ComponentSliderView';
 
@@ -27,7 +27,7 @@ class RangeSliderView extends ComponentSliderView {
   }
 
   public onChangedValue(value: number): void {
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+    if (this.state.direction === constants.DIRECTION_VERTICAL) {
       (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value)}%`;
       (this.pointDOMElement as HTMLElement).style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`;
     } else {
@@ -46,7 +46,7 @@ class RangeSliderView extends ComponentSliderView {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+    if (this.state.direction === constants.DIRECTION_VERTICAL) {
       sliderElement.innerHTML = this.templateVertical();
     } else {
       sliderElement.innerHTML = this.templateHorizontal();
@@ -83,7 +83,7 @@ class RangeSliderView extends ComponentSliderView {
 
   private onDocumentMouseMove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
-      const eventCoordinate = this.state.direction === sliderOptions.DIRECTION_VERTICAL ? event.pageY - this.offset : event.pageX - this.offset;
+      const eventCoordinate = this.state.direction === constants.DIRECTION_VERTICAL ? event.pageY - this.offset : event.pageX - this.offset;
 
       this.percent = ComponentSliderView.countPercent(eventCoordinate, this.length);
       this.onNewValue(this.countValue(this.percent));

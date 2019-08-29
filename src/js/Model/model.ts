@@ -1,5 +1,5 @@
 import IFullSettings from '../IFullSettings';
-import sliderOptions from '../sliderOptions';
+import constants from '../constants';
 import IModelSettings from './IModelSettings';
 
 class Model {
@@ -9,7 +9,7 @@ class Model {
                     type,
                     minValue,
                     maxValue,
-                    value = type === sliderOptions.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
+                    value = type === constants.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
                     step,
                    }: IFullSettings) {
     this.state = {
@@ -20,9 +20,9 @@ class Model {
   }
 
   public setValue(value: number | number[], valueType?: string): void {
-    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    if (this.state.type === constants.TYPE_INTERVAL) {
       this.setIntervalSliderValue(value, valueType);
-    } else if (this.state.type === sliderOptions.TYPE_RANGE && Array.isArray(value)) {
+    } else if (this.state.type === constants.TYPE_RANGE && Array.isArray(value)) {
       [(this.state.value as number)] = value;
     } else if (this.state.value !== this.checkValue((value as number))) {
       this.state.value = this.checkValue((value as number));
@@ -46,11 +46,11 @@ class Model {
   private setIntervalSliderValue(value: number | number[], valueType?: string): void {
     if (typeof value === 'number') {
       const checkedValue = this.checkValue(value);
-      if (valueType === sliderOptions.VALUE_TYPE_MIN) {
-        const newValue = [checkedValue, (this.state.value as number[])[sliderOptions.VALUE_END]];
+      if (valueType === constants.VALUE_TYPE_MIN) {
+        const newValue = [checkedValue, (this.state.value as number[])[constants.VALUE_END]];
         this.state.value = Model.checkInterval(newValue, valueType);
-      } else if (valueType === sliderOptions.VALUE_TYPE_MAX) {
-        const newValue = [(this.state.value as number[])[sliderOptions.VALUE_START], checkedValue];
+      } else if (valueType === constants.VALUE_TYPE_MAX) {
+        const newValue = [(this.state.value as number[])[constants.VALUE_START], checkedValue];
         this.state.value = Model.checkInterval(newValue, valueType);
       } else if (typeof value === 'number' && typeof this.state.value === 'number') {
         this.state.value = [value, this.state.maxValue];
@@ -65,20 +65,20 @@ class Model {
   }
 
   private static checkInterval(values: number[], valueType?: string): number[] {
-    if (valueType === sliderOptions.VALUE_TYPE_MIN) {
-      if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
-        return [values[sliderOptions.VALUE_END], values[sliderOptions.VALUE_END]];
+    if (valueType === constants.VALUE_TYPE_MIN) {
+      if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+        return [values[constants.VALUE_END], values[constants.VALUE_END]];
       }
     }
 
-    if (valueType === sliderOptions.VALUE_TYPE_MAX) {
-      if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
-        return [values[sliderOptions.VALUE_START], values[sliderOptions.VALUE_START]];
+    if (valueType === constants.VALUE_TYPE_MAX) {
+      if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+        return [values[constants.VALUE_START], values[constants.VALUE_START]];
       }
     }
 
-    if (values[sliderOptions.VALUE_START] > values[sliderOptions.VALUE_END]) {
-      return [values[sliderOptions.VALUE_END], values[sliderOptions.VALUE_END]];
+    if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+      return [values[constants.VALUE_END], values[constants.VALUE_END]];
     }
 
     return values;
@@ -108,15 +108,15 @@ class Model {
 
   private createIntervalValue(value: number): number[] {
     if (this.defineValueType(value)) {
-      return [(this.state.value as number[])[sliderOptions.VALUE_START], value];
+      return [(this.state.value as number[])[constants.VALUE_START], value];
     }
 
-    return [value, (this.state.value as number[])[sliderOptions.VALUE_END]];
+    return [value, (this.state.value as number[])[constants.VALUE_END]];
   }
 
   private defineValueType(value: number): boolean {
-    const endValueDifference = (this.state.value as number[])[sliderOptions.VALUE_END] - value;
-    const startValueDifference = value - (this.state.value as number[])[sliderOptions.VALUE_START];
+    const endValueDifference = (this.state.value as number[])[constants.VALUE_END] - value;
+    const startValueDifference = value - (this.state.value as number[])[constants.VALUE_START];
     return endValueDifference < startValueDifference;
   }
 }

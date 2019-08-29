@@ -1,3 +1,4 @@
+import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 import ISliderSettings from './ISliderSettings';
 
@@ -27,8 +28,8 @@ abstract class ComponentSlider extends ComponentView {
 
   protected static countPercent(coordinate: number, length: number): number {
     let percent = coordinate / length;
-    if (percent > 1) percent = 1;
-    if (percent < 0) percent = 0;
+    if (percent > constants.PERCENT_MAX) percent = 1;
+    if (percent < constants.PERCENT_MIN) percent = 0;
     return percent;
   }
 }

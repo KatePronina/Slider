@@ -1,5 +1,5 @@
 import IFullSettings from '../IFullSettings';
-import sliderOptions from '../sliderOptions';
+import constants from '../constants';
 
 import RangeSliderView from './Views/slider/RangeSliderView';
 import IntervalSliderView from './Views/slider/IntervalSliderView';
@@ -37,9 +37,9 @@ class View {
   public initSlider(state: IFullSettings): void {
     this.state = state;
 
-    if (this.state.type === sliderOptions.TYPE_RANGE) {
+    if (this.state.type === constants.TYPE_RANGE) {
       this.slider = new RangeSliderView(this.state);
-    } else if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    } else if (this.state.type === constants.TYPE_INTERVAL) {
       this.slider = new IntervalSliderView(this.state);
     }
 
@@ -50,7 +50,7 @@ class View {
     this.sliderElement = this.slider.getDOMElement();
     this.appendElementToParent(this.sliderElement);
 
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+    if (this.state.direction === constants.DIRECTION_VERTICAL) {
       this.slider.length = this.sliderElement.offsetHeight;
       this.slider.offset = this.sliderElement.offsetTop;
     } else {
@@ -58,7 +58,7 @@ class View {
       this.slider.offset = this.sliderElement.offsetLeft;
     }
 
-    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    if (this.state.type === constants.TYPE_INTERVAL) {
       const point = (this.slider as IntervalSliderView).minPointDOMElement;
       this.slider.pointWidth = (point as HTMLElement).offsetWidth;
     } else {
@@ -68,7 +68,7 @@ class View {
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
-    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    if (this.state.type === constants.TYPE_INTERVAL) {
       (this.slider as IntervalSliderView).onChangedValue(this.state.value as number[]);
     } else {
       (this.slider as RangeSliderView).onChangedValue(this.state.value as number);
@@ -90,20 +90,20 @@ class View {
   public onChangedValue(value: number | number[]): void {
     this.state.value = value;
 
-    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    if (this.state.type === constants.TYPE_INTERVAL) {
       (this.slider as IntervalSliderView).onChangedValue((value as number[]));
     } else {
       (this.slider as RangeSliderView).onChangedValue((value as number));
     }
 
     if (this.hint) {
-      if (this.state.type === sliderOptions.TYPE_RANGE) {
+      if (this.state.type === constants.TYPE_RANGE) {
         const length = this.slider.countLength((value as number));
         this.hint.onChangedValue(value, length);
       } else {
-        const length = this.slider.countLength((value as number[])[sliderOptions.VALUE_START]);
+        const length = this.slider.countLength((value as number[])[constants.VALUE_START]);
         this.hint.onChangedValue(value, length);
-        const maxLength = this.slider.countLength((value as number[])[sliderOptions.VALUE_END]);
+        const maxLength = this.slider.countLength((value as number[])[constants.VALUE_END]);
         (this.hintMaxValue as HintView).onChangedValue(value, maxLength);
       }
     }
@@ -137,30 +137,30 @@ class View {
     this.hintElement = this.hint.getDOMElement();
     this.appendElementToSlider(this.hintElement);
 
-    if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+    if (this.state.direction === constants.DIRECTION_VERTICAL) {
       this.hint.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
     } else {
       this.hint.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
     }
 
-    if (this.state.type === sliderOptions.TYPE_INTERVAL) {
+    if (this.state.type === constants.TYPE_INTERVAL) {
       this.hintMaxValue = new HintView(this.state, true);
       this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
       this.appendElementToSlider(this.hintMaxValueElement);
 
-      if (this.state.direction === sliderOptions.DIRECTION_VERTICAL) {
+      if (this.state.direction === constants.DIRECTION_VERTICAL) {
         this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.length;
       } else {
         this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.length;
       }
     }
 
-    if (this.state.type === sliderOptions.TYPE_RANGE) {
+    if (this.state.type === constants.TYPE_RANGE) {
       const length = this.slider.countLength(this.state.value as number);
       this.hint.onChangedValue((this.state.value as number), length);
     } else {
-      const maxValue = (this.state.value as number[])[sliderOptions.VALUE_END];
-      const minValue = (this.state.value as number[])[sliderOptions.VALUE_START];
+      const maxValue = (this.state.value as number[])[constants.VALUE_END];
+      const minValue = (this.state.value as number[])[constants.VALUE_START];
       const maxLength = this.slider.countLength(maxValue);
       const minLength = this.slider.countLength(minValue);
       this.hint.onChangedValue((this.state.value as number[]), minLength);
@@ -169,7 +169,7 @@ class View {
   }
 
   private initScale(): void {
-    if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
+    if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
       const width = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
       this.scale = new ScaleView(this.state, width);
     } else {
@@ -239,18 +239,18 @@ class View {
     };
 
     this.configuration.onDirectionChange = (): void => {
-      if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
-        this.onDirectionChange({ ...this.state, direction: sliderOptions.DIRECTION_VERTICAL });
+      if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
+        this.onDirectionChange({ ...this.state, direction: constants.DIRECTION_VERTICAL });
       } else {
-        this.onDirectionChange({ ...this.state, direction: sliderOptions.DIRECTION_HORIZONTAL });
+        this.onDirectionChange({ ...this.state, direction: constants.DIRECTION_HORIZONTAL });
       }
     };
 
     this.configuration.onTypeChange = (): void => {
-      if (this.state.type === sliderOptions.TYPE_RANGE) {
-        this.onStateChange({ ...this.state, type: sliderOptions.TYPE_INTERVAL });
+      if (this.state.type === constants.TYPE_RANGE) {
+        this.onStateChange({ ...this.state, type: constants.TYPE_INTERVAL });
       } else {
-        this.onStateChange({ ...this.state, type: sliderOptions.TYPE_RANGE });
+        this.onStateChange({ ...this.state, type: constants.TYPE_RANGE });
       }
     };
 

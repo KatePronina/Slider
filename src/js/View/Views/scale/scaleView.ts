@@ -1,5 +1,5 @@
 import IFullSettings from '../../../IFullSettings';
-import sliderOptions from '../../../sliderOptions';
+import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 import IScaleSettings from './IScaleSettings';
 
@@ -32,7 +32,7 @@ class ScaleView extends ComponentView {
     valueElements.forEach((element): void => {
       const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
 
-      if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
+      if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
         const { left } = (element as HTMLElement).style;
         const elementCurrentOffset = parseInt((left as string).slice(0, -1), 10);
         (element as HTMLElement).style.left = `${elementCurrentOffset - elementOffset}%`;
@@ -45,10 +45,10 @@ class ScaleView extends ComponentView {
   }
 
   public toggleDisplay(): void {
-    if (this.DOMElement.classList.contains(sliderOptions.SCALE_DISABLE_CLASS)) {
-      this.DOMElement.classList.remove(sliderOptions.SCALE_DISABLE_CLASS);
+    if (this.DOMElement.classList.contains(constants.SCALE_DISABLE_CLASS)) {
+      this.DOMElement.classList.remove(constants.SCALE_DISABLE_CLASS);
     } else {
-      this.DOMElement.classList.add(sliderOptions.SCALE_DISABLE_CLASS);
+      this.DOMElement.classList.add(constants.SCALE_DISABLE_CLASS);
     }
   }
 
@@ -57,7 +57,7 @@ class ScaleView extends ComponentView {
   private createDOMElement(): void {
     const scale = document.createElement('div');
     scale.classList.add('slider__scale');
-    if (this.state.direction === sliderOptions.DIRECTION_HORIZONTAL) {
+    if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
       scale.style.top = '.7rem';
       scale.style.width = `${this.sliderLength}px`;
     } else {
@@ -83,7 +83,7 @@ class ScaleView extends ComponentView {
       valueElement.textContent = value.toString();
 
       const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
-      this.state.direction === sliderOptions.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
+      this.state.direction === constants.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
       
       valuesFragment.append(valueElement);
     })

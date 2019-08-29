@@ -1,8 +1,10 @@
-const sliderOptions = {
+const constants = {
   TYPE_RANGE: 'range',
   TYPE_INTERVAL: 'interval',
   VALUE_START: 0,
   VALUE_END: 1,
+  PERCENT_MIN: 0,
+  PERCENT_MAX: 1,
   DIRECTION_HORIZONTAL: 'horizontal',
   DIRECTION_VERTICAL: 'vertical',
   VALUE_TYPE_MIN: 'min',
@@ -12,4 +14,4 @@ const sliderOptions = {
   SCALE_DISABLE_CLASS: 'slider__scale_disable',
 };
 
-export default sliderOptions;
+export default constants;
