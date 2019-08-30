@@ -82,8 +82,8 @@ class IntervalSliderView extends ComponentSliderView {
 
     this.bindEventsToDocument();
 
-    (this.minPointDOMElement as HTMLElement).style.zIndex = '2';
-    (this.maxPointDOMElement as HTMLElement).style.zIndex = '1';
+    (this.minPointDOMElement as HTMLElement).classList.add(constants.POINT_ACTIVE_CLASS);
+    (this.maxPointDOMElement as HTMLElement).classList.remove(constants.POINT_ACTIVE_CLASS);
   }
 
   private onMaxPointMouseDown = (): void => {
@@ -91,8 +91,8 @@ class IntervalSliderView extends ComponentSliderView {
 
     this.bindEventsToDocument();
 
-    (this.minPointDOMElement as HTMLElement).style.zIndex = '1';
-    (this.maxPointDOMElement as HTMLElement).style.zIndex = '2';
+    (this.minPointDOMElement as HTMLElement).classList.remove(constants.POINT_ACTIVE_CLASS);
+    (this.maxPointDOMElement as HTMLElement).classList.add(constants.POINT_ACTIVE_CLASS);
   }
 
   private bindEventsToDocument(): void {

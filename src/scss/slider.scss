@@ -28,6 +28,10 @@
     &_vertical {
       left: -.47rem;
     }
+
+    &_active {
+      z-index: 2;
+    }
   }
 
   &__bar {
