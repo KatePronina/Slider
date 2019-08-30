@@ -76,6 +76,14 @@
     &_disable {
       display: none;
     }
+
+    &_position_horizontal {
+      top: .7rem;
+    }
+
+    &_position_vertical {
+      left: -1.7rem;
+    }
   }
 
   &__scale-value {

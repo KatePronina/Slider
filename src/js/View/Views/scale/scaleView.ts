@@ -58,10 +58,10 @@ class ScaleView extends ComponentView {
     const scale = document.createElement('div');
     scale.classList.add('slider__scale');
     if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
-      scale.style.top = '.7rem';
+      scale.classList.add(constants.SCALE_HORIZONTAL_CLASS);
       scale.style.width = `${this.sliderLength}px`;
     } else {
-      scale.style.left = '-1.7rem';
+      scale.classList.add(constants.SCALE_VERTICAL_CLASS);
       scale.style.height = `${this.sliderLength}px`;
     }
 

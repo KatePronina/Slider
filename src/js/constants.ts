@@ -12,6 +12,8 @@ const constants = {
   HINT_VERTICAL_CLASS: 'slider__hint_vertical',
   HINT_DISABLE_CLASS: 'slider__hint_disable',
   SCALE_DISABLE_CLASS: 'slider__scale_disable',
+  SCALE_HORIZONTAL_CLASS: 'slider__scale_position_horizontal',
+  SCALE_VERTICAL_CLASS: 'slider__scale_position_vertical',
   POINT_ACTIVE_CLASS: 'slider__point_active',
 };
 
