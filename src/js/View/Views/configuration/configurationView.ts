@@ -97,18 +97,18 @@ class ConfigurationView extends ComponentView {
 
     this.DOMElement = configurationForm;
     if (this.state.type === constants.TYPE_RANGE) {
-      this.currentValueInput = this.DOMElement.querySelector('#currentValue');
+      this.currentValueInput = this.DOMElement.querySelector('.js-current-value');
     } else {
-      this.currentMinValueInput = this.DOMElement.querySelector('#currentMinValue');
-      this.currentMaxValueInput = this.DOMElement.querySelector('#currentMaxValue');
+      this.currentMinValueInput = this.DOMElement.querySelector('.js-current-min-value');
+      this.currentMaxValueInput = this.DOMElement.querySelector('.js-current-max-value');
     }
-    this.stepSizeInput = this.DOMElement.querySelector('#stepSize');
-    this.minValueInput = this.DOMElement.querySelector('#minValue');
-    this.maxValueInput = this.DOMElement.querySelector('#maxValue');
-    this.hintToggle = this.DOMElement.querySelector('#toggleHint');
-    this.scaleToggle = this.DOMElement.querySelector('#toggleScale');
-    this.typeToggle = this.DOMElement.querySelector('#toggleType');
-    this.verticalToggle = this.DOMElement.querySelector('#toggleVertical');
+    this.stepSizeInput = this.DOMElement.querySelector('.js-step-size');
+    this.minValueInput = this.DOMElement.querySelector('.js-min-value');
+    this.maxValueInput = this.DOMElement.querySelector('.js-max-value');
+    this.hintToggle = this.DOMElement.querySelector('.js-toggle-hint');
+    this.scaleToggle = this.DOMElement.querySelector('.js-toggle-scale');
+    this.typeToggle = this.DOMElement.querySelector('.js-toggle-type');
+    this.verticalToggle = this.DOMElement.querySelector('.js-toggle-vertical');
 
     this.setStartValues();
   }
