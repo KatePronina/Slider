@@ -62,7 +62,7 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.hint).toEqual(expect.any(HintView));
+    expect(view.hintView).toEqual(expect.any(HintView));
   });
 
   test('Should not create hint', (): void => {
@@ -79,7 +79,7 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.hint).toBeUndefined();
+    expect(view.hintView).toBeUndefined();
   });
 
   test('Should create scale', (): void => {
@@ -96,7 +96,7 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.scale).toEqual(expect.any(ScaleView));
+    expect(view.scaleView).toEqual(expect.any(ScaleView));
   });
 
   test('Should not create scale', (): void => {
@@ -113,7 +113,7 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.scale).toBeUndefined();
+    expect(view.scaleView).toBeUndefined();
   });
 
   test('Should create configuration panel', (): void => {
@@ -130,7 +130,7 @@ describe('Constructor', (): void => {
       configuration: true,
     });
 
-    expect(view.configuration).toEqual(expect.any(ConfigurationView));
+    expect(view.configurationView).toEqual(expect.any(ConfigurationView));
   });
 
   test('Should not create configuration panel', (): void => {
@@ -147,7 +147,7 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.configuration).toBeUndefined();
+    expect(view.configurationView).toBeUndefined();
   });
 
   test('Should save parent element', (): void => {
@@ -164,8 +164,8 @@ describe('Constructor', (): void => {
       configuration: false,
     });
 
-    expect(view.state.$parentElement).toBeDefined();
-    expect(view.state.$parentElement).toEqual(expect.anything());
+    expect(view.$parentElement).toBeDefined();
+    expect(view.$parentElement).toEqual(expect.anything());
   });
 });
 

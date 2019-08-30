@@ -4,35 +4,40 @@ import ComponentView from '../ComponentView';
 
 class ConfigurationView extends ComponentView {
   private currentValueInput: HTMLInputElement | null;
-
   private currentMinValueInput: HTMLInputElement | null;
-
   private currentMaxValueInput: HTMLInputElement | null;
-
   private stepSizeInput: HTMLInputElement | null;
-
   private minValueInput: HTMLInputElement | null;
-
   private maxValueInput: HTMLInputElement | null;
-
   private hintToggle: HTMLInputElement | null;
-
   private scaleToggle: HTMLInputElement | null;
-
   private typeToggle: HTMLInputElement | null;
-
   private verticalToggle: HTMLInputElement | null;
 
-  private state: IFullSettings;
+  private type: string;
+  private minValue: number;
+  private maxValue: number;
+  private value: number | number[];
+  private step: number;
+  private direction: string;
+  private hint: boolean;
+  private scale: boolean;
 
-  public constructor(state: IFullSettings) {
+  public constructor(type: string, value: number | number[], minValue: number, maxValue: number, hint: boolean, scale: boolean, direction: string, step: number) {
     super();
-    this.state = state;
+    this.type = type;
+    this.value = value;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.hint = hint;
+    this.scale = scale;
+    this.direction = direction;
+    this.step = step;
     this.createDOMElement();
   }
 
   public onChangedValue(value: number | number[]): void {
-    if (this.state.type === constants.TYPE_RANGE) {
+    if (this.type === constants.TYPE_RANGE) {
       (this.currentValueInput as HTMLInputElement).value = (value as number).toString();
     } else {
       (this.currentMinValueInput as HTMLInputElement).value = (value as number[])[0].toString();
@@ -57,7 +62,7 @@ class ConfigurationView extends ComponentView {
   public onTypeChange = (): void => {};
 
   public bindEvents(): void {
-    if (this.state.type === constants.TYPE_RANGE) {
+    if (this.type === constants.TYPE_RANGE) {
       this.bindInputValueEvent((this.currentValueInput as HTMLInputElement));
     } else {
       const minInput = this.currentMinValueInput as HTMLInputElement;
@@ -89,14 +94,14 @@ class ConfigurationView extends ComponentView {
     const configurationForm = document.createElement('form');
     configurationForm.classList.add('configuration');
 
-    if (this.state.type === constants.TYPE_RANGE) {
+    if (this.type === constants.TYPE_RANGE) {
       configurationForm.innerHTML = this.templateRange();
     } else {
       configurationForm.innerHTML = this.templateInterval();
     }
 
     this.DOMElement = configurationForm;
-    if (this.state.type === constants.TYPE_RANGE) {
+    if (this.type === constants.TYPE_RANGE) {
       this.currentValueInput = this.DOMElement.querySelector('.js-current-value');
     } else {
       this.currentMinValueInput = this.DOMElement.querySelector('.js-current-min-value');
@@ -117,7 +122,7 @@ class ConfigurationView extends ComponentView {
     input.addEventListener('input', (): void => {
       setTimeout((): void => {
         if (input.value.length === 0) {
-          this.onNewValue(this.state.minValue);
+          this.onNewValue(this.minValue);
         } else if (valueType) {
           this.onNewValue(parseInt(input.value, 10), valueType);
         } else {
@@ -128,23 +133,23 @@ class ConfigurationView extends ComponentView {
   }
 
   private setStartValues(): void {
-    if (this.state.type === constants.TYPE_RANGE) {
-      const value = (this.state.value as number).toString();
+    if (this.type === constants.TYPE_RANGE) {
+      const value = (this.value as number).toString();
       (this.currentValueInput as HTMLInputElement).value = value;
     } else {
-      const minValue = (this.state.value as number[])[0].toString();
-      const maxValue = (this.state.value as number[])[1].toString();
+      const minValue = (this.value as number[])[0].toString();
+      const maxValue = (this.value as number[])[1].toString();
       (this.currentMinValueInput as HTMLInputElement).value = minValue;
       (this.currentMaxValueInput as HTMLInputElement).value = maxValue;
     }
-    (this.stepSizeInput as HTMLInputElement).value = (this.state.step).toString();
-    (this.minValueInput as HTMLInputElement).value = (this.state.minValue).toString();
-    (this.maxValueInput as HTMLInputElement).value = (this.state.maxValue).toString();
-    (this.hintToggle as HTMLInputElement).checked = this.state.hint;
-    (this.scaleToggle as HTMLInputElement).checked = this.state.scale;
-    const isInterval = this.state.type === constants.TYPE_INTERVAL;
+    (this.stepSizeInput as HTMLInputElement).value = (this.step).toString();
+    (this.minValueInput as HTMLInputElement).value = (this.minValue).toString();
+    (this.maxValueInput as HTMLInputElement).value = (this.maxValue).toString();
+    (this.hintToggle as HTMLInputElement).checked = this.hint;
+    (this.scaleToggle as HTMLInputElement).checked = this.scale;
+    const isInterval = this.type === constants.TYPE_INTERVAL;
     (this.typeToggle as HTMLInputElement).checked = isInterval;
-    const isVertical = this.state.direction === constants.DIRECTION_VERTICAL;
+    const isVertical = this.direction === constants.DIRECTION_VERTICAL;
     (this.verticalToggle as HTMLInputElement).checked = isVertical;
   }
 }

@@ -1,26 +1,20 @@
 import IFullSettings from '../../../IFullSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
-import IScaleSettings from './IScaleSettings';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
+  private direction: string;
+  private minValue: number;
+  private maxValue: number;
+  private step: number;
 
-  private state: IScaleSettings;
-
-  public constructor({
-      direction,
-      minValue,
-      maxValue,
-      step,
-    }: IFullSettings, sliderLength: number) {
+  public constructor(direction: string, minValue: number, maxValue: number, step: number, sliderLength: number) {
     super();
-    this.state = {
-      direction,
-      minValue,
-      maxValue,
-      step,
-    };
+    this.direction = direction;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.step = step;
     this.sliderLength = sliderLength;
     this.createDOMElement();
     this.bindEvents();
@@ -32,7 +26,7 @@ class ScaleView extends ComponentView {
     valueElements.forEach((element): void => {
       const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
 
-      if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
+      if (this.direction === constants.DIRECTION_HORIZONTAL) {
         const { left } = (element as HTMLElement).style;
         const elementCurrentOffset = parseInt((left as string).slice(0, -1), 10);
         (element as HTMLElement).style.left = `${elementCurrentOffset - elementOffset}%`;
@@ -57,7 +51,7 @@ class ScaleView extends ComponentView {
   private createDOMElement(): void {
     const scale = document.createElement('div');
     scale.classList.add('slider__scale');
-    if (this.state.direction === constants.DIRECTION_HORIZONTAL) {
+    if (this.direction === constants.DIRECTION_HORIZONTAL) {
       scale.classList.add(constants.SCALE_HORIZONTAL_CLASS);
       scale.style.width = `${this.sliderLength}px`;
     } else {
@@ -65,16 +59,16 @@ class ScaleView extends ComponentView {
       scale.style.height = `${this.sliderLength}px`;
     }
 
-    const values = [this.state.minValue];
-    const valuesNumber = Math.floor((this.state.maxValue - this.state.minValue) / this.state.step);
-    let currentValue = this.state.minValue;
+    const values = [this.minValue];
+    const valuesNumber = Math.floor((this.maxValue - this.minValue) / this.step);
+    let currentValue = this.minValue;
     for (let i = 0; i < valuesNumber; i += 1) {
-      currentValue += this.state.step;
-      if (currentValue < this.state.maxValue) {
+      currentValue += this.step;
+      if (currentValue < this.maxValue) {
         values.push(currentValue);
       }
     }
-    values.push(this.state.maxValue);
+    values.push(this.maxValue);
 
     const valuesFragment = document.createDocumentFragment();
     values.forEach((value) => {
@@ -83,7 +77,7 @@ class ScaleView extends ComponentView {
       valueElement.textContent = value.toString();
 
       const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
-      this.state.direction === constants.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
+      this.direction === constants.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
       
       valuesFragment.append(valueElement);
     })
@@ -103,7 +97,7 @@ class ScaleView extends ComponentView {
   }
 
   private countLength(value: number): number {
-    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
+    return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
   }
 }
 

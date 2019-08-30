@@ -1,28 +1,25 @@
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
-import ISliderSettings from './ISliderSettings';
 
 abstract class ComponentSlider extends ComponentView {
   public barDOMElement: HTMLElement | null;
-
   public stripDOMElement: HTMLElement | null;
-
   public length: number;
-
   public offset: number;
-
   public pointWidth: number;
-
   public pointOffset: number;
-
-  protected state: ISliderSettings;
+  
+  protected minValue: number;
+  protected maxValue: number;
+  protected direction: string;
+  protected value: number | number[];
 
   public countLength(value: number): number {
-    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
+    return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
   }
 
   protected countValue(percent: number): number {
-    const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
+    const value = ((percent * (this.maxValue - this.minValue) + this.minValue));
     return parseInt(value.toFixed(), 10);
   }
 
