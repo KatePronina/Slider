@@ -1,6 +1,6 @@
-import IFullSettings from '../../../IFullSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
+import IScaleSettings from './IScaleSettings';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
@@ -9,7 +9,7 @@ class ScaleView extends ComponentView {
   private maxValue: number;
   private step: number;
 
-  public constructor(direction: string, minValue: number, maxValue: number, step: number, sliderLength: number) {
+  public constructor({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings) {
     super();
     this.direction = direction;
     this.minValue = minValue;

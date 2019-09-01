@@ -1,6 +1,6 @@
-import IFullSettings from '../../../IFullSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
+import IConfigurationSettings from './IConfigurationSettings';
 
 class ConfigurationView extends ComponentView {
   private currentValueInput: HTMLInputElement | null;
@@ -23,7 +23,7 @@ class ConfigurationView extends ComponentView {
   private hint: boolean;
   private scale: boolean;
 
-  public constructor(type: string, value: number | number[], minValue: number, maxValue: number, hint: boolean, scale: boolean, direction: string, step: number) {
+  public constructor({ type, value, minValue, maxValue, hint, scale, direction, step }: IConfigurationSettings) {
     super();
     this.type = type;
     this.value = value;

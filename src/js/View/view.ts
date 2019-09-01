@@ -67,9 +67,9 @@ class View {
     this.configuration = configuration;
 
     if (this.type === constants.TYPE_RANGE) {
-      this.slider = new RangeSliderView(this.direction, this.minValue, this.maxValue, this.value);
+      this.slider = new RangeSliderView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, value: this.value });
     } else if (this.type === constants.TYPE_INTERVAL) {
-      this.slider = new IntervalSliderView(this.direction, this.minValue, this.maxValue, this.value);
+      this.slider = new IntervalSliderView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, value: this.value });
     }
 
     this.slider.onNewValue = (value: number | number[], valueType?: string): void => {
@@ -162,7 +162,7 @@ class View {
   }
 
   private initHint(): void {
-    this.hintView = new HintView(this.value, this.type, this.direction);
+    this.hintView = new HintView({ value: this.value, type: this.type, direction: this.direction });
     this.hintElement = this.hintView.getDOMElement();
     this.appendElementToSlider(this.hintElement);
 
@@ -173,7 +173,7 @@ class View {
     }
 
     if (this.type === constants.TYPE_INTERVAL) {
-      this.hintMaxValue = new HintView(this.value, this.type, this.direction, true);
+      this.hintMaxValue = new HintView({ value: this.value, type: this.type, direction: this.direction, isMaxValue: true });
       this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
       this.appendElementToSlider(this.hintMaxValueElement);
 
@@ -199,11 +199,11 @@ class View {
 
   private initScale(): void {
     if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      const width = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
-      this.scaleView = new ScaleView(this.direction, this.minValue, this.maxValue, this.step, width);
+      const sliderLength = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
+      this.scaleView = new ScaleView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, step: this.step, sliderLength });
     } else {
-      const height = (this.slider.stripDOMElement as HTMLElement).offsetHeight;
-      this.scaleView = new ScaleView(this.direction, this.minValue, this.maxValue, this.step, height);
+      const sliderLength = (this.slider.stripDOMElement as HTMLElement).offsetHeight;
+      this.scaleView = new ScaleView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, step: this.step, sliderLength });
     }
     this.scaleElement = this.scaleView.getDOMElement();
     this.appendElementToSlider(this.scaleElement);
@@ -215,7 +215,7 @@ class View {
   }
 
   private initConfiguration(): void {
-    this.configurationView = new ConfigurationView(this.type, this.value, this.minValue, this.maxValue, this.hint, this.scale, this.direction, this.step);
+    this.configurationView = new ConfigurationView({ type: this.type, value: this.value, minValue: this.minValue, maxValue: this.maxValue, hint: this.hint, scale: this.scale, direction: this.direction, step: this.step });
     this.configurationElement = this.configurationView.getDOMElement();
     this.appendElementToParent(this.configurationElement);
 

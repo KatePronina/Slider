@@ -1,5 +1,6 @@
 import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
+import ISliderSettings from './ISliderSettings';
 
 class RangeSliderView extends ComponentSliderView {
   public pointDOMElement: HTMLElement | null;
@@ -7,7 +8,7 @@ class RangeSliderView extends ComponentSliderView {
   private percent: number;
   private isMouseDown: boolean;
 
-  public constructor(direction: string, minValue: number, maxValue: number, value: number[] | number) {
+  public constructor({direction, minValue, maxValue, value}: ISliderSettings) {
     super();
     this.direction = direction;
     this.minValue = minValue;

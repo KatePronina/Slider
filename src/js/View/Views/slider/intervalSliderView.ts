@@ -1,5 +1,6 @@
 import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
+import ISliderSettings from './ISliderSettings';
 
 class IntervalSliderView extends ComponentSliderView {
   public minPointDOMElement: HTMLElement | null;
@@ -10,7 +11,7 @@ class IntervalSliderView extends ComponentSliderView {
   private isMinMouseDown: boolean;
   private isMaxMouseDown: boolean;
 
-  public constructor(direction: string, minValue: number, maxValue: number, value: number[] | number) {
+  public constructor({direction, minValue, maxValue, value}: ISliderSettings) {
     super();
     this.direction = direction;
     this.minValue = minValue;

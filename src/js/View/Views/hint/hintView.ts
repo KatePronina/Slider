@@ -1,6 +1,6 @@
-import IFullSettings from '../../../IFullSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
+import IHintSettings from './IHintSettings'; 
 
 class HintView extends ComponentView {
   public offset: number;
@@ -10,7 +10,7 @@ class HintView extends ComponentView {
   private value: number | number[];
   private direction: string;
 
-  public constructor(value: number | number[], type: string, direction: string, isMaxValue?: boolean) {
+  public constructor({ value, type, direction, isMaxValue }: IHintSettings) {
     super();
     this.value = value;
     this.type = type;
