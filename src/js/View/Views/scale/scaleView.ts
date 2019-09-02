@@ -1,6 +1,6 @@
+import IScaleSettings from '../../../Interfaces/view/IScaleSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
-import IScaleSettings from './IScaleSettings';
 
 class ScaleView extends ComponentView {
   public sliderLength: number;
@@ -78,9 +78,8 @@ class ScaleView extends ComponentView {
 
       const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
       this.direction === constants.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
-      
       valuesFragment.append(valueElement);
-    })
+    });
 
     scale.append(valuesFragment);
     this.DOMElement = scale;

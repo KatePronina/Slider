@@ -1,6 +1,6 @@
 import Model from '../Model/Model';
 import View from '../View/View';
-import IFullSettings from '../IFullSettings';
+import IFullSettings from '../Interfaces/IFullSettings';
 
 class Controller {
   private model: Model;

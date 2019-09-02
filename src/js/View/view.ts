@@ -1,4 +1,4 @@
-import IFullSettings from '../IFullSettings';
+import IFullSettings from '../Interfaces/IFullSettings';
 import constants from '../constants';
 
 import RangeSliderView from './Views/slider/RangeSliderView';

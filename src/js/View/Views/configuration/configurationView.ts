@@ -1,6 +1,6 @@
+import IConfigurationSettings from '../../../Interfaces/view/IConfigurationSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
-import IConfigurationSettings from './IConfigurationSettings';
 
 class ConfigurationView extends ComponentView {
   private currentValueInput: HTMLInputElement | null;

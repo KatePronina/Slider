@@ -1,5 +1,5 @@
 import Controller from './Controller/Controller';
-import IFullSettings from './IFullSettings';
+import IFullSettings from './Interfaces/IFullSettings';
 
 class Application {
   private controller: Controller;

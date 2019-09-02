@@ -1,6 +1,6 @@
+import IHintSettings from '../../../Interfaces/view/IHintSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
-import IHintSettings from './IHintSettings'; 
 
 class HintView extends ComponentView {
   public offset: number;
