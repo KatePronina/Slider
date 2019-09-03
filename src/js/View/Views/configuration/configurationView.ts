@@ -102,18 +102,18 @@ class ConfigurationView extends ComponentView {
 
     this.DOMElement = configurationForm;
     if (this.type === constants.TYPE_RANGE) {
-      this.currentValueInput = this.DOMElement.querySelector('.js-current-value');
+      this.currentValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-value');
     } else {
-      this.currentMinValueInput = this.DOMElement.querySelector('.js-current-min-value');
-      this.currentMaxValueInput = this.DOMElement.querySelector('.js-current-max-value');
+      this.currentMinValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-min-value');
+      this.currentMaxValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-max-value');
     }
-    this.stepSizeInput = this.DOMElement.querySelector('.js-step-size');
-    this.minValueInput = this.DOMElement.querySelector('.js-min-value');
-    this.maxValueInput = this.DOMElement.querySelector('.js-max-value');
-    this.hintToggle = this.DOMElement.querySelector('.js-toggle-hint');
-    this.scaleToggle = this.DOMElement.querySelector('.js-toggle-scale');
-    this.typeToggle = this.DOMElement.querySelector('.js-toggle-type');
-    this.verticalToggle = this.DOMElement.querySelector('.js-toggle-vertical');
+    this.stepSizeInput = this.DOMElement.querySelector('.js-configuration__value-input_type_step');
+    this.minValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_min-value');
+    this.maxValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_max-value');
+    this.hintToggle = this.DOMElement.querySelector('.js-configuration__value-input_type_hint');
+    this.scaleToggle = this.DOMElement.querySelector('.js-configuration__value-input_type_scale');
+    this.typeToggle = this.DOMElement.querySelector('.js-configuration__value-input_type_toggle-interval');
+    this.verticalToggle = this.DOMElement.querySelector('.js-configuration__value-input_type_vertical');
 
     this.setStartValues();
   }
