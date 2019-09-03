@@ -1,9 +1,11 @@
-body {
-  padding: 30px;
-  font-family: Arial, sans-serif;
-}
+.slider-section {
+  &__title {
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+  }
 
-.slider-section__title {
-  margin-top: 1rem;
-  margin-bottom: 2.5rem;
+  &__configuration {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
 }

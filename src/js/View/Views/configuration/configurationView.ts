@@ -92,7 +92,7 @@ class ConfigurationView extends ComponentView {
 
   private createDOMElement(): void {
     const configurationForm = document.createElement('form');
-    configurationForm.classList.add('configuration');
+    configurationForm.classList.add('configuration', 'slider-section__configuration');
 
     if (this.type === constants.TYPE_RANGE) {
       configurationForm.innerHTML = this.templateRange();
