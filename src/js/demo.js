@@ -43,7 +43,6 @@ $('.js-third-slider').slider({
                           step: 8,
                           direction: 'vertical',
                           scale: true,
-                          // configuration: true,
                         });
 
 $('.js-fourth-slider').slider({
@@ -52,7 +51,6 @@ $('.js-fourth-slider').slider({
                           direction: 'vertical',
                           scale: true,
                           step: 5,
-                          // configuration: true,
                           hint: false,
                         });
 $('.js-fourth-slider').slider('setValue', 20);
