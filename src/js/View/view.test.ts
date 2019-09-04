@@ -398,7 +398,7 @@ describe('DOM actions', (): void => {
     toggleScale instanceof HTMLElement && toggleScale.dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect(scale instanceof HTMLElement && scale.classList.contains('slider__scale_disable')).toEqual(true);
+    expect(scale instanceof HTMLElement && scale.classList.contains('slider__scale_disable')).toEqual(false);
   });
 
   test('Should show hint', (): void => {
