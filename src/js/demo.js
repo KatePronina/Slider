@@ -51,6 +51,6 @@ $('.js-fourth-slider').slider({
                           direction: 'vertical',
                           scale: true,
                           step: 5,
-                          hint: false,
+                          hint: true,
                         });
 $('.js-fourth-slider').slider('setValue', 20);

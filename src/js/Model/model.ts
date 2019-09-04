@@ -23,9 +23,9 @@ class Model {
     if (this.state.type === constants.TYPE_INTERVAL) {
       this.setIntervalSliderValue(value, valueType);
     } else if (this.state.type === constants.TYPE_RANGE && Array.isArray(value)) {
-      [(this.state.value as number)] = value;
-    } else if (this.state.value !== this.checkValue((value as number))) {
-      this.state.value = this.checkValue((value as number));
+      this.state.value = value[constants.VALUE_START];
+    } else if (typeof value === 'number' && this.state.value !== this.checkValue(value)) {
+      this.state.value = this.checkValue(value);
       this.onSetValue(this.state.value);
     }
   }
@@ -46,19 +46,19 @@ class Model {
   private setIntervalSliderValue(value: number | number[], valueType?: string): void {
     if (typeof value === 'number') {
       const checkedValue = this.checkValue(value);
-      if (valueType === constants.VALUE_TYPE_MIN) {
-        const newValue = [checkedValue, (this.state.value as number[])[constants.VALUE_END]];
+      if (valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
+        const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
         this.state.value = Model.checkInterval(newValue, valueType);
-      } else if (valueType === constants.VALUE_TYPE_MAX) {
-        const newValue = [(this.state.value as number[])[constants.VALUE_START], checkedValue];
+      } else if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
+        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
         this.state.value = Model.checkInterval(newValue, valueType);
       } else if (typeof value === 'number' && typeof this.state.value === 'number') {
         this.state.value = [value, this.state.maxValue];
       } else {
         this.state.value = this.createIntervalValue(checkedValue);
       }
-    } else {
-      const checkedValues = (value as number[]).map((val): number => this.checkValue(val));
+    } else if (value instanceof Array) {
+      const checkedValues = value.map((val): number => this.checkValue(val));
       this.state.value = Model.checkInterval(checkedValues, valueType);
     }
     this.onSetValue(this.state.value);
@@ -107,17 +107,22 @@ class Model {
   }
 
   private createIntervalValue(value: number): number[] {
-    if (this.defineValueType(value)) {
-      return [(this.state.value as number[])[constants.VALUE_START], value];
+    if (this.defineValueType(value) && this.state.value instanceof Array) {
+      return [this.state.value[constants.VALUE_START], value];
+    } else if (this.state.value instanceof Array) {
+      return [value, (this.state.value)[constants.VALUE_END]];
     }
-
-    return [value, (this.state.value as number[])[constants.VALUE_END]];
+    
+    return [value, value];
   }
 
   private defineValueType(value: number): boolean {
-    const endValueDifference = (this.state.value as number[])[constants.VALUE_END] - value;
-    const startValueDifference = value - (this.state.value as number[])[constants.VALUE_START];
-    return endValueDifference < startValueDifference;
+    if (this.state.value instanceof Array) {
+      const endValueDifference = (this.state.value)[constants.VALUE_END] - value;
+      const startValueDifference = value - (this.state.value)[constants.VALUE_START];
+      return endValueDifference < startValueDifference;
+    }
+    return false;
   }
 }
 

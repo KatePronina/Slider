@@ -38,10 +38,10 @@ class ConfigurationView extends ComponentView {
 
   public onChangedValue(value: number | number[]): void {
     if (this.type === constants.TYPE_RANGE) {
-      this.currentValueInput && (this.currentValueInput.value = (value as number).toString());
+      this.currentValueInput && (typeof value === 'number') && (this.currentValueInput.value = value.toString());
     } else {
-      this.currentMinValueInput && (this.currentMinValueInput.value = (value as number[])[constants.VALUE_START].toString());
-      this.currentMaxValueInput && (this.currentMaxValueInput.value = (value as number[])[constants.VALUE_END].toString());
+      this.currentMinValueInput && (value instanceof Array) && (this.currentMinValueInput.value = value[constants.VALUE_START].toString());
+      this.currentMaxValueInput && (value instanceof Array) && (this.currentMaxValueInput.value = value[constants.VALUE_END].toString());
     }
   }
 
@@ -131,12 +131,12 @@ class ConfigurationView extends ComponentView {
   }
 
   private setStartValues(): void {
-    if (this.type === constants.TYPE_RANGE) {
-      const value = (this.value as number).toString();
+    if (this.type === constants.TYPE_RANGE && typeof this.value === 'number') {
+      const value = this.value.toString();
       this.currentValueInput && (this.currentValueInput.value = value);
-    } else {
-      const minValue = (this.value as number[])[constants.VALUE_START].toString();
-      const maxValue = (this.value as number[])[constants.VALUE_END].toString();
+    } else if (this.value instanceof Array) {
+      const minValue = this.value[constants.VALUE_START].toString();
+      const maxValue = this.value[constants.VALUE_END].toString();
       this.currentMinValueInput && (this.currentMinValueInput.value = minValue);
       this.currentMaxValueInput && (this.currentMaxValueInput.value = maxValue);
     }

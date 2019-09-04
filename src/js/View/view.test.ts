@@ -207,7 +207,8 @@ describe('DOM actions', (): void => {
 
     expect(view).toBeDefined();
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
-    expect((document.querySelector('#foo .slider__hint') as HTMLElement).textContent).toEqual('0');
+    const sliderHint = document.querySelector('#foo .slider__hint');
+    expect(sliderHint instanceof HTMLElement && sliderHint.textContent).toEqual('0');
   });
 
   test('Should not add hint in DOM', (): void => {
@@ -261,14 +262,30 @@ describe('DOM actions', (): void => {
     });
 
     expect(view).toBeDefined();
-    expect((document.getElementById('currentValue') as HTMLInputElement).value).toEqual('6');
-    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual('3');
-    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual('0');
-    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual('95');
-    expect((document.getElementById('toggleHint') as HTMLInputElement).checked).toEqual(true);
-    expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(false);
-    expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(false);
-    expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(true);
+
+    const currentValueInput = document.getElementById('currentValue');
+    expect(currentValueInput instanceof HTMLInputElement && currentValueInput.value).toEqual('6');
+
+    const stepSizeInput = document.getElementById('stepSize');
+    expect(stepSizeInput instanceof HTMLInputElement && stepSizeInput.value).toEqual('3');
+
+    const minValueInput = document.getElementById('minValue');
+    expect(minValueInput instanceof HTMLInputElement && minValueInput.value).toEqual('0');
+
+    const maxValueInput = document.getElementById('maxValue');
+    expect(maxValueInput instanceof HTMLInputElement && maxValueInput.value).toEqual('95');
+
+    const toggleHintInput = document.getElementById('toggleHint');
+    expect(toggleHintInput instanceof HTMLInputElement && toggleHintInput.checked).toEqual(true);
+
+    const toggleScaleInput = document.getElementById('toggleScale');
+    expect(toggleScaleInput instanceof HTMLInputElement && toggleScaleInput.checked).toEqual(false);
+
+    const toggleTypeInput = document.getElementById('toggleType');
+    expect(toggleTypeInput instanceof HTMLInputElement && toggleTypeInput.checked).toEqual(false);
+
+    const toggleVerticalInput = document.getElementById('toggleVertical');
+    expect(toggleVerticalInput instanceof HTMLInputElement && toggleVerticalInput.checked).toEqual(true);
   });
 
   test('Should add configuration with correct values fot interval slider', (): void => {
@@ -286,15 +303,33 @@ describe('DOM actions', (): void => {
     });
 
     expect(view).toBeDefined();
-    expect((document.getElementById('currentMinValue') as HTMLInputElement).value).toEqual('13');
-    expect((document.getElementById('currentMaxValue') as HTMLInputElement).value).toEqual('95');
-    expect((document.getElementById('stepSize') as HTMLInputElement).value).toEqual('3');
-    expect((document.getElementById('minValue') as HTMLInputElement).value).toEqual('10');
-    expect((document.getElementById('maxValue') as HTMLInputElement).value).toEqual('95');
-    expect((document.getElementById('toggleHint') as HTMLInputElement).checked).toEqual(false);
-    expect((document.getElementById('toggleScale') as HTMLInputElement).checked).toEqual(true);
-    expect((document.getElementById('toggleType') as HTMLInputElement).checked).toEqual(true);
-    expect((document.getElementById('toggleVertical') as HTMLInputElement).checked).toEqual(false);
+
+    const currentMinValueInput = document.getElementById('currentMinValue');
+    expect(currentMinValueInput instanceof HTMLInputElement && currentMinValueInput.value).toEqual('13');
+
+    const currentMaxValueInput = document.getElementById('currentMaxValue');
+    expect(currentMaxValueInput instanceof HTMLInputElement && currentMaxValueInput.value).toEqual('95');
+
+    const stepSizeInput = document.getElementById('stepSize');
+    expect(stepSizeInput instanceof HTMLInputElement && stepSizeInput.value).toEqual('3');
+
+    const minValueInput = document.getElementById('minValue');
+    expect(minValueInput instanceof HTMLInputElement && minValueInput.value).toEqual('10');
+
+    const maxValueInput = document.getElementById('maxValue');
+    expect(maxValueInput instanceof HTMLInputElement && maxValueInput.value).toEqual('95');
+
+    const toggleHintInput = document.getElementById('toggleHint');
+    expect(toggleHintInput instanceof HTMLInputElement && toggleHintInput.checked).toEqual(false);
+
+    const toggleScaleInput = document.getElementById('toggleScale');
+    expect(toggleScaleInput instanceof HTMLInputElement && toggleScaleInput.checked).toEqual(true);
+
+    const toggleTypeInput = document.getElementById('toggleType');
+    expect(toggleTypeInput instanceof HTMLInputElement && toggleTypeInput.checked).toEqual(true);
+
+    const toggleVerticalInput = document.getElementById('toggleVertical');
+    expect(toggleVerticalInput instanceof HTMLInputElement && toggleVerticalInput.checked).toEqual(false);
   });
 
   test('Should hide hint', (): void => {
@@ -312,11 +347,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
+    const toggleHintInput = document.getElementById('toggleHint');
+    const sliderHint = document.querySelector('.slider__hint');
+    toggleHintInput instanceof HTMLElement && toggleHintInput.dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__hint') as HTMLElement)
-          .classList.contains('slider__hint_disable')).toEqual(true);
+    expect(sliderHint instanceof HTMLElement && (sliderHint.classList.contains('slider__hint_disable'))).toEqual(true);
   });
 
   test('Should show hint', (): void => {
@@ -334,11 +370,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleHint') as HTMLInputElement).dispatchEvent(event);
+    const toggleHint = document.getElementById('toggleHint');
+    const sliderHint = document.querySelector('.slider__hint');
+    toggleHint instanceof HTMLElement && toggleHint.dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__hint') as HTMLElement)
-          .classList.contains('slider__hint_disable')).toEqual(false);
+    expect(sliderHint instanceof HTMLElement && sliderHint.classList.contains('slider__hint_disable')).toEqual(false);
   });
 
   test('Should hide scale', (): void => {
@@ -356,11 +393,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
+    const toggleScale = document.getElementById('toggleScale');
+    const scale = document.querySelector('.slider__scale');
+    toggleScale instanceof HTMLElement && toggleScale.dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__scale') as HTMLElement)
-          .classList.contains('slider__scale_disable')).toEqual(true);
+    expect(scale instanceof HTMLElement && scale.classList.contains('slider__scale_disable')).toEqual(true);
   });
 
   test('Should show hint', (): void => {
@@ -378,11 +416,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleScale') as HTMLInputElement).dispatchEvent(event);
+    const toggleScale = document.getElementById('toggleScale');
+    const scale = document.querySelector('.slider__scale');
+    toggleScale instanceof HTMLElement && toggleScale.dispatchEvent(event);
 
     expect(view).toBeDefined();
-    expect((document.querySelector('.slider__scale') as HTMLElement)
-          .classList.contains('slider__scale_disable')).toEqual(false);
+    expect(scale instanceof HTMLElement && scale.classList.contains('slider__scale_disable')).toEqual(false);
   });
 
   test('Should change slider direction from horizontal to vertical', (): void => {
@@ -400,10 +439,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
+    const toggleVertical = document.getElementById('toggleVertical');
+    const slider = document.querySelector('.slider');
+    toggleVertical instanceof HTMLElement && toggleVertical.dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider_vertical')).toEqual(true);
+    expect(slider instanceof HTMLElement && slider.classList.contains('slider_vertical')).toEqual(true);
   });
 
   test('Should change slider direction from vertical to horizontal', (): void => {
@@ -421,10 +462,12 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleVertical') as HTMLInputElement).dispatchEvent(event);
+    const toggleVertical = document.getElementById('toggleVertical');
+    const slider = document.querySelector('.slider');
+    toggleVertical instanceof HTMLElement && toggleVertical.dispatchEvent(event);
 
     expect(controller).toBeDefined();
-    expect((document.querySelector('.slider') as HTMLElement).classList.contains('slider_vertical')).toEqual(false);
+    expect(slider instanceof HTMLElement && slider.classList.contains('slider_vertical')).toEqual(false);
   });
 
   test('Should change slider type from range to interval', (): void => {
@@ -442,7 +485,8 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
+    const toggleType = document.getElementById('toggleType');
+    toggleType instanceof HTMLElement && toggleType.dispatchEvent(event);
 
     expect(controller).toBeDefined();
     expect(document.querySelector('.slider__point_max')).toBeTruthy();
@@ -463,7 +507,8 @@ describe('DOM actions', (): void => {
     });
 
     const event = new Event('click');
-    (document.getElementById('toggleType') as HTMLInputElement).dispatchEvent(event);
+    const toggleType = document.getElementById('toggleType');
+    toggleType instanceof HTMLElement && toggleType.dispatchEvent(event);
 
     expect(controller).toBeDefined();
     expect(document.querySelector('.slider__point_max')).toBeNull();

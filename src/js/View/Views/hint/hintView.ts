@@ -28,11 +28,11 @@ class HintView extends ComponentView {
     }
 
     if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
-      this.DOMElement.textContent = (this.value as number[])[constants.VALUE_END].toString();
+      this.value instanceof Array && (this.DOMElement.textContent = this.value[constants.VALUE_END].toString());
     } else if (this.type === constants.TYPE_INTERVAL) {
-      this.DOMElement.textContent = (this.value as number[])[constants.VALUE_START].toString();
+      this.value instanceof Array && (this.DOMElement.textContent = this.value[constants.VALUE_START].toString());
     } else {
-      this.DOMElement.textContent = (this.value as number).toString();
+      (typeof this.value === 'number') && (this.DOMElement.textContent = this.value.toString());
     }
   }
 
@@ -48,11 +48,11 @@ class HintView extends ComponentView {
     const hintElement = document.createElement('div');
 
     if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
-      hintElement.textContent = (this.value as number[])[constants.VALUE_END].toString();
+      this.value instanceof Array && (hintElement.textContent = this.value[constants.VALUE_END].toString());
     } else if (this.type === constants.TYPE_INTERVAL) {
-      hintElement.textContent = (this.value as number[])[constants.VALUE_START].toString();
+      this.value instanceof Array && (hintElement.textContent = this.value [constants.VALUE_START].toString());
     } else {
-      hintElement.textContent = (this.value as number).toString();
+      (typeof this.value === 'number') && (hintElement.textContent = this.value.toString());
     }
 
     hintElement.classList.add('slider__hint');

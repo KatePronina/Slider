@@ -87,15 +87,18 @@ class View {
       this.slider.offset = this.sliderElement.offsetLeft;
     }
 
-    const point = this.type === constants.TYPE_INTERVAL ? (this.slider as IntervalSliderView).minPointDOMElement : (this.slider as RangeSliderView).pointDOMElement;
-    point && (this.slider.pointWidth = point.offsetWidth);
+    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.slider.minPointDOMElement) {
+      this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
+    } else if (this.slider instanceof RangeSliderView && this.slider.pointDOMElement) {
+      this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
+    }
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
-    if (this.type === constants.TYPE_INTERVAL) {
-      (this.slider as IntervalSliderView).onChangedValue(this.value as number[]);
-    } else {
-      (this.slider as RangeSliderView).onChangedValue(this.value as number);
+    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.value instanceof Array) {
+      this.slider.onChangedValue(this.value);
+    } else if (this.slider instanceof RangeSliderView && typeof this.value === 'number') {
+      this.slider.onChangedValue(this.value);
     }
 
     if (this.hint) {
@@ -114,21 +117,21 @@ class View {
   public onChangedValue(value: number | number[]): void {
     this.value = value;
 
-    if (this.type === constants.TYPE_INTERVAL) {
-      (this.slider as IntervalSliderView).onChangedValue((value as number[]));
-    } else {
-      (this.slider as RangeSliderView).onChangedValue((value as number));
+    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && value instanceof Array) {
+      this.slider.onChangedValue(value);
+    } else if (this.slider instanceof RangeSliderView && typeof value === 'number') {
+      this.slider.onChangedValue(value);
     }
 
     if (this.hint) {
-      if (this.type === constants.TYPE_RANGE) {
-        const length = this.slider.countLength((value as number));
+      if (this.type === constants.TYPE_RANGE && typeof value === 'number') {
+        const length = this.slider.countLength(value);
         this.hintView && (this.hintView.onChangedValue(value, length));
-      } else {
-        const length = this.slider.countLength((value as number[])[constants.VALUE_START]);
+      } else if (value instanceof Array) {
+        const length = this.slider.countLength(value[constants.VALUE_START]);
         this.hintView && (this.hintView.onChangedValue(value, length));
 
-        const maxLength = this.slider.countLength((value as number[])[constants.VALUE_END]);
+        const maxLength = this.slider.countLength(value[constants.VALUE_END]);
         this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, maxLength));
       }
     }
@@ -180,16 +183,16 @@ class View {
       }
     }
 
-    if (this.type === constants.TYPE_RANGE) {
-      const length = this.slider.countLength(this.value as number);
-      this.hintView.onChangedValue((this.value as number), length);
-    } else {
-      const maxValue = (this.value as number[])[constants.VALUE_END];
-      const minValue = (this.value as number[])[constants.VALUE_START];
+    if (this.type === constants.TYPE_RANGE && typeof this.value === 'number') {
+      const length = this.slider.countLength(this.value);
+      this.hintView.onChangedValue(this.value, length);
+    } else if (this.value instanceof Array) {
+      const maxValue = this.value[constants.VALUE_END];
+      const minValue = this.value[constants.VALUE_START];
       const maxLength = this.slider.countLength(maxValue);
       const minLength = this.slider.countLength(minValue);
-      this.hintView.onChangedValue((this.value as number[]), minLength);
-      this.hintMaxValue && (this.hintMaxValue).onChangedValue((this.value as number[]), maxLength);
+      this.hintView.onChangedValue(this.value, minLength);
+      this.hintMaxValue && (this.hintMaxValue).onChangedValue(this.value, maxLength);
     }
   }
 
