@@ -20,11 +20,11 @@ class RangeSliderView extends ComponentSliderView {
 
   public onChangedValue(value: number): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value)}%`;
-      (this.pointDOMElement as HTMLElement).style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`;
+      this.barDOMElement && (this.barDOMElement.style.height = `${this.countLength(value)}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`);
     } else {
-      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value)}%`;
-      (this.pointDOMElement as HTMLElement).style.left = `${this.countLength(value) - (this.pointOffset * 100)}%`;
+      this.barDOMElement && (this.barDOMElement.style.width = `${this.countLength(value)}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.left = `${this.countLength(value) - (this.pointOffset * 100)}%`);
     }
   }
 
@@ -52,7 +52,7 @@ class RangeSliderView extends ComponentSliderView {
   }
 
   private bindEventsToSlider(): void {
-    (this.pointDOMElement as HTMLElement).addEventListener('mousedown', this.onPointMouseDown);
+    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.onPointMouseDown);
   }
 
   private onPointMouseDown = (): void => {

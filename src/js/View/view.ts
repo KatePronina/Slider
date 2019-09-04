@@ -87,13 +87,8 @@ class View {
       this.slider.offset = this.sliderElement.offsetLeft;
     }
 
-    if (this.type === constants.TYPE_INTERVAL) {
-      const point = (this.slider as IntervalSliderView).minPointDOMElement;
-      this.slider.pointWidth = (point as HTMLElement).offsetWidth;
-    } else {
-      const point = (this.slider as RangeSliderView).pointDOMElement;
-      this.slider.pointWidth = (point as HTMLElement).offsetWidth;
-    }
+    const point = this.type === constants.TYPE_INTERVAL ? (this.slider as IntervalSliderView).minPointDOMElement : (this.slider as RangeSliderView).pointDOMElement;
+    point && (this.slider.pointWidth = point.offsetWidth);
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
@@ -128,12 +123,13 @@ class View {
     if (this.hint) {
       if (this.type === constants.TYPE_RANGE) {
         const length = this.slider.countLength((value as number));
-        (this.hintView as HintView).onChangedValue(value, length);
+        this.hintView && (this.hintView.onChangedValue(value, length));
       } else {
         const length = this.slider.countLength((value as number[])[constants.VALUE_START]);
-        (this.hintView as HintView).onChangedValue(value, length);
+        this.hintView && (this.hintView.onChangedValue(value, length));
+
         const maxLength = this.slider.countLength((value as number[])[constants.VALUE_END]);
-        (this.hintMaxValue as HintView).onChangedValue(value, maxLength);
+        this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, maxLength));
       }
     }
 
@@ -193,25 +189,25 @@ class View {
       const maxLength = this.slider.countLength(maxValue);
       const minLength = this.slider.countLength(minValue);
       this.hintView.onChangedValue((this.value as number[]), minLength);
-      (this.hintMaxValue as HintView).onChangedValue((this.value as number[]), maxLength);
+      this.hintMaxValue && (this.hintMaxValue).onChangedValue((this.value as number[]), maxLength);
     }
   }
 
   private initScale(): void {
-    if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      const sliderLength = (this.slider.stripDOMElement as HTMLElement).offsetWidth;
-      this.scaleView = new ScaleView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, step: this.step, sliderLength });
-    } else {
-      const sliderLength = (this.slider.stripDOMElement as HTMLElement).offsetHeight;
+    const sliderLength = this.slider.stripDOMElement && (this.direction === constants.DIRECTION_HORIZONTAL ? this.slider.stripDOMElement.offsetWidth : this.slider.stripDOMElement.offsetHeight);
+    if (sliderLength) {
       this.scaleView = new ScaleView({ direction: this.direction, minValue: this.minValue, maxValue: this.maxValue, step: this.step, sliderLength });
     }
-    this.scaleElement = this.scaleView.getDOMElement();
-    this.appendElementToSlider(this.scaleElement);
-    this.scaleView.alignValues();
 
-    this.scaleView.onNewValue = (value: number): void => {
-      this.onNewValue(value);
-    };
+    if (this.scaleView) {
+      this.scaleElement = this.scaleView.getDOMElement();
+      this.appendElementToSlider(this.scaleElement);
+      this.scaleView.alignValues();
+
+      this.scaleView.onNewValue = (value: number): void => {
+        this.onNewValue(value);
+      };
+    }
   }
 
   private initConfiguration(): void {
@@ -223,60 +219,63 @@ class View {
       this.onNewValue(value, valueType);
     };
 
-    this.configurationView.onStepChange = (event: Event): void => {
-      if (parseInt((event.target as HTMLInputElement).value, 10) > 0) {
-        const newStep = parseInt((event.target as HTMLInputElement).value, 10);
-        this.onStateChange({$parentElement: this.$parentElement,
-                            type: this.type,
-                            minValue: this.minValue,
-                            maxValue: this.maxValue,
-                            value: this.value,
-                            direction: this.direction,
-                            hint: this.hint,
-                            scale: this.scale,
-                            step: newStep,
-                            configuration: this.configuration,
-                          });
+    this.configurationView.onStepChange = ({ target }: Event): void => {
+      if (target instanceof HTMLInputElement && parseInt(target.value, 10) > 0) {
+        const newStep = parseInt(target.value, 10);
+        this.onStateChange({
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          step: newStep,
+          configuration: this.configuration,
+        });
       }
     };
 
-    this.configurationView.onMinValueChange = (event: Event): void => {
-      if ((event.target as HTMLInputElement).value.length > 0) {
-        const newMinValue = parseInt((event.target as HTMLInputElement).value, 10);
-        this.onStateChange({$parentElement: this.$parentElement,
-                            type: this.type,
-                            minValue: newMinValue,
-                            maxValue: this.maxValue,
-                            value: this.value,
-                            direction: this.direction,
-                            hint: this.hint,
-                            scale: this.scale,
-                            step: this.step,
-                            configuration: this.configuration,
-                          });
+    this.configurationView.onMinValueChange = ({ target }: Event): void => {
+      if (target instanceof HTMLInputElement && target.value.length > 0) {
+        const newMinValue = parseInt(target.value, 10);
+        this.onStateChange({
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: newMinValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       }
     };
 
-    this.configurationView.onMaxValueChange = (event: Event): void => {
-      if ((event.target as HTMLInputElement).value.length > 0) {
-        const newMaxValue = parseInt((event.target as HTMLInputElement).value, 10);
-        this.onStateChange({$parentElement: this.$parentElement,
-                            type: this.type,
-                            minValue: this.minValue,
-                            maxValue: newMaxValue,
-                            value: this.value,
-                            direction: this.direction,
-                            hint: this.hint,
-                            scale: this.scale,
-                            step: this.step,
-                            configuration: this.configuration,
-                          });
+    this.configurationView.onMaxValueChange = ({ target }: Event): void => {
+      if (target instanceof HTMLInputElement && target.value.length > 0) {
+        const newMaxValue = parseInt(target.value, 10);
+        this.onStateChange({
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: this.minValue,
+          maxValue: newMaxValue,
+          value: this.value,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       }
     };
 
     this.configurationView.onHintChange = (): void => {
       if (this.hint) {
-        (this.hintView as HintView).toggleDisplay();
+        this.hintView && this.hintView.toggleDisplay()
         this.hint = !this.hint;
         if (this.hintMaxValue) {
           this.hintMaxValue.toggleDisplay();
@@ -289,7 +288,7 @@ class View {
 
     this.configurationView.onScaleChange = (): void => {
       if (this.scale) {
-        (this.scaleView as ScaleView).toggleDisplay();
+        this.scaleView && this.scaleView.toggleDisplay();
         this.scale = !this.scale;
       } else {
         this.initScale();
@@ -299,57 +298,61 @@ class View {
 
     this.configurationView.onDirectionChange = (): void => {
       if (this.direction === constants.DIRECTION_HORIZONTAL) {
-        this.onDirectionChange({$parentElement: this.$parentElement,
-                                type: this.type,
-                                minValue: this.minValue,
-                                maxValue: this.maxValue,
-                                value: this.value,
-                                direction: constants.DIRECTION_VERTICAL,
-                                hint: this.hint,
-                                scale: this.scale,
-                                step: this.step,
-                                configuration: this.configuration,
-                              });
+        this.onDirectionChange({
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: constants.DIRECTION_VERTICAL,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       } else {
-        this.onDirectionChange({$parentElement: this.$parentElement,
-                                type: this.type,
-                                minValue: this.minValue,
-                                maxValue: this.maxValue,
-                                value: this.value,
-                                direction: constants.DIRECTION_HORIZONTAL,
-                                hint: this.hint,
-                                scale: this.scale,
-                                step: this.step,
-                                configuration: this.configuration,
-                              });
+        this.onDirectionChange({
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: constants.DIRECTION_HORIZONTAL,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       }
     };
 
     this.configurationView.onTypeChange = (): void => {
       if (this.type === constants.TYPE_RANGE) {
-        this.onStateChange({$parentElement: this.$parentElement,
-                            type: constants.TYPE_INTERVAL,
-                            minValue: this.minValue,
-                            maxValue: this.maxValue,
-                            value: this.value,
-                            direction: this.direction,
-                            hint: this.hint,
-                            scale: this.scale,
-                            step: this.step,
-                            configuration: this.configuration,
-                          });
+        this.onStateChange({
+          $parentElement: this.$parentElement,
+          type: constants.TYPE_INTERVAL,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       } else {
-        this.onStateChange({$parentElement: this.$parentElement,
-                            type: constants.TYPE_RANGE,
-                            minValue: this.minValue,
-                            maxValue: this.maxValue,
-                            value: this.value,
-                            direction: this.direction,
-                            hint: this.hint,
-                            scale: this.scale,
-                            step: this.step,
-                            configuration: this.configuration,
-                          });
+        this.onStateChange({
+          $parentElement: this.$parentElement,
+          type: constants.TYPE_RANGE,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          value: this.value,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          step: this.step,
+          configuration: this.configuration,
+        });
       }
     };
 

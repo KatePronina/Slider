@@ -24,17 +24,25 @@ class ScaleView extends ComponentView {
     const valueElements = this.DOMElement.querySelectorAll('.slider__scale-value');
 
     valueElements.forEach((element): void => {
-      const elementOffset = ((element as HTMLElement).offsetWidth / 2) * 100 / this.sliderLength;
+      if (element instanceof HTMLElement) {
+        const elementOffset = (element.offsetWidth / 2) * 100 / this.sliderLength;
 
-      if (this.direction === constants.DIRECTION_HORIZONTAL) {
-        const { left } = (element as HTMLElement).style;
-        const elementCurrentOffset = parseInt((left as string).slice(0, -1), 10);
-        (element as HTMLElement).style.left = `${elementCurrentOffset - elementOffset}%`;
-      } else {
-        const { top } = (element as HTMLElement).style;
-        const elementCurrentOffset = parseInt((top as string).slice(0, -1), 10);
-        (element as HTMLElement).style.top = `${elementCurrentOffset - elementOffset}%`;
-      }
+        if (this.direction === constants.DIRECTION_HORIZONTAL) {
+          const { left } = element.style;
+          const elementCurrentOffset = left && (parseInt(left.slice(0, -1), 10));
+
+          if (elementCurrentOffset || elementCurrentOffset === 0) {
+            element.style.left = `${elementCurrentOffset - elementOffset}%`
+          }
+        } else {
+          const { top } = element.style;
+          const elementCurrentOffset = top && parseInt(top.slice(0, -1), 10);
+
+          if (elementCurrentOffset || elementCurrentOffset === 0) {
+            element.style.top = `${elementCurrentOffset - elementOffset}%`
+          }
+        }
+      }  
     });
   }
 
@@ -89,9 +97,9 @@ class ScaleView extends ComponentView {
     this.DOMElement.addEventListener('click', this.onScaleClick);
   }
 
-  private onScaleClick = (event: Event): void => {
-    if ((event.target as HTMLElement).classList.contains('slider__scale-value')) {
-      this.onNewValue(parseInt(((event.target as HTMLElement).textContent as string), 10));
+  private onScaleClick = ({ target }: Event): void => {
+    if (target instanceof HTMLElement && target.classList.contains('slider__scale-value')) {
+      target.textContent && this.onNewValue(parseInt(target.textContent));
     }
   }
 

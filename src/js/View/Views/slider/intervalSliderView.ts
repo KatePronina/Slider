@@ -29,15 +29,19 @@ class IntervalSliderView extends ComponentSliderView {
   public onChangedValue(value: number[]): void {
     this.value = value;
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      (this.minPointDOMElement as HTMLElement).style.top = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.top = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.top = `${this.countLength(value[constants.VALUE_START])}%`;
-      (this.barDOMElement as HTMLElement).style.height = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+      this.minPointDOMElement && (this.minPointDOMElement.style.top = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`);
+      this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`);
+      if (this.barDOMElement) {
+        this.barDOMElement.style.top = `${this.countLength(value[constants.VALUE_START])}%`;
+        this.barDOMElement.style.height = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+      }
     } else {
-      (this.minPointDOMElement as HTMLElement).style.left = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`;
-      (this.maxPointDOMElement as HTMLElement).style.left = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`;
-      (this.barDOMElement as HTMLElement).style.left = `${this.countLength(value[constants.VALUE_START])}%`;
-      (this.barDOMElement as HTMLElement).style.width = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+      this.minPointDOMElement && (this.minPointDOMElement.style.left = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`);
+      this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`);
+      if (this.barDOMElement) {
+        this.barDOMElement.style.left = `${this.countLength(value[constants.VALUE_START])}%`;
+        this.barDOMElement.style.width = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+      }
     }
   }
 
@@ -62,8 +66,8 @@ class IntervalSliderView extends ComponentSliderView {
   }
 
   private bindEventsToSlider(): void {
-    (this.minPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMinPointMouseDown);
-    (this.maxPointDOMElement as HTMLElement).addEventListener('mousedown', this.onMaxPointMouseDown);
+    this.minPointDOMElement && this.minPointDOMElement.addEventListener('mousedown', this.onMinPointMouseDown);
+    this.maxPointDOMElement && this.maxPointDOMElement.addEventListener('mousedown', this.onMaxPointMouseDown);
   }
 
   private onMinPointMouseDown = (): void => {
@@ -71,8 +75,8 @@ class IntervalSliderView extends ComponentSliderView {
 
     this.bindEventsToDocument();
 
-    (this.minPointDOMElement as HTMLElement).classList.add(constants.POINT_ACTIVE_CLASS);
-    (this.maxPointDOMElement as HTMLElement).classList.remove(constants.POINT_ACTIVE_CLASS);
+    this.minPointDOMElement && this.minPointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
+    this.maxPointDOMElement && this.maxPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
   }
 
   private onMaxPointMouseDown = (): void => {
@@ -80,8 +84,8 @@ class IntervalSliderView extends ComponentSliderView {
 
     this.bindEventsToDocument();
 
-    (this.minPointDOMElement as HTMLElement).classList.remove(constants.POINT_ACTIVE_CLASS);
-    (this.maxPointDOMElement as HTMLElement).classList.add(constants.POINT_ACTIVE_CLASS);
+    this.minPointDOMElement && this.minPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
+    this.maxPointDOMElement && this.maxPointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
   }
 
   private bindEventsToDocument(): void {
