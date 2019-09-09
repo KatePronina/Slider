@@ -9,11 +9,8 @@ class RangeSliderView extends ComponentSliderView {
   private isMouseDown: boolean;
 
   public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
-    super();
-    this.direction = direction;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    this.value = value;
+    super({ direction, minValue, maxValue, value });
+
     this.isMouseDown = false;
     this.createDOMElement();
   }

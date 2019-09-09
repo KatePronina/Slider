@@ -12,11 +12,8 @@ class IntervalSliderView extends ComponentSliderView {
   private isMaxMouseDown: boolean;
 
   public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
-    super();
-    this.direction = direction;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    this.value = value;
+    super({ direction, minValue, maxValue, value });
+
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
     this.createDOMElement();

@@ -1,7 +1,8 @@
+import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 
-abstract class ComponentSlider extends ComponentView {
+abstract class ComponentSliderView extends ComponentView {
   public barDOMElement: HTMLElement | null;
   public stripDOMElement: HTMLElement | null;
   public length: number;
@@ -13,6 +14,15 @@ abstract class ComponentSlider extends ComponentView {
   protected maxValue: number;
   protected direction: string;
   protected value: number | number[];
+
+  public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
+    super();
+
+    this.direction = direction;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.value = value;
+  }
 
   public countLength(value: number): number {
     return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
@@ -31,4 +41,4 @@ abstract class ComponentSlider extends ComponentView {
   }
 }
 
-export default ComponentSlider;
+export default ComponentSliderView;
