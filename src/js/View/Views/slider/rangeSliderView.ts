@@ -27,8 +27,6 @@ class RangeSliderView extends ComponentSliderView {
 
   public onNewValue = (value: number): void => {};
 
-  private template = require('./templates/template.hbs');
-
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');

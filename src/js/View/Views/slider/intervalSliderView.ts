@@ -19,8 +19,6 @@ class IntervalSliderView extends ComponentSliderView {
     this.createDOMElement();
   }
 
-  private template = require('./templates/template.hbs');
-
   public onChangedValue(value: number[]): void {
     this.value = value;
     if (this.direction === constants.DIRECTION_VERTICAL) {

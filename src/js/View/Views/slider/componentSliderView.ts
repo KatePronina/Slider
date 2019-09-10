@@ -28,6 +28,8 @@ abstract class ComponentSliderView extends ComponentView {
     return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
   }
 
+  protected template = require('./templates/template.hbs');
+
   protected countValue(percent: number): number {
     const value = ((percent * (this.maxValue - this.minValue) + this.minValue));
     return parseInt(value.toFixed(), 10);
