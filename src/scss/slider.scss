@@ -5,7 +5,7 @@
   position: relative;
   background-color: $lightgrey;
 
-  &_vertical {
+  &_position_vertical {
     width: .25rem;
     height: 100%;
   }
@@ -27,7 +27,7 @@
     top: -.45rem;
     cursor: pointer;
 
-    &_vertical {
+    &_position_vertical {
       left: -.47rem;
     }
 
@@ -41,7 +41,7 @@
     position: absolute;
     background-color: $orange;
 
-    &_vertical {
+    &_position_vertical {
       width: .25rem;
     }
   }
@@ -63,7 +63,7 @@
     -ms-user-select: none;
     user-select: none;
 
-    &_vertical {
+    &_position_vertical {
       left: 1.2rem;
     }
 

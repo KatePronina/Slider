@@ -9,7 +9,7 @@ const constants = {
   DIRECTION_VERTICAL: 'vertical',
   VALUE_TYPE_MIN: 'min',
   VALUE_TYPE_MAX: 'max',
-  HINT_VERTICAL_CLASS: 'slider__hint_vertical',
+  HINT_VERTICAL_CLASS: 'slider__hint_position_vertical',
   HINT_DISABLE_CLASS: 'slider__hint_disable',
   SCALE_DISABLE_CLASS: 'slider__scale_disable',
   SCALE_HORIZONTAL_CLASS: 'slider__scale_position_horizontal',
