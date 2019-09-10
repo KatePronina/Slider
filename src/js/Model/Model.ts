@@ -109,10 +109,12 @@ class Model {
   private createIntervalValue(value: number): number[] {
     if (this.defineValueType(value) && this.state.value instanceof Array) {
       return [this.state.value[constants.VALUE_START], value];
-    } else if (this.state.value instanceof Array) {
+    }
+
+    if (this.state.value instanceof Array) {
       return [value, (this.state.value)[constants.VALUE_END]];
     }
-    
+
     return [value, value];
   }
 

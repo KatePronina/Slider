@@ -34,7 +34,7 @@ class RangeSliderView extends ComponentSliderView {
     const context = {
       isVertical: this.direction === constants.DIRECTION_VERTICAL,
       isRange: true,
-    }
+    };
     sliderElement.innerHTML = this.template(context);
 
     this.DOMElement = sliderElement;

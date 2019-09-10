@@ -32,17 +32,17 @@ class ScaleView extends ComponentView {
           const elementCurrentOffset = left && (parseInt(left.slice(0, -1), 10));
 
           if (elementCurrentOffset || elementCurrentOffset === 0) {
-            element.style.left = `${elementCurrentOffset - elementOffset}%`
+            element.style.left = `${elementCurrentOffset - elementOffset}%`;
           }
         } else {
           const { top } = element.style;
           const elementCurrentOffset = top && parseInt(top.slice(0, -1), 10);
 
           if (elementCurrentOffset || elementCurrentOffset === 0) {
-            element.style.top = `${elementCurrentOffset - elementOffset}%`
+            element.style.top = `${elementCurrentOffset - elementOffset}%`;
           }
         }
-      }  
+      }
     });
   }
 
@@ -99,7 +99,7 @@ class ScaleView extends ComponentView {
 
   private onScaleClick = ({ target }: Event): void => {
     if (target instanceof HTMLElement && target.classList.contains('slider__scale-value')) {
-      target.textContent && this.onNewValue(parseInt(target.textContent));
+      target.textContent && this.onNewValue(parseInt(target.textContent, 10));
     }
   }
 
