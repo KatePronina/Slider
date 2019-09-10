@@ -9,7 +9,7 @@ abstract class ComponentSliderView extends ComponentView {
   public offset: number;
   public pointWidth: number;
   public pointOffset: number;
-  
+
   protected minValue: number;
   protected maxValue: number;
   protected direction: string;
