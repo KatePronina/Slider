@@ -19,9 +19,7 @@ class IntervalSliderView extends ComponentSliderView {
     this.createDOMElement();
   }
 
-  private templateHorizontal = require('./templates/intervalHorizontal.hbs');
-
-  private templateVertical = require('./templates/intervalVertical.hbs');
+  private template = require('./templates/template.hbs');
 
   public onChangedValue(value: number[]): void {
     this.value = value;
@@ -48,11 +46,11 @@ class IntervalSliderView extends ComponentSliderView {
     const sliderElement = document.createElement('div');
     sliderElement.classList.add('slider-wrapper');
 
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      sliderElement.innerHTML = this.templateVertical();
-    } else {
-      sliderElement.innerHTML = this.templateHorizontal();
+    const context = {
+      isVertical: this.direction === constants.DIRECTION_VERTICAL,
+      isRange: false,
     }
+    sliderElement.innerHTML = this.template(context);
 
     this.DOMElement = sliderElement;
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
