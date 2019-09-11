@@ -1,14 +1,22 @@
 <fieldset class="configuration__fieldset">
-  <div class="configuration__value">
-    <label class="configuration__label">Текущее минимальное значение
-      <input class="configuration__value-input js-configuration__value-input_type_current-min-value" type="number" id="currentMinValue" />
-    </label>
-  </div>
-  <div class="configuration__value">
-    <label class="configuration__label">Текущее максимальное значение
-      <input class="configuration__value-input js-configuration__value-input_type_current-max-value" type="number" id="currentMaxValue" />
-    </label>
-  </div>
+  {{#if isRange}}
+    <div class="configuration__value">
+      <label class="configuration__label"> Текущее значение
+        <input class="configuration__value-input js-configuration__value-input_type_current-value" type="number" id="currentValue" />
+      </label>
+    </div>
+  {{else}}
+    <div class="configuration__value">
+      <label class="configuration__label">Текущее минимальное значение
+        <input class="configuration__value-input js-configuration__value-input_type_current-min-value" type="number" id="currentMinValue" />
+      </label>
+    </div>
+    <div class="configuration__value">
+      <label class="configuration__label">Текущее максимальное значение
+        <input class="configuration__value-input js-configuration__value-input_type_current-max-value" type="number" id="currentMaxValue" />
+      </label>
+    </div>
+  {{/if}}
   <div class="configuration__value">
     <label class="configuration__label">Размер шага
       <input class="configuration__value-input js-configuration__value-input_type_step" min="1" type="number" id="stepSize" />
@@ -32,8 +40,8 @@
     </label>
   </div>
   <div class="configuration__checkbox">
-    <label class="configuration__label">Шкала
-      <input class="configuration__checkbox-input js-configuration__value-input_type_scale" type="checkbox" id="toggleScale" />
+  <label class="configuration__label">Шкала
+    <input class="configuration__checkbox-input js-configuration__value-input_type_scale" type="checkbox" id="toggleScale" />
     </label>
   </div>
   <div class="configuration__checkbox">

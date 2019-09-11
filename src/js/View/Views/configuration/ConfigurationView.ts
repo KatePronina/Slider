@@ -84,18 +84,16 @@ class ConfigurationView extends ComponentView {
     this.typeToggle && this.typeToggle.addEventListener('change', this.onTypeChange);
   }
 
-  private templateRange = require('./templates/range.hbs');
-
-  private templateInterval = require('./templates/interval.hbs');
+  private template = require('./templates/template.hbs');
 
   private createDOMElement(): void {
     const configurationForm = document.createElement('form');
     configurationForm.classList.add('configuration', 'slider-section__configuration');
 
     if (this.type === constants.TYPE_RANGE) {
-      configurationForm.innerHTML = this.templateRange();
+      configurationForm.innerHTML = this.template({ isRange: true });
     } else {
-      configurationForm.innerHTML = this.templateInterval();
+      configurationForm.innerHTML = this.template({ isRange: false });
     }
 
     this.DOMElement = configurationForm;
