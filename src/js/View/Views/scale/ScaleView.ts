@@ -85,7 +85,9 @@ class ScaleView extends ComponentView {
       valueElement.textContent = value.toString();
 
       const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
-      this.direction === constants.DIRECTION_HORIZONTAL ? valueElement.style.left = `${offsetValue}%` : valueElement.style.top = `${offsetValue}%`;
+      this.direction === constants.DIRECTION_HORIZONTAL ?
+                          valueElement.style.left = `${offsetValue}%` :
+                          valueElement.style.top = `${offsetValue}%`;
       valuesFragment.append(valueElement);
     });
 

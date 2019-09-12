@@ -127,7 +127,9 @@ class View {
       this.slider.offset = this.sliderElement.offsetLeft;
     }
 
-    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.slider.minPointDOMElement) {
+    if (this.type === constants.TYPE_INTERVAL
+        && this.slider instanceof IntervalSliderView
+        && this.slider.minPointDOMElement) {
       this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
     } else if (this.slider instanceof RangeSliderView && this.slider.pointDOMElement) {
       this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
@@ -135,9 +137,14 @@ class View {
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
-    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.value instanceof Array && this.positionLength instanceof Array) {
+    if (this.type === constants.TYPE_INTERVAL
+        && this.slider instanceof IntervalSliderView
+        && this.value instanceof Array
+        && this.positionLength instanceof Array) {
       this.slider.onChangedValue(this.value, this.positionLength);
-    } else if (this.slider instanceof RangeSliderView && typeof this.value === 'number' && typeof this.positionLength === 'number') {
+    } else if (this.slider instanceof RangeSliderView
+               && typeof this.value === 'number'
+               && typeof this.positionLength === 'number') {
       this.slider.onChangedValue(this.positionLength);
     }
 
@@ -158,7 +165,10 @@ class View {
     this.value = value;
     this.positionLength = newPositionLength;
 
-    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && value instanceof Array && newPositionLength instanceof Array) {
+    if (this.type === constants.TYPE_INTERVAL
+        && this.slider instanceof IntervalSliderView
+        && value instanceof Array
+        && newPositionLength instanceof Array) {
       this.slider.onChangedValue(value, newPositionLength);
     } else if (this.slider instanceof RangeSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
       this.slider.onChangedValue(newPositionLength);
@@ -227,7 +237,9 @@ class View {
       }
     }
 
-    if (this.type === constants.TYPE_RANGE && typeof this.value === 'number' && typeof this.positionLength === 'number') {
+    if (this.type === constants.TYPE_RANGE
+        && typeof this.value === 'number'
+        && typeof this.positionLength === 'number') {
       this.hintView.onChangedValue(this.value, this.positionLength);
     } else if (this.value instanceof Array && this.positionLength instanceof Array) {
       this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
@@ -236,7 +248,10 @@ class View {
   }
 
   private initScale(): void {
-    const sliderLength = this.slider.stripDOMElement && (this.direction === constants.DIRECTION_HORIZONTAL ? this.slider.stripDOMElement.offsetWidth : this.slider.stripDOMElement.offsetHeight);
+    const sliderLength = this.slider.stripDOMElement
+                         && (this.direction === constants.DIRECTION_HORIZONTAL ?
+                          this.slider.stripDOMElement.offsetWidth :
+                          this.slider.stripDOMElement.offsetHeight);
     if (sliderLength) {
       this.scaleView = new ScaleView({
         sliderLength,

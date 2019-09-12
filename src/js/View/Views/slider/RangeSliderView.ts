@@ -68,7 +68,9 @@ class RangeSliderView extends ComponentSliderView {
 
   private onDocumentMouseMove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
-      const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ? event.pageY - this.offset : event.pageX - this.offset;
+      const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
+                              event.pageY - this.offset :
+                              event.pageX - this.offset;
 
       this.percent = ComponentSliderView.countPercent(eventCoordinate, this.length);
       this.onPositionPercentChange(this.percent);

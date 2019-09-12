@@ -40,8 +40,10 @@ class ConfigurationView extends ComponentView {
     if (this.type === constants.TYPE_RANGE) {
       this.currentValueInput && (typeof value === 'number') && (this.currentValueInput.value = value.toString());
     } else {
-      this.currentMinValueInput && (value instanceof Array) && (this.currentMinValueInput.value = value[constants.VALUE_START].toString());
-      this.currentMaxValueInput && (value instanceof Array) && (this.currentMaxValueInput.value = value[constants.VALUE_END].toString());
+      this.currentMinValueInput && (value instanceof Array)
+      && (this.currentMinValueInput.value = value[constants.VALUE_START].toString());
+      this.currentMaxValueInput && (value instanceof Array)
+      && (this.currentMaxValueInput.value = value[constants.VALUE_END].toString());
     }
   }
 
@@ -100,8 +102,10 @@ class ConfigurationView extends ComponentView {
     if (this.type === constants.TYPE_RANGE) {
       this.currentValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-value');
     } else {
-      this.currentMinValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-min-value');
-      this.currentMaxValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_current-max-value');
+      this.currentMinValueInput
+        = this.DOMElement.querySelector('.js-configuration__value-input_type_current-min-value');
+      this.currentMaxValueInput
+        = this.DOMElement.querySelector('.js-configuration__value-input_type_current-max-value');
     }
     this.stepSizeInput = this.DOMElement.querySelector('.js-configuration__value-input_type_step');
     this.minValueInput = this.DOMElement.querySelector('.js-configuration__value-input_type_min-value');

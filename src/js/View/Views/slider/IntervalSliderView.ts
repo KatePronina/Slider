@@ -95,7 +95,9 @@ class IntervalSliderView extends ComponentSliderView {
   }
 
   private onDocumentMouseMove = (event: MouseEvent): void => {
-    const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ? event.pageY - this.offset : event.pageX - this.offset;
+    const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
+                            event.pageY - this.offset :
+                            event.pageX - this.offset;
 
     if (this.isMinMouseDown && this.value instanceof Array) {
       this.minPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
