@@ -1,4 +1,5 @@
 import IFullSettings from '../Interfaces/IFullSettings';
+import IViewSettings from '../Interfaces/view/IViewSettings';
 import constants from '../constants';
 
 import RangeSliderView from './Views/slider/RangeSliderView';
@@ -29,6 +30,7 @@ class View {
   private hint: boolean;
   private scale: boolean;
   private configuration: boolean;
+  private positionLength: number | number[];
 
   public constructor({
     $parentElement,
@@ -41,7 +43,8 @@ class View {
     hint,
     scale,
     configuration,
-  }: IFullSettings) {
+    positionLength,
+  }: IViewSettings) {
     this.$parentElement = $parentElement;
     this.type = type;
     this.minValue = minValue;
@@ -52,6 +55,7 @@ class View {
     this.hint = hint;
     this.scale = scale;
     this.configuration = configuration;
+    this.positionLength = positionLength;
     this.initSlider({
       $parentElement: this.$parentElement,
       type: this.type,
@@ -77,6 +81,7 @@ class View {
     hint,
     scale,
     configuration,
+    positionLength,
   }: IFullSettings): void {
     this.$parentElement = $parentElement;
     this.type = type;
@@ -88,6 +93,8 @@ class View {
     this.hint = hint;
     this.scale = scale;
     this.configuration = configuration;
+
+    if (positionLength) this.positionLength = positionLength;
 
     if (this.type === constants.TYPE_RANGE) {
       this.slider = new RangeSliderView({
@@ -105,8 +112,8 @@ class View {
       });
     }
 
-    this.slider.onNewValue = (value: number | number[], valueType?: string): void => {
-      this.onNewValue(value, valueType);
+    this.slider.onPositionPercentChange = (positionPercent: number, valueType?: string): void => {
+      this.onNewPositionPercent(positionPercent, valueType);
     };
 
     this.sliderElement = this.slider.getDOMElement();
@@ -128,10 +135,10 @@ class View {
 
     this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
 
-    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.value instanceof Array) {
-      this.slider.onChangedValue(this.value);
-    } else if (this.slider instanceof RangeSliderView && typeof this.value === 'number') {
-      this.slider.onChangedValue(this.value);
+    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && this.value instanceof Array && this.positionLength instanceof Array) {
+      this.slider.onChangedValue(this.value, this.positionLength);
+    } else if (this.slider instanceof RangeSliderView && typeof this.value === 'number' && typeof this.positionLength === 'number') {
+      this.slider.onChangedValue(this.positionLength);
     }
 
     if (this.hint) {
@@ -147,25 +154,22 @@ class View {
     }
   }
 
-  public onChangedValue(value: number | number[]): void {
+  public onChangedValue(value: number | number[], newPositionLength: number | number[]): void {
     this.value = value;
+    this.positionLength = newPositionLength;
 
-    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && value instanceof Array) {
-      this.slider.onChangedValue(value);
-    } else if (this.slider instanceof RangeSliderView && typeof value === 'number') {
-      this.slider.onChangedValue(value);
+    if (this.type === constants.TYPE_INTERVAL && this.slider instanceof IntervalSliderView && value instanceof Array && newPositionLength instanceof Array) {
+      this.slider.onChangedValue(value, newPositionLength);
+    } else if (this.slider instanceof RangeSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
+      this.slider.onChangedValue(newPositionLength);
     }
 
     if (this.hint) {
-      if (this.type === constants.TYPE_RANGE && typeof value === 'number') {
-        const length = this.slider.countLength(value);
-        this.hintView && (this.hintView.onChangedValue(value, length));
-      } else if (value instanceof Array) {
-        const length = this.slider.countLength(value[constants.VALUE_START]);
-        this.hintView && (this.hintView.onChangedValue(value, length));
-
-        const maxLength = this.slider.countLength(value[constants.VALUE_END]);
-        this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, maxLength));
+      if (this.type === constants.TYPE_RANGE && typeof value === 'number' && typeof newPositionLength === 'number') {
+        this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
+      } else if (value instanceof Array && newPositionLength instanceof Array) {
+        this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
+        this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, newPositionLength[constants.VALUE_END]));
       }
     }
 
@@ -179,6 +183,8 @@ class View {
   }
 
   public onNewValue = (value: number | number[], valueType?: string): void => {};
+
+  public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {};
 
   public onDirectionChange = (newState: IFullSettings): void => {};
 
@@ -221,16 +227,11 @@ class View {
       }
     }
 
-    if (this.type === constants.TYPE_RANGE && typeof this.value === 'number') {
-      const length = this.slider.countLength(this.value);
-      this.hintView.onChangedValue(this.value, length);
-    } else if (this.value instanceof Array) {
-      const maxValue = this.value[constants.VALUE_END];
-      const minValue = this.value[constants.VALUE_START];
-      const maxLength = this.slider.countLength(maxValue);
-      const minLength = this.slider.countLength(minValue);
-      this.hintView.onChangedValue(this.value, minLength);
-      this.hintMaxValue && (this.hintMaxValue).onChangedValue(this.value, maxLength);
+    if (this.type === constants.TYPE_RANGE && typeof this.value === 'number' && typeof this.positionLength === 'number') {
+      this.hintView.onChangedValue(this.value, this.positionLength);
+    } else if (this.value instanceof Array && this.positionLength instanceof Array) {
+      this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
+      this.hintMaxValue && (this.hintMaxValue).onChangedValue(this.value, this.positionLength[constants.VALUE_END]);
     }
   }
 

@@ -9,7 +9,10 @@ class Controller {
 
   public constructor(settings: IFullSettings) {
     this.model = new Model(settings);
-    this.view = new View({ ...settings, value: this.model.state.value });
+    this.view = new View({ ...settings,
+      value: this.model.state.value,
+      positionLength: this.model.positionLength,
+    });
 
     this.bindEvents();
   }
@@ -23,8 +26,12 @@ class Controller {
       this.model.setValue(value, valueType);
     };
 
-    this.model.onSetValue = (value): void => {
-      this.view.onChangedValue(value);
+    this.view.onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
+      this.model.onNewPositionPercent(positionPercent, valueType);
+    };
+
+    this.model.onSetValue = (value, newPositionLength): void => {
+      this.view.onChangedValue(value, newPositionLength);
     };
 
     this.view.onDirectionChange = (newState): void => {

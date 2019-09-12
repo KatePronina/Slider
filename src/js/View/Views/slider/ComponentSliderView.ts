@@ -24,16 +24,7 @@ abstract class ComponentSliderView extends ComponentView {
     this.value = value;
   }
 
-  public countLength(value: number): number {
-    return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
-  }
-
   protected template = require('./templates/template.hbs');
-
-  protected countValue(percent: number): number {
-    const value = ((percent * (this.maxValue - this.minValue) + this.minValue));
-    return parseInt(value.toFixed(), 10);
-  }
 
   protected static countPercent(coordinate: number, length: number): number {
     let percent = coordinate / length;

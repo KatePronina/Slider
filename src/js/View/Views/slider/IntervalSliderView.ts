@@ -19,26 +19,26 @@ class IntervalSliderView extends ComponentSliderView {
     this.createDOMElement();
   }
 
-  public onChangedValue(value: number[]): void {
+  public onChangedValue(value: number[], newPositionLength: number[]): void {
     this.value = value;
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.minPointDOMElement && (this.minPointDOMElement.style.top = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`);
-      this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`);
+      this.minPointDOMElement && (this.minPointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+      this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
       if (this.barDOMElement) {
-        this.barDOMElement.style.top = `${this.countLength(value[constants.VALUE_START])}%`;
-        this.barDOMElement.style.height = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+        this.barDOMElement.style.top = `${newPositionLength[constants.VALUE_START]}%`;
+        this.barDOMElement.style.height = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
       }
     } else {
-      this.minPointDOMElement && (this.minPointDOMElement.style.left = `${this.countLength(value[constants.VALUE_START]) - (this.pointOffset * 100)}%`);
-      this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${this.countLength(value[constants.VALUE_END]) - (this.pointOffset * 100)}%`);
+      this.minPointDOMElement && (this.minPointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+      this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
       if (this.barDOMElement) {
-        this.barDOMElement.style.left = `${this.countLength(value[constants.VALUE_START])}%`;
-        this.barDOMElement.style.width = `${this.countLength(value[constants.VALUE_END]) - this.countLength(value[constants.VALUE_START])}%`;
+        this.barDOMElement.style.left = `${newPositionLength[constants.VALUE_START]}%`;
+        this.barDOMElement.style.width = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
       }
     }
   }
 
-  public onNewValue = (value: number[], valueType: string): void => {};
+  public onPositionPercentChange = (positionPercent: number, valueType: string) => {};
 
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
@@ -99,14 +99,12 @@ class IntervalSliderView extends ComponentSliderView {
 
     if (this.isMinMouseDown && this.value instanceof Array) {
       this.minPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
-      this.value[constants.VALUE_START] = this.countValue(this.minPercent);
-      this.onNewValue(this.value, constants.VALUE_TYPE_MIN);
+      this.onPositionPercentChange(this.minPercent, constants.VALUE_TYPE_MIN);
     }
 
     if (this.isMaxMouseDown && this.value instanceof Array) {
       this.maxPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
-      this.value[constants.VALUE_END] = this.countValue(this.maxPercent);
-      this.onNewValue(this.value, constants.VALUE_TYPE_MAX);
+      this.onPositionPercentChange(this.maxPercent, constants.VALUE_TYPE_MAX);
     }
   }
 }

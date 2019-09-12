@@ -15,17 +15,17 @@ class RangeSliderView extends ComponentSliderView {
     this.createDOMElement();
   }
 
-  public onChangedValue(value: number): void {
+  public onChangedValue(newPositionLength: number): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.barDOMElement && (this.barDOMElement.style.height = `${this.countLength(value)}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.top = `${this.countLength(value) - (this.pointOffset * 100)}%`);
+      this.barDOMElement && (this.barDOMElement.style.height = `${newPositionLength}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.top = `${newPositionLength - (this.pointOffset * 100)}%`);
     } else {
-      this.barDOMElement && (this.barDOMElement.style.width = `${this.countLength(value)}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.left = `${this.countLength(value) - (this.pointOffset * 100)}%`);
+      this.barDOMElement && (this.barDOMElement.style.width = `${newPositionLength}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.left = `${newPositionLength - (this.pointOffset * 100)}%`);
     }
   }
 
-  public onNewValue = (value: number): void => {};
+  public onPositionPercentChange = (positionPercent: number): void => {};
 
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
@@ -71,7 +71,7 @@ class RangeSliderView extends ComponentSliderView {
       const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ? event.pageY - this.offset : event.pageX - this.offset;
 
       this.percent = ComponentSliderView.countPercent(eventCoordinate, this.length);
-      this.onNewValue(this.countValue(this.percent));
+      this.onPositionPercentChange(this.percent);
     }
   }
 }

@@ -4,6 +4,7 @@ import constants from '../constants';
 
 class Model {
   public state: IModelSettings;
+  public positionLength: number | number[];
 
   public constructor({
                     type,
@@ -19,14 +20,28 @@ class Model {
     this.setValue(value);
   }
 
+  public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
+    const newValue = this.countValue(positionPercent);
+    this.setValue(newValue, valueType);
+  }
+
   public setValue(value: number | number[], valueType?: string): void {
     if (this.state.type === constants.TYPE_INTERVAL) {
       this.setIntervalSliderValue(value, valueType);
-    } else if (this.state.type === constants.TYPE_RANGE && Array.isArray(value)) {
+      if (this.state.value instanceof Array) {
+        const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
+        const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
+        this.positionLength = [newMinPositionLength, newMaxPositionLength];
+        this.onSetValue(this.state.value, this.positionLength);
+      }
+    } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
       this.state.value = value[constants.VALUE_START];
-    } else if (typeof value === 'number' && this.state.value !== this.checkValue(value)) {
+      this.positionLength = this.countPositionLength(this.state.value);
+      this.onSetValue(this.state.value, this.positionLength);
+    } else if (typeof value === 'number' && typeof this.state.value === 'number') {
       this.state.value = this.checkValue(value);
-      this.onSetValue(this.state.value);
+      this.positionLength = this.countPositionLength(this.state.value);
+      this.onSetValue(this.state.value, this.positionLength);
     }
   }
 
@@ -36,12 +51,21 @@ class Model {
     this.state.step = newState.step;
     this.state.type = newState.type;
     this.setValue(newState.value);
-    this.onSetState({ ...newState, value: this.state.value });
+    this.onSetState({ ...newState, value: this.state.value, positionLength: this.positionLength });
   }
 
-  public onSetValue = (value: number | number[]): void => {};
+  public onSetValue = (value: number | number[], newPositionLength: number | number[]): void => {};
 
   public onSetState = (newState: IFullSettings): void => {};
+
+  private countValue(percent: number): number {
+    const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
+    return parseInt(value.toFixed(), 10);
+  }
+
+  private countPositionLength(value: number): number {
+    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
+  }
 
   private setIntervalSliderValue(value: number | number[], valueType?: string): void {
     if (typeof value === 'number') {
@@ -61,7 +85,6 @@ class Model {
       const checkedValues = value.map((val): number => this.checkValue(val));
       this.state.value = Model.checkInterval(checkedValues, valueType);
     }
-    this.onSetValue(this.state.value);
   }
 
   private static checkInterval(values: number[], valueType?: string): number[] {

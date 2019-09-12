@@ -9,5 +9,5 @@ export default interface IFullSettings {
   hint: boolean;
   scale: boolean;
   configuration: boolean;
-  positionLength?: number | number[];
+  positionLength: number | number[];
 }
