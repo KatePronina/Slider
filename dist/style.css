@@ -1,31 +1,11 @@
 body {
   padding: 30px;
   font-family: Arial, sans-serif; }
-.configuration {
-  display: flex;
-  border: 2px dashed #e85019; }
-  .configuration__fieldset {
-    border: none; }
-  .configuration__value, .configuration__checkbox {
-    margin-top: .5rem; }
-  .configuration__value-input {
-    max-width: 3rem;
-    margin-left: .3rem; }
-.slider-section {
-  max-width: 30rem; }
-  .slider-section__title {
-    margin-top: 1rem;
-    margin-bottom: 2.5rem; }
-  .slider-section__slider_vertical {
-    height: 20rem; }
-  .slider-section__configuration {
-    margin-top: 2rem;
-    margin-bottom: 3rem; }
 .slider {
   height: .25rem;
   position: relative;
   background-color: #bfbfbf; }
-  .slider_vertical {
+  .slider_position_vertical {
     width: .25rem;
     height: 100%; }
   .slider-wrapper {
@@ -42,7 +22,7 @@ body {
     position: absolute;
     top: -.45rem;
     cursor: pointer; }
-    .slider__point_vertical {
+    .slider__point_position_vertical {
       left: -.47rem; }
     .slider__point_active {
       z-index: 2; }
@@ -50,7 +30,7 @@ body {
     height: .25rem;
     position: absolute;
     background-color: #e85019; }
-    .slider__bar_vertical {
+    .slider__bar_position_vertical {
       width: .25rem; }
   .slider__hint {
     min-width: 1.5rem;
@@ -67,14 +47,10 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-    .slider__hint_vertical {
+    .slider__hint_position_vertical {
       left: 1.2rem; }
-    .slider__hint_disable {
-      display: none; }
   .slider__scale {
     position: relative; }
-    .slider__scale_disable {
-      display: none; }
     .slider__scale_position_horizontal {
       top: .7rem; }
     .slider__scale_position_vertical {
@@ -90,3 +66,23 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+.slider-section {
+  max-width: 30rem; }
+  .slider-section__title {
+    margin-top: 1rem;
+    margin-bottom: 2.5rem; }
+  .slider-section__slider_vertical {
+    height: 20rem; }
+  .slider-section__configuration {
+    margin-top: 2rem;
+    margin-bottom: 3rem; }
+.configuration {
+  display: flex;
+  border: 2px dashed #e85019; }
+  .configuration__fieldset {
+    border: none; }
+  .configuration__value, .configuration__checkbox {
+    margin-top: .5rem; }
+  .configuration__value-input {
+    max-width: 3rem;
+    margin-left: .3rem; }
