@@ -1,0 +1,19 @@
+.slider-section  {
+  max-width: 30rem;
+
+  &__title {
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  &__slider {
+    &_vertical {
+      height: 20rem;
+    }
+  }
+
+  &__configuration {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+}

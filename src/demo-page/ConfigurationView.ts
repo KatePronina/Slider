@@ -1,6 +1,6 @@
-import IFullSettings from '../Interfaces/IFullSettings';
-import '../plugin';
-import constants from '../constants';
+import IFullSettings from '../js/Interfaces/IFullSettings';
+import '../js/plugin';
+import constants from '../js/constants';
 
 class ConfigurationView {
   private containerDOMElement: Element;

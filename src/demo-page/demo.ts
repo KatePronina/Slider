@@ -1,4 +1,4 @@
-import ConfigurationView from './demo-page/ConfigurationView';
+import ConfigurationView from './ConfigurationView';
 
 const firstSliderConfigurationContainer = document.querySelector('.js-first-slider-section__configuration');
 const firstSliderConfigurationView = firstSliderConfigurationContainer
