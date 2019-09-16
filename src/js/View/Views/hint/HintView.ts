@@ -36,14 +36,6 @@ class HintView extends ComponentView {
     }
   }
 
-  public toggleDisplay(): void {
-    if (this.DOMElement.classList.contains(constants.HINT_DISABLE_CLASS)) {
-      this.DOMElement.classList.remove(constants.HINT_DISABLE_CLASS);
-    } else {
-      this.DOMElement.classList.add(constants.HINT_DISABLE_CLASS);
-    }
-  }
-
   private createDOMElement(): void {
     const hintElement = document.createElement('div');
 

@@ -6,7 +6,6 @@ const DEFAULT_SETTINGS = {
   direction: 'horizontal',
   hint: true,
   scale: false,
-  configuration: false,
 };
 
 export default DEFAULT_SETTINGS;

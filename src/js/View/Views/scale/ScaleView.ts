@@ -46,14 +46,6 @@ class ScaleView extends ComponentView {
     });
   }
 
-  public toggleDisplay(): void {
-    if (this.DOMElement.classList.contains(constants.SCALE_DISABLE_CLASS)) {
-      this.DOMElement.classList.remove(constants.SCALE_DISABLE_CLASS);
-    } else {
-      this.DOMElement.classList.add(constants.SCALE_DISABLE_CLASS);
-    }
-  }
-
   public onNewValue = (value: number): void => {};
 
   private createDOMElement(): void {

@@ -3,21 +3,29 @@ import IModelSettings from '../Interfaces/model/IModelSettings';
 import constants from '../constants';
 
 class Model {
-  public state: IModelSettings;
+  public state: IFullSettings;
   public positionLength: number | number[];
 
   public constructor({
+                    $parentElement,
                     type,
                     minValue,
                     maxValue,
                     value = type === constants.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
                     step,
+                    direction,
+                    hint,
+                    scale
                    }: IFullSettings) {
     this.state = {
-      type, minValue, maxValue, value, step,
+      $parentElement, type, minValue, maxValue, value, step, direction, scale, hint,
     };
 
     this.setValue(value);
+  }
+
+  public getSettings(): IFullSettings {
+    return this.state;
   }
 
   public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
@@ -50,6 +58,9 @@ class Model {
     this.state.minValue = newState.minValue;
     this.state.step = newState.step;
     this.state.type = newState.type;
+    this.state.direction = newState.direction;
+    this.state.hint = newState.hint;
+    this.state.scale = newState.scale;
     this.setValue(newState.value);
     this.onSetState({ ...newState, value: this.state.value, positionLength: this.positionLength });
   }

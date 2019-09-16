@@ -66,18 +66,10 @@
     &_position_vertical {
       left: 1.2rem;
     }
-
-    &_disable {
-      display: none;
-    }
   }
 
   &__scale {
     position: relative;
-
-    &_disable {
-      display: none;
-    }
 
     &_position_horizontal {
       top: .7rem;

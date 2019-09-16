@@ -17,9 +17,22 @@ class Controller {
     this.bindEvents();
   }
 
+  public getSettings(): void {
+    const newSettings = this.model.getSettings();
+    this.onNewSettings(newSettings);
+  }
+
+  public onChangedSettings = (settings: IFullSettings): void => {
+    this.model.onNewState(settings);
+  }
+
   public onNewValue(value: number | number[], valueType?: string): void {
     this.model.setValue(value, valueType);
   }
+
+  public onNewSettings = (settings: IFullSettings): void => {};
+
+  public onChangedValue = (value: number | number[]): void => {};
 
   private bindEvents(): void {
     this.view.onNewValue = (value, valueType?: string): void => {
@@ -32,20 +45,13 @@ class Controller {
 
     this.model.onSetValue = (value, newPositionLength): void => {
       this.view.onChangedValue(value, newPositionLength);
-    };
-
-    this.view.onDirectionChange = (newState): void => {
-      this.view.remove();
-      this.view.initSlider(newState);
-    };
-
-    this.view.onStateChange = (newState): void => {
-      this.model.onNewState(newState);
+      this.onChangedValue(value);
     };
 
     this.model.onSetState = (newState): void => {
       this.view.remove();
       this.view.initSlider(newState);
+      this.onNewSettings(newState);
     };
   }
 }
