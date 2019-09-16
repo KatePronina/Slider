@@ -101,22 +101,22 @@ class ConfigurationView {
     this.typeToggle && this.typeToggle.addEventListener('change', this.onTypeChange);
   }
 
-  private onStepChange = ({ target }: Event): void => {
+  private onNumberInputChange({ target }: Event, property: string) {
     if (target instanceof HTMLInputElement && target.value.length > 0) {
-      this.sliderPlugin.setSettings({ ...this.settings, step: parseInt(target.value, 10) });
+      this.sliderPlugin.setSettings({ ...this.settings, [property]: parseInt(target.value, 10) });
     }
   }
 
-  private onMinValueChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement && target.value.length > 0) {
-      this.sliderPlugin.setSettings({ ...this.settings, minValue: parseInt(target.value, 10) });
-    }
+  private onStepChange = (event: Event): void => {
+    this.onNumberInputChange(event, 'step');
   }
 
-  private onMaxValueChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement && target.value.length > 0) {
-      this.sliderPlugin.setSettings({ ...this.settings, maxValue: parseInt(target.value, 10) });
-    }
+  private onMinValueChange = (event: Event): void => {
+    this.onNumberInputChange(event, 'minValue');
+  }
+
+  private onMaxValueChange = (event: Event): void => {
+    this.onNumberInputChange(event, 'maxValue');
   }
 
   private onHintChange = ({ target }: Event): void => {
