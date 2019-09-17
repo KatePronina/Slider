@@ -40,6 +40,38 @@ class ConfigurationView {
   private renderConfiguration(): void {
     const context = {
       isRange: this.settings.type === constants.TYPE_RANGE,
+      valueInputs: [
+        {
+          label: 'Размер шага',
+          type: 'step',
+        },
+        {
+          label: 'Минимальное значение',
+          type: 'min-value',
+        },
+        {
+          label: 'Максимальное значение',
+          type: 'max-value',
+        },
+      ],
+      checkboxInputs: [
+        {
+          label: 'Подсказка',
+          type: 'hint',
+        },
+        {
+          label: 'Шкала',
+          type: 'scale',
+        },
+        {
+          label: 'Два значения',
+          type: 'toggle-interval',
+        },
+        {
+          label: 'Вертикальный вид',
+          type: 'vertical',
+        },
+      ],
     };
     this.containerDOMElement.innerHTML = this.template(context);
 
