@@ -1,13 +1,14 @@
 import IFullSettings from '../Interfaces/IFullSettings';
 import IViewSettings from '../Interfaces/view/IViewSettings';
 import constants from '../constants';
+import Observer from '../Observer/Observer';
 
 import RangeSliderView from './Views/slider/RangeSliderView';
 import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
 
-class View {
+class View extends Observer {
   public slider: RangeSliderView | IntervalSliderView;
   public hintView?: HintView;
   public hintMaxValue?: HintView;
@@ -40,6 +41,7 @@ class View {
     scale,
     positionLength,
   }: IViewSettings) {
+    super();
     this.$parentElement = $parentElement;
     this.type = type;
     this.minValue = minValue;
@@ -63,7 +65,7 @@ class View {
     });
   }
 
-  public initSlider({
+  public initSlider = ({
     $parentElement,
     type,
     minValue,
@@ -74,7 +76,7 @@ class View {
     hint,
     scale,
     positionLength,
-  }: IFullSettings): void {
+  }: IFullSettings): void => {
     this.$parentElement = $parentElement;
     this.type = type;
     this.minValue = minValue;
@@ -104,7 +106,7 @@ class View {
     }
 
     this.slider.onPositionPercentChange = (positionPercent: number, valueType?: string): void => {
-      this.onNewPositionPercent(positionPercent, valueType);
+      this.publish('newPositionPercent', positionPercent, valueType);
     };
 
     this.sliderElement = this.slider.getDOMElement();
@@ -148,7 +150,7 @@ class View {
     }
   }
 
-  public onChangedValue(value: number | number[], newPositionLength: number | number[]): void {
+  public onChangedValue = (value: number | number[], newPositionLength: number | number[]): void => {
     this.value = value;
     this.positionLength = newPositionLength;
 
@@ -171,13 +173,9 @@ class View {
     }
   }
 
-  public remove(): void {
+  public remove = (): void => {
     this.$parentElement.html('');
   }
-
-  public onNewValue = (value: number | number[], valueType?: string): void => {};
-
-  public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {};
 
   private appendElementToParent(element: HTMLElement): void {
     this.$parentElement.append(element);
@@ -247,7 +245,7 @@ class View {
       this.scaleView.alignValues();
 
       this.scaleView.onNewValue = (value: number): void => {
-        this.onNewValue(value);
+        this.publish('newValue', value);
       };
     }
   }

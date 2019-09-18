@@ -1,8 +1,9 @@
 import IFullSettings from '../Interfaces/IFullSettings';
 import IModelSettings from '../Interfaces/model/IModelSettings';
+import Observer from '../Observer/Observer';
 import constants from '../constants';
 
-class Model {
+class Model extends Observer {
   public state: IFullSettings;
   public positionLength: number | number[];
 
@@ -15,13 +16,14 @@ class Model {
                     step,
                     direction,
                     hint,
-                    scale
+                    scale,
                    }: IFullSettings) {
+    super();
     this.state = {
       $parentElement, type, minValue, maxValue, value, step, direction, scale, hint,
     };
 
-    this.setValue(value);
+    this.saveValue(value);
   }
 
   public getSettings(): IFullSettings {
@@ -33,23 +35,23 @@ class Model {
     this.setValue(newValue, valueType);
   }
 
-  public setValue(value: number | number[], valueType?: string): void {
+  public setValue = (value: number | number[], valueType?: string): void => {
     if (this.state.type === constants.TYPE_INTERVAL) {
       this.setIntervalSliderValue(value, valueType);
       if (this.state.value instanceof Array) {
         const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
         const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
         this.positionLength = [newMinPositionLength, newMaxPositionLength];
-        this.onSetValue(this.state.value, this.positionLength);
+        this.publish('onSetValue', this.state.value, this.positionLength);
       }
     } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
       this.state.value = value[constants.VALUE_START];
       this.positionLength = this.countPositionLength(this.state.value);
-      this.onSetValue(this.state.value, this.positionLength);
+      this.publish('onSetValue', this.state.value, this.positionLength);
     } else if (typeof value === 'number' && typeof this.state.value === 'number') {
       this.state.value = this.checkValue(value);
       this.positionLength = this.countPositionLength(this.state.value);
-      this.onSetValue(this.state.value, this.positionLength);
+      this.publish('onSetValue', this.state.value, this.positionLength);
     }
   }
 
@@ -62,12 +64,25 @@ class Model {
     this.state.hint = newState.hint;
     this.state.scale = newState.scale;
     this.setValue(newState.value);
-    this.onSetState({ ...newState, value: this.state.value, positionLength: this.positionLength });
+    this.publish('onSetState', { ...newState, value: this.state.value, positionLength: this.positionLength });
   }
 
-  public onSetValue = (value: number | number[], newPositionLength: number | number[]): void => {};
-
-  public onSetState = (newState: IFullSettings): void => {};
+  private saveValue = (value: number | number[], valueType?: string) => {
+    if (this.state.type === constants.TYPE_INTERVAL) {
+      this.setIntervalSliderValue(value, valueType);
+      if (this.state.value instanceof Array) {
+        const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
+        const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
+        this.positionLength = [newMinPositionLength, newMaxPositionLength];
+      }
+    } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
+      this.state.value = value[constants.VALUE_START];
+      this.positionLength = this.countPositionLength(this.state.value);
+    } else if (typeof value === 'number' && typeof this.state.value === 'number') {
+      this.state.value = this.checkValue(value);
+      this.positionLength = this.countPositionLength(this.state.value);
+    }
+  }
 
   private countValue(percent: number): number {
     const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));

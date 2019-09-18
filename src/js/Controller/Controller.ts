@@ -35,24 +35,15 @@ class Controller {
   public onChangedValue = (value: number | number[]): void => {};
 
   private bindEvents(): void {
-    this.view.onNewValue = (value, valueType?: string): void => {
-      this.model.setValue(value, valueType);
-    };
+    this.view.subscribe(this.model.setValue, 'newValue');
+    this.view.subscribe(this.model.onNewPositionPercent, 'newPositionPercent');
 
-    this.view.onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
-      this.model.onNewPositionPercent(positionPercent, valueType);
-    };
+    this.model.subscribe(this.view.onChangedValue, 'onSetValue');
+    this.model.subscribe(this.onChangedValue, 'onSetValue');
 
-    this.model.onSetValue = (value, newPositionLength): void => {
-      this.view.onChangedValue(value, newPositionLength);
-      this.onChangedValue(value);
-    };
-
-    this.model.onSetState = (newState): void => {
-      this.view.remove();
-      this.view.initSlider(newState);
-      this.onNewSettings(newState);
-    };
+    this.model.subscribe(this.view.remove, 'onSetState');
+    this.model.subscribe(this.view.initSlider, 'onSetState');
+    this.model.subscribe(this.onNewSettings, 'onSetState');
   }
 }
 
