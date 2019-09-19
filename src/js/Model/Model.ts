@@ -1,5 +1,4 @@
 import IFullSettings from '../Interfaces/IFullSettings';
-import IModelSettings from '../Interfaces/model/IModelSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
 
@@ -36,23 +35,8 @@ class Model extends Observer {
   }
 
   public setValue = (value: number | number[], valueType?: string): void => {
-    if (this.state.type === constants.TYPE_INTERVAL) {
-      this.setIntervalSliderValue(value, valueType);
-      if (this.state.value instanceof Array) {
-        const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
-        const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
-        this.positionLength = [newMinPositionLength, newMaxPositionLength];
-        this.publish('onSetValue', this.state.value, this.positionLength);
-      }
-    } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
-      this.state.value = value[constants.VALUE_START];
-      this.positionLength = this.countPositionLength(this.state.value);
-      this.publish('onSetValue', this.state.value, this.positionLength);
-    } else if (typeof value === 'number' && typeof this.state.value === 'number') {
-      this.state.value = this.checkValue(value);
-      this.positionLength = this.countPositionLength(this.state.value);
-      this.publish('onSetValue', this.state.value, this.positionLength);
-    }
+    this.saveValue(value, valueType);
+    this.publish('onSetValue', this.state.value, this.positionLength);
   }
 
   public onNewState(newState: IFullSettings): void {
