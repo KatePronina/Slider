@@ -17,7 +17,6 @@ describe('Constructor', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
     expect(model.state.type).toEqual('interval');
@@ -40,9 +39,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(10);
 
     expect(model.state.value).toEqual(10);
@@ -59,9 +58,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(10000);
 
     expect(model.state.value).toEqual(30);
@@ -78,9 +77,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(-10000);
 
     expect(model.state.value).toEqual(5);
@@ -97,9 +96,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([5, 10]);
 
     expect(model.state.value).toEqual([5, 10]);
@@ -116,9 +115,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([6, 9]);
 
     expect(model.state.value).toEqual([5, 10]);
@@ -135,9 +134,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([10, 15]);
     model.setValue([10, 9], 'max');
     model.setValue([10, 1], 'max');
@@ -156,9 +155,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([5, 9]);
     model.setValue([10, 9]);
 
@@ -176,9 +175,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([5, 70]);
 
     expect(model.state.value).toEqual([5, 70]);
@@ -195,9 +194,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([30, 35]);
 
     expect(model.state.value).toEqual([30, 35]);
@@ -214,9 +213,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([70, 70]);
 
     expect(model.state.value).toEqual([70, 70]);
@@ -233,9 +232,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([5, 50]);
 
     expect(model.state.value).toEqual([5, 50]);
@@ -252,9 +251,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([50, 72]);
 
     expect(model.state.value).toEqual([50, 70]);
@@ -271,9 +270,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([-50, 110]);
 
     expect(model.state.value).toEqual([0, 100]);
@@ -290,9 +289,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([100, 100]);
 
     expect(model.state.value).toEqual([90, 90]);
@@ -309,9 +308,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue([33, 36]);
 
     expect(model.state.value).toEqual([35, 35]);
@@ -328,9 +327,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(51);
 
     expect(model.state.value).toEqual([10, 50]);
@@ -347,9 +346,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(21);
 
     expect(model.state.value).toEqual([20, 60]);
@@ -366,9 +365,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(150);
 
     expect(model.state.value).toEqual([10, 100]);
@@ -385,9 +384,9 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      configuration: true,
     });
 
+    model.subscribe(() => {}, 'onSetValue');
     model.setValue(-10);
 
     expect(model.state.value).toEqual([0, 60]);
