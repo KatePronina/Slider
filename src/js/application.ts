@@ -10,18 +10,6 @@ class Application extends Observer {
     this.createSlider(settings);
   }
 
-  public setValue = (value: number | number[], valueType?: string): void => {
-    this.publish('setValue', value, valueType);
-  }
-
-  public setSettings = (settings: IFullSettings): void => {
-    this.publish('setSettings', settings);
-  }
-
-  public getSettings = (): void => {
-    this.publish('getSettings');
-  }
-
   public onNewValue = (value: number | number[]): void => {
     this.publish('onNewValue', value);
   }

@@ -34,13 +34,13 @@ $.fn.slider = function callSlider(method, ...args) {
   
   return {
     setValue(value, valueType) {
-      slider.setValue(value, valueType);
+      slider.publish('setValue', value, valueType);
     },
     setSettings(settings) {
-      slider.setSettings(settings);
+      slider.publish('setSettings', settings);
     },
     getSettings() {
-      slider.getSettings();
+      slider.publish('getSettings');
     }
   }
 };
