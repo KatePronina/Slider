@@ -15,12 +15,9 @@ $.fn.slider = function callSlider(method, ...args) {
   const methods = {
     init(options) {
       slider = new Application({ $parentElement: this, ...options });
-      slider.onNewValue = (value) => {
-        onNewValue(value);
-      }
-      slider.onNewSettings = (settings) => {
-        onNewSettings(settings);
-      }
+
+      slider.subscribe(onNewValue, 'onNewValue');
+      slider.subscribe(onNewSettings, 'onNewSettings');
     },
     setValue(value, valueType) {
       slider.setValue(value, valueType);

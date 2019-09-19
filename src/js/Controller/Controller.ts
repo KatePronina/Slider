@@ -1,13 +1,15 @@
 import Model from '../Model/Model';
 import View from '../View/View';
+import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
 
-class Controller {
+class Controller extends Observer {
   private model: Model;
 
   private view: View;
 
   public constructor(settings: IFullSettings) {
+    super();
     this.model = new Model(settings);
     this.view = new View({ ...settings,
       value: this.model.state.value,
@@ -17,7 +19,7 @@ class Controller {
     this.bindEvents();
   }
 
-  public getSettings(): void {
+  public getSettings = (): void => {
     const newSettings = this.model.getSettings();
     this.onNewSettings(newSettings);
   }
@@ -26,13 +28,17 @@ class Controller {
     this.model.onNewState(settings);
   }
 
-  public onNewValue(value: number | number[], valueType?: string): void {
+  public onNewValue = (value: number | number[], valueType?: string): void => {
     this.model.setValue(value, valueType);
   }
 
-  public onNewSettings = (settings: IFullSettings): void => {};
+  public onNewSettings = (settings: IFullSettings): void => {
+    this.publish('onNewSettings', settings);
+  }
 
-  public onChangedValue = (value: number | number[]): void => {};
+  public onChangedValue = (value: number | number[]): void => {
+    this.publish('onChangedValue', value);
+  }
 
   private bindEvents(): void {
     this.view.subscribe(this.model.setValue, 'newValue');

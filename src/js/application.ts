@@ -1,39 +1,44 @@
 import Controller from './Controller/Controller';
 import IFullSettings from './Interfaces/IFullSettings';
+import Observer from './Observer/Observer';
 
-class Application {
+class Application extends Observer {
   private controller: Controller;
 
   public constructor(settings: IFullSettings) {
+    super();
     this.createSlider(settings);
   }
 
-  public setValue(value: number | number[], valueType?: string): void {
-    this.controller.onNewValue(value, valueType);
+  public setValue = (value: number | number[], valueType?: string): void => {
+    this.publish('setValue', value, valueType);
   }
 
-  public setSettings(settings: IFullSettings): void {
-    this.controller.onChangedSettings(settings);
+  public setSettings = (settings: IFullSettings): void => {
+    this.publish('setSettings', settings);
   }
 
-  public getSettings(): void {
-    this.controller.getSettings();
+  public getSettings = (): void => {
+    this.publish('getSettings');
   }
 
-  public onNewValue = (value: number | number[]): void => {};
+  public onNewValue = (value: number | number[]): void => {
+    this.publish('onNewValue', value);
+  }
 
-  public onNewSettings = (setting: IFullSettings): void => {};
+  public onNewSettings = (setting: IFullSettings): void => {
+    this.publish('onNewSettings', setting);
+  }
 
   private createSlider(settings: IFullSettings): void {
     this.controller = new Controller(settings);
 
-    this.controller.onChangedValue = (value) => {
-      this.onNewValue(value);
-    };
+    this.subscribe(this.controller.getSettings, 'getSettings');
+    this.subscribe(this.controller.onChangedSettings, 'setSettings');
+    this.subscribe(this.controller.onNewValue, 'setValue');
 
-    this.controller.onNewSettings = (settings: IFullSettings): void => {
-      this.onNewSettings(settings);
-    };
+    this.controller.subscribe(this.onNewValue, 'onChangedValue');
+    this.controller.subscribe(this.onNewSettings, 'onNewSettings');
   }
 }
 
