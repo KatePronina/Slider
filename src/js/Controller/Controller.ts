@@ -36,20 +36,27 @@ class Controller extends Observer {
     this.publish('onNewSettings', settings);
   }
 
-  public onChangedValue = (value: number | number[]): void => {
+  public onChangedValue = (value: number | number[], newPositionLength: number | number[]): void => {
+    this.view.onChangedValue(value, newPositionLength);
     this.publish('onChangedValue', value);
   }
 
   private bindEvents(): void {
-    this.view.subscribe(this.model.setValue, 'newValue');
-    this.view.subscribe(this.model.onNewPositionPercent, 'newPositionPercent');
+    this.view.subscribe(this.onNewValue, 'newValue');
+    this.view.subscribe(this.onNewPositionPercent, 'newPositionPercent');
 
-    this.model.subscribe(this.view.onChangedValue, 'onSetValue');
     this.model.subscribe(this.onChangedValue, 'onSetValue');
+    this.model.subscribe(this.onSetState, 'onSetState');
+  }
 
-    this.model.subscribe(this.view.remove, 'onSetState');
-    this.model.subscribe(this.view.initSlider, 'onSetState');
-    this.model.subscribe(this.onNewSettings, 'onSetState');
+  private onSetState = (settings: IFullSettings) => {
+    this.view.remove();
+    this.view.initSlider(settings);
+    this.onNewSettings(settings);
+  }
+
+  private onNewPositionPercent = (positionPercent: number, valueType?: string) => {
+    this.model.onNewPositionPercent(positionPercent, valueType);
   }
 }
 
