@@ -1,9 +1,9 @@
-<div class="slider {{#if isVertical}}slider_position_vertical{{/if}}">
-  <div class="slider__bar {{#if isVertical}}slider__bar_position_vertical{{/if}}"></div>
+<div class="slider {{#if isVertical}}slider_direction_vertical{{/if}}">
+  <div class="slider__bar {{#if isVertical}}slider__bar_direction_vertical{{/if}}"></div>
   {{#if isRange}}
-    <div class="slider__point {{#if isVertical}}slider__point_position_vertical{{/if}}"></div>
+    <div class="slider__point {{#if isVertical}}slider__point_direction_vertical{{/if}}"></div>
   {{else}}
-    <div class="slider__point slider__point_min {{#if isVertical}}slider__point_position_vertical{{/if}}"></div>
-    <div class="slider__point slider__point_max {{#if isVertical}}slider__point_position_vertical{{/if}}"></div>
+    <div class="slider__point slider__point_min {{#if isVertical}}slider__point_direction_vertical{{/if}}"></div>
+    <div class="slider__point slider__point_max {{#if isVertical}}slider__point_direction_vertical{{/if}}"></div>
   {{/if}}
 </div>

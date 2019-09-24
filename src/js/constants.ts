@@ -9,10 +9,10 @@ const constants = {
   DIRECTION_VERTICAL: 'vertical',
   VALUE_TYPE_MIN: 'min',
   VALUE_TYPE_MAX: 'max',
-  HINT_VERTICAL_CLASS: 'slider__hint_position_vertical',
-  SCALE_HORIZONTAL_CLASS: 'slider__scale_position_horizontal',
-  SCALE_VERTICAL_CLASS: 'slider__scale_position_vertical',
-  POINT_ACTIVE_CLASS: 'slider__point_active',
+  HINT_VERTICAL_CLASS: 'slider__hint_direction_vertical',
+  SCALE_HORIZONTAL_CLASS: 'slider__scale_direction_horizontal',
+  SCALE_VERTICAL_CLASS: 'slider__scale_direction_vertical',
+  POINT_ACTIVE_CLASS: 'slider__point_actived',
 };
 
 export default constants;
