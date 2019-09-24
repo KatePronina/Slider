@@ -59,16 +59,12 @@ class ScaleView extends ComponentView {
       scale.style.height = `${this.sliderLength}px`;
     }
 
-    const values = [this.minValue];
     const valuesNumber = Math.floor((this.maxValue - this.minValue) / this.step);
-    let currentValue = this.minValue;
-    for (let i = 0; i < valuesNumber; i += 1) {
-      currentValue += this.step;
-      if (currentValue < this.maxValue) {
-        values.push(currentValue);
-      }
-    }
-    values.push(this.maxValue);
+    const values = [
+      this.minValue,
+      ...Array.from({ length: valuesNumber }, (_, index) => (index + 1) * this.step + this.minValue),
+      this.maxValue,
+    ];
 
     const valuesFragment = document.createDocumentFragment();
     values.forEach((value) => {
@@ -76,7 +72,7 @@ class ScaleView extends ComponentView {
       valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
-      const offsetValue = this.countLength(value) - (valueElement.offsetWidth / 2);
+      const offsetValue = typeof value === 'number' &&  this.countLength(value) - (valueElement.offsetWidth / 2);
       this.direction === constants.DIRECTION_HORIZONTAL ?
                           valueElement.style.left = `${offsetValue}%` :
                           valueElement.style.top = `${offsetValue}%`;
