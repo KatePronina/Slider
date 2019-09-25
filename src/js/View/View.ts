@@ -245,7 +245,18 @@ class View extends Observer {
       this.scaleView.alignValues();
 
       this.scaleView.onNewValue = (value: number): void => {
-        this.publish('newValue', value);
+        this.publish('newValue', {
+          value,
+          $parentElement: this.$parentElement,
+          type: this.type,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+          step: this.step,
+          direction: this.direction,
+          hint: this.hint,
+          scale: this.scale,
+          positionLength: this.positionLength,
+        });
       };
     }
   }

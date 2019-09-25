@@ -14,13 +14,11 @@ $.fn.slider = function callSlider(method, ...args) {
 
   const methods = {
     init(options) {
-      slider = new Application({ $parentElement: this, ...options });
+      const fullSettings = { $parentElement: this, ...options };
+      slider = new Application(fullSettings);
 
       slider.subscribe(onNewValue, 'onNewValue');
       slider.subscribe(onNewSettings, 'onNewSettings');
-    },
-    setValue(value, valueType) {
-      slider.setValue(value, valueType);
     },
   };
 
@@ -33,9 +31,6 @@ $.fn.slider = function callSlider(method, ...args) {
   }
   
   return {
-    setValue(value, valueType) {
-      slider.publish('setValue', value, valueType);
-    },
     setSettings(settings) {
       slider.publish('setSettings', settings);
     },

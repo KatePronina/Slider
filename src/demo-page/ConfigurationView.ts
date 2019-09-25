@@ -31,8 +31,8 @@ class ConfigurationView {
     this.sliderPlugin.getSettings();
     this.renderConfiguration();
 
-    this.sliderPlugin.setValue(39);
-    this.sliderPlugin.setValue(5);
+    this.sliderPlugin.setSettings({ ...this.settings, value: 39 });
+    this.sliderPlugin.setSettings({ ...this.settings, value: 5 });
   }
 
   private template = require('./templates/template.hbs');
@@ -185,14 +185,22 @@ class ConfigurationView {
     input.addEventListener('input', (): void => {
       setTimeout((): void => {
         if (input.value.length === 0) {
-          this.sliderPlugin.setValue(this.settings.minValue);
+          this.sliderPlugin.setSettings({ ...this.settings, value: this.settings.minValue });
         } else if (valueType) {
-          this.sliderPlugin.setValue(parseInt(input.value, 10), valueType);
+          this.onNewIntervalValue(parseInt(input.value, 10), valueType);
         } else {
-          this.sliderPlugin.setValue(parseInt(input.value, 10));
+          this.sliderPlugin.setSettings({ ...this.settings, value: parseInt(input.value, 10) });
         }
       }, 800);
     });
+  }
+
+  private onNewIntervalValue = (value: number, valueType: string) => {
+    if (valueType === constants.VALUE_TYPE_MIN && this.settings.value instanceof Array) {
+      this.sliderPlugin.setSettings({ ...this.settings, value: [value, this.settings.value[constants.VALUE_END]] });
+    } else if (valueType === constants.VALUE_TYPE_MAX && this.settings.value instanceof Array) {
+      this.sliderPlugin.setSettings({ ...this.settings, value: [this.settings.value[constants.VALUE_START], value] });
+    }
   }
 
   private bindEventsToSlider(sliderClass: string): void {

@@ -28,10 +28,6 @@ class Controller extends Observer {
     this.model.onNewState(settings);
   }
 
-  public onNewValue = (value: number | number[], valueType?: string): void => {
-    this.model.setValue(value, valueType);
-  }
-
   public onNewSettings = (settings: IFullSettings): void => {
     this.publish('onNewSettings', settings);
   }
@@ -42,7 +38,7 @@ class Controller extends Observer {
   }
 
   private bindEvents(): void {
-    this.view.subscribe(this.onNewValue, 'newValue');
+    this.view.subscribe(this.onChangedSettings, 'newValue');
     this.view.subscribe(this.onNewPositionPercent, 'newPositionPercent');
 
     this.model.subscribe(this.onChangedValue, 'onSetValue');

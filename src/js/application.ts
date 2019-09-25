@@ -23,7 +23,6 @@ class Application extends Observer {
 
     this.subscribe(this.controller.getSettings, 'getSettings');
     this.subscribe(this.controller.onChangedSettings, 'setSettings');
-    this.subscribe(this.controller.onNewValue, 'setValue');
 
     this.controller.subscribe(this.onNewValue, 'onChangedValue');
     this.controller.subscribe(this.onNewSettings, 'onNewSettings');
