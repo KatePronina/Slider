@@ -34,11 +34,6 @@ class Model extends Observer {
     this.setValue(newValue, valueType);
   }
 
-  public setValue = (value: number | number[], valueType?: string): void => {
-    this.saveValue(value, valueType);
-    this.publish('onSetValue', this.state.value, this.positionLength);
-  }
-
   public onNewState(newState: IFullSettings): void {
     this.state.maxValue = newState.maxValue;
     this.state.minValue = newState.minValue;
@@ -49,6 +44,11 @@ class Model extends Observer {
     this.state.scale = newState.scale;
     this.setValue(newState.value);
     this.publish('onSetState', { ...newState, value: this.state.value, positionLength: this.positionLength });
+  }
+
+  private setValue = (value: number | number[], valueType?: string): void => {
+    this.saveValue(value, valueType);
+    this.publish('onSetValue', this.state.value, this.positionLength);
   }
 
   private saveValue = (value: number | number[], valueType?: string) => {
