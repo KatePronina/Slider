@@ -91,6 +91,10 @@ class ConfigurationView {
     this.typeToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_toggle-interval');
     this.verticalToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_vertical');
 
+    if (this.settings.direction === constants.DIRECTION_VERTICAL) {
+      this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
+    }
+
     this.bindEventsToInputs();
     this.updateInputs();
   }
@@ -168,6 +172,13 @@ class ConfigurationView {
       const newDirection = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
                                                         constants.DIRECTION_VERTICAL :
                                                         constants.DIRECTION_HORIZONTAL;
+
+      if (newDirection === constants.DIRECTION_VERTICAL) {
+        this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
+      } else {
+        this.settings.$parentElement.removeClass('slider-section__slider_direction_vertical');
+      }
+
       this.sliderPlugin.setSettings({ ...this.settings, direction: newDirection });
     }
   }
