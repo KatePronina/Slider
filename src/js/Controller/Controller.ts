@@ -11,10 +11,8 @@ class Controller extends Observer {
   public constructor(settings: IFullSettings) {
     super();
     this.model = new Model(settings);
-    this.view = new View({ ...settings,
-      value: this.model.state.value,
-      positionLength: this.model.positionLength,
-    });
+    const newSettings = this.model.getSettings();
+    this.view = new View(newSettings);
 
     this.bindEvents();
   }

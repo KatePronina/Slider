@@ -1,10 +1,11 @@
 import IFullSettings from '../Interfaces/IFullSettings';
+import IViewSettings from '../Interfaces/view/IViewSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
 
 class Model extends Observer {
-  public state: IFullSettings;
-  public positionLength: number | number[];
+  private state: IFullSettings;
+  private positionLength: number | number[];
 
   public constructor({
                     $parentElement,
@@ -25,8 +26,8 @@ class Model extends Observer {
     this.saveValue(value);
   }
 
-  public getSettings(): IFullSettings {
-    return this.state;
+  public getSettings(): IViewSettings {
+    return { ...this.state, positionLength: this.positionLength };
   }
 
   public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
