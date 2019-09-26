@@ -2,6 +2,7 @@ import Model from '../Model/Model';
 import View from '../View/View';
 import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
+import INewParams from '../Interfaces/controller/INewParams';
 
 class Controller extends Observer {
   private model: Model;
@@ -22,8 +23,12 @@ class Controller extends Observer {
     this.onNewSettings(newSettings);
   }
 
-  public onChangedSettings = (settings: IFullSettings): void => {
-    this.model.onNewState(settings);
+  public onChangedSettings = (params: INewParams): void => {
+    const settings = this.model.getSettings();
+    this.model.onNewState({
+      ...settings,
+      ...params,
+    });
   }
 
   public onNewSettings = (settings: IFullSettings): void => {

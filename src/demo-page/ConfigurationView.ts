@@ -30,8 +30,8 @@ class ConfigurationView {
 
     this.renderConfiguration();
 
-    this.sliderPlugin.setSettings({ ...this.settings, value: 39 });
-    this.sliderPlugin.setSettings({ ...this.settings, value: 5 });
+    this.sliderPlugin.setSettings({ value: 39 });
+    this.sliderPlugin.setSettings({ value: 5 });
   }
 
   private template = require('./templates/template.hbs');
@@ -138,7 +138,7 @@ class ConfigurationView {
 
   private onNumberInputChange({ target }: Event, property: string) {
     if (target instanceof HTMLInputElement && target.value.length > 0) {
-      this.sliderPlugin.setSettings({ ...this.settings, [property]: parseInt(target.value, 10) });
+      this.sliderPlugin.setSettings({ [property]: parseInt(target.value, 10) });
     }
   }
 
@@ -156,13 +156,13 @@ class ConfigurationView {
 
   private onHintChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      this.sliderPlugin.setSettings({ ...this.settings, hint: !this.settings.hint });
+      this.sliderPlugin.setSettings({ hint: !this.settings.hint });
     }
   }
 
   private onScaleChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      this.sliderPlugin.setSettings({ ...this.settings, scale: !this.settings.scale });
+      this.sliderPlugin.setSettings({ scale: !this.settings.scale });
     }
   }
 
@@ -178,7 +178,7 @@ class ConfigurationView {
         this.settings.$parentElement.removeClass('slider-section__slider_direction_vertical');
       }
 
-      this.sliderPlugin.setSettings({ ...this.settings, direction: newDirection });
+      this.sliderPlugin.setSettings({ direction: newDirection });
     }
   }
 
@@ -187,7 +187,7 @@ class ConfigurationView {
       const newType = this.settings.type === constants.TYPE_RANGE ?
                                               constants.TYPE_INTERVAL :
                                               constants.TYPE_RANGE;
-      this.sliderPlugin.setSettings({ ...this.settings, type: newType });
+      this.sliderPlugin.setSettings({ type: newType });
     }
   }
 
@@ -195,11 +195,11 @@ class ConfigurationView {
     input.addEventListener('input', (): void => {
       setTimeout((): void => {
         if (input.value.length === 0) {
-          this.sliderPlugin.setSettings({ ...this.settings, value: this.settings.minValue });
+          this.sliderPlugin.setSettings({ value: this.settings.minValue });
         } else if (valueType) {
           this.onNewIntervalValue(parseInt(input.value, 10), valueType);
         } else {
-          this.sliderPlugin.setSettings({ ...this.settings, value: parseInt(input.value, 10) });
+          this.sliderPlugin.setSettings({ value: parseInt(input.value, 10) });
         }
       }, 800);
     });
@@ -207,9 +207,9 @@ class ConfigurationView {
 
   private onNewIntervalValue = (value: number, valueType: string) => {
     if (valueType === constants.VALUE_TYPE_MIN && this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ ...this.settings, value: [value, this.settings.value[constants.VALUE_END]] });
+      this.sliderPlugin.setSettings({ value: [value, this.settings.value[constants.VALUE_END]] });
     } else if (valueType === constants.VALUE_TYPE_MAX && this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ ...this.settings, value: [this.settings.value[constants.VALUE_START], value] });
+      this.sliderPlugin.setSettings({ value: [this.settings.value[constants.VALUE_START], value] });
     }
   }
 
