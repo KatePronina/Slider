@@ -21,14 +21,13 @@ class ConfigurationView {
   public constructor(containerDOMElement: Element, sliderClass: string, settings?: any) {
     this.containerDOMElement = containerDOMElement;
 
+    this.bindEventsToSlider(sliderClass);
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings });
     } else {
       this.sliderPlugin = $(`.${sliderClass}`).slider({});
     }
 
-    this.bindEventsToSlider(sliderClass);
-    this.sliderPlugin.getSettings();
     this.renderConfiguration();
 
     this.sliderPlugin.setSettings({ ...this.settings, value: 39 });

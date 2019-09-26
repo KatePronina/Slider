@@ -19,6 +19,7 @@ $.fn.slider = function callSlider(method, ...args) {
 
       slider.subscribe(onNewValue, 'onNewValue');
       slider.subscribe(onNewSettings, 'onNewSettings');
+      slider.publish('getSettings');
     },
   };
 
@@ -33,9 +34,6 @@ $.fn.slider = function callSlider(method, ...args) {
   return {
     setSettings(settings) {
       slider.publish('setSettings', settings);
-    },
-    getSettings() {
-      slider.publish('getSettings');
     }
   }
 };
