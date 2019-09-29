@@ -1,5 +1,4 @@
 import IFullSettings from '../Interfaces/IFullSettings';
-import IViewSettings from '../Interfaces/view/IViewSettings';
 import constants from '../constants';
 import Observer from '../Observer/Observer';
 
@@ -40,7 +39,7 @@ class View extends Observer {
     hint,
     scale,
     positionLength,
-  }: IViewSettings) {
+  }: IFullSettings) {
     super();
     this.$parentElement = $parentElement;
     this.type = type;
@@ -51,7 +50,9 @@ class View extends Observer {
     this.direction = direction;
     this.hint = hint;
     this.scale = scale;
-    this.positionLength = positionLength;
+    if (positionLength !== null) {
+      this.positionLength = positionLength;
+    }
     this.initSlider({
       $parentElement: this.$parentElement,
       type: this.type,
@@ -62,6 +63,7 @@ class View extends Observer {
       direction: this.direction,
       hint: this.hint,
       scale: this.scale,
+      positionLength: this.positionLength,
     });
   }
 
@@ -86,8 +88,9 @@ class View extends Observer {
     this.direction = direction;
     this.hint = hint;
     this.scale = scale;
-
-    if (positionLength) this.positionLength = positionLength;
+    if (positionLength !== null) {
+      this.positionLength = positionLength;
+    }
 
     if (this.type === constants.TYPE_RANGE) {
       this.slider = new RangeSliderView({

@@ -14,7 +14,6 @@ class Controller extends Observer {
     this.model = new Model(settings);
     const newSettings = this.model.getSettings();
     this.view = new View(newSettings);
-
     this.bindEvents();
   }
 

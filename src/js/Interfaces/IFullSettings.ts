@@ -8,5 +8,5 @@ export default interface IFullSettings {
   direction: string;
   hint: boolean;
   scale: boolean;
-  positionLength?: number | number[];
+  positionLength: number | number[] | null;
 }

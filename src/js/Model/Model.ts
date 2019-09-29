@@ -1,11 +1,9 @@
 import IFullSettings from '../Interfaces/IFullSettings';
-import IViewSettings from '../Interfaces/view/IViewSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
 
 class Model extends Observer {
   private state: IFullSettings;
-  private positionLength: number | number[];
 
   public constructor({
                     $parentElement,
@@ -17,17 +15,18 @@ class Model extends Observer {
                     direction,
                     hint,
                     scale,
+                    positionLength,
                    }: IFullSettings) {
     super();
     this.state = {
-      $parentElement, type, minValue, maxValue, value, step, direction, scale, hint,
+      $parentElement, type, minValue, maxValue, value, step, direction, scale, hint, positionLength,
     };
 
     this.saveValue(value);
   }
 
-  public getSettings(): IViewSettings {
-    return { ...this.state, positionLength: this.positionLength };
+  public getSettings(): IFullSettings {
+    return this.state;
   }
 
   public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
@@ -44,12 +43,12 @@ class Model extends Observer {
     this.state.hint = newState.hint;
     this.state.scale = newState.scale;
     this.setValue(newState.value);
-    this.publish('onSetState', { ...newState, value: this.state.value, positionLength: this.positionLength });
+    this.publish('onSetState', { ...newState, value: this.state.value, positionLength: this.state.positionLength });
   }
 
   private setValue = (value: number | number[], valueType?: string): void => {
     this.saveValue(value, valueType);
-    this.publish('onSetValue', this.state.value, this.positionLength);
+    this.publish('onSetValue', this.state.value, this.state.positionLength);
   }
 
   private saveValue = (value: number | number[], valueType?: string) => {
@@ -58,14 +57,14 @@ class Model extends Observer {
       if (this.state.value instanceof Array) {
         const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
         const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
-        this.positionLength = [newMinPositionLength, newMaxPositionLength];
+        this.state.positionLength = [newMinPositionLength, newMaxPositionLength];
       }
     } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
       this.state.value = value[constants.VALUE_START];
-      this.positionLength = this.countPositionLength(this.state.value);
+      this.state.positionLength = this.countPositionLength(this.state.value);
     } else if (typeof value === 'number' && typeof this.state.value === 'number') {
       this.state.value = this.checkValue(value);
-      this.positionLength = this.countPositionLength(this.state.value);
+      this.state.positionLength = this.countPositionLength(this.state.value);
     }
   }
 
