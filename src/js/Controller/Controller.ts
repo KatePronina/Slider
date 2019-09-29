@@ -31,7 +31,10 @@ class Controller extends Observer {
   }
 
   public onNewSettings = (settings: IFullSettings): void => {
-    this.publish('onNewSettings', settings);
+    this.publish('onNewSettings', {
+      ...settings,
+      positionLength: null,
+    });
   }
 
   public onChangedValue = (value: number | number[], newPositionLength: number | number[]): void => {
