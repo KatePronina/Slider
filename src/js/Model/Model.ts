@@ -5,24 +5,9 @@ import constants from '../constants';
 class Model extends Observer {
   private state: IFullSettings;
 
-  public constructor({
-                    $parentElement,
-                    type,
-                    minValue,
-                    maxValue,
-                    value = type === constants.TYPE_INTERVAL ? [minValue, maxValue] : minValue,
-                    step,
-                    direction,
-                    hint,
-                    scale,
-                    positionLength,
-                   }: IFullSettings) {
+  public constructor(state: IFullSettings) {
     super();
-    this.state = {
-      $parentElement, type, minValue, maxValue, value, step, direction, scale, hint, positionLength,
-    };
-
-    this.saveValue(value);
+    this.state = this.validateState({ ...state });
   }
 
   public getSettings(): IFullSettings {
@@ -35,37 +20,68 @@ class Model extends Observer {
   }
 
   public onNewState(newState: IFullSettings): void {
-    this.state.maxValue = newState.maxValue;
-    this.state.minValue = newState.minValue;
-    this.state.step = newState.step;
-    this.state.type = newState.type;
-    this.state.direction = newState.direction;
-    this.state.hint = newState.hint;
-    this.state.scale = newState.scale;
-    this.setValue(newState.value);
-    this.publish('onSetState', { ...newState, value: this.state.value, positionLength: this.state.positionLength });
+    this.state = this.validateState(newState);
+    this.publish('onSetState', this.state);
+  }
+
+  private validateState(state: IFullSettings): IFullSettings {
+    if (!this.state) {
+      this.state = state;
+    }
+
+    this.state.maxValue = state.maxValue;
+    this.state.minValue = state.minValue;
+    this.state.step = state.step;
+    this.state.type = state.type;
+    this.state.direction = state.direction;
+    this.state.hint = state.hint;
+    this.state.scale = state.scale;
+
+    if (typeof state.value === 'undefined') {
+      state.value = state.type === constants.TYPE_INTERVAL ? [state.minValue, state.maxValue] : state.minValue;
+    }
+
+    const newValue = this.validateValue(state.value);
+
+    if (typeof newValue === 'number') {
+      const newPositionLength = this.countPositionLength(newValue);
+      return {
+        ...state,
+        value: newValue,
+        positionLength: newPositionLength,
+      };
+    }
+
+    const newMinPositionLength = this.countPositionLength(newValue[constants.VALUE_START]);
+    const newMaxPositionLength = this.countPositionLength(newValue[constants.VALUE_END]);
+    return {
+      ...state,
+      value: newValue,
+      positionLength: [newMinPositionLength, newMaxPositionLength],
+    };
   }
 
   private setValue = (value: number | number[], valueType?: string): void => {
-    this.saveValue(value, valueType);
+    const newValue = this.validateValue(value, valueType);
+    this.state = this.validateState({ ...this.state, value: newValue });
+
     this.publish('onSetValue', this.state.value, this.state.positionLength);
   }
 
-  private saveValue = (value: number | number[], valueType?: string) => {
+  private validateValue = (value: number | number[], valueType?: string): number | number[] => {
     if (this.state.type === constants.TYPE_INTERVAL) {
-      this.setIntervalSliderValue(value, valueType);
-      if (this.state.value instanceof Array) {
-        const newMinPositionLength = this.countPositionLength(this.state.value[constants.VALUE_START]);
-        const newMaxPositionLength = this.countPositionLength(this.state.value[constants.VALUE_END]);
-        this.state.positionLength = [newMinPositionLength, newMaxPositionLength];
-      }
-    } else if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
-      this.state.value = value[constants.VALUE_START];
-      this.state.positionLength = this.countPositionLength(this.state.value);
-    } else if (typeof value === 'number' && typeof this.state.value === 'number') {
-      this.state.value = this.checkValue(value);
-      this.state.positionLength = this.countPositionLength(this.state.value);
+      return this.validateIntervalSliderValue(value, valueType);
     }
+
+    if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
+      return value[constants.VALUE_START];
+    }
+
+    if (typeof value === 'number' && typeof this.state.value === 'number') {
+      return this.checkValue(value);
+    }
+
+    return value;
   }
 
   private countValue(percent: number): number {
@@ -77,24 +93,32 @@ class Model extends Observer {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
-  private setIntervalSliderValue(value: number | number[], valueType?: string): void {
+  private validateIntervalSliderValue(value: number | number[], valueType?: string): number | number[] {
     if (typeof value === 'number') {
       const checkedValue = this.checkValue(value);
       if (valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
         const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
-        this.state.value = Model.checkInterval(newValue, valueType);
-      } else if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
-        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
-        this.state.value = Model.checkInterval(newValue, valueType);
-      } else if (typeof value === 'number' && typeof this.state.value === 'number') {
-        this.state.value = [value, this.state.maxValue];
-      } else {
-        this.state.value = this.createIntervalValue(checkedValue);
+        return Model.checkInterval(newValue, valueType);
       }
-    } else if (value instanceof Array) {
-      const checkedValues = value.map((val): number => this.checkValue(val));
-      this.state.value = Model.checkInterval(checkedValues, valueType);
+
+      if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
+        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
+        return Model.checkInterval(newValue, valueType);
+      }
+
+      if (typeof value === 'number' && typeof this.state.value === 'number') {
+        return [value, this.state.maxValue];
+      }
+
+      return this.createIntervalValue(checkedValue);
     }
+
+    if (value instanceof Array) {
+      const checkedValues = value.map((val): number => this.checkValue(val));
+      return Model.checkInterval(checkedValues, valueType);
+    }
+
+    return value;
   }
 
   private static checkInterval(values: number[], valueType?: string): number[] {
