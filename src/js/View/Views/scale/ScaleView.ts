@@ -26,39 +26,46 @@ class ScaleView extends ComponentView {
     valueElements.forEach((element): void => {
       if (element instanceof HTMLElement) {
         const elementOffset = (element.offsetWidth / 2) * 100 / this.sliderLength;
-
-        if (this.direction === constants.DIRECTION_HORIZONTAL) {
-          const { left } = element.style;
-          const elementCurrentOffset = left && (parseInt(left.slice(0, -1), 10));
-
-          if (elementCurrentOffset || elementCurrentOffset === 0) {
-            element.style.left = `${elementCurrentOffset - elementOffset}%`;
-          }
-        } else {
-          const { top } = element.style;
-          const elementCurrentOffset = top && parseInt(top.slice(0, -1), 10);
-
-          if (elementCurrentOffset || elementCurrentOffset === 0) {
-            element.style.top = `${elementCurrentOffset - elementOffset}%`;
-          }
-        }
+        this.setOffset(element, elementOffset);
       }
     });
   }
 
   public onNewValue = (value: number): void => {};
 
-  private createDOMElement(): void {
-    const scale = document.createElement('div');
-    scale.classList.add('slider__scale');
+  private setOffset(element: HTMLElement, elementOffset: number): void {
     if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      scale.classList.add(constants.SCALE_HORIZONTAL_CLASS);
-      scale.style.width = `${this.sliderLength}px`;
+      const { left } = element.style;
+      const elementCurrentOffset = left && (parseInt(left.slice(0, -1), 10));
+
+      if (elementCurrentOffset || elementCurrentOffset === 0) {
+        element.style.left = `${elementCurrentOffset - elementOffset}%`;
+      }
     } else {
-      scale.classList.add(constants.SCALE_VERTICAL_CLASS);
-      scale.style.height = `${this.sliderLength}px`;
+      const { top } = element.style;
+      const elementCurrentOffset = top && parseInt(top.slice(0, -1), 10);
+
+      if (elementCurrentOffset || elementCurrentOffset === 0) {
+        element.style.top = `${elementCurrentOffset - elementOffset}%`;
+      }
+    }
+  }
+
+  private createDOMElement(): void {
+    this.DOMElement = document.createElement('div');
+    this.DOMElement.classList.add('slider__scale');
+    if (this.direction === constants.DIRECTION_HORIZONTAL) {
+      this.DOMElement.classList.add(constants.SCALE_HORIZONTAL_CLASS);
+      this.DOMElement.style.width = `${this.sliderLength}px`;
+    } else {
+      this.DOMElement.classList.add(constants.SCALE_VERTICAL_CLASS);
+      this.DOMElement.style.height = `${this.sliderLength}px`;
     }
 
+    this.createValues();
+  }
+
+  private createValues(): void {
     const valuesNumber = Math.floor((this.maxValue - this.minValue) / this.step);
     const values = [
       this.minValue,
@@ -79,8 +86,7 @@ class ScaleView extends ComponentView {
       valuesFragment.append(valueElement);
     });
 
-    scale.append(valuesFragment);
-    this.DOMElement = scale;
+    this.DOMElement.append(valuesFragment);
   }
 
   private bindEvents(): void {
