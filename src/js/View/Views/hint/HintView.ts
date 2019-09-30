@@ -21,12 +21,11 @@ class HintView extends ComponentView {
 
   public onChangedValue(value: number | number[], percent: number): void {
     this.value = value;
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
-    } else {
-      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
-    }
+    this.setNewPosition(percent);
+    this.setNewValue();
+  }
 
+  private setNewValue(): void {
     if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
       this.value instanceof Array && (this.DOMElement.textContent = this.value[constants.VALUE_END].toString());
     } else if (this.type === constants.TYPE_INTERVAL) {
@@ -36,22 +35,22 @@ class HintView extends ComponentView {
     }
   }
 
-  private createDOMElement(): void {
-    const hintElement = document.createElement('div');
-
-    if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
-      this.value instanceof Array && (hintElement.textContent = this.value[constants.VALUE_END].toString());
-    } else if (this.type === constants.TYPE_INTERVAL) {
-      this.value instanceof Array && (hintElement.textContent = this.value [constants.VALUE_START].toString());
-    } else {
-      (typeof this.value === 'number') && (hintElement.textContent = this.value.toString());
-    }
-
-    hintElement.classList.add('slider__hint');
+  private setNewPosition(percent: number): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      hintElement.classList.add(constants.HINT_VERTICAL_CLASS);
+      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
+    } else {
+      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
     }
-    this.DOMElement = hintElement;
+  }
+
+  private createDOMElement(): void {
+    this.DOMElement = document.createElement('div');
+    this.setNewValue();
+
+    this.DOMElement.classList.add('slider__hint');
+    if (this.direction === constants.DIRECTION_VERTICAL) {
+      this.DOMElement.classList.add(constants.HINT_VERTICAL_CLASS);
+    }
   }
 }
 
