@@ -21,24 +21,30 @@ class IntervalSliderView extends ComponentSliderView {
 
   public onChangedValue(value: number[], newPositionLength: number[]): void {
     this.value = value;
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.minPointDOMElement && (this.minPointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-      this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-      if (this.barDOMElement) {
-        this.barDOMElement.style.top = `${newPositionLength[constants.VALUE_START]}%`;
-        this.barDOMElement.style.height = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
-      }
-    } else {
-      this.minPointDOMElement && (this.minPointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-      this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-      if (this.barDOMElement) {
-        this.barDOMElement.style.left = `${newPositionLength[constants.VALUE_START]}%`;
-        this.barDOMElement.style.width = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
-      }
-    }
+    this.direction === constants.DIRECTION_VERTICAL ?
+                        this.setNewVerticalPosition(newPositionLength) :
+                        this.setNewHorizontalPosition(newPositionLength);
   }
 
   public onPositionPercentChange = (positionPercent: number, valueType: string) => {};
+
+  private setNewVerticalPosition(newPositionLength: number[]): void {
+    this.minPointDOMElement && (this.minPointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+    if (this.barDOMElement) {
+      this.barDOMElement.style.top = `${newPositionLength[constants.VALUE_START]}%`;
+      this.barDOMElement.style.height = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
+    }
+  }
+
+  private setNewHorizontalPosition(newPositionLength: number[]): void {
+    this.minPointDOMElement && (this.minPointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+    if (this.barDOMElement) {
+      this.barDOMElement.style.left = `${newPositionLength[constants.VALUE_START]}%`;
+      this.barDOMElement.style.width = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
+    }
+  }
 
   private createDOMElement(): void {
     const sliderElement = document.createElement('div');
