@@ -28,69 +28,13 @@ class View extends Observer {
   private scale: boolean;
   private positionLength: number | number[];
 
-  public constructor({
-    $parentElement,
-    type,
-    minValue,
-    maxValue,
-    value,
-    step,
-    direction,
-    hint,
-    scale,
-    positionLength,
-  }: IFullSettings) {
+  public constructor(settings: IFullSettings) {
     super();
-    this.$parentElement = $parentElement;
-    this.type = type;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    this.value = value;
-    this.step = step;
-    this.direction = direction;
-    this.hint = hint;
-    this.scale = scale;
-    if (positionLength !== null) {
-      this.positionLength = positionLength;
-    }
-    this.initSlider({
-      $parentElement: this.$parentElement,
-      type: this.type,
-      minValue: this.minValue,
-      maxValue: this.maxValue,
-      value: this.value,
-      step: this.step,
-      direction: this.direction,
-      hint: this.hint,
-      scale: this.scale,
-      positionLength: this.positionLength,
-    });
+    this.initSlider(settings);
   }
 
-  public initSlider = ({
-    $parentElement,
-    type,
-    minValue,
-    maxValue,
-    value,
-    step,
-    direction,
-    hint,
-    scale,
-    positionLength,
-  }: IFullSettings): void => {
-    this.$parentElement = $parentElement;
-    this.type = type;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    this.value = value;
-    this.step = step;
-    this.direction = direction;
-    this.hint = hint;
-    this.scale = scale;
-    if (positionLength !== null) {
-      this.positionLength = positionLength;
-    }
+  public initSlider = (settings: IFullSettings): void => {
+    this.saveSettings(settings);
 
     if (this.type === constants.TYPE_RANGE) {
       this.slider = new RangeSliderView({
@@ -108,41 +52,10 @@ class View extends Observer {
       });
     }
 
-    this.slider.onPositionPercentChange = (positionPercent: number, valueType?: string): void => {
-      this.publish('newPositionPercent', positionPercent, valueType);
-    };
-
-    this.sliderElement = this.slider.getDOMElement();
-    this.appendElementToParent(this.sliderElement);
-
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.slider.length = this.sliderElement.offsetHeight;
-      this.slider.offset = this.sliderElement.offsetTop;
-    } else {
-      this.slider.length = this.sliderElement.offsetWidth;
-      this.slider.offset = this.sliderElement.offsetLeft;
-    }
-
-    if (this.type === constants.TYPE_INTERVAL
-        && this.slider instanceof IntervalSliderView
-        && this.slider.minPointDOMElement) {
-      this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
-    } else if (this.slider instanceof RangeSliderView && this.slider.pointDOMElement) {
-      this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
-    }
-
-    this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
-
-    if (this.type === constants.TYPE_INTERVAL
-        && this.slider instanceof IntervalSliderView
-        && this.value instanceof Array
-        && this.positionLength instanceof Array) {
-      this.slider.onChangedValue(this.value, this.positionLength);
-    } else if (this.slider instanceof RangeSliderView
-               && typeof this.value === 'number'
-               && typeof this.positionLength === 'number') {
-      this.slider.onChangedValue(this.positionLength);
-    }
+    this.bindEventsToSlider();
+    this.appendSlider();
+    this.setSliderSizes();
+    this.setStartedValues();
 
     if (this.hint) {
       this.initHint();
@@ -157,6 +70,77 @@ class View extends Observer {
     this.value = value;
     this.positionLength = newPositionLength;
 
+    this.notifySliderOfNewValue(value, newPositionLength);
+
+    if (this.hint) {
+      this.notifyHintOfNewValue(value, newPositionLength);
+    }
+  }
+
+  public remove = (): void => {
+    this.$parentElement.html('');
+  }
+
+  private saveSettings(settings: IFullSettings): void {
+    this.$parentElement = settings.$parentElement;
+    this.type = settings.type;
+    this.minValue = settings.minValue;
+    this.maxValue = settings.maxValue;
+    this.value = settings.value;
+    this.step = settings.step;
+    this.direction = settings.direction;
+    this.hint = settings.hint;
+    this.scale = settings.scale;
+    if (settings.positionLength !== null) {
+      this.positionLength = settings.positionLength;
+    }
+  }
+
+  private bindEventsToSlider(): void {
+    this.slider.onPositionPercentChange = (positionPercent: number, valueType?: string): void => {
+      this.publish('newPositionPercent', positionPercent, valueType);
+    };
+  }
+
+  private appendSlider(): void {
+    this.sliderElement = this.slider.getDOMElement();
+    this.appendElementToParent(this.sliderElement);
+  }
+
+  private setSliderSizes(): void {
+    if (this.direction === constants.DIRECTION_VERTICAL && this.sliderElement) {
+      this.slider.length = this.sliderElement.offsetHeight;
+      this.slider.offset = this.sliderElement.offsetTop;
+    } else if (this.sliderElement) {
+      this.slider.length = this.sliderElement.offsetWidth;
+      this.slider.offset = this.sliderElement.offsetLeft;
+    }
+
+    if (this.type === constants.TYPE_INTERVAL
+        && this.slider instanceof IntervalSliderView
+        && this.slider.minPointDOMElement) {
+      this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
+    } else if (this.slider instanceof RangeSliderView && this.slider.pointDOMElement) {
+      this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
+    }
+
+    this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
+  }
+
+  private setStartedValues(): void {
+    if (this.type === constants.TYPE_INTERVAL
+        && this.slider instanceof IntervalSliderView
+        && this.value instanceof Array
+        && this.positionLength instanceof Array) {
+      this.slider.onChangedValue(this.value, this.positionLength);
+    } else if (this.slider instanceof RangeSliderView
+              && typeof this.value === 'number'
+              && typeof this.positionLength === 'number') {
+      this.slider.onChangedValue(this.positionLength);
+    }
+  }
+
+  private notifySliderOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
     if (this.type === constants.TYPE_INTERVAL
         && this.slider instanceof IntervalSliderView
         && value instanceof Array
@@ -165,19 +149,15 @@ class View extends Observer {
     } else if (this.slider instanceof RangeSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
       this.slider.onChangedValue(newPositionLength);
     }
-
-    if (this.hint) {
-      if (this.type === constants.TYPE_RANGE && typeof value === 'number' && typeof newPositionLength === 'number') {
-        this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
-      } else if (value instanceof Array && newPositionLength instanceof Array) {
-        this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
-        this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, newPositionLength[constants.VALUE_END]));
-      }
-    }
   }
 
-  public remove = (): void => {
-    this.$parentElement.html('');
+  private notifyHintOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
+    if (this.type === constants.TYPE_RANGE && typeof value === 'number' && typeof newPositionLength === 'number') {
+      this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
+    } else if (value instanceof Array && newPositionLength instanceof Array) {
+      this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
+      this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, newPositionLength[constants.VALUE_END]));
+    }
   }
 
   private appendElementToParent(element: HTMLElement): void {
@@ -190,38 +170,60 @@ class View extends Observer {
   }
 
   private initHint(): void {
-    this.hintView = new HintView({ value: this.value, type: this.type, direction: this.direction });
-    this.hintElement = this.hintView.getDOMElement();
-    this.appendElementToSlider(this.hintElement);
+    this.hintView = new HintView({
+      value: this.value,
+      type: this.type,
+      direction: this.direction,
+    });
 
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.hintView.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
-    } else {
-      this.hintView.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
-    }
+    this.hintElement = this.appendHint(this.hintView);
+    this.setHintSizes();
 
     if (this.type === constants.TYPE_INTERVAL) {
-      this.hintMaxValue = new HintView({
-        value: this.value,
-        type: this.type,
-        direction: this.direction,
-        isMaxValue: true,
-      });
-      this.hintMaxValueElement = this.hintMaxValue.getDOMElement();
-      this.appendElementToSlider(this.hintMaxValueElement);
-
-      if (this.direction === constants.DIRECTION_VERTICAL) {
-        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetHeight / 2) / this.slider.length;
-      } else {
-        this.hintMaxValue.offset = (this.hintMaxValueElement.offsetWidth / 2) / this.slider.length;
-      }
+      this.initHintMaxValue();
     }
 
+    this.setStartValuesToHint();
+  }
+
+  private appendHint(hintView: HintView): HTMLElement {
+    const hintElement = hintView.getDOMElement();
+    this.appendElementToSlider(hintElement);
+    return hintElement;
+  }
+
+  private setHintSizes(): void {
+    if (this.direction === constants.DIRECTION_VERTICAL && this.hintView) {
+      this.hintView.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
+    } else if (this.hintView) {
+      this.hintView.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
+    }
+  }
+
+  private initHintMaxValue(): void {
+    this.hintMaxValue = new HintView({
+      value: this.value,
+      type: this.type,
+      direction: this.direction,
+      isMaxValue: true,
+    });
+
+    this.hintMaxValueElement = this.appendHint(this.hintMaxValue);
+
+    if (this.hintView) {
+      this.hintMaxValue.offset = this.hintView.offset;
+    }
+  }
+
+  private setStartValuesToHint(): void {
     if (this.type === constants.TYPE_RANGE
         && typeof this.value === 'number'
-        && typeof this.positionLength === 'number') {
+        && typeof this.positionLength === 'number'
+        && this.hintView) {
       this.hintView.onChangedValue(this.value, this.positionLength);
-    } else if (this.value instanceof Array && this.positionLength instanceof Array) {
+    } else if (this.value instanceof Array
+               && this.positionLength instanceof Array
+               && this.hintView) {
       this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
       this.hintMaxValue && (this.hintMaxValue).onChangedValue(this.value, this.positionLength[constants.VALUE_END]);
     }
@@ -242,11 +244,20 @@ class View extends Observer {
       });
     }
 
+    this.appendScale();
+    this.bindEventsToScale();
+  }
+
+  private appendScale(): void {
     if (this.scaleView) {
       this.scaleElement = this.scaleView.getDOMElement();
       this.appendElementToSlider(this.scaleElement);
       this.scaleView.alignValues();
+    }
+  }
 
+  private bindEventsToScale(): void {
+    if (this.scaleView) {
       this.scaleView.onNewValue = (value: number): void => {
         this.publish('newValue', { value });
       };
