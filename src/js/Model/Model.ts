@@ -42,23 +42,24 @@ class Model extends Observer {
     }
 
     const newValue = this.validateValue(state.value);
+    const newPositionLength = this.createPositionLength(newValue);
 
-    if (typeof newValue === 'number') {
-      const newPositionLength = this.countPositionLength(newValue);
-      return {
-        ...state,
-        value: newValue,
-        positionLength: newPositionLength,
-      };
-    }
-
-    const newMinPositionLength = this.countPositionLength(newValue[constants.VALUE_START]);
-    const newMaxPositionLength = this.countPositionLength(newValue[constants.VALUE_END]);
     return {
       ...state,
       value: newValue,
-      positionLength: [newMinPositionLength, newMaxPositionLength],
+      positionLength: newPositionLength,
     };
+  }
+
+  private createPositionLength(newValue: number | number[]): number | number[] {
+    if (typeof newValue === 'number') {
+      return this.countPositionLength(newValue);
+    }
+
+    return [
+      this.countPositionLength(newValue[constants.VALUE_START]),
+      this.countPositionLength(newValue[constants.VALUE_END]),
+    ];
   }
 
   private setValue = (value: number | number[], valueType?: string): void => {
@@ -70,7 +71,7 @@ class Model extends Observer {
 
   private validateValue = (value: number | number[], valueType?: string): number | number[] => {
     if (this.state.type === constants.TYPE_INTERVAL) {
-      return this.validateIntervalSliderValue(value, valueType);
+      return this.validateIntervalValue(value, valueType);
     }
 
     if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
@@ -93,75 +94,75 @@ class Model extends Observer {
     return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
   }
 
-  private validateIntervalSliderValue(value: number | number[], valueType?: string): number | number[] {
+  private validateIntervalValue(value: number | number[], valueType?: string): number | number[] {
     if (typeof value === 'number') {
-      const checkedValue = this.checkValue(value);
-      if (valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
-        const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
-        return Model.checkInterval(newValue, valueType);
-      }
-
-      if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
-        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
-        return Model.checkInterval(newValue, valueType);
-      }
-
-      if (typeof value === 'number' && typeof this.state.value === 'number') {
-        return [value, this.state.maxValue];
-      }
-
-      return this.createIntervalValue(checkedValue);
+      return this.makeIntervalValueFromNumber(value, valueType);
     }
 
     if (value instanceof Array) {
       const checkedValues = value.map((val): number => this.checkValue(val));
-      return Model.checkInterval(checkedValues, valueType);
+      return Model.validateInterval(checkedValues, valueType);
     }
 
     return value;
   }
 
-  private static checkInterval(values: number[], valueType?: string): number[] {
-    if (valueType === constants.VALUE_TYPE_MIN) {
-      if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+  private makeIntervalValueFromNumber(value: number, valueType?: string): number[] {
+    const checkedValue = this.checkValue(value);
+    if (valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
+      const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
+      return Model.validateInterval(newValue, valueType);
+    }
+
+    if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
+      const newValue = [this.state.value[constants.VALUE_START], checkedValue];
+      return Model.validateInterval(newValue, valueType);
+    }
+
+    if (typeof value === 'number' && typeof this.state.value === 'number') {
+      return [value, this.state.maxValue];
+    }
+
+    return this.createIntervalValue(checkedValue);
+  }
+
+  private static validateInterval(values: number[], valueType?: string): number[] {
+    switch (true) {
+      case valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]:
         return [values[constants.VALUE_END], values[constants.VALUE_END]];
-      }
-    }
 
-    if (valueType === constants.VALUE_TYPE_MAX) {
-      if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+      case valueType === constants.VALUE_TYPE_MAX && values[constants.VALUE_START] > values[constants.VALUE_END]:
         return [values[constants.VALUE_START], values[constants.VALUE_START]];
-      }
-    }
 
-    if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
-      return [values[constants.VALUE_END], values[constants.VALUE_END]];
-    }
+      case values[constants.VALUE_START] > values[constants.VALUE_END]:
+        return [values[constants.VALUE_END], values[constants.VALUE_END]];
 
-    return values;
+      default:
+        return values;
+    }
   }
 
   private checkValue(value: number): number {
-    if (value >= this.state.maxValue) {
-      return this.state.maxValue;
-    }
+    switch (true) {
+      case value >= this.state.maxValue:
+        return this.state.maxValue;
 
-    if (value <= this.state.minValue) {
-      return this.state.minValue;
-    }
+      case value <= this.state.minValue:
+        return this.state.minValue;
 
-    return this.checkStep(value);
+      default:
+        return this.validateStep(value);
+    }
   }
 
-  private checkStep(value: number): number {
-    const valueStepCheck = ((Math.round((value - this.state.minValue) / this.state.step)) * this.state.step)
-                            + this.state.minValue;
+  private validateStep(value: number): number {
+    const checkedValue = this.adjustValueToStep(value);
 
-    if (valueStepCheck >= this.state.maxValue) {
-      return this.state.maxValue;
-    }
+    return checkedValue >= this.state.maxValue ? this.state.maxValue : checkedValue;
+  }
 
-    return valueStepCheck;
+  private adjustValueToStep(value: number): number {
+    return ((Math.round((value - this.state.minValue) / this.state.step)) * this.state.step) + this.state.minValue;
   }
 
   private createIntervalValue(value: number): number[] {
