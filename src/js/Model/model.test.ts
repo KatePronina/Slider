@@ -10,20 +10,27 @@ describe('Constructor', (): void => {
     const model = new Model({
       $parentElement: $('.foo'),
       type: 'interval',
-      value: [15, 20],
+      value: [14, 19],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
 
-    expect(model.state.type).toEqual('interval');
-    expect(model.state.value).toEqual([15, 20]);
-    expect(model.state.minValue).toEqual(5);
-    expect(model.state.maxValue).toEqual(30);
-    expect(model.state.step).toEqual(5);
+    const state = model.getSettings();
+
+    expect(state.type).toEqual('interval');
+    expect(state.value).toEqual([15, 20]);
+    expect(state.minValue).toEqual(5);
+    expect(state.maxValue).toEqual(30);
+    expect(state.step).toEqual(5);
+    expect(state.direction).toEqual('vertical');
+    expect(state.hint).toEqual(false);
+    expect(state.scale).toEqual(true);
+    expect(state.positionLength).toEqual([40, 60]);
   });
 });
 
@@ -39,12 +46,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(10);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: 10 });
 
-    expect(model.state.value).toEqual(10);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual(10);
   });
 
   test('Should not update wrong value', (): void => {
@@ -58,12 +69,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(10000);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: 10000 });
 
-    expect(model.state.value).toEqual(30);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual(30);
   });
 
   test('Should not update wrong value', (): void => {
@@ -77,12 +92,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(-10000);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: -10000 });
 
-    expect(model.state.value).toEqual(5);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual(5);
   });
 
   test('Should update interval value', (): void => {
@@ -96,12 +115,17 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([5, 10]);
+    model.subscribe(() => {}, 'onSetState');
 
-    expect(model.state.value).toEqual([5, 10]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [5, 10] });
+
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([5, 10]);
   });
 
   test('Should update and correct interval value', (): void => {
@@ -115,53 +139,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([6, 9]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [6, 9] });
 
-    expect(model.state.value).toEqual([5, 10]);
-  });
+    const newSettings = model.getSettings();
 
-  test('Should correct interval value', (): void => {
-    const model = new Model({
-      $parentElement: $('.foo'),
-      type: 'interval',
-      value: [15, 20],
-      minValue: 0,
-      maxValue: 30,
-      step: 5,
-      direction: 'vertical',
-      hint: false,
-      scale: true,
-    });
-
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([10, 15]);
-    model.setValue([10, 9], 'max');
-    model.setValue([10, 1], 'max');
-
-    expect(model.state.value).toEqual([10, 10]);
-  });
-
-  test('Should correct interval value', (): void => {
-    const model = new Model({
-      $parentElement: $('.foo'),
-      type: 'interval',
-      value: [1, 9],
-      minValue: 0,
-      maxValue: 100,
-      step: 1,
-      direction: 'vertical',
-      hint: false,
-      scale: true,
-    });
-
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([5, 9]);
-    model.setValue([10, 9]);
-
-    expect(model.state.value).toEqual([9, 9]);
+    expect(newSettings.value).toEqual([5, 10]);
   });
 
   test('Should set interval value', (): void => {
@@ -175,31 +162,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([5, 70]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [5, 70] });
 
-    expect(model.state.value).toEqual([5, 70]);
-  });
+    const newSettings = model.getSettings();
 
-  test('Should set interval value', (): void => {
-    const model = new Model({
-      $parentElement: $('.foo'),
-      type: 'interval',
-      value: [10, 60],
-      minValue: 0,
-      maxValue: 100,
-      step: 5,
-      direction: 'vertical',
-      hint: false,
-      scale: true,
-    });
-
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([30, 35]);
-
-    expect(model.state.value).toEqual([30, 35]);
+    expect(newSettings.value).toEqual([5, 70]);
   });
 
   test('Should set interval value', (): void => {
@@ -213,12 +185,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([70, 70]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [70, 70] });
 
-    expect(model.state.value).toEqual([70, 70]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([70, 70]);
   });
 
   test('Should set interval value', (): void => {
@@ -232,12 +208,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([5, 50]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [5, 50] });
 
-    expect(model.state.value).toEqual([5, 50]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([5, 50]);
   });
 
   test('Should set interval value', (): void => {
@@ -251,12 +231,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([50, 72]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [50, 72] });
 
-    expect(model.state.value).toEqual([50, 70]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([50, 70]);
   });
 
   test('Should set interval value', (): void => {
@@ -270,12 +254,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([-50, 110]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [-50, 110] });
 
-    expect(model.state.value).toEqual([0, 100]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([0, 100]);
   });
 
   test('Should not set interval value', (): void => {
@@ -289,12 +277,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([100, 100]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [100, 100] });
 
-    expect(model.state.value).toEqual([90, 90]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([90, 90]);
   });
 
   test('Should set and correct interval value', (): void => {
@@ -308,12 +300,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue([33, 36]);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: [33, 36] });
 
-    expect(model.state.value).toEqual([35, 35]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([35, 35]);
   });
 
   test('Should set one value for interval slider', (): void => {
@@ -327,12 +323,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(51);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: 51 });
 
-    expect(model.state.value).toEqual([10, 50]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([10, 50]);
   });
 
   test('Should set one value for interval slider', (): void => {
@@ -346,12 +346,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(21);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: 21 });
 
-    expect(model.state.value).toEqual([20, 60]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([20, 60]);
   });
 
   test('Should not set one value for interval slider', (): void => {
@@ -365,12 +369,16 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
     });
+    model.subscribe(() => {}, 'onSetState');
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(150);
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: 150 });
 
-    expect(model.state.value).toEqual([10, 100]);
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([10, 100]);
   });
 
   test('Should not set one value for interval slider', (): void => {
@@ -384,11 +392,85 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
+      positionLength: null,
+    });
+    model.subscribe(() => {}, 'onSetState');
+
+    const settings = model.getSettings();
+    model.onNewState({ ...settings, value: -10 });
+
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual([0, 60]);
+  });
+});
+
+describe('Setting state', (): void => {
+  test('Should update state', (): void => {
+    const model = new Model({
+      $parentElement: $('.foo'),
+      type: 'range',
+      value: 15,
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      positionLength: null,
+    });
+    model.subscribe(() => {}, 'onSetState');
+
+    model.onNewState({
+      $parentElement: $('.foo'),
+      type: 'interval',
+      value: 10,
+      minValue: 0,
+      maxValue: 35,
+      step: 5,
+      direction: 'vertical',
+      hint: true,
+      scale: false,
+      positionLength: null,
     });
 
-    model.subscribe(() => {}, 'onSetValue');
-    model.setValue(-10);
+    const newSettings = model.getSettings();
 
-    expect(model.state.value).toEqual([0, 60]);
+    expect(newSettings.value).toEqual([10, 30]);
+    expect(newSettings.type).toEqual('interval');
+    expect(newSettings.minValue).toEqual(0);
+    expect(newSettings.maxValue).toEqual(35);
+    expect(newSettings.step).toEqual(5);
+    expect(newSettings.direction).toEqual('vertical');
+    expect(newSettings.hint).toEqual(true);
+    expect(newSettings.scale).toEqual(false);
+    expect(newSettings.positionLength).toBeInstanceOf(Array);
+  });
+
+  test('Should update state', (): void => {
+    const model = new Model({
+      $parentElement: $('.foo'),
+      type: 'range',
+      value: 15,
+      minValue: 5,
+      maxValue: 30,
+      step: 5,
+      direction: 'vertical',
+      hint: false,
+      scale: true,
+      positionLength: null,
+    });
+    model.subscribe(() => {}, 'onSetState');
+
+    const settings = model.getSettings();
+    model.onNewState({
+      ...settings,
+      step: 6,
+    });
+
+    const newSettings = model.getSettings();
+
+    expect(newSettings.value).toEqual(17);
+    expect(newSettings.step).toEqual(6);
   });
 });
