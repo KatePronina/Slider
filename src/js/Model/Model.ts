@@ -1,3 +1,5 @@
+import IValidateValue from '../Interfaces/model/IvalidateValue';
+import ICheckValue from '../Interfaces/model/ICheckValue';
 import IFullSettings from '../Interfaces/IFullSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
@@ -25,64 +27,72 @@ class Model extends Observer {
   }
 
   private validateState(state: IFullSettings): IFullSettings {
-    if (!this.state) {
-      this.state = state;
-    }
-
-    this.state.maxValue = state.maxValue;
-    this.state.minValue = state.minValue;
-    this.state.step = state.step;
-    this.state.type = state.type;
-    this.state.direction = state.direction;
-    this.state.hint = state.hint;
-    this.state.scale = state.scale;
-
-    if (typeof state.value === 'undefined') {
-      state.value = state.type === constants.TYPE_INTERVAL ? [state.minValue, state.maxValue] : state.minValue;
-    }
-
-    const newValue = this.validateValue(state.value);
-    const newPositionLength = this.createPositionLength(newValue);
+    const value = this.validateValue({
+      type: state.type,
+      minValue: state.minValue,
+      maxValue: state.maxValue,
+      value: state.value,
+      step: state.step,
+    });
+    const positionLength = this.createPositionLength(value, state.minValue, state.maxValue);
 
     return {
       ...state,
-      value: newValue,
-      positionLength: newPositionLength,
+      value,
+      positionLength,
     };
   }
 
-  private createPositionLength(newValue: number | number[]): number | number[] {
+  private createPositionLength(newValue: number | number[], minValue: number, maxValue: number): number | number[] {
     if (typeof newValue === 'number') {
-      return this.countPositionLength(newValue);
+      return this.countPositionLength(newValue, minValue, maxValue);
     }
 
     return [
-      this.countPositionLength(newValue[constants.VALUE_START]),
-      this.countPositionLength(newValue[constants.VALUE_END]),
+      this.countPositionLength(newValue[constants.VALUE_START], minValue, maxValue),
+      this.countPositionLength(newValue[constants.VALUE_END], minValue, maxValue),
     ];
   }
 
   private setValue = (value: number | number[], valueType?: string): void => {
-    const newValue = this.validateValue(value, valueType);
+    const newValue = this.validateValue({
+      value,
+      valueType,
+      type: this.state.type,
+      minValue: this.state.minValue,
+      maxValue: this.state.maxValue,
+      step: this.state.step,
+    });
     this.state = this.validateState({ ...this.state, value: newValue });
 
     this.publish('onSetValue', this.state.value, this.state.positionLength);
   }
 
-  private validateValue = (value: number | number[], valueType?: string): number | number[] => {
-    if (this.state.type === constants.TYPE_INTERVAL) {
-      return this.validateIntervalValue(value, valueType);
+  private validateValue = (settings: IValidateValue): number | number[] => {
+    if (typeof settings.value === 'undefined') {
+      settings.value = settings.type === constants.TYPE_INTERVAL ?
+                                          [settings.minValue, settings.maxValue] :
+                                          settings.minValue;
     }
 
-    if (this.state.type === constants.TYPE_RANGE && value instanceof Array) {
-      return value[constants.VALUE_START];
+    if (settings.type === constants.TYPE_INTERVAL) {
+      return this.validateIntervalValue(settings);
     }
 
-    if (typeof value === 'number' && typeof this.state.value === 'number') {
-      return this.checkValue(value);
+    if (settings.type === constants.TYPE_RANGE && settings.value instanceof Array) {
+      return settings.value[constants.VALUE_START];
     }
 
-    return value;
+    if (typeof settings.value === 'number') {
+      return this.checkValue({
+        value: settings.value,
+        minValue: settings.minValue,
+        maxValue: settings.maxValue,
+        step: settings.step,
+      });
+    }
+
+    return settings.value;
   }
 
   private countValue(percent: number): number {
@@ -90,40 +100,54 @@ class Model extends Observer {
     return parseInt(value.toFixed(), 10);
   }
 
-  private countPositionLength(value: number): number {
-    return ((value - this.state.minValue) * 100) / (this.state.maxValue - this.state.minValue);
+  private countPositionLength(value: number, minValue: number, maxValue: number): number {
+    return ((value - minValue) * 100) / (maxValue - minValue);
   }
 
-  private validateIntervalValue(value: number | number[], valueType?: string): number | number[] {
-    if (typeof value === 'number') {
-      return this.makeIntervalValueFromNumber(value, valueType);
+  private validateIntervalValue(settings: IValidateValue): number | number[] {
+    if (typeof settings.value === 'number') {
+      return this.makeIntervalValueFromNumber(settings);
     }
 
-    if (value instanceof Array) {
-      const checkedValues = value.map((val): number => this.checkValue(val));
-      return Model.validateInterval(checkedValues, valueType);
+    if (settings.value instanceof Array) {
+      const checkedValues = settings.value.map((value): number => this.checkValue({
+        value,
+        minValue: settings.minValue,
+        maxValue: settings.maxValue,
+        step: settings.step,
+      }));
+      return Model.validateInterval(checkedValues, settings.valueType);
     }
 
-    return value;
+    return settings.value;
   }
 
-  private makeIntervalValueFromNumber(value: number, valueType?: string): number[] {
-    const checkedValue = this.checkValue(value);
-    if (valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
-      const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
-      return Model.validateInterval(newValue, valueType);
+  private makeIntervalValueFromNumber(settings: IValidateValue): number[] {
+    if (typeof settings.value === 'number') {
+      const checkedValue = this.checkValue({
+        value: settings.value,
+        minValue: settings.minValue,
+        maxValue: settings.maxValue,
+        step: settings.step,
+      });
+      if (settings.valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
+        const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
+        return Model.validateInterval(newValue, settings.valueType);
+      }
+
+      if (settings.valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
+        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
+        return Model.validateInterval(newValue, settings.valueType);
+      }
+
+      if (typeof settings.value === 'number' && typeof this.state.value === 'number') {
+        return [settings.value, this.state.maxValue];
+      }
+
+      return this.createIntervalValue(checkedValue);
     }
 
-    if (valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
-      const newValue = [this.state.value[constants.VALUE_START], checkedValue];
-      return Model.validateInterval(newValue, valueType);
-    }
-
-    if (typeof value === 'number' && typeof this.state.value === 'number') {
-      return [value, this.state.maxValue];
-    }
-
-    return this.createIntervalValue(checkedValue);
+    return settings.value;
   }
 
   private static validateInterval(values: number[], valueType?: string): number[] {
@@ -142,27 +166,27 @@ class Model extends Observer {
     }
   }
 
-  private checkValue(value: number): number {
+  private checkValue(settings: ICheckValue): number {
     switch (true) {
-      case value >= this.state.maxValue:
-        return this.state.maxValue;
+      case settings.value >= settings.maxValue:
+        return settings.maxValue;
 
-      case value <= this.state.minValue:
-        return this.state.minValue;
+      case settings.value <= settings.minValue:
+        return settings.minValue;
 
       default:
-        return this.validateStep(value);
+        return this.validateStep(settings);
     }
   }
 
-  private validateStep(value: number): number {
-    const checkedValue = this.adjustValueToStep(value);
+  private validateStep(settings: ICheckValue): number {
+    const checkedValue = this.adjustValueToStep(settings);
 
-    return checkedValue >= this.state.maxValue ? this.state.maxValue : checkedValue;
+    return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
   }
 
-  private adjustValueToStep(value: number): number {
-    return ((Math.round((value - this.state.minValue) / this.state.step)) * this.state.step) + this.state.minValue;
+  private adjustValueToStep(settings: ICheckValue): number {
+    return ((Math.round((settings.value - settings.minValue) / settings.step)) * settings.step) + settings.minValue;
   }
 
   private createIntervalValue(value: number): number[] {
