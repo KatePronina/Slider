@@ -3,7 +3,6 @@ import * as $ from 'jquery';
 import RangeSliderView from './Views/slider/RangeSliderView';
 import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
-import ScaleView from './Views/scale/ScaleView';
 import View from './View';
 
 beforeEach((): void => {
@@ -191,5 +190,68 @@ describe('DOM actions', (): void => {
 
     expect(view).toBeDefined();
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(2);
+  });
+});
+
+describe('Removing slider', (): void => {
+  test('Should remove slider from parent element', (): void => {
+    const view = new View({
+      $parentElement: $('#foo'),
+      positionLength: 0,
+      type: 'range',
+      minValue: 0,
+      maxValue: 100,
+      value: 0,
+      step: 1,
+      direction: 'horizontal',
+      hint: true,
+      scale: false,
+    });
+
+    view.remove();
+
+    expect(view).toBeDefined();
+    expect(document.querySelectorAll('#foo').length).toEqual(1);
+    expect(document.querySelectorAll('.slider').length).toEqual(0);
+    expect(document.querySelectorAll('.slider__bar').length).toEqual(0);
+    expect(document.querySelectorAll('.slider__point').length).toEqual(0);
+  });
+});
+
+describe('InitSlider', (): void => {
+  test('Should init new slider', (): void => {
+    const view = new View({
+      $parentElement: $('#foo'),
+      positionLength: 0,
+      type: 'range',
+      minValue: 0,
+      maxValue: 100,
+      value: 0,
+      step: 1,
+      direction: 'horizontal',
+      hint: true,
+      scale: false,
+    });
+
+    view.remove();
+    view.initSlider({
+      $parentElement: $('#foo'),
+      positionLength: [5, 10],
+      type: 'interval',
+      minValue: 0,
+      maxValue: 100,
+      value: [5, 10],
+      step: 5,
+      direction: 'vertical',
+      hint: true,
+      scale: true,
+    });
+
+    expect(document.querySelectorAll('.slider').length).toEqual(1);
+    expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
+    expect(document.querySelectorAll('.slider__point').length).toEqual(2);
+    expect(view.slider).toEqual(expect.any(IntervalSliderView));
+    expect(view.hintView).toBeDefined();
+    expect(view.hintMaxValue).toBeDefined();
   });
 });
