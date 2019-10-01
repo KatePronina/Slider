@@ -37,6 +37,26 @@ class ConfigurationView {
   private template = require('./templates/template.hbs');
 
   private renderConfiguration(): void {
+    this.appendConfigurationToDOM();
+
+    this.setValueInputs();
+    this.stepSizeInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_step');
+    this.minValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_min-value');
+    this.maxValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_max-value');
+    this.hintToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_hint');
+    this.scaleToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_scale');
+    this.typeToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_toggle-interval');
+    this.verticalToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_vertical');
+
+    if (this.settings.direction === constants.DIRECTION_VERTICAL) {
+      this.addClassForVerticalSlider();
+    }
+
+    this.bindEventsToInputs();
+    this.updateInputs();
+  }
+
+  private appendConfigurationToDOM(): void {
     const context = {
       isRange: this.settings.type === constants.TYPE_RANGE,
       valueInputs: [
@@ -73,7 +93,13 @@ class ConfigurationView {
       ],
     };
     this.containerDOMElement.innerHTML = this.template(context);
+  }
 
+  private addClassForVerticalSlider(): void {
+    this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
+  }
+
+  private setValueInputs(): void {
     if (this.settings.type === constants.TYPE_RANGE) {
       this.currentValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-value');
     } else {
@@ -82,23 +108,20 @@ class ConfigurationView {
       this.currentMaxValueInput
         = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-max-value');
     }
-    this.stepSizeInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_step');
-    this.minValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_min-value');
-    this.maxValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_max-value');
-    this.hintToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_hint');
-    this.scaleToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_scale');
-    this.typeToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_toggle-interval');
-    this.verticalToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_vertical');
-
-    if (this.settings.direction === constants.DIRECTION_VERTICAL) {
-      this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
-    }
-
-    this.bindEventsToInputs();
-    this.updateInputs();
   }
 
   private updateInputs(): void {
+    this.updateValueInputs();
+    this.stepSizeInput && (this.stepSizeInput.value = (this.settings.step).toString());
+    this.minValueInput && (this.minValueInput.value = (this.settings.minValue).toString());
+    this.maxValueInput && (this.maxValueInput.value = (this.settings.maxValue).toString());
+    this.hintToggle && (this.hintToggle.checked = this.settings.hint);
+    this.scaleToggle && (this.scaleToggle.checked = this.settings.scale);
+    this.typeToggle && (this.typeToggle.checked = this.settings.type === constants.TYPE_INTERVAL);
+    this.verticalToggle && (this.verticalToggle.checked = this.settings.direction === constants.DIRECTION_VERTICAL);
+  }
+
+  private updateValueInputs(): void {
     if (this.settings.type === constants.TYPE_RANGE && typeof this.settings.value === 'number') {
       const value = this.settings.value.toString();
       this.currentValueInput && (this.currentValueInput.value = value);
@@ -108,24 +131,10 @@ class ConfigurationView {
       this.currentMinValueInput && (this.currentMinValueInput.value = minValue);
       this.currentMaxValueInput && (this.currentMaxValueInput.value = maxValue);
     }
-    this.stepSizeInput && (this.stepSizeInput.value = (this.settings.step).toString());
-    this.minValueInput && (this.minValueInput.value = (this.settings.minValue).toString());
-    this.maxValueInput && (this.maxValueInput.value = (this.settings.maxValue).toString());
-    this.hintToggle && (this.hintToggle.checked = this.settings.hint);
-    this.scaleToggle && (this.scaleToggle.checked = this.settings.scale);
-    const isInterval = this.settings.type === constants.TYPE_INTERVAL;
-    this.typeToggle && (this.typeToggle.checked = isInterval);
-    const isVertical = this.settings.direction === constants.DIRECTION_VERTICAL;
-    this.verticalToggle && (this.verticalToggle.checked = isVertical);
   }
 
   private bindEventsToInputs(): void {
-    if (this.settings.type === constants.TYPE_RANGE) {
-      this.currentValueInput && this.bindInputValueEvent(this.currentValueInput);
-    } else {
-      this.currentMinValueInput && this.bindInputValueEvent(this.currentMinValueInput, constants.VALUE_TYPE_MIN);
-      this.currentMaxValueInput && this.bindInputValueEvent(this.currentMaxValueInput, constants.VALUE_TYPE_MAX);
-    }
+    this.bindEventsToValueInputs();
 
     this.stepSizeInput && this.stepSizeInput.addEventListener('input', this.onStepChange);
     this.minValueInput && this.minValueInput.addEventListener('input', this.onMinValueChange);
@@ -134,6 +143,15 @@ class ConfigurationView {
     this.scaleToggle && this.scaleToggle.addEventListener('change', this.onScaleChange);
     this.verticalToggle && this.verticalToggle.addEventListener('change', this.onDirectionChange);
     this.typeToggle && this.typeToggle.addEventListener('change', this.onTypeChange);
+  }
+
+  private bindEventsToValueInputs() {
+    if (this.settings.type === constants.TYPE_RANGE) {
+      this.currentValueInput && this.bindInputValueEvent(this.currentValueInput);
+    } else {
+      this.currentMinValueInput && this.bindInputValueEvent(this.currentMinValueInput, constants.VALUE_TYPE_MIN);
+      this.currentMaxValueInput && this.bindInputValueEvent(this.currentMaxValueInput, constants.VALUE_TYPE_MAX);
+    }
   }
 
   private onNumberInputChange({ target }: Event, property: string) {
