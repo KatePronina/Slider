@@ -1,4 +1,4 @@
-import IValidateValue from '../Interfaces/model/IvalidateValue';
+import IValidateValue from '../Interfaces/model/IValidateValue';
 import ICheckValue from '../Interfaces/model/ICheckValue';
 import IFullSettings from '../Interfaces/IFullSettings';
 import Observer from '../Observer/Observer';
