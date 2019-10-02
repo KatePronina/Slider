@@ -16,30 +16,37 @@ class Model extends Observer {
     return this.state;
   }
 
-  public onNewPositionPercent = (positionPercent: number, valueType?: string): void => {
-    const newValue = this.countValue(positionPercent);
-    this.setValue(newValue, valueType);
+  public onNewState(newState: IFullSettings, eventType: string): void {
+    this.state = this.validateState(newState, eventType);
+    this.publish('onSetState', this.state, eventType);
   }
 
-  public onNewState(newState: IFullSettings): void {
-    this.state = this.validateState(newState);
-    this.publish('onSetState', this.state);
-  }
+  private validateState(state: IFullSettings, eventType?: string): IFullSettings {
+    if (eventType === 'positionPercentUpdated' && state.positionPercent) {
+      state.value = this.countValue(state.positionPercent);
+    }
 
-  private validateState(state: IFullSettings): IFullSettings {
     const value = this.validateValue({
       type: state.type,
       minValue: state.minValue,
       maxValue: state.maxValue,
       value: state.value,
+      valueType: state.valueType,
       step: state.step,
     });
     const positionLength = this.createPositionLength(value, state.minValue, state.maxValue);
 
     return {
-      ...state,
       value,
       positionLength,
+      $parentElement: state.$parentElement,
+      type: state.type,
+      minValue: state.minValue,
+      maxValue: state.maxValue,
+      step: state.step,
+      direction: state.direction,
+      hint: state.hint,
+      scale: state.scale,
     };
   }
 

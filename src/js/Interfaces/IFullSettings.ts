@@ -9,4 +9,6 @@ export default interface IFullSettings {
   hint: boolean;
   scale: boolean;
   positionLength: number | number[] | null;
+  positionPercent?: number;
+  valueType?: string;
 }

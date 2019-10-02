@@ -27,7 +27,7 @@ class Controller extends Observer {
     this.model.onNewState({
       ...settings,
       ...params,
-    });
+    }, 'settingsUpdated');
   }
 
   public onNewSettings = (settings: IFullSettings): void => {
@@ -46,18 +46,30 @@ class Controller extends Observer {
     this.view.subscribe(this.onChangedSettings, 'newValue');
     this.view.subscribe(this.onNewPositionPercent, 'newPositionPercent');
 
-    this.model.subscribe(this.onChangedValue, 'onSetValue');
     this.model.subscribe(this.onSetState, 'onSetState');
   }
 
-  private onSetState = (settings: IFullSettings) => {
-    this.view.remove();
-    this.view.initSlider(settings);
-    this.onNewSettings(settings);
+  private onSetState = (settings: IFullSettings, eventType: string) => {
+    switch (eventType) {
+      case 'positionPercentUpdated':
+        settings.positionLength && this.view.onChangedValue(settings.value, settings.positionLength);
+        this.publish('onChangedValue', settings.value);
+        break;
+      case 'settingsUpdated':
+        this.view.remove();
+        this.view.initSlider(settings);
+        this.onNewSettings(settings);
+        break;
+    }
   }
 
   private onNewPositionPercent = (positionPercent: number, valueType?: string) => {
-    this.model.onNewPositionPercent(positionPercent, valueType);
+    const settings = this.model.getSettings();
+    this.model.onNewState({
+      ...settings,
+      positionPercent,
+      valueType,
+    }, 'positionPercentUpdated');
   }
 }
 
