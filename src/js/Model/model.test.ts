@@ -51,7 +51,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 10 });
+    model.onNewState({ ...settings, value: 10 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -74,7 +74,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 10000 });
+    model.onNewState({ ...settings, value: 10000 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -97,7 +97,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: -10000 });
+    model.onNewState({ ...settings, value: -10000 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -121,7 +121,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 10] });
+    model.onNewState({ ...settings, value: [5, 10] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -144,7 +144,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [6, 9] });
+    model.onNewState({ ...settings, value: [6, 9] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -167,7 +167,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 70] });
+    model.onNewState({ ...settings, value: [5, 70] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -190,7 +190,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [70, 70] });
+    model.onNewState({ ...settings, value: [70, 70] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -213,7 +213,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 50] });
+    model.onNewState({ ...settings, value: [5, 50] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -236,7 +236,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [50, 72] });
+    model.onNewState({ ...settings, value: [50, 72] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -259,7 +259,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [-50, 110] });
+    model.onNewState({ ...settings, value: [-50, 110] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -282,7 +282,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [100, 100] });
+    model.onNewState({ ...settings, value: [100, 100] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -305,7 +305,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [33, 36] });
+    model.onNewState({ ...settings, value: [33, 36] }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -328,7 +328,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 51 });
+    model.onNewState({ ...settings, value: 51 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -351,7 +351,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 21 });
+    model.onNewState({ ...settings, value: 21 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -374,7 +374,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 150 });
+    model.onNewState({ ...settings, value: 150 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -397,7 +397,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'onSetState');
 
     const settings = model.getSettings();
-    model.onNewState({ ...settings, value: -10 });
+    model.onNewState({ ...settings, value: -10 }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -432,7 +432,7 @@ describe('Setting state', (): void => {
       hint: true,
       scale: false,
       positionLength: null,
-    });
+    }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
@@ -466,7 +466,7 @@ describe('Setting state', (): void => {
     model.onNewState({
       ...settings,
       step: 6,
-    });
+    }, 'settingsUpdated');
 
     const newSettings = model.getSettings();
 
