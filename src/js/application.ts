@@ -10,12 +10,8 @@ class Application extends Observer {
     this.createSlider(settings);
   }
 
-  public onNewValue = (value: number | number[]): void => {
-    this.publish('onNewValue', value);
-  }
-
-  public onNewSettings = (setting: IFullSettings): void => {
-    this.publish('onNewSettings', setting);
+  public onNewSettings = (settings: IFullSettings, eventType: string): void => {
+    this.publish('onNewSettings', settings, eventType);
   }
 
   private createSlider(settings: IFullSettings): void {
@@ -24,7 +20,6 @@ class Application extends Observer {
     this.subscribe(this.controller.getSettings, 'getSettings');
     this.subscribe(this.controller.onChangedSettings, 'setSettings');
 
-    this.controller.subscribe(this.onNewValue, 'onChangedValue');
     this.controller.subscribe(this.onNewSettings, 'onNewSettings');
   }
 }

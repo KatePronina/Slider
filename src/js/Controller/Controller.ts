@@ -19,7 +19,7 @@ class Controller extends Observer {
 
   public getSettings = (): void => {
     const newSettings = this.model.getSettings();
-    this.onNewSettings(newSettings);
+    this.onNewSettings(newSettings, 'settingsUpdated');
   }
 
   public onChangedSettings = (params: INewParams): void => {
@@ -30,16 +30,11 @@ class Controller extends Observer {
     }, 'settingsUpdated');
   }
 
-  public onNewSettings = (settings: IFullSettings): void => {
+  public onNewSettings = (settings: IFullSettings, eventType: string): void => {
     this.publish('onNewSettings', {
       ...settings,
       positionLength: null,
-    });
-  }
-
-  public onChangedValue = (value: number | number[], newPositionLength: number | number[]): void => {
-    this.view.onChangedValue(value, newPositionLength);
-    this.publish('onChangedValue', value);
+    }, eventType);
   }
 
   private bindEvents(): void {
@@ -53,12 +48,12 @@ class Controller extends Observer {
     switch (eventType) {
       case 'positionPercentUpdated':
         settings.positionLength && this.view.onChangedValue(settings.value, settings.positionLength);
-        this.publish('onChangedValue', settings.value);
+        this.onNewSettings(settings, eventType);
         break;
       case 'settingsUpdated':
         this.view.remove();
         this.view.initSlider(settings);
-        this.onNewSettings(settings);
+        this.onNewSettings(settings, eventType);
         break;
     }
   }
