@@ -1,8 +1,4 @@
 import * as $ from 'jquery';
-
-import RangeSliderView from './Views/slider/RangeSliderView';
-import IntervalSliderView from './Views/slider/IntervalSliderView';
-import HintView from './Views/hint/HintView';
 import View from './View';
 
 beforeEach((): void => {
@@ -11,7 +7,7 @@ beforeEach((): void => {
 
 describe('Constructor', (): void => {
   test('Should create right slider view', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -24,11 +20,13 @@ describe('Constructor', (): void => {
       scale: false,
     });
 
-    expect(view.slider).toEqual(expect.any(RangeSliderView));
+    expect(document.querySelectorAll('.slider__point').length).toEqual(1);
+    expect(document.querySelectorAll('.slider').length).toEqual(1);
+    expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
   });
 
   test('Should create right slider view for interval', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: [0, 1],
       type: 'interval',
@@ -41,11 +39,13 @@ describe('Constructor', (): void => {
       scale: false,
     });
 
-    expect(view.slider).toEqual(expect.any(IntervalSliderView));
+    expect(document.querySelectorAll('.slider__point').length).toEqual(2);
+    expect(document.querySelectorAll('.slider').length).toEqual(1);
+    expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
   });
 
   test('Should create hint', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -58,11 +58,11 @@ describe('Constructor', (): void => {
       scale: false,
     });
 
-    expect(view.hintView).toEqual(expect.any(HintView));
+    expect(document.querySelectorAll('.slider__hint').length).toEqual(1);
   });
 
   test('Should not create hint', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -75,11 +75,11 @@ describe('Constructor', (): void => {
       scale: false,
     });
 
-    expect(view.hintView).toBeUndefined();
+    expect(document.querySelectorAll('.slider__hint').length).toEqual(0);
   });
 
   test('Should not create scale', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -92,31 +92,13 @@ describe('Constructor', (): void => {
       scale: false,
     });
 
-    expect(view.scaleView).toBeUndefined();
-  });
-
-  test('Should save parent element', (): void => {
-    const view = new View({
-      $parentElement: $('#foo'),
-      positionLength: 0,
-      type: 'range',
-      minValue: 0,
-      maxValue: 100,
-      value: 0,
-      step: 1,
-      direction: 'horizontal',
-      hint: true,
-      scale: false,
-    });
-
-    expect(view.$parentElement).toBeDefined();
-    expect(view.$parentElement).toEqual(expect.anything());
+    expect(document.querySelectorAll('.slider__scale').length).toEqual(0);
   });
 });
 
 describe('DOM actions', (): void => {
   test('Should add slider in DOM', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -129,7 +111,6 @@ describe('DOM actions', (): void => {
       scale: false,
     });
 
-    expect(view).toBeDefined();
     expect(document.querySelectorAll('.slider-wrapper').length).toEqual(1);
     expect(document.querySelectorAll('.slider').length).toEqual(1);
     expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
@@ -137,7 +118,7 @@ describe('DOM actions', (): void => {
   });
 
   test('Should add hint in DOM with correct value', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -150,14 +131,13 @@ describe('DOM actions', (): void => {
       scale: false,
     });
 
-    expect(view).toBeDefined();
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(1);
     const sliderHint = document.querySelector('#foo .slider__hint');
     expect(sliderHint instanceof HTMLElement && sliderHint.textContent).toEqual('0');
   });
 
   test('Should not add hint in DOM', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'range',
@@ -170,12 +150,11 @@ describe('DOM actions', (): void => {
       scale: false,
     });
 
-    expect(view).toBeDefined();
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(0);
   });
 
   test('Should add hints in DOM for interval', (): void => {
-    const view = new View({
+    new View({
       $parentElement: $('#foo'),
       positionLength: 0,
       type: 'interval',
@@ -188,7 +167,6 @@ describe('DOM actions', (): void => {
       scale: false,
     });
 
-    expect(view).toBeDefined();
     expect(document.querySelectorAll('#foo .slider__hint').length).toEqual(2);
   });
 });
@@ -250,8 +228,5 @@ describe('InitSlider', (): void => {
     expect(document.querySelectorAll('.slider').length).toEqual(1);
     expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
     expect(document.querySelectorAll('.slider__point').length).toEqual(2);
-    expect(view.slider).toEqual(expect.any(IntervalSliderView));
-    expect(view.hintView).toBeDefined();
-    expect(view.hintMaxValue).toBeDefined();
   });
 });
