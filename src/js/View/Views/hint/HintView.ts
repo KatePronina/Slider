@@ -1,8 +1,9 @@
 import IHintSettings from '../../../Interfaces/view/IHintSettings';
+import IHintView from '../../../Interfaces/view/IHintView';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 
-class HintView extends ComponentView {
+class HintView extends ComponentView implements IHintView {
   public offset: number;
 
   private isMaxValue?: boolean;

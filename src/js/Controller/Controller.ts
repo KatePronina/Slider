@@ -3,8 +3,9 @@ import View from '../View/View';
 import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
 import INewParams from '../Interfaces/controller/INewParams';
+import IController from '../Interfaces/controller/IController';
 
-class Controller extends Observer {
+class Controller extends Observer implements IController {
   private model: Model;
 
   private view: View;
@@ -30,7 +31,7 @@ class Controller extends Observer {
     }, 'settingsUpdated');
   }
 
-  public onNewSettings = (settings: IFullSettings, eventType: string): void => {
+  private onNewSettings = (settings: IFullSettings, eventType: string): void => {
     this.publish('onNewSettings', {
       ...settings,
       positionLength: null,

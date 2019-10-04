@@ -1,4 +1,5 @@
 import IFullSettings from '../Interfaces/IFullSettings';
+import IView from '../Interfaces/view/IView';
 import constants from '../constants';
 import Observer from '../Observer/Observer';
 
@@ -7,13 +8,12 @@ import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
 
-class View extends Observer {
-  public slider: RangeSliderView | IntervalSliderView;
-  public hintView?: HintView;
-  public hintMaxValue?: HintView;
-  public scaleView?: ScaleView;
-  public $parentElement: JQuery;
-
+class View extends Observer implements IView {
+  private slider: RangeSliderView | IntervalSliderView;
+  private hintView?: HintView;
+  private hintMaxValue?: HintView;
+  private scaleView?: ScaleView;
+  private $parentElement: JQuery;
   private sliderElement: HTMLElement | null;
   private hintElement: HTMLElement;
   private hintMaxValueElement: HTMLElement;

@@ -1,8 +1,9 @@
 import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
+import IComponentSliderView from '../../../Interfaces/view/IComponentSliderView';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 
-abstract class ComponentSliderView extends ComponentView {
+abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
   public barDOMElement: HTMLElement | null;
   public stripDOMElement: HTMLElement | null;
   public length: number;

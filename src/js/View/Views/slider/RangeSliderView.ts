@@ -1,8 +1,9 @@
 import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
+import IRangeSliderView from '../../../Interfaces/view/IRangeSliderView';
 import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
-class RangeSliderView extends ComponentSliderView {
+class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
   public pointDOMElement: HTMLElement | null;
 
   private percent: number;

@@ -1,8 +1,9 @@
 import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
+import IIntervalSliderView from '../../../Interfaces/view/IIntervalSliderView';
 import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
-class IntervalSliderView extends ComponentSliderView {
+class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
   public minPointDOMElement: HTMLElement | null;
   public maxPointDOMElement: HTMLElement | null;
 

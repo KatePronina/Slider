@@ -1,8 +1,9 @@
 import Controller from './Controller/Controller';
 import IFullSettings from './Interfaces/IFullSettings';
+import IApplication from './Interfaces/IApplication';
 import Observer from './Observer/Observer';
 
-class Application extends Observer {
+class Application extends Observer implements IApplication {
   private controller: Controller;
 
   public constructor(settings: IFullSettings) {

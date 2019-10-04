@@ -1,10 +1,11 @@
 import IValidateValue from '../Interfaces/model/IValidateValue';
 import ICheckValue from '../Interfaces/model/ICheckValue';
+import IModel from '../Interfaces/model/IModel';
 import IFullSettings from '../Interfaces/IFullSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
 
-class Model extends Observer {
+class Model extends Observer implements IModel {
   private state: IFullSettings;
 
   public constructor(state: IFullSettings) {

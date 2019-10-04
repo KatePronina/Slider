@@ -1,8 +1,9 @@
 import IScaleSettings from '../../../Interfaces/view/IScaleSettings';
+import IScaleView from '../../../Interfaces/view/IScaleView';
 import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 
-class ScaleView extends ComponentView {
+class ScaleView extends ComponentView implements IScaleView {
   public sliderLength: number;
   private direction: string;
   private minValue: number;
