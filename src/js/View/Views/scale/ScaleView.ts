@@ -22,7 +22,7 @@ class ScaleView extends ComponentView implements IScaleView {
   }
 
   public alignValues(): void {
-    const valueElements = this.DOMElement.querySelectorAll('.slider__scale-value');
+    const valueElements = this.element.querySelectorAll('.slider__scale-value');
 
     valueElements.forEach((element): void => {
       if (element instanceof HTMLElement) {
@@ -53,14 +53,14 @@ class ScaleView extends ComponentView implements IScaleView {
   }
 
   private createDOMElement(): void {
-    this.DOMElement = document.createElement('div');
-    this.DOMElement.classList.add('slider__scale');
+    this.element = document.createElement('div');
+    this.element.classList.add('slider__scale');
     if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      this.DOMElement.classList.add(constants.SCALE_HORIZONTAL_CLASS);
-      this.DOMElement.style.width = `${this.sliderLength}px`;
+      this.element.classList.add(constants.SCALE_HORIZONTAL_CLASS);
+      this.element.style.width = `${this.sliderLength}px`;
     } else {
-      this.DOMElement.classList.add(constants.SCALE_VERTICAL_CLASS);
-      this.DOMElement.style.height = `${this.sliderLength}px`;
+      this.element.classList.add(constants.SCALE_VERTICAL_CLASS);
+      this.element.style.height = `${this.sliderLength}px`;
     }
 
     this.createValues();
@@ -87,11 +87,11 @@ class ScaleView extends ComponentView implements IScaleView {
       valuesFragment.append(valueElement);
     });
 
-    this.DOMElement.append(valuesFragment);
+    this.element.append(valuesFragment);
   }
 
   private bindEvents(): void {
-    this.DOMElement.addEventListener('click', this.onScaleClick);
+    this.element.addEventListener('click', this.onScaleClick);
   }
 
   private onScaleClick = ({ target }: Event): void => {

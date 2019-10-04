@@ -38,7 +38,7 @@ class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
     };
     sliderElement.innerHTML = this.template(context);
 
-    this.DOMElement = sliderElement;
+    this.element = sliderElement;
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
     this.pointDOMElement = sliderElement.querySelector('.slider__point');
     this.stripDOMElement = sliderElement.querySelector('.slider');

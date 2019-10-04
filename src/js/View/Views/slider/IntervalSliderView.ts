@@ -57,7 +57,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     };
     sliderElement.innerHTML = this.template(context);
 
-    this.DOMElement = sliderElement;
+    this.element = sliderElement;
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
     this.stripDOMElement = sliderElement.querySelector('.slider');
     this.minPointDOMElement = sliderElement.querySelector('.slider__point_min');

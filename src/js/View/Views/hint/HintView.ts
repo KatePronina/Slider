@@ -28,29 +28,29 @@ class HintView extends ComponentView implements IHintView {
 
   private setNewValue(): void {
     if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
-      this.value instanceof Array && (this.DOMElement.textContent = this.value[constants.VALUE_END].toString());
+      this.value instanceof Array && (this.element.textContent = this.value[constants.VALUE_END].toString());
     } else if (this.type === constants.TYPE_INTERVAL) {
-      this.value instanceof Array && (this.DOMElement.textContent = this.value[constants.VALUE_START].toString());
+      this.value instanceof Array && (this.element.textContent = this.value[constants.VALUE_START].toString());
     } else {
-      (typeof this.value === 'number') && (this.DOMElement.textContent = this.value.toString());
+      (typeof this.value === 'number') && (this.element.textContent = this.value.toString());
     }
   }
 
   private setNewPosition(percent: number): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.DOMElement.style.top = `${percent - (this.offset * 100)}%`;
+      this.element.style.top = `${percent - (this.offset * 100)}%`;
     } else {
-      this.DOMElement.style.left = `${percent - (this.offset * 100)}%`;
+      this.element.style.left = `${percent - (this.offset * 100)}%`;
     }
   }
 
   private createDOMElement(): void {
-    this.DOMElement = document.createElement('div');
+    this.element = document.createElement('div');
     this.setNewValue();
 
-    this.DOMElement.classList.add('slider__hint');
+    this.element.classList.add('slider__hint');
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.DOMElement.classList.add(constants.HINT_VERTICAL_CLASS);
+      this.element.classList.add(constants.HINT_VERTICAL_CLASS);
     }
   }
 }

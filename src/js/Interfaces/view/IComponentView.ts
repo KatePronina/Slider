@@ -1,4 +1,4 @@
 export default interface IRangeSliderView {
-  DOMElement: HTMLElement;
+  element: HTMLElement;
   getDOMElement(): HTMLElement;
 }
