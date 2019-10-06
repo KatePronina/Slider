@@ -21,11 +21,16 @@ class ConfigurationView {
   public constructor(containerDOMElement: Element, sliderClass: string, settings?: any) {
     this.containerDOMElement = containerDOMElement;
 
-    this.bindEventsToSlider(sliderClass);
     if (settings) {
-      this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings });
+      this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
+        onNewValue: this.onNewValue,
+        onNewSettings: this.onNewSettings,
+      }});
     } else {
-      this.sliderPlugin = $(`.${sliderClass}`).slider({});
+      this.sliderPlugin = $(`.${sliderClass}`).slider({events: {
+        onNewValue: this.onNewValue,
+        onNewSettings: this.onNewSettings,
+      }});
     }
 
     this.renderConfiguration();
@@ -229,11 +234,6 @@ class ConfigurationView {
     } else if (valueType === constants.VALUE_TYPE_MAX && this.settings.value instanceof Array) {
       this.sliderPlugin.setSettings({ value: [this.settings.value[constants.VALUE_START], value] });
     }
-  }
-
-  private bindEventsToSlider(sliderClass: string): void {
-    $(`.${sliderClass}`).on('slider.onNewValue', (event, value) => this.onNewValue(value));
-    $(`.${sliderClass}`).on('slider.onNewSettings', (event, settings) => this.onNewSettings(settings));
   }
 
   private onNewValue = (value: number | number[]) => {

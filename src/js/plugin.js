@@ -3,14 +3,18 @@ import DEFAULT_SETTINGS from './defaultSettings';
 
 $.fn.slider = function callSlider(method, ...args) {
   let slider;
+  let events = {
+    onNewValue: null,
+    onNewSettings: null,
+  };
 
   const onNewSettings = (settings, eventType) => {
     switch(eventType) {
       case 'positionPercentUpdated':
-        this.trigger('slider.onNewValue', [settings.value]);
+        events.onNewValue(settings.value);
         break;
       case 'settingsUpdated':
-        this.trigger('slider.onNewSettings', [settings]);
+        events.onNewSettings(settings);
         break;
     }
   }
@@ -19,6 +23,8 @@ $.fn.slider = function callSlider(method, ...args) {
     init(options) {
       const fullSettings = { $parentElement: this, ...options };
       slider = new Application(fullSettings);
+      events.onNewValue = options.events.onNewValue;
+      events.onNewSettings = options.events.onNewSettings;
 
       slider.subscribe(onNewSettings, 'onNewSettings');
       slider.publish('getSettings');
