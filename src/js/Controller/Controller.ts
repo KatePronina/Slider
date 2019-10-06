@@ -48,7 +48,9 @@ class Controller extends Observer implements IController {
   private onSetState = (settings: IFullSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
-        settings.positionLength && this.view.onChangedValue(settings.value, settings.positionLength);
+        if (typeof settings.positionLength === 'number' || settings.positionLength instanceof Array) {
+          this.view.onChangedValue(settings.value, settings.positionLength);
+        }
         this.onNewSettings(settings, eventType);
         break;
       case 'settingsUpdated':
