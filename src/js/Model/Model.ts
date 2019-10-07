@@ -62,20 +62,6 @@ class Model extends Observer implements IModel {
     ];
   }
 
-  private setValue = (value: number | number[], valueType?: string): void => {
-    const newValue = this.validateValue({
-      value,
-      valueType,
-      type: this.state.type,
-      minValue: this.state.minValue,
-      maxValue: this.state.maxValue,
-      step: this.state.step,
-    });
-    this.state = this.validateState({ ...this.state, value: newValue });
-
-    this.publish('onSetValue', this.state.value, this.state.positionLength);
-  }
-
   private validateValue = (settings: IValidateValue): number | number[] => {
     if (typeof settings.value === 'undefined') {
       settings.value = settings.type === constants.TYPE_INTERVAL ?
