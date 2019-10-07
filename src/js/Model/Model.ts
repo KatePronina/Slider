@@ -110,7 +110,7 @@ class Model extends Observer implements IModel {
         maxValue: settings.maxValue,
         step: settings.step,
       }));
-      return Model.validateInterval(checkedValues, settings.valueType);
+      return this.validateInterval(checkedValues, settings.valueType);
     }
 
     return settings.value;
@@ -126,12 +126,12 @@ class Model extends Observer implements IModel {
       });
       if (settings.valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
         const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
-        return Model.validateInterval(newValue, settings.valueType);
+        return this.validateInterval(newValue, settings.valueType);
       }
 
       if (settings.valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
         const newValue = [this.state.value[constants.VALUE_START], checkedValue];
-        return Model.validateInterval(newValue, settings.valueType);
+        return this.validateInterval(newValue, settings.valueType);
       }
 
       if (typeof settings.value === 'number' && typeof this.state.value === 'number') {
@@ -144,7 +144,7 @@ class Model extends Observer implements IModel {
     return settings.value;
   }
 
-  private static validateInterval(values: number[], valueType?: string): number[] {
+  private validateInterval(values: number[], valueType?: string): number[] {
     switch (true) {
       case valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]:
         return [values[constants.VALUE_END], values[constants.VALUE_END]];
