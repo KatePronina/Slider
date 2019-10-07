@@ -81,6 +81,10 @@ class View extends Observer implements IView {
     this.$parentElement.html('');
   }
 
+  public getParentElement(): JQuery {
+    return this.$parentElement;
+  }
+
   private saveSettings(settings: IFullSettings): void {
     this.$parentElement = settings.$parentElement;
     this.type = settings.type;

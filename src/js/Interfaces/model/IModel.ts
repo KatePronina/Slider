@@ -1,6 +1,6 @@
-import IFullSettings from '../IFullSettings';
+import IModelSettings from '../../Interfaces/model/IModelSettings';
 
 export default interface IView {
-  getSettings(): IFullSettings;
-  onNewState(newState: IFullSettings, eventType: string): void;
+  getSettings(): IModelSettings;
+  onNewState(newState: IModelSettings, eventType: string): void;
 }

@@ -4,17 +4,27 @@ import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
 import INewParams from '../Interfaces/controller/INewParams';
 import IController from '../Interfaces/controller/IController';
+import IModelSettings from '../Interfaces/model/IModelSettings';
 
 class Controller extends Observer implements IController {
   private model: Model;
-
   private view: View;
 
   public constructor(settings: IFullSettings) {
     super();
-    this.model = new Model(settings);
+    this.model = new Model({
+      value: settings.value,
+      positionLength: settings. positionLength,
+      type: settings.type,
+      minValue: settings.minValue,
+      maxValue: settings.maxValue,
+      step: settings.step,
+      direction: settings.direction,
+      hint: settings.hint,
+      scale: settings.scale,
+    });
     const newSettings = this.model.getSettings();
-    this.view = new View(newSettings);
+    this.view = new View({ ...newSettings, $parentElement: settings.$parentElement });
     this.bindEvents();
   }
 
@@ -31,9 +41,11 @@ class Controller extends Observer implements IController {
     }, 'settingsUpdated');
   }
 
-  private onNewSettings = (settings: IFullSettings, eventType: string): void => {
+  private onNewSettings = (settings: IModelSettings, eventType: string): void => {
+    const $parentElement = this.view.getParentElement();
     this.publish('onNewSettings', {
       ...settings,
+      $parentElement,
       positionLength: null,
     }, eventType);
   }
@@ -45,7 +57,7 @@ class Controller extends Observer implements IController {
     this.model.subscribe(this.onSetState, 'onSetState');
   }
 
-  private onSetState = (settings: IFullSettings, eventType: string) => {
+  private onSetState = (settings: IModelSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
         if (typeof settings.positionLength === 'number' || settings.positionLength instanceof Array) {
@@ -54,8 +66,9 @@ class Controller extends Observer implements IController {
         this.onNewSettings(settings, eventType);
         break;
       case 'settingsUpdated':
+        const $parentElement = this.view.getParentElement();
         this.view.remove();
-        this.view.initSlider(settings);
+        this.view.initSlider({ ...settings, $parentElement });
         this.onNewSettings(settings, eventType);
         break;
     }

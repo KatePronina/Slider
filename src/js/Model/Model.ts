@@ -1,28 +1,28 @@
 import IValidateValue from '../Interfaces/model/IValidateValue';
 import ICheckValue from '../Interfaces/model/ICheckValue';
 import IModel from '../Interfaces/model/IModel';
-import IFullSettings from '../Interfaces/IFullSettings';
+import IModelSettings from '../Interfaces/model/IModelSettings';
 import Observer from '../Observer/Observer';
 import constants from '../constants';
 
 class Model extends Observer implements IModel {
-  private state: IFullSettings;
+  private state: IModelSettings;
 
-  public constructor(state: IFullSettings) {
+  public constructor(state: IModelSettings) {
     super();
     this.state = this.validateState({ ...state });
   }
 
-  public getSettings(): IFullSettings {
+  public getSettings(): IModelSettings {
     return this.state;
   }
 
-  public onNewState(newState: IFullSettings, eventType: string): void {
+  public onNewState(newState: IModelSettings, eventType: string): void {
     this.state = this.validateState(newState, eventType);
     this.publish('onSetState', this.state, eventType);
   }
 
-  private validateState(state: IFullSettings, eventType?: string): IFullSettings {
+  private validateState(state: IModelSettings, eventType?: string): IModelSettings {
     if (eventType === 'positionPercentUpdated' && state.positionPercent) {
       state.value = this.countValue(state.positionPercent);
     }
@@ -40,7 +40,6 @@ class Model extends Observer implements IModel {
     return {
       value,
       positionLength,
-      $parentElement: state.$parentElement,
       type: state.type,
       minValue: state.minValue,
       maxValue: state.maxValue,
