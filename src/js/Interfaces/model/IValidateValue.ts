@@ -5,4 +5,5 @@ export default interface IValidateValue {
   value: number | number[];
   step: number;
   valueType?: string;
+  positionPercent?: number;
 }

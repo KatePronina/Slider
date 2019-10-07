@@ -23,10 +23,6 @@ class Model extends Observer implements IModel {
   }
 
   private validateState(state: IModelSettings, eventType?: string): IModelSettings {
-    if (eventType === 'positionPercentUpdated' && state.positionPercent) {
-      state.value = this.countValue(state.positionPercent);
-    }
-
     const value = this.validateValue({
       type: state.type,
       minValue: state.minValue,
@@ -34,7 +30,8 @@ class Model extends Observer implements IModel {
       value: state.value,
       valueType: state.valueType,
       step: state.step,
-    });
+      positionPercent: state.positionPercent,
+    }, eventType);
     const positionLength = this.createPositionLength(value, state.minValue, state.maxValue);
 
     return {
@@ -61,7 +58,11 @@ class Model extends Observer implements IModel {
     ];
   }
 
-  private validateValue = (settings: IValidateValue): number | number[] => {
+  private validateValue = (settings: IValidateValue, eventType?: string): number | number[] => {
+    if (eventType === 'positionPercentUpdated' && settings.positionPercent) {
+      settings.value = this.countValue(settings.positionPercent);
+    }
+
     if (typeof settings.value === 'undefined') {
       settings.value = settings.type === constants.TYPE_INTERVAL ?
                                           [settings.minValue, settings.maxValue] :
