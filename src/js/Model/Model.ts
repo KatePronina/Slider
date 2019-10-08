@@ -110,7 +110,7 @@ class Model extends Observer implements IModel {
         maxValue: settings.maxValue,
         step: settings.step,
       }));
-      return this.validateInterval(checkedValues, settings.valueType);
+      return this.adjustValuesToStartAndEnd(checkedValues, settings.valueType);
     }
 
     return settings.value;
@@ -118,33 +118,42 @@ class Model extends Observer implements IModel {
 
   private makeIntervalValueFromNumber(settings: IValidateValue): number[] {
     if (typeof settings.value === 'number') {
-      const checkedValue = this.checkValue({
+      const validValue = this.checkValue({
         value: settings.value,
         minValue: settings.minValue,
         maxValue: settings.maxValue,
         step: settings.step,
       });
+
       if (settings.valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
-        const newValue = [checkedValue, this.state.value[constants.VALUE_END]];
-        return this.validateInterval(newValue, settings.valueType);
+        const newValue = [validValue, this.state.value[constants.VALUE_END]];
+        return this.adjustValuesToStartAndEnd(newValue, settings.valueType);
       }
 
       if (settings.valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
-        const newValue = [this.state.value[constants.VALUE_START], checkedValue];
-        return this.validateInterval(newValue, settings.valueType);
+        const newValue = [this.state.value[constants.VALUE_START], validValue];
+        return this.adjustValuesToStartAndEnd(newValue, settings.valueType);
       }
 
       if (typeof settings.value === 'number' && typeof this.state.value === 'number') {
         return [settings.value, this.state.maxValue];
       }
 
-      return this.createIntervalValue(checkedValue);
+      if (this.defineIfValueIsEnd(validValue) && this.state.value instanceof Array) {
+        return [this.state.value[constants.VALUE_START], validValue];
+      }
+
+      if (this.state.value instanceof Array) {
+        return [validValue, (this.state.value)[constants.VALUE_END]];
+      }
+
+      return [validValue, validValue];
     }
 
     return settings.value;
   }
 
-  private validateInterval(values: number[], valueType?: string): number[] {
+  private adjustValuesToStartAndEnd(values: number[], valueType?: string): number[] {
     switch (true) {
       case valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]:
         return [values[constants.VALUE_END], values[constants.VALUE_END]];
@@ -183,19 +192,7 @@ class Model extends Observer implements IModel {
     return ((Math.round((settings.value - settings.minValue) / settings.step)) * settings.step) + settings.minValue;
   }
 
-  private createIntervalValue(value: number): number[] {
-    if (this.defineValueType(value) && this.state.value instanceof Array) {
-      return [this.state.value[constants.VALUE_START], value];
-    }
-
-    if (this.state.value instanceof Array) {
-      return [value, (this.state.value)[constants.VALUE_END]];
-    }
-
-    return [value, value];
-  }
-
-  private defineValueType(value: number): boolean {
+  private defineIfValueIsEnd(value: number): boolean {
     if (this.state.value instanceof Array) {
       const endValueDifference = (this.state.value)[constants.VALUE_END] - value;
       const startValueDifference = value - (this.state.value)[constants.VALUE_START];
