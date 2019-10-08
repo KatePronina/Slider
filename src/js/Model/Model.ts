@@ -178,14 +178,9 @@ class Model extends Observer implements IModel {
         return settings.minValue;
 
       default:
-        return this.validateStep(settings);
+        const checkedValue = this.adjustValueToStep(settings);
+        return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
     }
-  }
-
-  private validateStep(settings: ICheckValue): number {
-    const checkedValue = this.adjustValueToStep(settings);
-
-    return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
   }
 
   private adjustValueToStep(settings: ICheckValue): number {
