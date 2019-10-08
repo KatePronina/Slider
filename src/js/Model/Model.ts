@@ -154,33 +154,32 @@ class Model extends Observer implements IModel {
   }
 
   private adjustValuesToStartAndEnd(values: number[], valueType?: string): number[] {
-    switch (true) {
-      case valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]:
-        return [values[constants.VALUE_END], values[constants.VALUE_END]];
-
-      case valueType === constants.VALUE_TYPE_MAX && values[constants.VALUE_START] > values[constants.VALUE_END]:
-        return [values[constants.VALUE_START], values[constants.VALUE_START]];
-
-      case values[constants.VALUE_START] > values[constants.VALUE_END]:
-        return [values[constants.VALUE_END], values[constants.VALUE_END]];
-
-      default:
-        return values;
+    if (valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]) {
+      return [values[constants.VALUE_END], values[constants.VALUE_END]];
     }
+
+    if (valueType === constants.VALUE_TYPE_MAX && values[constants.VALUE_START] > values[constants.VALUE_END]) {
+      return [values[constants.VALUE_START], values[constants.VALUE_START]];
+    }
+
+    if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
+      return [values[constants.VALUE_END], values[constants.VALUE_END]];
+    }
+
+    return values;
   }
 
   private checkValue(settings: ICheckValue): number {
-    switch (true) {
-      case settings.value >= settings.maxValue:
-        return settings.maxValue;
-
-      case settings.value <= settings.minValue:
-        return settings.minValue;
-
-      default:
-        const checkedValue = this.adjustValueToStep(settings);
-        return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
+    if (settings.value >= settings.maxValue) {
+      return settings.maxValue;
     }
+
+    if (settings.value <= settings.minValue) {
+      return settings.minValue;
+    }
+
+    const checkedValue = this.adjustValueToStep(settings);
+    return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
   }
 
   private adjustValueToStep(settings: ICheckValue): number {
