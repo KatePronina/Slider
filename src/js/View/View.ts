@@ -102,7 +102,7 @@ class View extends Observer implements IView {
 
   private bindEventsToSlider(): void {
     this.slider.onPositionPercentChange = (positionPercent: number, valueType?: string): void => {
-      this.publish('newPositionPercent', positionPercent, valueType);
+      this.publish('positionPercentUpdated', positionPercent, valueType);
     };
   }
 
@@ -263,7 +263,7 @@ class View extends Observer implements IView {
   private bindEventsToScale(): void {
     if (this.scaleView) {
       this.scaleView.onNewValue = (value: number): void => {
-        this.publish('newValue', { value });
+        this.publish('valueUpdated', { value });
       };
     }
   }

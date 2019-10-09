@@ -1,4 +1,4 @@
-export default interface IValidateValue {
+export default interface IValidateValues {
   type: string;
   minValue: number;
   maxValue: number;

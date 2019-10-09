@@ -23,19 +23,19 @@ class Controller extends Observer implements IController {
       hint: settings.hint,
       scale: settings.scale,
     });
-    const newSettings = this.model.getSettings();
+    const newSettings = this.model.getState();
     this.view = new View({ ...newSettings, $parentElement: settings.$parentElement });
     this.bindEvents();
   }
 
   public getSettings = (): void => {
-    const newSettings = this.model.getSettings();
+    const newSettings = this.model.getState();
     this.onNewSettings(newSettings, 'settingsUpdated');
   }
 
   public onChangedSettings = (params: INewParams): void => {
-    const settings = this.model.getSettings();
-    this.model.onNewState({
+    const settings = this.model.getState();
+    this.model.dispatchState({
       ...settings,
       ...params,
     }, 'settingsUpdated');
@@ -43,7 +43,7 @@ class Controller extends Observer implements IController {
 
   private onNewSettings = (settings: IModelSettings, eventType: string): void => {
     const $parentElement = this.view.getParentElement();
-    this.publish('onNewSettings', {
+    this.publish('settingsUpdated', {
       ...settings,
       $parentElement,
       positionLength: null,
@@ -51,10 +51,10 @@ class Controller extends Observer implements IController {
   }
 
   private bindEvents(): void {
-    this.view.subscribe(this.onChangedSettings, 'newValue');
-    this.view.subscribe(this.onNewPositionPercent, 'newPositionPercent');
+    this.view.subscribe(this.onChangedSettings, 'valueUpdated');
+    this.view.subscribe(this.onNewPositionPercent, 'positionPercentUpdated');
 
-    this.model.subscribe(this.onSetState, 'onSetState');
+    this.model.subscribe(this.onSetState, 'stateUpdated');
   }
 
   private onSetState = (settings: IModelSettings, eventType: string) => {
@@ -75,8 +75,8 @@ class Controller extends Observer implements IController {
   }
 
   private onNewPositionPercent = (positionPercent: number, valueType?: string) => {
-    const settings = this.model.getSettings();
-    this.model.onNewState({
+    const settings = this.model.getState();
+    this.model.dispatchState({
       ...settings,
       positionPercent,
       valueType,

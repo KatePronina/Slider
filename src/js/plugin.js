@@ -26,7 +26,7 @@ $.fn.slider = function callSlider(method, ...args) {
       events.onNewValue = options.events.onNewValue;
       events.onNewSettings = options.events.onNewSettings;
 
-      slider.subscribe(onNewSettings, 'onNewSettings');
+      slider.subscribe(onNewSettings, 'settingsUpdated');
       slider.publish('getSettings');
     },
   };

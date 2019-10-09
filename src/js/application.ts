@@ -12,7 +12,7 @@ class Application extends Observer implements IApplication {
   }
 
   public onNewSettings = (settings: IFullSettings, eventType: string): void => {
-    this.publish('onNewSettings', settings, eventType);
+    this.publish('settingsUpdated', settings, eventType);
   }
 
   private createSlider(settings: IFullSettings): void {
@@ -21,7 +21,7 @@ class Application extends Observer implements IApplication {
     this.subscribe(this.controller.getSettings, 'getSettings');
     this.subscribe(this.controller.onChangedSettings, 'setSettings');
 
-    this.controller.subscribe(this.onNewSettings, 'onNewSettings');
+    this.controller.subscribe(this.onNewSettings, 'settingsUpdated');
   }
 }
 
