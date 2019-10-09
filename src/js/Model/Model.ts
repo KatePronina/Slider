@@ -73,10 +73,14 @@ class Model extends Observer implements IModel {
       return this.validateIntervalSliderValue(settings);
     }
 
-    if (settings.type === constants.TYPE_RANGE && settings.value instanceof Array) {
-      return settings.value[constants.VALUE_START];
+    if (settings.type === constants.TYPE_RANGE) {
+      return this.validateRangeSliderValue(settings);
     }
 
+    return settings.value;
+  }
+
+  private validateRangeSliderValue(settings: IValidateValues): number {
     if (typeof settings.value === 'number') {
       return this.validateSingleBoundaryValues({
         value: settings.value,
@@ -86,7 +90,7 @@ class Model extends Observer implements IModel {
       });
     }
 
-    return settings.value;
+    return settings.value[constants.VALUE_START];
   }
 
   private countValue(percent: number): number {
