@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 import Model from './Model';
 
 beforeEach((): void => {
@@ -19,7 +18,7 @@ describe('Constructor', (): void => {
       positionLength: null,
     });
 
-    const state = model.getSettings();
+    const state = model.getState();
 
     expect(state.type).toEqual('interval');
     expect(state.value).toEqual([15, 20]);
@@ -46,12 +45,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 10 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: 10 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual(10);
   });
@@ -68,12 +67,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 10000 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: 10000 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual(30);
   });
@@ -90,12 +89,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: -10000 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: -10000 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual(5);
   });
@@ -113,12 +112,12 @@ describe('Setting value', (): void => {
       positionLength: null,
     });
 
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 10] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [5, 10] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([5, 10]);
   });
@@ -135,12 +134,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [6, 9] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [6, 9] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([5, 10]);
   });
@@ -157,12 +156,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 70] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [5, 70] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([5, 70]);
   });
@@ -179,12 +178,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [70, 70] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [70, 70] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([70, 70]);
   });
@@ -201,12 +200,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [5, 50] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [5, 50] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([5, 50]);
   });
@@ -223,12 +222,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [50, 72] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [50, 72] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([50, 70]);
   });
@@ -245,12 +244,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [-50, 110] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [-50, 110] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([0, 100]);
   });
@@ -267,12 +266,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [100, 100] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [100, 100] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([90, 90]);
   });
@@ -289,12 +288,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: [33, 36] }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: [33, 36] }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([35, 35]);
   });
@@ -311,12 +310,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 51 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: 51 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([10, 50]);
   });
@@ -333,12 +332,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 21 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: 21 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([20, 60]);
   });
@@ -355,12 +354,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: 150 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: 150 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([10, 100]);
   });
@@ -377,12 +376,12 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({ ...settings, value: -10 }, 'settingsUpdated');
+    const settings = model.getState();
+    model.dispatchState({ ...settings, value: -10 }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([0, 60]);
   });
@@ -401,9 +400,9 @@ describe('Setting state', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    model.onNewState({
+    model.dispatchState({
       type: 'interval',
       value: 10,
       minValue: 0,
@@ -413,9 +412,9 @@ describe('Setting state', (): void => {
       hint: true,
       scale: false,
       positionLength: null,
-    }, 'settingsUpdated');
+    }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual([10, 30]);
     expect(newSettings.type).toEqual('interval');
@@ -440,15 +439,15 @@ describe('Setting state', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.subscribe(() => {}, 'onSetState');
+    model.subscribe(() => {}, 'stateUpdated');
 
-    const settings = model.getSettings();
-    model.onNewState({
+    const settings = model.getState();
+    model.dispatchState({
       ...settings,
       step: 6,
-    }, 'settingsUpdated');
+    }, 'stateUpdated');
 
-    const newSettings = model.getSettings();
+    const newSettings = model.getState();
 
     expect(newSettings.value).toEqual(17);
     expect(newSettings.step).toEqual(6);
