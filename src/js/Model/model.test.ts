@@ -313,7 +313,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: 51 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [51] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
@@ -335,7 +335,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: 21 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [21] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
@@ -357,7 +357,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: 150 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [150] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
@@ -379,7 +379,7 @@ describe('Setting value', (): void => {
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: -10 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [-10] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
@@ -404,7 +404,7 @@ describe('Setting state', (): void => {
 
     model.dispatchState({
       type: 'interval',
-      value: 10,
+      value: [10],
       minValue: 0,
       maxValue: 35,
       step: 5,
