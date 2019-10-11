@@ -207,7 +207,10 @@ class ConfigurationView {
       const newType = this.settings.type === constants.TYPE_RANGE ?
                                               constants.TYPE_INTERVAL :
                                               constants.TYPE_RANGE;
-      this.sliderPlugin.setSettings({ type: newType });
+      const newValue = this.settings.type === constants.TYPE_RANGE ?
+                                              [this.settings.value] :
+                                              this.settings.value;
+      this.sliderPlugin.setSettings({ type: newType, value: newValue });
     }
   }
 

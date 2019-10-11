@@ -8,6 +8,6 @@ export default interface IModelSettings {
   hint: boolean;
   scale: boolean;
   positionLength: number | number[] | null;
-  positionPercent?: number;
+  positionPercent?: number | number[];
   valueType?: string;
 }

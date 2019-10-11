@@ -1,3 +1,4 @@
+import constants from '../constants';
 import Model from '../Model/Model';
 import View from '../View/View';
 import Observer from '../Observer/Observer';
@@ -74,8 +75,9 @@ class Controller extends Observer implements IController {
     }
   }
 
-  private onNewPositionPercent = (positionPercent: number, valueType?: string) => {
+  private onNewPositionPercent = (positionPercent: number | number[], valueType?: string) => {
     const settings = this.model.getState();
+
     this.model.dispatchState({
       ...settings,
       positionPercent,

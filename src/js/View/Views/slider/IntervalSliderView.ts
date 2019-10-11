@@ -22,12 +22,14 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
   public onChangedValue(value: number[], newPositionLength: number[]): void {
     this.value = value;
+    this.minPercent = newPositionLength[constants.VALUE_START];
+    this.maxPercent = newPositionLength[constants.VALUE_END];
     this.direction === constants.DIRECTION_VERTICAL ?
                         this.setNewVerticalPosition(newPositionLength) :
                         this.setNewHorizontalPosition(newPositionLength);
   }
 
-  public onPositionPercentChange = (positionPercent: number, valueType: string) => {};
+  public onPositionPercentChange = (positionPercent: number[], valueType: string) => {};
 
   private setNewVerticalPosition(newPositionLength: number[]): void {
     this.minPointDOMElement && (this.minPointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
@@ -108,12 +110,12 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     if (this.isMinMouseDown && this.value instanceof Array) {
       this.minPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
-      this.onPositionPercentChange(this.minPercent, constants.VALUE_TYPE_MIN);
+      this.onPositionPercentChange([this.minPercent], constants.VALUE_TYPE_MIN);
     }
 
     if (this.isMaxMouseDown && this.value instanceof Array) {
       this.maxPercent = ComponentSliderView.countPercent(eventCoordinate, this.length);
-      this.onPositionPercentChange(this.maxPercent, constants.VALUE_TYPE_MAX);
+      this.onPositionPercentChange([this.maxPercent], constants.VALUE_TYPE_MAX);
     }
   }
 }
