@@ -23,6 +23,10 @@ class Model extends Observer implements IModel {
   }
 
   private validateState(state: IModelSettings, eventType?: string): IModelSettings {
+    if (eventType === 'positionPercentUpdated' && state.positionPercent) {
+      state.value = this.countValue(state.positionPercent);
+    }
+
     const value = this.validateValues({
       type: state.type,
       minValue: state.minValue,
@@ -31,7 +35,8 @@ class Model extends Observer implements IModel {
       valueType: state.valueType,
       step: state.step,
       positionPercent: state.positionPercent,
-    }, eventType);
+    });
+
     const positionLength = this.validatePositionOffsets(value, state.minValue, state.maxValue);
 
     return {
@@ -58,20 +63,15 @@ class Model extends Observer implements IModel {
     ];
   }
 
-  private validateValues = (settings: IValidateValues, eventType?: string): number | number[] => {
-    if (eventType === 'positionPercentUpdated' && settings.positionPercent) {
-      settings.value = this.countValue(settings.positionPercent);
+  private validateValues = (settings: IValidateValues): number | number[] => {
+    switch (settings.type) {
+      case constants.TYPE_INTERVAL:
+        return this.validateIntervalSliderValue(settings);
+      case constants.TYPE_RANGE:
+        return this.validateRangeSliderValue(settings);
+      default:
+        return settings.value;
     }
-
-    if (settings.type === constants.TYPE_INTERVAL) {
-      return this.validateIntervalSliderValue(settings);
-    }
-
-    if (settings.type === constants.TYPE_RANGE) {
-      return this.validateRangeSliderValue(settings);
-    }
-
-    return settings.value;
   }
 
   private validateRangeSliderValue(settings: IValidateValues): number {
