@@ -34,9 +34,6 @@ class ConfigurationView {
     }
 
     this.renderConfiguration();
-
-    this.sliderPlugin.setSettings({ value: 39 });
-    this.sliderPlugin.setSettings({ value: 5 });
   }
 
   private template = require('./templates/template.hbs');

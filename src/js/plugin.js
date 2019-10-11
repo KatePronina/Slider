@@ -1,5 +1,6 @@
 import Application from './application';
 import DEFAULT_SETTINGS from './defaultSettings';
+import constants from './constants';
 
 $.fn.slider = function callSlider(method, ...args) {
   let slider;
@@ -22,6 +23,12 @@ $.fn.slider = function callSlider(method, ...args) {
   const methods = {
     init(options) {
       const fullSettings = { $parentElement: this, ...options };
+      if (typeof fullSettings.value === 'undefined') {
+        fullSettings.value = fullSettings.type === constants.TYPE_INTERVAL ?
+                                            [fullSettings.minValue, fullSettings.maxValue] :
+                                            fullSettings.minValue;
+      }
+
       slider = new Application(fullSettings);
       events.onNewValue = options.events.onNewValue;
       events.onNewSettings = options.events.onNewSettings;

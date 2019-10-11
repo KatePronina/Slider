@@ -63,12 +63,6 @@ class Model extends Observer implements IModel {
       settings.value = this.countValue(settings.positionPercent);
     }
 
-    if (typeof settings.value === 'undefined') {
-      settings.value = settings.type === constants.TYPE_INTERVAL ?
-                                          [settings.minValue, settings.maxValue] :
-                                          settings.minValue;
-    }
-
     if (settings.type === constants.TYPE_INTERVAL) {
       return this.validateIntervalSliderValue(settings);
     }
