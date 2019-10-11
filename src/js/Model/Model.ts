@@ -147,17 +147,7 @@ class Model extends Observer implements IModel {
         step: settings.step,
       });
 
-      if (settings.valueType === constants.VALUE_TYPE_MIN && this.state.value instanceof Array) {
-        const newValue = [validValue, this.state.value[constants.VALUE_END]];
-        return this.validateIntervalBoundaryValues(newValue, settings.valueType);
-      }
-
-      if (settings.valueType === constants.VALUE_TYPE_MAX && this.state.value instanceof Array) {
-        const newValue = [this.state.value[constants.VALUE_START], validValue];
-        return this.validateIntervalBoundaryValues(newValue, settings.valueType);
-      }
-
-      if (typeof settings.value === 'number' && typeof this.state.value === 'number') {
+      if (typeof this.state.value === 'number') {
         return [settings.value, this.state.maxValue];
       }
 
