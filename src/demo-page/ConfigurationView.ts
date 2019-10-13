@@ -65,6 +65,7 @@ class ConfigurationView {
         {
           label: 'Размер шага',
           type: 'step',
+          minValue: 1,
         },
         {
           label: 'Минимальное значение',
