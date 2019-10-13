@@ -39,12 +39,10 @@ class Model extends Observer implements IModel {
     }
 
     if (state.type === constants.TYPE_RANGE && typeof state.value === 'number') {
-      state.value = this.validateRangeSliderValue({
-        type: state.type,
+      state.value = this.validateSingleBoundaryValues({
         minValue: state.minValue,
         maxValue: state.maxValue,
         value: state.value,
-        valueType: state.valueType,
         step: state.step,
       });
     }
@@ -98,15 +96,6 @@ class Model extends Observer implements IModel {
       this.countPositionOffsets(newValue[constants.VALUE_START], minValue, maxValue),
       this.countPositionOffsets(newValue[constants.VALUE_END], minValue, maxValue),
     ];
-  }
-
-  private validateRangeSliderValue(settings: IValidateRangeValue): number {
-    return this.validateSingleBoundaryValues({
-      value: settings.value,
-      minValue: settings.minValue,
-      maxValue: settings.maxValue,
-      step: settings.step,
-    });
   }
 
   private countValue(percent: number): number {
