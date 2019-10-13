@@ -1,4 +1,4 @@
-import { IValidateValues, IValidateRangeValue, IValidateIntervalValue } from '../Interfaces/model/IValidateValues';
+import { IValidateRangeValue, IValidateIntervalValue } from '../Interfaces/model/IValidateValues';
 import ICheckValue from '../Interfaces/model/ICheckValue';
 import IModel from '../Interfaces/model/IModel';
 import IModelSettings from '../Interfaces/model/IModelSettings';
@@ -27,20 +27,33 @@ class Model extends Observer implements IModel {
       state.value = this.setValueFromPositionPercent(state);
     }
 
-    const value = this.validateValues({
-      type: state.type,
-      minValue: state.minValue,
-      maxValue: state.maxValue,
-      value: state.value,
-      valueType: state.valueType,
-      step: state.step,
-    });
+    if (state.type === constants.TYPE_INTERVAL && state.value instanceof Array) {
+      state.value = this.validateIntervalSliderValue({
+        type: state.type,
+        minValue: state.minValue,
+        maxValue: state.maxValue,
+        value: state.value,
+        valueType: state.valueType,
+        step: state.step,
+      });
+    }
 
-    const positionLength = this.validatePositionOffsets(value, state.minValue, state.maxValue);
+    if (state.type === constants.TYPE_RANGE && typeof state.value === 'number') {
+      state.value = this.validateRangeSliderValue({
+        type: state.type,
+        minValue: state.minValue,
+        maxValue: state.maxValue,
+        value: state.value,
+        valueType: state.valueType,
+        step: state.step,
+      });
+    }
+
+    const positionLength = this.validatePositionOffsets(state.value, state.minValue, state.maxValue);
 
     return {
-      value,
       positionLength,
+      value: state.value,
       type: state.type,
       minValue: state.minValue,
       maxValue: state.maxValue,
@@ -87,28 +100,13 @@ class Model extends Observer implements IModel {
     ];
   }
 
-  private validateValues = (settings: IValidateValues): number | number[] => {
-    switch (settings.type) {
-      case constants.TYPE_INTERVAL:
-        return this.validateIntervalSliderValue(settings);
-      case constants.TYPE_RANGE:
-        return this.validateRangeSliderValue(settings);
-      default:
-        return settings.value;
-    }
-  }
-
-  private validateRangeSliderValue(settings: IValidateValues): number {
-    if (typeof settings.value === 'number') {
-      return this.validateSingleBoundaryValues({
-        value: settings.value,
-        minValue: settings.minValue,
-        maxValue: settings.maxValue,
-        step: settings.step,
-      });
-    }
-
-    return settings.value[constants.VALUE_START];
+  private validateRangeSliderValue(settings: IValidateRangeValue): number {
+    return this.validateSingleBoundaryValues({
+      value: settings.value,
+      minValue: settings.minValue,
+      maxValue: settings.maxValue,
+      step: settings.step,
+    });
   }
 
   private countValue(percent: number): number {
@@ -120,49 +118,42 @@ class Model extends Observer implements IModel {
     return ((value - minValue) * 100) / (maxValue - minValue);
   }
 
-  private validateIntervalSliderValue(settings: IValidateValues): number | number[] {
-    if (settings.value instanceof Array) {
-      if (settings.value.length === 1) {
-        return this.makeIntervalValueFromNumber({ ...settings, value: settings.value[0] });
-      }
-
-      const checkedValues = settings.value.map((value): number => this.validateSingleBoundaryValues({
-        value,
-        minValue: settings.minValue,
-        maxValue: settings.maxValue,
-        step: settings.step,
-      }));
-      return this.validateIntervalBoundaryValues(checkedValues, settings.valueType);
+  private validateIntervalSliderValue(settings: IValidateIntervalValue): number | number[] {
+    if (settings.value.length === 1) {
+      return this.makeIntervalValueFromNumber({ ...settings, value: settings.value[0] });
     }
 
-    return settings.value;
+    const checkedValues = settings.value.map((value): number => this.validateSingleBoundaryValues({
+      value,
+      minValue: settings.minValue,
+      maxValue: settings.maxValue,
+      step: settings.step,
+    }));
+
+    return this.validateIntervalBoundaryValues(checkedValues, settings.valueType);
   }
 
-  private makeIntervalValueFromNumber(settings: IValidateValues): number[] {
-    if (typeof settings.value === 'number') {
-      const validValue = this.validateSingleBoundaryValues({
-        value: settings.value,
-        minValue: settings.minValue,
-        maxValue: settings.maxValue,
-        step: settings.step,
-      });
+  private makeIntervalValueFromNumber(settings: IValidateRangeValue): number[] {
+    const validValue = this.validateSingleBoundaryValues({
+      value: settings.value,
+      minValue: settings.minValue,
+      maxValue: settings.maxValue,
+      step: settings.step,
+    });
 
-      if (typeof this.state.value === 'number') {
-        return [settings.value, this.state.maxValue];
-      }
-
-      if (this.defineIfValueIsEnd(validValue) && this.state.value instanceof Array) {
-        return [this.state.value[constants.VALUE_START], validValue];
-      }
-
-      if (this.state.value instanceof Array) {
-        return [validValue, (this.state.value)[constants.VALUE_END]];
-      }
-
-      return [validValue, validValue];
+    if (typeof this.state.value === 'number') {
+      return [settings.value, this.state.maxValue];
     }
 
-    return settings.value;
+    if (this.defineIfValueIsEnd(validValue) && this.state.value instanceof Array) {
+      return [this.state.value[constants.VALUE_START], validValue];
+    }
+
+    if (this.state.value instanceof Array) {
+      return [validValue, (this.state.value)[constants.VALUE_END]];
+    }
+
+    return [validValue, validValue];
   }
 
   private validateIntervalBoundaryValues (values: number[], valueType?: string): number[] {
