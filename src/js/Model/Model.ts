@@ -27,6 +27,10 @@ class Model extends Observer implements IModel {
       state.value = this.setValueFromPositionPercent(state);
     }
 
+    if (this.state && state.type !== this.state.type) {
+      state.value = this.setRequiredTypeForValue(state.type, state.value);
+    }
+
     const settings = {
       type: state.type,
       minValue: state.minValue,
@@ -61,6 +65,18 @@ class Model extends Observer implements IModel {
       hint: state.hint,
       scale: state.scale,
     };
+  }
+
+  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
+    if (type === constants.TYPE_INTERVAL && typeof value === 'number') {
+      return [value];
+    }
+
+    if (type === constants.TYPE_RANGE && value instanceof Array) {
+      return value[constants.VALUE_START];
+    }
+
+    return value;
   }
 
   private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {
