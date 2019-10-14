@@ -1,4 +1,4 @@
-import { IValidateRangeValue, IValidateIntervalValue } from '../Interfaces/model/IValidateValues';
+import { IValidateRangeValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
 import ICheckValue from '../Interfaces/model/ICheckValue';
 import IModel from '../Interfaces/model/IModel';
 import IModelSettings from '../Interfaces/model/IModelSettings';
@@ -27,23 +27,24 @@ class Model extends Observer implements IModel {
       state.value = this.setValueFromPositionPercent(state);
     }
 
-    if (state.type === constants.TYPE_INTERVAL && state.value instanceof Array) {
-      state.value = this.validateIntervalSliderValue({
-        type: state.type,
-        minValue: state.minValue,
-        maxValue: state.maxValue,
-        value: state.value,
-        valueType: state.valueType,
-        step: state.step,
-      });
-    }
+    const settings = {
+      type: state.type,
+      minValue: state.minValue,
+      maxValue: state.maxValue,
+      value: state.value,
+      valueType: state.valueType,
+      step: state.step,
+    };
 
-    if (state.type === constants.TYPE_RANGE && typeof state.value === 'number') {
+    if (this.isIntervalType(settings)) {
+      state.value = this.validateIntervalSliderValue(settings);
+    }
+    if (this.isRangeType(settings)) {
       state.value = this.validateSingleBoundaryValues({
-        minValue: state.minValue,
-        maxValue: state.maxValue,
-        value: state.value,
-        step: state.step,
+        minValue: settings.minValue,
+        maxValue: settings.maxValue,
+        value: settings.value,
+        step: settings.step,
       });
     }
 
@@ -60,6 +61,14 @@ class Model extends Observer implements IModel {
       hint: state.hint,
       scale: state.scale,
     };
+  }
+
+  private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {
+    return settings.type === constants.TYPE_INTERVAL;
+  }
+
+  private isRangeType(settings: IValidateValues): settings is IValidateRangeValue {
+    return settings.type === constants.TYPE_RANGE;
   }
 
   private setValueFromPositionPercent(state: IModelSettings): number | number[] {

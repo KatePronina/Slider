@@ -1,5 +1,6 @@
-interface IValidateValues {
+export interface IValidateValues {
   type: string;
+  value: number | number[];
   minValue: number;
   maxValue: number;
   step: number;
