@@ -18,39 +18,48 @@ class Model extends Observer implements IModel {
   }
 
   public dispatchState(newState: IModelSettings, eventType: string): void {
-    this.state = this.validateState(newState, eventType);
+    if (eventType === 'positionPercentUpdated') {
+      newState.value = this.setValueFromPositionPercent(newState);
+    }
+
+    this.state = this.validateState(newState);
     this.publish('stateUpdated', this.state, eventType);
   }
 
-  private validateState(state: IModelSettings, eventType?: string): IModelSettings {
-    if (eventType === 'positionPercentUpdated') {
-      state.value = this.setValueFromPositionPercent(state);
-    }
-
-    if (this.state && state.type !== this.state.type) {
-      state.value = this.setRequiredTypeForValue(state.type, state.value);
-    }
+  private validateState(state: IModelSettings): IModelSettings {
+    state.value = this.validateValueType(state);
 
     const { direction, hint, scale, positionLength, positionPercent, ...settings } = state;
 
     if (this.isIntervalType(settings)) {
+      const { minValue, maxValue } = settings;
       state.value = this.validateIntervalSliderValue(settings);
+
       return {
         ...state,
-        positionLength: this.validatePositionOffsets(state.value, state.minValue, state.maxValue),
+        positionLength: this.validatePositionOffsets(state.value, minValue, maxValue),
       };
     }
 
     if (this.isRangeType(settings)) {
       const { minValue, maxValue, value, step } = settings;
       state.value = this.validateSingleBoundaryValues({ minValue, maxValue, value, step });
+
       return {
         ...state,
-        positionLength: this.validatePositionOffsets(state.value, state.minValue, state.maxValue),
+        positionLength: this.validatePositionOffsets(state.value, minValue, maxValue),
       };
     }
 
     return state;
+  }
+
+  private validateValueType(state: IModelSettings): number | number[] {
+    if (this.state && state.type !== this.state.type) {
+      return this.setRequiredTypeForValue(state.type, state.value);
+    }
+
+    return state.value;
   }
 
   private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
