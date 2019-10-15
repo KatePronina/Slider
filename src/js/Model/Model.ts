@@ -31,40 +31,26 @@ class Model extends Observer implements IModel {
       state.value = this.setRequiredTypeForValue(state.type, state.value);
     }
 
-    const settings = {
-      type: state.type,
-      minValue: state.minValue,
-      maxValue: state.maxValue,
-      value: state.value,
-      valueType: state.valueType,
-      step: state.step,
-    };
+    const { direction, hint, scale, positionLength, positionPercent, ...settings } = state;
 
     if (this.isIntervalType(settings)) {
       state.value = this.validateIntervalSliderValue(settings);
+      return {
+        ...state,
+        positionLength: this.validatePositionOffsets(state.value, state.minValue, state.maxValue),
+      };
     }
+
     if (this.isRangeType(settings)) {
-      state.value = this.validateSingleBoundaryValues({
-        minValue: settings.minValue,
-        maxValue: settings.maxValue,
-        value: settings.value,
-        step: settings.step,
-      });
+      const { minValue, maxValue, value, step } = settings;
+      state.value = this.validateSingleBoundaryValues({ minValue, maxValue, value, step });
+      return {
+        ...state,
+        positionLength: this.validatePositionOffsets(state.value, state.minValue, state.maxValue),
+      };
     }
 
-    const positionLength = this.validatePositionOffsets(state.value, state.minValue, state.maxValue);
-
-    return {
-      positionLength,
-      value: state.value,
-      type: state.type,
-      minValue: state.minValue,
-      maxValue: state.maxValue,
-      step: state.step,
-      direction: state.direction,
-      hint: state.hint,
-      scale: state.scale,
-    };
+    return state;
   }
 
   private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
