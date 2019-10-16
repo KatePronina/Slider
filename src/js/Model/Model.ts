@@ -65,7 +65,7 @@ class Model extends Observer implements IModel {
     return newValue;
   }
 
-  private validateIntervalValues(settings: IValidateIntervalValue, eventType?: string): number | number[] {
+  private validateIntervalValues(settings: IValidateIntervalValue, eventType?: string): number[] {
     const { minValue, maxValue, step, value: currentValue, positionPercent, valueType } = settings;
 
     if (currentValue.length === 1) {
