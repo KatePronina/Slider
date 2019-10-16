@@ -9,8 +9,10 @@ export interface IValidateValues {
 
 export interface IValidateRangeValue extends IValidateValues {
   value: number;
+  positionPercent?: number;
 }
 
 export interface IValidateIntervalValue extends IValidateValues {
   value: number[];
+  positionPercent?: number[];
 }

@@ -1,5 +1,6 @@
 import { IValidateRangeValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
 import ICheckValue from '../Interfaces/model/ICheckValue';
+import ICountIntervalValues from '../Interfaces/model/ICountIntervalValues';
 import IModel from '../Interfaces/model/IModel';
 import IModelSettings from '../Interfaces/model/IModelSettings';
 import Observer from '../Observer/Observer';
@@ -18,44 +19,30 @@ class Model extends Observer implements IModel {
   }
 
   public dispatchState(newState: IModelSettings, eventType: string): void {
-    if (eventType === 'positionPercentUpdated') {
-      newState.value = this.setValueFromPositionPercent(newState);
-    }
-
-    this.state = this.validateState(newState);
+    this.state = this.validateState(newState, eventType);
     this.publish('stateUpdated', this.state, eventType);
   }
 
-  private validateState(state: IModelSettings): IModelSettings {
-    const { direction, hint, scale, positionLength, positionPercent, ...settings } = state;
+  private validateState(state: IModelSettings, eventType?: string): IModelSettings {
+    const { direction, hint, scale, ...settings } = state;
+    const { minValue, maxValue } = settings;
 
+    const value = this.validateValue(settings, eventType);
+    const positionLength = this.validatePositionOffsets(value, minValue, maxValue);
+
+    return { ...state, positionLength, value };
+  }
+
+  private validateValue(settings: IValidateValues, eventType?: string): number | number[] {
     if (this.isIntervalType(settings)) {
-      const { minValue, maxValue } = settings;
-
-      const values = this.validateIntervalSliderValues(settings);
-      const positionLength = this.validatePositionOffsets(values, minValue, maxValue);
-
-      return {
-        ...state,
-        positionLength,
-        value: values,
-      };
+      return this.validateIntervalValues(settings, eventType);
     }
 
     if (this.isRangeType(settings)) {
-      const { minValue, maxValue, value: currentValue, step } = settings;
-
-      const value = this.validateSingleBoundaryValue({ minValue, maxValue, step, value: currentValue });
-      const positionLength = this.validatePositionOffsets(value, minValue, maxValue);
-
-      return {
-        ...state,
-        positionLength,
-        value,
-      };
+      return this.validateRangeValue(settings, eventType);
     }
 
-    return state;
+    return settings.value;
   }
 
   private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {
@@ -66,29 +53,55 @@ class Model extends Observer implements IModel {
     return settings.type === constants.TYPE_RANGE;
   }
 
-  private setValueFromPositionPercent(state: IModelSettings): number | number[] {
-    if (typeof state.positionPercent === 'number') {
-      state.value = this.countValue(state.positionPercent);
+  private validateRangeValue(settings: IValidateRangeValue, eventType?: string): number {
+    const { minValue, maxValue, value, step, positionPercent } = settings;
+
+    const newValue = eventType === 'positionPercentUpdated' && positionPercent ?
+                      this.validateSingleBoundaryValue({
+                        minValue, maxValue, step, value: this.countSingleValue(positionPercent),
+                      })
+                      : this.validateSingleBoundaryValue({ minValue, maxValue, step, value });
+
+    return newValue;
+  }
+
+  private validateIntervalValues(settings: IValidateIntervalValue, eventType?: string): number | number[] {
+    const { minValue, maxValue, step, value: currentValue, positionPercent, valueType } = settings;
+
+    if (currentValue.length === 1) {
+      return this.makeIntervalValueFromNumber({ minValue, maxValue, step, value: currentValue[0] });
     }
 
-    if (state.positionPercent instanceof Array && state.valueType && this.state.value instanceof Array) {
-      switch (state.valueType) {
-        case constants.VALUE_TYPE_MIN:
-          state.value = [
-            this.countValue(state.positionPercent[0]),
-            this.state.value[constants.VALUE_END],
-          ];
-          break;
-        case constants.VALUE_TYPE_MAX:
-          state.value = [
-            this.state.value[constants.VALUE_START],
-            this.countValue(state.positionPercent[0]),
-          ];
-          break;
-      }
-    }
+    const values = eventType === 'positionPercentUpdated' && positionPercent && valueType ?
+                      this.countIntervalValues({ currentValue, positionPercent, valueType })
+                    : currentValue;
 
-    return state.value;
+    const checkedValues = values.map((value): number =>
+                            this.validateSingleBoundaryValue({ value, minValue, maxValue, step }));
+
+    return this.validateIntervalBoundaryValues(checkedValues, valueType);
+  }
+
+  private countIntervalValues(settings: ICountIntervalValues): number[] {
+    switch (settings.valueType) {
+      case constants.VALUE_TYPE_MIN:
+        return [
+          this.countSingleValue(settings.positionPercent[0]),
+          settings.currentValue[constants.VALUE_END],
+        ];
+      case constants.VALUE_TYPE_MAX:
+        return [
+          settings.currentValue[constants.VALUE_START],
+          this.countSingleValue(settings.positionPercent[0]),
+        ];
+      default:
+        return settings.currentValue;
+    }
+  }
+
+  private countSingleValue(percent: number): number {
+    const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
+    return parseInt(value.toFixed(), 10);
   }
 
   private validatePositionOffsets(newValue: number | number[], minValue: number, maxValue: number): number | number[] {
@@ -102,37 +115,12 @@ class Model extends Observer implements IModel {
     ];
   }
 
-  private countValue(percent: number): number {
-    const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
-    return parseInt(value.toFixed(), 10);
-  }
-
   private countPositionOffsets(value: number, minValue: number, maxValue: number): number {
     return ((value - minValue) * 100) / (maxValue - minValue);
   }
 
-  private validateIntervalSliderValues(settings: IValidateIntervalValue): number | number[] {
-    if (settings.value.length === 1) {
-      return this.makeIntervalValueFromNumber({ ...settings, value: settings.value[0] });
-    }
-
-    const checkedValues = settings.value.map((value): number => this.validateSingleBoundaryValue({
-      value,
-      minValue: settings.minValue,
-      maxValue: settings.maxValue,
-      step: settings.step,
-    }));
-
-    return this.validateIntervalBoundaryValues(checkedValues, settings.valueType);
-  }
-
-  private makeIntervalValueFromNumber(settings: IValidateRangeValue): number[] {
-    const validValue = this.validateSingleBoundaryValue({
-      value: settings.value,
-      minValue: settings.minValue,
-      maxValue: settings.maxValue,
-      step: settings.step,
-    });
+  private makeIntervalValueFromNumber(settings: ICheckValue): number[] {
+    const validValue = this.validateSingleBoundaryValue(settings);
 
     if (typeof this.state.value === 'number') {
       return [settings.value, this.state.maxValue];
@@ -166,17 +154,18 @@ class Model extends Observer implements IModel {
   }
 
   private validateSingleBoundaryValue(settings: ICheckValue): number {
-    if (settings.value >= settings.maxValue) {
-      return settings.maxValue;
+    const { minValue, maxValue, value, step } = settings;
+
+    if (value >= maxValue) {
+      return maxValue;
     }
 
-    if (settings.value <= settings.minValue) {
-      return settings.minValue;
+    if (value <= minValue) {
+      return minValue;
     }
 
-    const checkedValue = ((Math.round((settings.value - settings.minValue) / settings.step)) * settings.step)
-                          + settings.minValue;
-    return checkedValue >= settings.maxValue ? settings.maxValue : checkedValue;
+    const checkedValue = ((Math.round((value - minValue) / step)) * step) + minValue;
+    return checkedValue >= maxValue ? maxValue : checkedValue;
   }
 
   private defineIfValueIsEnd(value: number): boolean {
