@@ -27,8 +27,6 @@ class Model extends Observer implements IModel {
   }
 
   private validateState(state: IModelSettings): IModelSettings {
-    state.value = this.validateValueType(state);
-
     const { direction, hint, scale, positionLength, positionPercent, ...settings } = state;
 
     if (this.isIntervalType(settings)) {
@@ -58,26 +56,6 @@ class Model extends Observer implements IModel {
     }
 
     return state;
-  }
-
-  private validateValueType(state: IModelSettings): number | number[] {
-    if (this.state && state.type !== this.state.type) {
-      return this.setRequiredTypeForValue(state.type, state.value);
-    }
-
-    return state.value;
-  }
-
-  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
-    if (type === constants.TYPE_INTERVAL && typeof value === 'number') {
-      return [value];
-    }
-
-    if (type === constants.TYPE_RANGE && value instanceof Array) {
-      return value[constants.VALUE_START];
-    }
-
-    return value;
   }
 
   private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {

@@ -208,8 +208,21 @@ class ConfigurationView {
       const newType = this.settings.type === constants.TYPE_RANGE ?
                                               constants.TYPE_INTERVAL :
                                               constants.TYPE_RANGE;
-      this.sliderPlugin.setSettings({ type: newType });
+      const newValue = this.setRequiredTypeForValue(newType, this.settings.value);
+      this.sliderPlugin.setSettings({ type: newType, value: newValue });
     }
+  }
+
+  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
+    if (type === constants.TYPE_INTERVAL && typeof value === 'number') {
+      return [value];
+    }
+
+    if (type === constants.TYPE_RANGE && value instanceof Array) {
+      return value[constants.VALUE_START];
+    }
+
+    return value;
   }
 
   private bindInputValueEvent(input: HTMLInputElement, valueType?: string): void {
