@@ -33,21 +33,27 @@ class Model extends Observer implements IModel {
 
     if (this.isIntervalType(settings)) {
       const { minValue, maxValue } = settings;
-      state.value = this.validateIntervalSliderValues(settings);
+
+      const values = this.validateIntervalSliderValues(settings);
+      const positionLength = this.validatePositionOffsets(values, minValue, maxValue);
 
       return {
         ...state,
-        positionLength: this.validatePositionOffsets(state.value, minValue, maxValue),
+        positionLength,
+        value: values,
       };
     }
 
     if (this.isRangeType(settings)) {
-      const { minValue, maxValue, value, step } = settings;
-      state.value = this.validateSingleBoundaryValue({ minValue, maxValue, value, step });
+      const { minValue, maxValue, value: currentValue, step } = settings;
+
+      const value = this.validateSingleBoundaryValue({ minValue, maxValue, step, value: currentValue });
+      const positionLength = this.validatePositionOffsets(value, minValue, maxValue);
 
       return {
         ...state,
-        positionLength: this.validatePositionOffsets(state.value, minValue, maxValue),
+        positionLength,
+        value,
       };
     }
 
