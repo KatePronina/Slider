@@ -33,7 +33,7 @@ class Model extends Observer implements IModel {
 
     if (this.isIntervalType(settings)) {
       const { minValue, maxValue } = settings;
-      state.value = this.validateIntervalSliderValue(settings);
+      state.value = this.validateIntervalSliderValues(settings);
 
       return {
         ...state,
@@ -43,7 +43,7 @@ class Model extends Observer implements IModel {
 
     if (this.isRangeType(settings)) {
       const { minValue, maxValue, value, step } = settings;
-      state.value = this.validateSingleBoundaryValues({ minValue, maxValue, value, step });
+      state.value = this.validateSingleBoundaryValue({ minValue, maxValue, value, step });
 
       return {
         ...state,
@@ -127,12 +127,12 @@ class Model extends Observer implements IModel {
     return ((value - minValue) * 100) / (maxValue - minValue);
   }
 
-  private validateIntervalSliderValue(settings: IValidateIntervalValue): number | number[] {
+  private validateIntervalSliderValues(settings: IValidateIntervalValue): number | number[] {
     if (settings.value.length === 1) {
       return this.makeIntervalValueFromNumber({ ...settings, value: settings.value[0] });
     }
 
-    const checkedValues = settings.value.map((value): number => this.validateSingleBoundaryValues({
+    const checkedValues = settings.value.map((value): number => this.validateSingleBoundaryValue({
       value,
       minValue: settings.minValue,
       maxValue: settings.maxValue,
@@ -143,7 +143,7 @@ class Model extends Observer implements IModel {
   }
 
   private makeIntervalValueFromNumber(settings: IValidateRangeValue): number[] {
-    const validValue = this.validateSingleBoundaryValues({
+    const validValue = this.validateSingleBoundaryValue({
       value: settings.value,
       minValue: settings.minValue,
       maxValue: settings.maxValue,
@@ -181,7 +181,7 @@ class Model extends Observer implements IModel {
     return values;
   }
 
-  private validateSingleBoundaryValues(settings: ICheckValue): number {
+  private validateSingleBoundaryValue(settings: ICheckValue): number {
     if (settings.value >= settings.maxValue) {
       return settings.maxValue;
     }
