@@ -1,5 +1,5 @@
 const DEFAULT_SETTINGS = {
-  type: 'range',
+  type: 'single',
   minValue: 0,
   maxValue: 100,
   step: 1,

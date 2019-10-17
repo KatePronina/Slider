@@ -1,4 +1,4 @@
-import { IValidateRangeValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
+import { IValidateSingleValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
 import ICheckValue from '../Interfaces/model/ICheckValue';
 import IConvertPercentsToIntervalValues from '../Interfaces/model/IConvertPercentsToIntervalValues';
 import IModel from '../Interfaces/model/IModel';
@@ -38,8 +38,8 @@ class Model extends Observer implements IModel {
       return this.validateIntervalValues(settings, eventType);
     }
 
-    if (this.isRangeType(settings)) {
-      return this.validateRangeValue(settings, eventType);
+    if (this.isSingleType(settings)) {
+      return this.validateSingleValue(settings, eventType);
     }
 
     return settings.value;
@@ -49,11 +49,11 @@ class Model extends Observer implements IModel {
     return settings.type === constants.TYPE_INTERVAL;
   }
 
-  private isRangeType(settings: IValidateValues): settings is IValidateRangeValue {
-    return settings.type === constants.TYPE_RANGE;
+  private isSingleType(settings: IValidateValues): settings is IValidateSingleValue {
+    return settings.type === constants.TYPE_SINGLE;
   }
 
-  private validateRangeValue(settings: IValidateRangeValue, eventType?: string): number {
+  private validateSingleValue(settings: IValidateSingleValue, eventType?: string): number {
     const { minValue, maxValue, value, step, positionPercent } = settings;
 
     const newValue = eventType === 'positionPercentUpdated' && positionPercent ?

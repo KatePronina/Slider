@@ -55,7 +55,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     const context = {
       isVertical: this.direction === constants.DIRECTION_VERTICAL,
-      isRange: false,
+      isSingle: false,
     };
     sliderElement.innerHTML = this.template(context);
 

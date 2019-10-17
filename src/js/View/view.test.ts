@@ -10,7 +10,7 @@ describe('Constructor', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -48,7 +48,7 @@ describe('Constructor', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -65,7 +65,7 @@ describe('Constructor', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -82,7 +82,7 @@ describe('Constructor', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -101,7 +101,7 @@ describe('DOM actions', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -121,7 +121,7 @@ describe('DOM actions', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -140,7 +140,7 @@ describe('DOM actions', (): void => {
     new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -176,7 +176,7 @@ describe('Removing slider', (): void => {
     const view = new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,
@@ -201,7 +201,7 @@ describe('InitSlider', (): void => {
     const view = new View({
       $parentElement: $('#foo'),
       positionLength: 0,
-      type: 'range',
+      type: 'single',
       minValue: 0,
       maxValue: 100,
       value: 0,

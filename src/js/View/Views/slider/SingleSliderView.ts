@@ -1,9 +1,9 @@
 import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
-import IRangeSliderView from '../../../Interfaces/view/IRangeSliderView';
+import ISingleSliderView from '../../../Interfaces/view/ISingleSliderView';
 import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
-class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
+class SingleSliderView extends ComponentSliderView implements ISingleSliderView {
   public pointDOMElement: HTMLElement | null;
 
   private percent: number;
@@ -34,7 +34,7 @@ class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
 
     const context = {
       isVertical: this.direction === constants.DIRECTION_VERTICAL,
-      isRange: true,
+      isSingle: true,
     };
     sliderElement.innerHTML = this.template(context);
 
@@ -79,4 +79,4 @@ class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
   }
 }
 
-export default RangeSliderView;
+export default SingleSliderView;

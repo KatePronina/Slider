@@ -1,4 +1,4 @@
-export default interface IRangeSliderView {
+export default interface ISingleSliderView {
   element: HTMLElement;
   getDOMElement(): HTMLElement;
 }

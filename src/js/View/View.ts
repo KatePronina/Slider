@@ -3,13 +3,13 @@ import IView from '../Interfaces/view/IView';
 import constants from '../constants';
 import Observer from '../Observer/Observer';
 
-import RangeSliderView from './Views/slider/RangeSliderView';
+import SingleSliderView from './Views/slider/SingleSliderView';
 import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
 
 class View extends Observer implements IView {
-  private slider: RangeSliderView | IntervalSliderView;
+  private slider: SingleSliderView | IntervalSliderView;
   private hintView?: HintView;
   private hintMaxValue?: HintView;
   private scaleView?: ScaleView;
@@ -36,8 +36,8 @@ class View extends Observer implements IView {
   public initSlider = (settings: IFullSettings): void => {
     this.saveSettings(settings);
 
-    if (this.type === constants.TYPE_RANGE) {
-      this.slider = new RangeSliderView({
+    if (this.type === constants.TYPE_SINGLE) {
+      this.slider = new SingleSliderView({
         direction: this.direction,
         minValue: this.minValue,
         maxValue: this.maxValue,
@@ -124,7 +124,7 @@ class View extends Observer implements IView {
         && this.slider instanceof IntervalSliderView
         && this.slider.minPointDOMElement) {
       this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
-    } else if (this.slider instanceof RangeSliderView && this.slider.pointDOMElement) {
+    } else if (this.slider instanceof SingleSliderView && this.slider.pointDOMElement) {
       this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
     }
 
@@ -137,7 +137,7 @@ class View extends Observer implements IView {
         && this.value instanceof Array
         && this.positionLength instanceof Array) {
       this.slider.onChangedValue(this.value, this.positionLength);
-    } else if (this.slider instanceof RangeSliderView
+    } else if (this.slider instanceof SingleSliderView
               && typeof this.value === 'number'
               && typeof this.positionLength === 'number') {
       this.slider.onChangedValue(this.positionLength);
@@ -150,13 +150,13 @@ class View extends Observer implements IView {
         && value instanceof Array
         && newPositionLength instanceof Array) {
       this.slider.onChangedValue(value, newPositionLength);
-    } else if (this.slider instanceof RangeSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
+    } else if (this.slider instanceof SingleSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
       this.slider.onChangedValue(newPositionLength);
     }
   }
 
   private notifyHintOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
-    if (this.type === constants.TYPE_RANGE && typeof value === 'number' && typeof newPositionLength === 'number') {
+    if (this.type === constants.TYPE_SINGLE && typeof value === 'number' && typeof newPositionLength === 'number') {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
     } else if (value instanceof Array && newPositionLength instanceof Array) {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
@@ -220,7 +220,7 @@ class View extends Observer implements IView {
   }
 
   private setStartValuesToHint(): void {
-    if (this.type === constants.TYPE_RANGE
+    if (this.type === constants.TYPE_SINGLE
         && typeof this.value === 'number'
         && typeof this.positionLength === 'number'
         && this.hintView) {

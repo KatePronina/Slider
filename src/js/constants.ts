@@ -1,5 +1,5 @@
 const constants = {
-  TYPE_RANGE: 'range',
+  TYPE_SINGLE: 'single',
   TYPE_INTERVAL: 'interval',
   VALUE_START: 0,
   VALUE_END: 1,

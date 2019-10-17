@@ -7,7 +7,7 @@ export interface IValidateValues {
   valueType?: string;
 }
 
-export interface IValidateRangeValue extends IValidateValues {
+export interface IValidateSingleValue extends IValidateValues {
   value: number;
   positionPercent?: number;
 }

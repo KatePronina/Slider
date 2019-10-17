@@ -60,7 +60,7 @@ class ConfigurationView {
 
   private appendConfigurationToDOM(): void {
     const context = {
-      isRange: this.settings.type === constants.TYPE_RANGE,
+      isSingle: this.settings.type === constants.TYPE_SINGLE,
       valueInputs: [
         {
           label: 'Размер шага',
@@ -103,7 +103,7 @@ class ConfigurationView {
   }
 
   private setValueInputs(): void {
-    if (this.settings.type === constants.TYPE_RANGE) {
+    if (this.settings.type === constants.TYPE_SINGLE) {
       this.currentValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-value');
     } else {
       this.currentMinValueInput
@@ -125,7 +125,7 @@ class ConfigurationView {
   }
 
   private updateValueInputs(): void {
-    if (this.settings.type === constants.TYPE_RANGE && typeof this.settings.value === 'number') {
+    if (this.settings.type === constants.TYPE_SINGLE && typeof this.settings.value === 'number') {
       const value = this.settings.value.toString();
       this.currentValueInput && (this.currentValueInput.value = value);
     } else if (this.settings.value instanceof Array) {
@@ -149,7 +149,7 @@ class ConfigurationView {
   }
 
   private bindEventsToValueInputs() {
-    if (this.settings.type === constants.TYPE_RANGE) {
+    if (this.settings.type === constants.TYPE_SINGLE) {
       this.currentValueInput && this.bindInputValueEvent(this.currentValueInput);
     } else {
       this.currentMinValueInput && this.bindInputValueEvent(this.currentMinValueInput, constants.VALUE_TYPE_MIN);
@@ -205,9 +205,9 @@ class ConfigurationView {
 
   private typeChangeHandler = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      const newType = this.settings.type === constants.TYPE_RANGE ?
+      const newType = this.settings.type === constants.TYPE_SINGLE ?
                                               constants.TYPE_INTERVAL :
-                                              constants.TYPE_RANGE;
+                                              constants.TYPE_SINGLE;
       const newValue = this.setRequiredTypeForValue(newType, this.settings.value);
       this.sliderPlugin.setSettings({ type: newType, value: newValue });
     }
@@ -218,7 +218,7 @@ class ConfigurationView {
       return [value];
     }
 
-    if (type === constants.TYPE_RANGE && value instanceof Array) {
+    if (type === constants.TYPE_SINGLE && value instanceof Array) {
       return value[constants.VALUE_START];
     }
 
@@ -248,7 +248,7 @@ class ConfigurationView {
   }
 
   private onNewValue = (value: number | number[]) => {
-    if (this.settings.type === constants.TYPE_RANGE && typeof value === 'number') {
+    if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
       this.currentValueInput && (this.currentValueInput.value = value.toString());
     } else if (value instanceof Array) {
       this.currentMinValueInput && (this.currentMinValueInput.value = value[constants.VALUE_START].toString());

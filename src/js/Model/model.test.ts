@@ -35,7 +35,7 @@ describe('Constructor', (): void => {
 describe('Setting value', (): void => {
   test('Should update value', (): void => {
     const model = new Model({
-      type: 'range',
+      type: 'single',
       value: 15,
       minValue: 5,
       maxValue: 30,
@@ -57,7 +57,7 @@ describe('Setting value', (): void => {
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
-      type: 'range',
+      type: 'single',
       value: 15,
       minValue: 5,
       maxValue: 30,
@@ -79,7 +79,7 @@ describe('Setting value', (): void => {
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
-      type: 'range',
+      type: 'single',
       value: 15,
       minValue: 5,
       maxValue: 30,
@@ -390,7 +390,7 @@ describe('Setting value', (): void => {
 describe('Setting state', (): void => {
   test('Should update state', (): void => {
     const model = new Model({
-      type: 'range',
+      type: 'single',
       value: 15,
       minValue: 5,
       maxValue: 30,
@@ -429,7 +429,7 @@ describe('Setting state', (): void => {
 
   test('Should update state', (): void => {
     const model = new Model({
-      type: 'range',
+      type: 'single',
       value: 15,
       minValue: 5,
       maxValue: 30,
