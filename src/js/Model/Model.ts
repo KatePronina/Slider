@@ -1,6 +1,6 @@
 import { IValidateRangeValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
 import ICheckValue from '../Interfaces/model/ICheckValue';
-import ICountIntervalValues from '../Interfaces/model/ICountIntervalValues';
+import IConvertPercentsToIntervalValues from '../Interfaces/model/IConvertPercentsToIntervalValues';
 import IModel from '../Interfaces/model/IModel';
 import IModelSettings from '../Interfaces/model/IModelSettings';
 import Observer from '../Observer/Observer';
@@ -28,7 +28,7 @@ class Model extends Observer implements IModel {
     const { minValue, maxValue } = settings;
 
     const value = this.validateValue(settings, eventType);
-    const positionLength = this.validatePositionOffsets(value, minValue, maxValue);
+    const positionLength = this.convertValueToPosition(value, minValue, maxValue);
 
     return { ...state, positionLength, value };
   }
@@ -58,7 +58,7 @@ class Model extends Observer implements IModel {
 
     const newValue = eventType === 'positionPercentUpdated' && positionPercent ?
                       this.validateSingleBoundaryValue({
-                        minValue, maxValue, step, value: this.countSingleValue(positionPercent),
+                        minValue, maxValue, step, value: this.convertPercentToSingleValue(positionPercent),
                       })
                       : this.validateSingleBoundaryValue({ minValue, maxValue, step, value });
 
@@ -69,11 +69,11 @@ class Model extends Observer implements IModel {
     const { minValue, maxValue, step, value: currentValue, positionPercent, valueType } = settings;
 
     if (currentValue.length === 1) {
-      return this.makeIntervalValueFromNumber({ minValue, maxValue, step, value: currentValue[0] });
+      return this.convertSingleValueToInterval({ minValue, maxValue, step, value: currentValue[0] });
     }
 
     const values = eventType === 'positionPercentUpdated' && positionPercent && valueType ?
-                      this.countIntervalValues({ currentValue, positionPercent, valueType })
+                      this.convertPercentsToIntervalValues({ currentValue, positionPercent, valueType })
                     : currentValue;
 
     const checkedValues = values.map((value): number =>
@@ -82,29 +82,29 @@ class Model extends Observer implements IModel {
     return this.validateIntervalBoundaryValues(checkedValues, valueType);
   }
 
-  private countIntervalValues(settings: ICountIntervalValues): number[] {
+  private convertPercentsToIntervalValues(settings: IConvertPercentsToIntervalValues): number[] {
     switch (settings.valueType) {
       case constants.VALUE_TYPE_MIN:
         return [
-          this.countSingleValue(settings.positionPercent[0]),
+          this.convertPercentToSingleValue(settings.positionPercent[0]),
           settings.currentValue[constants.VALUE_END],
         ];
       case constants.VALUE_TYPE_MAX:
         return [
           settings.currentValue[constants.VALUE_START],
-          this.countSingleValue(settings.positionPercent[0]),
+          this.convertPercentToSingleValue(settings.positionPercent[0]),
         ];
       default:
         return settings.currentValue;
     }
   }
 
-  private countSingleValue(percent: number): number {
+  private convertPercentToSingleValue(percent: number): number {
     const value = ((percent * (this.state.maxValue - this.state.minValue) + this.state.minValue));
     return parseInt(value.toFixed(), 10);
   }
 
-  private validatePositionOffsets(newValue: number | number[], minValue: number, maxValue: number): number | number[] {
+  private convertValueToPosition(newValue: number | number[], minValue: number, maxValue: number): number | number[] {
     if (typeof newValue === 'number') {
       return this.countPositionOffsets(newValue, minValue, maxValue);
     }
@@ -119,14 +119,14 @@ class Model extends Observer implements IModel {
     return ((value - minValue) * 100) / (maxValue - minValue);
   }
 
-  private makeIntervalValueFromNumber(settings: ICheckValue): number[] {
+  private convertSingleValueToInterval(settings: ICheckValue): number[] {
     const validValue = this.validateSingleBoundaryValue(settings);
 
     if (typeof this.state.value === 'number') {
       return [settings.value, this.state.maxValue];
     }
 
-    if (this.defineIfValueIsEnd(validValue) && this.state.value instanceof Array) {
+    if (this.isValueTypeEnd(validValue) && this.state.value instanceof Array) {
       return [this.state.value[constants.VALUE_START], validValue];
     }
 
@@ -168,7 +168,7 @@ class Model extends Observer implements IModel {
     return checkedValue >= maxValue ? maxValue : checkedValue;
   }
 
-  private defineIfValueIsEnd(value: number): boolean {
+  private isValueTypeEnd(value: number): boolean {
     if (this.state.value instanceof Array) {
       const endValueDifference = (this.state.value)[constants.VALUE_END] - value;
       const startValueDifference = value - (this.state.value)[constants.VALUE_START];
