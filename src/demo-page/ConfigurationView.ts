@@ -139,13 +139,13 @@ class ConfigurationView {
   private bindEventsToInputs(): void {
     this.bindEventsToValueInputs();
 
-    this.stepSizeInput && this.stepSizeInput.addEventListener('input', this.onStepChange);
-    this.minValueInput && this.minValueInput.addEventListener('input', this.onMinValueChange);
-    this.maxValueInput && this.maxValueInput.addEventListener('input', this.onMaxValueChange);
-    this.hintToggle && this.hintToggle.addEventListener('change', this.onHintChange);
-    this.scaleToggle && this.scaleToggle.addEventListener('change', this.onScaleChange);
-    this.verticalToggle && this.verticalToggle.addEventListener('change', this.onDirectionChange);
-    this.typeToggle && this.typeToggle.addEventListener('change', this.onTypeChange);
+    this.stepSizeInput && this.stepSizeInput.addEventListener('input', this.stepInputHandler);
+    this.minValueInput && this.minValueInput.addEventListener('input', this.minValueInputHandler);
+    this.maxValueInput && this.maxValueInput.addEventListener('input', this.maxValueInputHandler);
+    this.hintToggle && this.hintToggle.addEventListener('change', this.hintChangeHandler);
+    this.scaleToggle && this.scaleToggle.addEventListener('change', this.scaleChangeHandler);
+    this.verticalToggle && this.verticalToggle.addEventListener('change', this.directionChangeHandler);
+    this.typeToggle && this.typeToggle.addEventListener('change', this.typeChangeHandler);
   }
 
   private bindEventsToValueInputs() {
@@ -163,31 +163,31 @@ class ConfigurationView {
     }
   }
 
-  private onStepChange = (event: Event): void => {
+  private stepInputHandler = (event: Event): void => {
     this.onNumberInputChange(event, 'step');
   }
 
-  private onMinValueChange = (event: Event): void => {
+  private minValueInputHandler = (event: Event): void => {
     this.onNumberInputChange(event, 'minValue');
   }
 
-  private onMaxValueChange = (event: Event): void => {
+  private maxValueInputHandler = (event: Event): void => {
     this.onNumberInputChange(event, 'maxValue');
   }
 
-  private onHintChange = ({ target }: Event): void => {
+  private hintChangeHandler = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       this.sliderPlugin.setSettings({ hint: !this.settings.hint });
     }
   }
 
-  private onScaleChange = ({ target }: Event): void => {
+  private scaleChangeHandler = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       this.sliderPlugin.setSettings({ scale: !this.settings.scale });
     }
   }
 
-  private onDirectionChange = ({ target }: Event): void => {
+  private directionChangeHandler = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       const newDirection = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
                                                         constants.DIRECTION_VERTICAL :
@@ -203,7 +203,7 @@ class ConfigurationView {
     }
   }
 
-  private onTypeChange = ({ target }: Event): void => {
+  private typeChangeHandler = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       const newType = this.settings.type === constants.TYPE_RANGE ?
                                               constants.TYPE_INTERVAL :

@@ -46,28 +46,28 @@ class RangeSliderView extends ComponentSliderView implements IRangeSliderView {
   }
 
   private bindEventsToSlider(): void {
-    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.onPointMouseDown);
+    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.pointMousedownHandler);
   }
 
-  private onPointMouseDown = (): void => {
+  private pointMousedownHandler = (): void => {
     this.isMouseDown = true;
 
     this.bindEventsToDocument();
   }
 
-  private onDocumentMouseUp = (): void => {
+  private documentMouseUpHandler = (): void => {
     this.isMouseDown = false;
 
-    document.removeEventListener('mousemove', this.onDocumentMouseMove);
-    document.removeEventListener('mouseup', this.onDocumentMouseUp);
+    document.removeEventListener('mousemove', this.documentMousemoveHandler);
+    document.removeEventListener('mouseup', this.documentMouseUpHandler);
   }
 
   private bindEventsToDocument(): void {
-    document.addEventListener('mousemove', this.onDocumentMouseMove);
-    document.addEventListener('mouseup', this.onDocumentMouseUp);
+    document.addEventListener('mousemove', this.documentMousemoveHandler);
+    document.addEventListener('mouseup', this.documentMouseUpHandler);
   }
 
-  private onDocumentMouseMove = (event: MouseEvent): void => {
+  private documentMousemoveHandler = (event: MouseEvent): void => {
     if (this.isMouseDown) {
       const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
                               event.pageY - this.offset :

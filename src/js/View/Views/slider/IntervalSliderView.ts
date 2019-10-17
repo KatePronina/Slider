@@ -68,11 +68,11 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private bindEventsToSlider(): void {
-    this.minPointDOMElement && this.minPointDOMElement.addEventListener('mousedown', this.onMinPointMouseDown);
-    this.maxPointDOMElement && this.maxPointDOMElement.addEventListener('mousedown', this.onMaxPointMouseDown);
+    this.minPointDOMElement && this.minPointDOMElement.addEventListener('mousedown', this.minPointMousedownHandler);
+    this.maxPointDOMElement && this.maxPointDOMElement.addEventListener('mousedown', this.maxPointMousedownHandler);
   }
 
-  private onMinPointMouseDown = (): void => {
+  private minPointMousedownHandler = (): void => {
     this.isMinMouseDown = true;
 
     this.bindEventsToDocument();
@@ -81,7 +81,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.maxPointDOMElement && this.maxPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
   }
 
-  private onMaxPointMouseDown = (): void => {
+  private maxPointMousedownHandler = (): void => {
     this.isMaxMouseDown = true;
 
     this.bindEventsToDocument();
@@ -91,19 +91,19 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private bindEventsToDocument(): void {
-    document.addEventListener('mousemove', this.onDocumentMouseMove);
-    document.addEventListener('mouseup', this.onDocumentMouseUp);
+    document.addEventListener('mousemove', this.documentMousemoveHandler);
+    document.addEventListener('mouseup', this.documentMouseUpHandler);
   }
 
-  private onDocumentMouseUp = (): void => {
+  private documentMouseUpHandler = (): void => {
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
 
-    document.removeEventListener('mousemove', this.onDocumentMouseMove);
-    document.removeEventListener('mouseup', this.onDocumentMouseUp);
+    document.removeEventListener('mousemove', this.documentMousemoveHandler);
+    document.removeEventListener('mouseup', this.documentMouseUpHandler);
   }
 
-  private onDocumentMouseMove = (event: MouseEvent): void => {
+  private documentMousemoveHandler = (event: MouseEvent): void => {
     const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
                             event.pageY - this.offset :
                             event.pageX - this.offset;
