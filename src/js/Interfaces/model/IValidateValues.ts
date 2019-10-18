@@ -1,5 +1,5 @@
 export interface IValidateValues {
-  type: string;
+  type: 'single' | 'interval';
   value: number | number[];
   minValue: number;
   maxValue: number;

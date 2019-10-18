@@ -18,12 +18,12 @@ class View extends Observer implements IView {
   private hintElement: HTMLElement;
   private hintMaxValueElement: HTMLElement;
   private scaleElement: HTMLElement;
-  private type: string;
+  private type: 'single' | 'interval';
   private minValue: number;
   private maxValue: number;
   private value: number | number[];
   private step: number;
-  private direction: string;
+  private direction: 'horizontal' | 'vertical';
   private hint: boolean;
   private scale: boolean;
   private positionLength: number | number[];

@@ -1,6 +1,6 @@
 export default interface IHintSettings {
   value: number | number[];
-  type: string;
-  direction: string;
+  type: 'single' | 'interval';
+  direction: 'horizontal' | 'vertical';
   isMaxValue?: boolean;
 }

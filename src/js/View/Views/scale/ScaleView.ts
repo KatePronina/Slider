@@ -5,7 +5,7 @@ import ComponentView from '../ComponentView';
 
 class ScaleView extends ComponentView implements IScaleView {
   public sliderLength: number;
-  private direction: string;
+  private direction: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private step: number;

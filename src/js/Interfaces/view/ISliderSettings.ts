@@ -2,5 +2,5 @@ export default interface ISliderSettings {
   minValue: number;
   maxValue: number;
   value: number | number[];
-  direction: string;
+  direction: 'horizontal' | 'vertical';
 }

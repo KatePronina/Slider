@@ -7,9 +7,9 @@ class HintView extends ComponentView implements IHintView {
   public offset: number;
 
   private isMaxValue?: boolean;
-  private type: string;
+  private type: 'single' | 'interval';
   private value: number | number[];
-  private direction: string;
+  private direction: 'horizontal' | 'vertical';
 
   public constructor({ value, type, direction, isMaxValue }: IHintSettings) {
     super();

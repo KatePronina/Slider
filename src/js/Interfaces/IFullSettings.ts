@@ -1,11 +1,11 @@
 export default interface IFullSettings {
   $parentElement: JQuery;
-  type: string;
+  type: 'single' | 'interval';
   minValue: number;
   maxValue: number;
   value: number | number[];
   step: number;
-  direction: string;
+  direction: 'horizontal' | 'vertical';
   hint: boolean;
   scale: boolean;
   positionLength: number | number[] | null;

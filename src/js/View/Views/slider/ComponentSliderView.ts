@@ -13,7 +13,7 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
 
   protected minValue: number;
   protected maxValue: number;
-  protected direction: string;
+  protected direction: 'horizontal' | 'vertical';
   protected value: number | number[];
 
   public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {

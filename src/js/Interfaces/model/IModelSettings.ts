@@ -1,10 +1,10 @@
 export default interface IModelSettings {
-  type: string;
+  type: 'single' | 'interval';
   minValue: number;
   maxValue: number;
   value: number | number[];
   step: number;
-  direction: string;
+  direction: 'horizontal' | 'vertical';
   hint: boolean;
   scale: boolean;
   positionLength: number | number[] | null;
