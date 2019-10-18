@@ -27,7 +27,7 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
 
   protected template = require('./templates/template.hbs');
 
-  protected static countPercent(coordinate: number, length: number): number {
+  protected countPercent(coordinate: number, length: number): number {
     let percent = coordinate / length;
     if (percent > constants.PERCENT_MAX) percent = 1;
     if (percent < constants.PERCENT_MIN) percent = 0;
