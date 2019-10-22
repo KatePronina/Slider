@@ -1,9 +1,8 @@
 import Controller from './Controller/Controller';
 import IFullSettings from './Interfaces/IFullSettings';
-import IApplication from './Interfaces/IApplication';
 import Observer from './Observer/Observer';
 
-class Application extends Observer implements IApplication {
+class Application extends Observer {
   private controller: Controller;
 
   public constructor(settings: IFullSettings) {
@@ -11,17 +10,17 @@ class Application extends Observer implements IApplication {
     this.createSlider(settings);
   }
 
-  public onNewSettings = (settings: IFullSettings, eventType: string): void => {
-    this.publish('settingsUpdated', settings, eventType);
+  private notifyOfNewState = (settings: IFullSettings, eventType: string): void => {
+    this.publish('stateUpdated', settings, eventType);
   }
 
   private createSlider(settings: IFullSettings): void {
     this.controller = new Controller(settings);
 
-    this.subscribe(this.controller.getSettings, 'getSettings');
-    this.subscribe(this.controller.onChangedSettings, 'setSettings');
+    this.subscribe(this.controller.notifyOfNewState, 'sliderInitialized');
+    this.subscribe(this.controller.stateChanged, 'dispatchNewSettings');
 
-    this.controller.subscribe(this.onNewSettings, 'settingsUpdated');
+    this.controller.subscribe(this.notifyOfNewState, 'stateUpdated');
   }
 }
 

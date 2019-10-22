@@ -1,6 +1,6 @@
 import INewParams from './INewParams';
 
 export default interface IController {
-  getSettings(): void;
-  onChangedSettings(params: INewParams): void;
+  notifyOfNewState(eventType: string): void;
+  stateChanged(params: INewParams): void;
 }

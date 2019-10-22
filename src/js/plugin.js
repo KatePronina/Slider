@@ -14,7 +14,7 @@ $.fn.slider = function callSlider(method, ...args) {
       case 'positionPercentUpdated':
         events.onNewValue(settings.value);
         break;
-      case 'settingsUpdated':
+      case 'stateChanged':
         events.onNewSettings(settings);
         break;
     }
@@ -33,8 +33,8 @@ $.fn.slider = function callSlider(method, ...args) {
       events.onNewValue = options.events.onNewValue;
       events.onNewSettings = options.events.onNewSettings;
 
-      slider.subscribe(onNewSettings, 'settingsUpdated');
-      slider.publish('getSettings');
+      slider.subscribe(onNewSettings, 'stateUpdated');
+      slider.publish('sliderInitialized', 'stateChanged');
     },
   };
 
@@ -48,7 +48,7 @@ $.fn.slider = function callSlider(method, ...args) {
   
   return {
     setSettings(settings) {
-      slider.publish('setSettings', settings);
+      slider.publish('dispatchNewSettings', settings);
     }
   }
 };
