@@ -126,7 +126,7 @@ class Model extends Observer implements IModel {
       return [settings.value, this.state.maxValue];
     }
 
-    if (this.isValueTypeEnd(validValue) && this.state.value instanceof Array) {
+    if (this.isSecondValueChange(validValue) && this.state.value instanceof Array) {
       return [this.state.value[constants.VALUE_START], validValue];
     }
 
@@ -168,7 +168,7 @@ class Model extends Observer implements IModel {
     return checkedValue >= maxValue ? maxValue : checkedValue;
   }
 
-  private isValueTypeEnd(value: number): boolean {
+  private isSecondValueChange(value: number): boolean {
     if (this.state.value instanceof Array) {
       const endValueDifference = (this.state.value)[constants.VALUE_END] - value;
       const startValueDifference = value - (this.state.value)[constants.VALUE_START];

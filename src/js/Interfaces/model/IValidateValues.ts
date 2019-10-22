@@ -8,11 +8,13 @@ export interface IValidateValues {
 }
 
 export interface IValidateSingleValue extends IValidateValues {
+  type: 'single';
   value: number;
   positionPercent?: number;
 }
 
 export interface IValidateIntervalValue extends IValidateValues {
+  type: 'interval';
   value: number[];
   positionPercent?: number[];
 }
