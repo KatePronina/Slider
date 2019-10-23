@@ -95,7 +95,7 @@ class View extends Observer implements IView {
     this.direction = settings.direction;
     this.hint = settings.hint;
     this.scale = settings.scale;
-    if (settings.positionLength !== null) {
+    if (settings.positionLength || settings.positionLength === 0) {
       this.positionLength = settings.positionLength;
     }
   }

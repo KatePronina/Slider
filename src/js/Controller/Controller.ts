@@ -46,7 +46,6 @@ class Controller extends Observer implements IController {
     this.publish('stateUpdated', {
       ...settings,
       $parentElement,
-      positionLength: null,
     }, eventType);
   }
 
@@ -58,7 +57,7 @@ class Controller extends Observer implements IController {
   private receiveState = (settings: IModelSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
-        if (typeof settings.positionLength === 'number' || settings.positionLength instanceof Array) {
+        if (settings.positionLength || settings.positionLength === 0) {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
         this.sendStateNotification(eventType);
