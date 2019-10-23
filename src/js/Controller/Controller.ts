@@ -24,12 +24,20 @@ class Controller extends Observer implements IController {
     this.bindEvents();
   }
 
-  public stateChanged = (params: INewParams): void => {
+  public stateChanged = (params: INewParams, eventType?: string): void => {
     const settings = this.model.getState();
-    this.model.dispatchState({
-      ...settings,
-      ...params,
-    }, 'stateChanged');
+
+    if (eventType) {
+      this.model.dispatchState({
+        ...settings,
+        ...params,
+      }, eventType);
+    } else {
+      this.model.dispatchState({
+        ...settings,
+        ...params,
+      }, 'stateChanged');
+    }
   }
 
   public notifyOfNewState = (eventType: string): void => {
@@ -43,9 +51,7 @@ class Controller extends Observer implements IController {
   }
 
   private bindEvents(): void {
-    this.view.subscribe(this.stateChanged, 'valueUpdated');
-    this.view.subscribe(this.positionPercentUpdated, 'positionPercentUpdated');
-
+    this.view.subscribe(this.stateChanged, 'settingsUpdated');
     this.model.subscribe(this.stateUpdated, 'stateUpdated');
   }
 
@@ -64,16 +70,6 @@ class Controller extends Observer implements IController {
         this.notifyOfNewState(eventType);
         break;
     }
-  }
-
-  private positionPercentUpdated = (positionPercent: number | number[], valueType?: string) => {
-    const settings = this.model.getState();
-
-    this.model.dispatchState({
-      ...settings,
-      positionPercent,
-      valueType,
-    }, 'positionPercentUpdated');
   }
 }
 
