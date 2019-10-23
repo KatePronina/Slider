@@ -21,10 +21,10 @@ class Controller extends Observer implements IController {
 
     const newSettings = this.model.getState();
     this.view = new View({ ...newSettings, $parentElement });
-    this.bindEvents();
+    this.bindNotifications();
   }
 
-  public stateChanged = (params: INewParams, eventType?: string): void => {
+  public updateState = (params: INewParams, eventType?: string): void => {
     const settings = this.model.getState();
 
     if (eventType) {
@@ -40,7 +40,7 @@ class Controller extends Observer implements IController {
     }
   }
 
-  public notifyOfNewState = (eventType: string): void => {
+  public sendStateNotification = (eventType: string): void => {
     const settings = this.model.getState();
     const $parentElement = this.view.getParentElement();
     this.publish('stateUpdated', {
@@ -50,24 +50,24 @@ class Controller extends Observer implements IController {
     }, eventType);
   }
 
-  private bindEvents(): void {
-    this.view.subscribe(this.stateChanged, 'settingsUpdated');
-    this.model.subscribe(this.stateUpdated, 'stateUpdated');
+  private bindNotifications(): void {
+    this.view.notify(this.updateState, 'settingsUpdated');
+    this.model.notify(this.receiveState, 'stateUpdated');
   }
 
-  private stateUpdated = (settings: IModelSettings, eventType: string) => {
+  private receiveState = (settings: IModelSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
         if (typeof settings.positionLength === 'number' || settings.positionLength instanceof Array) {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
-        this.notifyOfNewState(eventType);
+        this.sendStateNotification(eventType);
         break;
       case 'stateChanged':
         const $parentElement = this.view.getParentElement();
         this.view.remove();
         this.view.initSlider({ ...settings, $parentElement });
-        this.notifyOfNewState(eventType);
+        this.sendStateNotification(eventType);
         break;
     }
   }

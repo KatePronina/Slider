@@ -7,7 +7,7 @@ class Observer {
     this.subscribers = { any: [] };
   }
 
-  subscribe(fn: Function, type: string = 'any'): void {
+  notify(fn: Function, type: string = 'any'): void {
     if (typeof this.subscribers[type] === 'undefined') {
       this.subscribers[type] = [];
     }

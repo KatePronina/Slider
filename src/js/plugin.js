@@ -33,7 +33,7 @@ $.fn.slider = function callSlider(method, ...args) {
       events.onNewValue = options.events.onNewValue;
       events.onNewSettings = options.events.onNewSettings;
 
-      slider.subscribe(onNewSettings, 'stateUpdated');
+      slider.notify(onNewSettings, 'stateUpdated');
       slider.publish('sliderInitialized', 'stateChanged');
     },
   };
