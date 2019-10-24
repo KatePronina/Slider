@@ -9,9 +9,9 @@ import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
 
 class View extends Observer implements IView {
-  private slider: SingleSliderView | IntervalSliderView;
+  private sliderView: SingleSliderView | IntervalSliderView;
   private hintView?: HintView;
-  private hintMaxValue?: HintView;
+  private hintMaxValueView?: HintView;
   private scaleView?: ScaleView;
   private $parentElement: JQuery;
   private sliderElement: HTMLElement | null;
@@ -37,14 +37,14 @@ class View extends Observer implements IView {
     this.saveSettings(settings);
 
     if (this.type === constants.TYPE_SINGLE) {
-      this.slider = new SingleSliderView({
+      this.sliderView = new SingleSliderView({
         direction: this.direction,
         minValue: this.minValue,
         maxValue: this.maxValue,
         value: this.value,
       });
     } else if (this.type === constants.TYPE_INTERVAL) {
-      this.slider = new IntervalSliderView({
+      this.sliderView = new IntervalSliderView({
         direction: this.direction,
         minValue: this.minValue,
         maxValue: this.maxValue,
@@ -101,57 +101,57 @@ class View extends Observer implements IView {
   }
 
   private bindEventsToSlider(): void {
-    this.slider.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
+    this.sliderView.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('settingsUpdated', { positionPercent, valueType }, 'positionPercentUpdated');
     };
   }
 
   private appendSlider(): void {
-    this.sliderElement = this.slider.getDOMElement();
+    this.sliderElement = this.sliderView.getDOMElement();
     this.appendElementToParent(this.sliderElement);
   }
 
   private setSliderSizes(): void {
     if (this.direction === constants.DIRECTION_VERTICAL && this.sliderElement) {
-      this.slider.length = this.sliderElement.offsetHeight;
-      this.slider.offset = this.sliderElement.offsetTop;
+      this.sliderView.length = this.sliderElement.offsetHeight;
+      this.sliderView.offset = this.sliderElement.offsetTop;
     } else if (this.sliderElement) {
-      this.slider.length = this.sliderElement.offsetWidth;
-      this.slider.offset = this.sliderElement.offsetLeft;
+      this.sliderView.length = this.sliderElement.offsetWidth;
+      this.sliderView.offset = this.sliderElement.offsetLeft;
     }
 
     if (this.type === constants.TYPE_INTERVAL
-        && this.slider instanceof IntervalSliderView
-        && this.slider.minPointDOMElement) {
-      this.slider.pointWidth = this.slider.minPointDOMElement.offsetWidth;
-    } else if (this.slider instanceof SingleSliderView && this.slider.pointDOMElement) {
-      this.slider.pointWidth = this.slider.pointDOMElement.offsetWidth;
+        && this.sliderView instanceof IntervalSliderView
+        && this.sliderView.minPointDOMElement) {
+      this.sliderView.pointWidth = this.sliderView.minPointDOMElement.offsetWidth;
+    } else if (this.sliderView instanceof SingleSliderView && this.sliderView.pointDOMElement) {
+      this.sliderView.pointWidth = this.sliderView.pointDOMElement.offsetWidth;
     }
 
-    this.slider.pointOffset = (this.slider.pointWidth / 2) / this.slider.length;
+    this.sliderView.pointOffset = (this.sliderView.pointWidth / 2) / this.sliderView.length;
   }
 
   private setStartedValues(): void {
     if (this.type === constants.TYPE_INTERVAL
-        && this.slider instanceof IntervalSliderView
+        && this.sliderView instanceof IntervalSliderView
         && this.value instanceof Array
         && this.positionLength instanceof Array) {
-      this.slider.onChangedValue(this.value, this.positionLength);
-    } else if (this.slider instanceof SingleSliderView
+      this.sliderView.onChangedValue(this.value, this.positionLength);
+    } else if (this.sliderView instanceof SingleSliderView
               && typeof this.value === 'number'
               && typeof this.positionLength === 'number') {
-      this.slider.onChangedValue(this.positionLength);
+      this.sliderView.onChangedValue(this.positionLength);
     }
   }
 
   private notifySliderOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
     if (this.type === constants.TYPE_INTERVAL
-        && this.slider instanceof IntervalSliderView
+        && this.sliderView instanceof IntervalSliderView
         && value instanceof Array
         && newPositionLength instanceof Array) {
-      this.slider.onChangedValue(value, newPositionLength);
-    } else if (this.slider instanceof SingleSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
-      this.slider.onChangedValue(newPositionLength);
+      this.sliderView.onChangedValue(value, newPositionLength);
+    } else if (this.sliderView instanceof SingleSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
+      this.sliderView.onChangedValue(newPositionLength);
     }
   }
 
@@ -160,7 +160,7 @@ class View extends Observer implements IView {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
     } else if (value instanceof Array && newPositionLength instanceof Array) {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
-      this.hintMaxValue && (this.hintMaxValue.onChangedValue(value, newPositionLength[constants.VALUE_END]));
+      this.hintMaxValueView && (this.hintMaxValueView.onChangedValue(value, newPositionLength[constants.VALUE_END]));
     }
   }
 
@@ -198,24 +198,24 @@ class View extends Observer implements IView {
 
   private setHintSizes(): void {
     if (this.direction === constants.DIRECTION_VERTICAL && this.hintView) {
-      this.hintView.offset = (this.hintElement.offsetHeight / 2) / this.slider.length;
+      this.hintView.offset = (this.hintElement.offsetHeight / 2) / this.sliderView.length;
     } else if (this.hintView) {
-      this.hintView.offset = (this.hintElement.offsetWidth / 2) / this.slider.length;
+      this.hintView.offset = (this.hintElement.offsetWidth / 2) / this.sliderView.length;
     }
   }
 
   private initHintMaxValue(): void {
-    this.hintMaxValue = new HintView({
+    this.hintMaxValueView = new HintView({
       value: this.value,
       type: this.type,
       direction: this.direction,
       isMaxValue: true,
     });
 
-    this.hintMaxValueElement = this.appendHint(this.hintMaxValue);
+    this.hintMaxValueElement = this.appendHint(this.hintMaxValueView);
 
     if (this.hintView) {
-      this.hintMaxValue.offset = this.hintView.offset;
+      this.hintMaxValueView.offset = this.hintView.offset;
     }
   }
 
@@ -229,15 +229,16 @@ class View extends Observer implements IView {
                && this.positionLength instanceof Array
                && this.hintView) {
       this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
-      this.hintMaxValue && (this.hintMaxValue).onChangedValue(this.value, this.positionLength[constants.VALUE_END]);
+      this.hintMaxValueView
+        && (this.hintMaxValueView).onChangedValue(this.value, this.positionLength[constants.VALUE_END]);
     }
   }
 
   private initScale(): void {
-    const sliderLength = this.slider.stripDOMElement
+    const sliderLength = this.sliderView.stripDOMElement
                          && (this.direction === constants.DIRECTION_HORIZONTAL ?
-                          this.slider.stripDOMElement.offsetWidth :
-                          this.slider.stripDOMElement.offsetHeight);
+                          this.sliderView.stripDOMElement.offsetWidth :
+                          this.sliderView.stripDOMElement.offsetHeight);
     if (sliderLength) {
       this.scaleView = new ScaleView({
         sliderLength,
