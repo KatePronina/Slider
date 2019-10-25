@@ -5,17 +5,17 @@ class Observer implements IObserver {
   private subscribers: ISubscribers;
 
   constructor() {
-    this.subscribers = { any: [] };
+    this.subscribers = {};
   }
 
-  public notify(callback: Function, type: string = 'any'): void {
+  public notify(callback: Function, type: string): void {
     if (typeof this.subscribers[type] === 'undefined') {
       this.subscribers[type] = [];
     }
     this.subscribers[type].push(callback);
   }
 
-  public publish(type: string = 'any', ...data: any):void {
+  public publish(type: string, ...data: any):void {
     const subscribers = this.subscribers[type];
 
     subscribers.forEach((subscriber) => {
