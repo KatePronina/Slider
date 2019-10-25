@@ -7,11 +7,11 @@ class Observer {
     this.subscribers = { any: [] };
   }
 
-  public notify(fn: Function, type: string = 'any'): void {
+  public notify(callback: Function, type: string = 'any'): void {
     if (typeof this.subscribers[type] === 'undefined') {
       this.subscribers[type] = [];
     }
-    this.subscribers[type].push(fn);
+    this.subscribers[type].push(callback);
   }
 
   public publish(type: string = 'any', ...data: any):void {
