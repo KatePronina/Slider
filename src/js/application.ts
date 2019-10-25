@@ -17,7 +17,7 @@ class Application extends Observer {
   private createSlider(settings: IFullSettings): void {
     this.controller = new Controller(settings);
 
-    this.notify(this.controller.sendStateNotification, 'sliderInitialized');
+    this.notify(this.controller.notifySubscribersByUpdatedState, 'sliderInitialized');
     this.notify(this.controller.updateState, 'dispatchNewSettings');
 
     this.controller.notify(this.sendStateNotification, 'stateUpdated');

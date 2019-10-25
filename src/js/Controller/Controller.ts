@@ -40,7 +40,7 @@ class Controller extends Observer implements IController {
     }
   }
 
-  public sendStateNotification = (eventType: string): void => {
+  public notifySubscribersByUpdatedState = (eventType: string): void => {
     const settings = this.model.getState();
     const $parentElement = this.view.getParentElement();
     this.publish('stateUpdated', {
@@ -60,13 +60,13 @@ class Controller extends Observer implements IController {
         if (typeof settings.positionLength !== 'undefined') {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
-        this.sendStateNotification(eventType);
+        this.notifySubscribersByUpdatedState(eventType);
         break;
       case 'stateChanged':
         const $parentElement = this.view.getParentElement();
         this.view.remove();
         this.view.initSlider({ ...settings, $parentElement });
-        this.sendStateNotification(eventType);
+        this.notifySubscribersByUpdatedState(eventType);
         break;
     }
   }
