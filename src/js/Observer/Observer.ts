@@ -7,14 +7,14 @@ class Observer {
     this.subscribers = { any: [] };
   }
 
-  notify(fn: Function, type: string = 'any'): void {
+  public notify(fn: Function, type: string = 'any'): void {
     if (typeof this.subscribers[type] === 'undefined') {
       this.subscribers[type] = [];
     }
     this.subscribers[type].push(fn);
   }
 
-  publish(type: string = 'any', ...data: any):void {
+  public publish(type: string = 'any', ...data: any):void {
     const subscribers = this.subscribers[type];
 
     subscribers.forEach((subscriber) => {
