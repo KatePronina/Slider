@@ -51,10 +51,10 @@ class Controller extends Observer implements IController {
 
   private bindNotifications(): void {
     this.view.notify(this.updateState, 'settingsUpdated');
-    this.model.notify(this.receiveState, 'stateUpdated');
+    this.model.notify(this.getState, 'stateUpdated');
   }
 
-  private receiveState = (settings: IModelSettings, eventType: string) => {
+  private getState = (settings: IModelSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
         if (typeof settings.positionLength !== 'undefined') {
