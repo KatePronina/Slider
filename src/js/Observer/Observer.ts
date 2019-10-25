@@ -1,6 +1,7 @@
 import ISubscribers from '../Interfaces/observer/ISubscribers';
+import IObserver from '../Interfaces/observer/IObserver';
 
-class Observer {
+class Observer implements IObserver {
   private subscribers: ISubscribers;
 
   constructor() {
