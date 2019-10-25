@@ -21,7 +21,7 @@ class Controller extends Observer implements IController {
 
     const newSettings = this.model.getState();
     this.view = new View({ ...newSettings, $parentElement });
-    this.bindNotifications();
+    this.subscribeNotifications();
   }
 
   public updateState = (params: INewParams, eventType?: string): void => {
@@ -49,7 +49,7 @@ class Controller extends Observer implements IController {
     }, eventType);
   }
 
-  private bindNotifications(): void {
+  private subscribeNotifications(): void {
     this.view.notify(this.updateState, 'settingsUpdated');
     this.model.notify(this.getState, 'stateUpdated');
   }
