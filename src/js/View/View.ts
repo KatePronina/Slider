@@ -265,9 +265,9 @@ class View extends Observer implements IView {
     if (this.scaleView) {
       this.scaleView.onNewValue = (value: number): void => {
         if (this.type === constants.TYPE_INTERVAL) {
-          this.publish('settingsUpdated', { value: [value] });
+          this.publish('settingsUpdated', { value: [value] }, 'stateChanged');
         } else {
-          this.publish('settingsUpdated', { value });
+          this.publish('settingsUpdated', { value }, 'stateChanged');
         }
       };
     }

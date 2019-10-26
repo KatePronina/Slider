@@ -24,20 +24,13 @@ class Controller extends Observer implements IController {
     this.subscribeNotifications();
   }
 
-  public updateState = (params: INewParams, eventType?: string): void => {
+  public updateState = (params: INewParams, eventType: string): void => {
     const settings = this.model.getState();
 
-    if (eventType) {
-      this.model.dispatchState({
-        ...settings,
-        ...params,
-      }, eventType);
-    } else {
-      this.model.dispatchState({
-        ...settings,
-        ...params,
-      }, 'stateChanged');
-    }
+    this.model.dispatchState({
+      ...settings,
+      ...params,
+    }, eventType);
   }
 
   public notifySubscribersByUpdatedState = (eventType: string): void => {
