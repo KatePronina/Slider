@@ -9,7 +9,7 @@ describe('Constructor', (): void => {
   test('Should create right slider view', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -47,7 +47,7 @@ describe('Constructor', (): void => {
   test('Should create hint', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -64,7 +64,7 @@ describe('Constructor', (): void => {
   test('Should not create hint', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -81,7 +81,7 @@ describe('Constructor', (): void => {
   test('Should not create scale', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -100,7 +100,7 @@ describe('DOM actions', (): void => {
   test('Should add slider in DOM', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -120,7 +120,7 @@ describe('DOM actions', (): void => {
   test('Should add hint in DOM with correct value', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -139,7 +139,7 @@ describe('DOM actions', (): void => {
   test('Should not add hint in DOM', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -156,7 +156,7 @@ describe('DOM actions', (): void => {
   test('Should add hints in DOM for interval', (): void => {
     new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'interval',
       minValue: 0,
       maxValue: 100,
@@ -175,7 +175,7 @@ describe('Removing slider', (): void => {
   test('Should remove slider from parent element', (): void => {
     const view = new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
@@ -200,7 +200,7 @@ describe('InitSlider', (): void => {
   test('Should init new slider', (): void => {
     const view = new View({
       $parentElement: $('#foo'),
-      positionLength: 0,
+      positionLength: [0],
       type: 'single',
       minValue: 0,
       maxValue: 100,
