@@ -16,13 +16,14 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.createDOMElement();
   }
 
-  public onChangedValue(newPositionLength: number): void {
+  public onChangedValue(newPositionLength: number[]): void {
+    const positionLength = newPositionLength[constants.VALUE_START];
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.barDOMElement && (this.barDOMElement.style.height = `${newPositionLength}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.top = `${newPositionLength - (this.pointOffset * 100)}%`);
+      this.barDOMElement && (this.barDOMElement.style.height = `${positionLength}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.top = `${positionLength - (this.pointOffset * 100)}%`);
     } else {
-      this.barDOMElement && (this.barDOMElement.style.width = `${newPositionLength}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.left = `${newPositionLength - (this.pointOffset * 100)}%`);
+      this.barDOMElement && (this.barDOMElement.style.width = `${positionLength}%`);
+      this.pointDOMElement && (this.pointDOMElement.style.left = `${positionLength - (this.pointOffset * 100)}%`);
     }
   }
 

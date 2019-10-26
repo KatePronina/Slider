@@ -7,7 +7,7 @@ export default interface IModelSettings {
   direction: 'horizontal' | 'vertical';
   hint: boolean;
   scale: boolean;
-  positionLength?: number | number[];
+  positionLength?: number[];
   positionPercent?: number | number[];
   valueType?: string;
 }

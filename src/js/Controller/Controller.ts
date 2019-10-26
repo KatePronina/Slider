@@ -50,7 +50,7 @@ class Controller extends Observer implements IController {
   private getState = (settings: IModelSettings, eventType: string) => {
     switch (eventType) {
       case 'positionPercentUpdated':
-        if (typeof settings.positionLength !== 'undefined') {
+        if (settings.positionLength) {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
         this.notifySubscribersByUpdatedState(eventType);

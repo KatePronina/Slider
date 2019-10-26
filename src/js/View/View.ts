@@ -26,7 +26,7 @@ class View extends Observer implements IView {
   private direction: 'horizontal' | 'vertical';
   private hint: boolean;
   private scale: boolean;
-  private positionLength: number | number[];
+  private positionLength: number[];
 
   public constructor(settings: IFullSettings) {
     super();
@@ -66,7 +66,7 @@ class View extends Observer implements IView {
     }
   }
 
-  public onChangedValue = (value: number | number[], newPositionLength: number | number[]): void => {
+  public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
     this.value = value;
     this.positionLength = newPositionLength;
 
@@ -95,7 +95,7 @@ class View extends Observer implements IView {
     this.direction = settings.direction;
     this.hint = settings.hint;
     this.scale = settings.scale;
-    if (typeof settings.positionLength !== 'undefined') {
+    if (settings.positionLength) {
       this.positionLength = settings.positionLength;
     }
   }
@@ -134,31 +134,29 @@ class View extends Observer implements IView {
   private setStartedValues(): void {
     if (this.type === constants.TYPE_INTERVAL
         && this.sliderView instanceof IntervalSliderView
-        && this.value instanceof Array
-        && this.positionLength instanceof Array) {
+        && this.value instanceof Array) {
       this.sliderView.onChangedValue(this.value, this.positionLength);
     } else if (this.sliderView instanceof SingleSliderView
-              && typeof this.value === 'number'
-              && typeof this.positionLength === 'number') {
+              && typeof this.value === 'number') {
       this.sliderView.onChangedValue(this.positionLength);
     }
   }
 
-  private notifySliderOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
+  private notifySliderOfNewValue(value: number | number[], newPositionLength: number[]): void {
     if (this.type === constants.TYPE_INTERVAL
         && this.sliderView instanceof IntervalSliderView
         && value instanceof Array
         && newPositionLength instanceof Array) {
       this.sliderView.onChangedValue(value, newPositionLength);
-    } else if (this.sliderView instanceof SingleSliderView && typeof value === 'number' && typeof newPositionLength === 'number') {
+    } else if (this.sliderView instanceof SingleSliderView && typeof value === 'number') {
       this.sliderView.onChangedValue(newPositionLength);
     }
   }
 
-  private notifyHintOfNewValue(value: number | number[], newPositionLength: number | number[]): void {
-    if (this.type === constants.TYPE_SINGLE && typeof value === 'number' && typeof newPositionLength === 'number') {
-      this.hintView && (this.hintView.onChangedValue(value, newPositionLength));
-    } else if (value instanceof Array && newPositionLength instanceof Array) {
+  private notifyHintOfNewValue(value: number | number[], newPositionLength: number[]): void {
+    if (this.type === constants.TYPE_SINGLE && typeof value === 'number') {
+      this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
+    } else if (value instanceof Array) {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
       this.hintMaxValueView && (this.hintMaxValueView.onChangedValue(value, newPositionLength[constants.VALUE_END]));
     }
@@ -222,11 +220,9 @@ class View extends Observer implements IView {
   private setStartValuesToHint(): void {
     if (this.type === constants.TYPE_SINGLE
         && typeof this.value === 'number'
-        && typeof this.positionLength === 'number'
         && this.hintView) {
-      this.hintView.onChangedValue(this.value, this.positionLength);
+      this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
     } else if (this.value instanceof Array
-               && this.positionLength instanceof Array
                && this.hintView) {
       this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
       this.hintMaxValueView

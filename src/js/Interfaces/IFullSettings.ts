@@ -8,7 +8,7 @@ export default interface IFullSettings {
   direction: 'horizontal' | 'vertical';
   hint: boolean;
   scale: boolean;
-  positionLength?: number | number[];
+  positionLength?: number[];
   positionPercent?: number | number[];
   valueType?: string;
 }

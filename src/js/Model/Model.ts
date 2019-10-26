@@ -104,9 +104,9 @@ class Model extends Observer implements IModel {
     return parseInt(value.toFixed(), 10);
   }
 
-  private convertValueToPosition(newValue: number | number[], minValue: number, maxValue: number): number | number[] {
+  private convertValueToPosition(newValue: number | number[], minValue: number, maxValue: number): number[] {
     if (typeof newValue === 'number') {
-      return this.countPositionOffsets(newValue, minValue, maxValue);
+      return [this.countPositionOffsets(newValue, minValue, maxValue)];
     }
 
     return [
