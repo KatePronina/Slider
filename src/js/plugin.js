@@ -9,15 +9,12 @@ $.fn.slider = function callSlider(method, ...args) {
     onNewSettings: null,
   };
 
-  const onNewSettings = (settings, eventType) => {
-    switch(eventType) {
-      case 'positionPercentUpdated':
-        events.onNewValue(settings.value);
-        break;
-      case 'stateChanged':
-        events.onNewSettings(settings);
-        break;
-    }
+  const onNewSettings = (settings) => {
+    events.onNewSettings(settings);
+  }
+
+  const onNewValue = (settings) => {
+    events.onNewValue(settings.value);
   }
 
   const methods = {
@@ -33,7 +30,9 @@ $.fn.slider = function callSlider(method, ...args) {
       events.onNewValue = options.events.onNewValue;
       events.onNewSettings = options.events.onNewSettings;
 
-      slider.notify(onNewSettings, 'stateUpdated');
+      slider.notify(onNewSettings, 'stateChanged');
+      slider.notify(onNewValue, 'positionPercentUpdated');
+
       slider.publish('sliderInitialized', 'stateChanged');
     },
   };

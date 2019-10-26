@@ -10,17 +10,22 @@ class Application extends Observer {
     this.createSlider(settings);
   }
 
-  private sendStateNotification = (settings: IFullSettings, eventType: string): void => {
-    this.publish('stateUpdated', settings, eventType);
+  private sendStateNotification = (settings: IFullSettings): void => {
+    this.publish('stateChanged', settings);
+  }
+
+  private sendValueNotification = (settings: IFullSettings): void => {
+    this.publish('positionPercentUpdated', settings);
   }
 
   private createSlider(settings: IFullSettings): void {
     this.controller = new Controller(settings);
 
-    this.notify(this.controller.notifySubscribersByUpdatedState, 'sliderInitialized');
+    this.notify(this.controller.notifySubscribers, 'sliderInitialized');
     this.notify(this.controller.updateState, 'dispatchNewSettings');
 
-    this.controller.notify(this.sendStateNotification, 'stateUpdated');
+    this.controller.notify(this.sendStateNotification, 'stateChanged');
+    this.controller.notify(this.sendValueNotification, 'positionPercentUpdated');
   }
 }
 

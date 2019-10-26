@@ -33,13 +33,13 @@ class Controller extends Observer implements IController {
     }, eventType);
   }
 
-  public notifySubscribersByUpdatedState = (eventType: string): void => {
+  public notifySubscribers = (eventType: string): void => {
     const settings = this.model.getState();
     const $parentElement = this.view.getParentElement();
-    this.publish('stateUpdated', {
+    this.publish(eventType, {
       ...settings,
       $parentElement,
-    }, eventType);
+    });
   }
 
   private subscribeNotifications(): void {
@@ -53,15 +53,14 @@ class Controller extends Observer implements IController {
         if (settings.positionLength) {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
-        this.notifySubscribersByUpdatedState(eventType);
         break;
       case 'stateChanged':
         const $parentElement = this.view.getParentElement();
         this.view.remove();
         this.view.initSlider({ ...settings, $parentElement });
-        this.notifySubscribersByUpdatedState(eventType);
         break;
     }
+    this.notifySubscribers(eventType);
   }
 }
 
