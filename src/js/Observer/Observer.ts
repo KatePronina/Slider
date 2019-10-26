@@ -9,9 +9,7 @@ class Observer implements IObserver {
   }
 
   public notify(callback: Function, type: string): void {
-    if (typeof this.subscribers[type] === 'undefined') {
-      this.subscribers[type] = [];
-    }
+    this.subscribers[type] = this.subscribers[type] || [];
     this.subscribers[type].push(callback);
   }
 
