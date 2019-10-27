@@ -1,4 +1,7 @@
+import TData from './TData';
+import TEvents from './TEvents';
+
 export default interface IObserver {
-  notify(callback: Function, type: string): void;
-  publish(type: string, data: any): void;
+  notify(callback: Function, type: TEvents): void;
+  publish(type: TEvents, ...data: TData): void;
 }
