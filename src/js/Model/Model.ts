@@ -18,12 +18,12 @@ class Model extends Observer implements IModel {
     return this.state;
   }
 
-  public dispatchState(newState: IModelSettings, eventType: string): void {
+  public dispatchState(newState: IModelSettings, eventType: 'positionPercentUpdated' | 'stateUpdated'): void {
     this.state = this.validateState(newState, eventType);
     this.publish('stateUpdated', this.state, eventType);
   }
 
-  private validateState(state: IModelSettings, eventType?: string): IModelSettings {
+  private validateState(state: IModelSettings, eventType?: 'positionPercentUpdated' | 'stateUpdated'): IModelSettings {
     const { direction, hint, scale, ...settings } = state;
     const { minValue, maxValue } = settings;
 

@@ -24,7 +24,7 @@ class Controller extends Observer implements IController {
     this.subscribeNotifications();
   }
 
-  public updateState = (params: INewParams, eventType: string): void => {
+  public updateState = (params: INewParams, eventType: 'positionPercentUpdated' | 'stateUpdated'): void => {
     const settings = this.model.getState();
 
     this.model.dispatchState({
@@ -33,7 +33,7 @@ class Controller extends Observer implements IController {
     }, eventType);
   }
 
-  public notifySubscribers = (eventType: string): void => {
+  public notifySubscribers = (eventType: 'positionPercentUpdated' | 'stateUpdated'): void => {
     const settings = this.model.getState();
     const $parentElement = this.view.getParentElement();
     this.publish(eventType, {
@@ -43,18 +43,18 @@ class Controller extends Observer implements IController {
   }
 
   private subscribeNotifications(): void {
-    this.view.notify(this.updateState, 'settingsUpdated');
+    this.view.notify(this.updateState, 'dispatchNewSettings');
     this.model.notify(this.getState, 'stateUpdated');
   }
 
-  private getState = (settings: IModelSettings, eventType: string) => {
+  private getState = (settings: IModelSettings, eventType: 'positionPercentUpdated' | 'stateUpdated') => {
     switch (eventType) {
       case 'positionPercentUpdated':
         if (settings.positionLength) {
           this.view.onChangedValue(settings.value, settings.positionLength);
         }
         break;
-      case 'stateChanged':
+      case 'stateUpdated':
         const $parentElement = this.view.getParentElement();
         this.view.remove();
         this.view.initSlider({ ...settings, $parentElement });

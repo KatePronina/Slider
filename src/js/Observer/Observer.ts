@@ -1,5 +1,6 @@
 import ISubscribers from '../Interfaces/observer/ISubscribers';
 import IObserver from '../Interfaces/observer/IObserver';
+import TEvents from '../Interfaces/observer/TEvents';
 
 class Observer implements IObserver {
   private subscribers: ISubscribers;
@@ -8,12 +9,12 @@ class Observer implements IObserver {
     this.subscribers = {};
   }
 
-  public notify(callback: Function, type: string): void {
+  public notify(callback: Function, type: TEvents): void {
     this.subscribers[type] = this.subscribers[type] || [];
     this.subscribers[type].push(callback);
   }
 
-  public publish(type: string, ...data: any):void {
+  public publish(type: TEvents, ...data: any):void {
     const subscribers = this.subscribers[type];
 
     subscribers.forEach((subscriber) => {
