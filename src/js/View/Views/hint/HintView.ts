@@ -20,7 +20,7 @@ class HintView extends ComponentView implements IHintView {
     this.createDOMElement();
   }
 
-  public onChangedValue(value: number | number[], percent: number): void {
+  public update (value: number | number[], percent: number): void {
     this.value = value;
     this.setNewPosition(percent);
     this.setNewValue();

@@ -1,4 +1,4 @@
 export default interface ISingleSliderView {
-  onChangedValue(newPositionLength: number[]): void;
+  update(newPositionLength: number[]): void;
   onPositionPercentChange(positionPercent: number): void;
 }

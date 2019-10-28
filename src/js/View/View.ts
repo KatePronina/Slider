@@ -32,7 +32,7 @@ class View extends Observer implements IView {
     positionLength && this.initSlider({ positionLength, ...newSettings });
   }
 
-  public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
+  public updateViews = (value: number | number[], newPositionLength: number[]): void => {
     this.settings.value = value;
     this.settings.positionLength = newPositionLength;
 
@@ -65,7 +65,7 @@ class View extends Observer implements IView {
     this.sliderElement = this.sliderView.sliderElement;
     this.insertElementToParent(this.sliderElement);
     this.sliderView.setSliderSizes();
-    this.sliderView.onChangedValue(this.settings.positionLength);
+    this.sliderView.update(this.settings.positionLength);
     this.bindEventsToSlider();
 
     this.settings.hint && this.initHint({ value, type, direction });
@@ -82,15 +82,15 @@ class View extends Observer implements IView {
   }
 
   private notifySliderOfNewValue(newPositionLength: number[]): void {
-    this.sliderView.onChangedValue(newPositionLength);
+    this.sliderView.update(newPositionLength);
   }
 
   private notifyHintOfNewValue(value: number | number[], newPositionLength: number[]): void {
     if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
-      this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
+      this.hintView && (this.hintView.update(value, newPositionLength[constants.VALUE_START]));
     } else if (value instanceof Array) {
-      this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
-      this.hintMaxValueView && (this.hintMaxValueView.onChangedValue(value, newPositionLength[constants.VALUE_END]));
+      this.hintView && (this.hintView.update(value, newPositionLength[constants.VALUE_START]));
+      this.hintMaxValueView && (this.hintMaxValueView.update(value, newPositionLength[constants.VALUE_END]));
     }
   }
 
@@ -116,9 +116,9 @@ class View extends Observer implements IView {
       this.hintMaxValueView.setSizes(this.sliderView.length);
     }
 
-    this.hintView.onChangedValue(this.settings.value, this.settings.positionLength[constants.VALUE_START]);
+    this.hintView.update(this.settings.value, this.settings.positionLength[constants.VALUE_START]);
     this.hintMaxValueView &&
-      this.hintMaxValueView.onChangedValue(this.settings.value, this.settings.positionLength[constants.VALUE_END]);
+      this.hintMaxValueView.update(this.settings.value, this.settings.positionLength[constants.VALUE_END]);
   }
 
   private initScale({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings): void {

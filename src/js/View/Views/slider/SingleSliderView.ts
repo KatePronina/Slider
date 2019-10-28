@@ -14,7 +14,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.createDOMElement();
   }
 
-  public onChangedValue(newPositionLength: number[]): void {
+  public update(newPositionLength: number[]): void {
     const positionLength = newPositionLength[constants.VALUE_START];
 
     this.barDOMElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);

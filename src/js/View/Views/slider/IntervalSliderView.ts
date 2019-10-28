@@ -18,7 +18,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.createDOMElement();
   }
 
-  public onChangedValue(newPositionLength: number[]): void {
+  public update(newPositionLength: number[]): void {
     this.minPercent = newPositionLength[constants.VALUE_START];
     this.maxPercent = newPositionLength[constants.VALUE_END];
     this.direction === constants.DIRECTION_VERTICAL ?
