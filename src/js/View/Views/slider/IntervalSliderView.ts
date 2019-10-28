@@ -4,7 +4,7 @@ import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
-  public minPointDOMElement: HTMLElement | null;
+  public pointDOMElement: HTMLElement | null;
   public maxPointDOMElement: HTMLElement | null;
 
   private minPercent: number;
@@ -12,16 +12,15 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   private isMinMouseDown: boolean;
   private isMaxMouseDown: boolean;
 
-  public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
-    super({ direction, minValue, maxValue, value });
+  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
+    super({ direction, minValue, maxValue });
 
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
     this.createDOMElement();
   }
 
-  public onChangedValue(value: number[], newPositionLength: number[]): void {
-    this.value = value;
+  public onChangedValue(newPositionLength: number[]): void {
     this.minPercent = newPositionLength[constants.VALUE_START];
     this.maxPercent = newPositionLength[constants.VALUE_END];
     this.direction === constants.DIRECTION_VERTICAL ?
@@ -32,7 +31,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   public onPositionPercentChange = (positionPercent: number[], valueType: string) => {};
 
   private setNewVerticalPosition(newPositionLength: number[]): void {
-    this.minPointDOMElement && (this.minPointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.pointDOMElement && (this.pointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
     this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
     if (this.barDOMElement) {
       this.barDOMElement.style.top = `${newPositionLength[constants.VALUE_START]}%`;
@@ -41,7 +40,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private setNewHorizontalPosition(newPositionLength: number[]): void {
-    this.minPointDOMElement && (this.minPointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.pointDOMElement && (this.pointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
     this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
     if (this.barDOMElement) {
       this.barDOMElement.style.left = `${newPositionLength[constants.VALUE_START]}%`;
@@ -62,13 +61,13 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.element = sliderElement;
     this.barDOMElement = sliderElement.querySelector('.slider__bar');
     this.stripDOMElement = sliderElement.querySelector('.slider');
-    this.minPointDOMElement = sliderElement.querySelector('.slider__point_min');
+    this.pointDOMElement = sliderElement.querySelector('.slider__point_min');
     this.maxPointDOMElement = sliderElement.querySelector('.slider__point_max');
     this.bindEventsToSlider();
   }
 
   private bindEventsToSlider(): void {
-    this.minPointDOMElement && this.minPointDOMElement.addEventListener('mousedown', this.minPointMousedownHandler);
+    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.minPointMousedownHandler);
     this.maxPointDOMElement && this.maxPointDOMElement.addEventListener('mousedown', this.maxPointMousedownHandler);
   }
 
@@ -77,7 +76,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.minPointDOMElement && this.minPointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
+    this.pointDOMElement && this.pointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
     this.maxPointDOMElement && this.maxPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
   }
 
@@ -86,7 +85,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.minPointDOMElement && this.minPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
+    this.pointDOMElement && this.pointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
     this.maxPointDOMElement && this.maxPointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
   }
 
@@ -108,12 +107,12 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
                             event.pageY - this.offset :
                             event.pageX - this.offset;
 
-    if (this.isMinMouseDown && this.value instanceof Array) {
+    if (this.isMinMouseDown) {
       this.minPercent = this.countPercent(eventCoordinate, this.length);
       this.onPositionPercentChange([this.minPercent], constants.VALUE_TYPE_MIN);
     }
 
-    if (this.isMaxMouseDown && this.value instanceof Array) {
+    if (this.isMaxMouseDown) {
       this.maxPercent = this.countPercent(eventCoordinate, this.length);
       this.onPositionPercentChange([this.maxPercent], constants.VALUE_TYPE_MAX);
     }

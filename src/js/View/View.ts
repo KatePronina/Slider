@@ -1,5 +1,7 @@
 import IFullSettings from '../Interfaces/IFullSettings';
 import IView from '../Interfaces/view/IView';
+import IViewSettings from '../Interfaces/view/IViewSettings';
+import IHintSettings from '../Interfaces/view/IHintSettings';
 import constants from '../constants';
 import Observer from '../Observer/Observer';
 
@@ -7,97 +9,66 @@ import SingleSliderView from './Views/slider/SingleSliderView';
 import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
+import IScaleSettings from '../Interfaces/view/IScaleSettings';
 
 class View extends Observer implements IView {
   private sliderView: SingleSliderView | IntervalSliderView;
   private hintView?: HintView;
   private hintMaxValueView?: HintView;
   private scaleView?: ScaleView;
-  private $parentElement: JQuery;
   private sliderElement: HTMLElement | null;
   private hintElement: HTMLElement;
   private hintMaxValueElement: HTMLElement;
   private scaleElement: HTMLElement;
-  private type: 'single' | 'interval';
-  private minValue: number;
-  private maxValue: number;
-  private value: number | number[];
-  private step: number;
-  private direction: 'horizontal' | 'vertical';
-  private hint: boolean;
-  private scale: boolean;
-  private positionLength: number[];
+  private settings: IViewSettings;
 
   public constructor(settings: IFullSettings) {
     super();
-    this.initSlider(settings);
+    const { positionLength, ...newSettings } = settings;
+    positionLength && this.initSlider({ positionLength, ...newSettings });
   }
 
-  public initSlider = (settings: IFullSettings): void => {
-    this.saveSettings(settings);
+  public initSlider = (settings: IViewSettings): void => {
+    this.settings = settings;
+    const { direction, minValue, maxValue, value, type, step } = this.settings;
 
-    if (this.type === constants.TYPE_SINGLE) {
-      this.sliderView = new SingleSliderView({
-        direction: this.direction,
-        minValue: this.minValue,
-        maxValue: this.maxValue,
-        value: this.value,
-      });
-    } else if (this.type === constants.TYPE_INTERVAL) {
-      this.sliderView = new IntervalSliderView({
-        direction: this.direction,
-        minValue: this.minValue,
-        maxValue: this.maxValue,
-        value: this.value,
-      });
+    switch (this.settings.type) {
+      case constants.TYPE_SINGLE:
+        this.sliderView = new SingleSliderView({ direction, minValue, maxValue });
+        break;
+      case constants.TYPE_INTERVAL:
+        this.sliderView = new IntervalSliderView({ direction, minValue, maxValue });
+        break;
     }
 
-    this.bindEventsToSlider();
     this.appendSlider();
-    this.setSliderSizes();
-    this.setStartedValues();
+    this.sliderView.setSliderSizes();
+    this.sliderView.onChangedValue(this.settings.positionLength);
+    this.bindEventsToSlider();
 
-    if (this.hint) {
-      this.initHint();
-    }
-
-    if (this.scale) {
-      this.initScale();
-    }
+    this.settings.hint && this.initHint({ value, type, direction });
+    const sliderLength = this.sliderView.stripDOMElement
+                         && (this.settings.direction === constants.DIRECTION_HORIZONTAL ?
+                          this.sliderView.stripDOMElement.offsetWidth :
+                          this.sliderView.stripDOMElement.offsetHeight);
+    this.settings.scale && sliderLength && this.initScale({ sliderLength, direction, minValue, maxValue, step });
   }
 
   public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
-    this.value = value;
-    this.positionLength = newPositionLength;
+    this.settings.value = value;
+    this.settings.positionLength = newPositionLength;
 
-    this.notifySliderOfNewValue(value, newPositionLength);
+    this.notifySliderOfNewValue(newPositionLength);
 
-    if (this.hint) {
-      this.notifyHintOfNewValue(value, newPositionLength);
-    }
+    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
   }
 
   public remove = (): void => {
-    this.$parentElement.html('');
+    this.settings.$parentElement.html('');
   }
 
   public getParentElement(): JQuery {
-    return this.$parentElement;
-  }
-
-  private saveSettings(settings: IFullSettings): void {
-    this.$parentElement = settings.$parentElement;
-    this.type = settings.type;
-    this.minValue = settings.minValue;
-    this.maxValue = settings.maxValue;
-    this.value = settings.value;
-    this.step = settings.step;
-    this.direction = settings.direction;
-    this.hint = settings.hint;
-    this.scale = settings.scale;
-    if (settings.positionLength) {
-      this.positionLength = settings.positionLength;
-    }
+    return this.settings.$parentElement;
   }
 
   private bindEventsToSlider(): void {
@@ -111,50 +82,12 @@ class View extends Observer implements IView {
     this.appendElementToParent(this.sliderElement);
   }
 
-  private setSliderSizes(): void {
-    if (this.direction === constants.DIRECTION_VERTICAL && this.sliderElement) {
-      this.sliderView.length = this.sliderElement.offsetHeight;
-      this.sliderView.offset = this.sliderElement.offsetTop;
-    } else if (this.sliderElement) {
-      this.sliderView.length = this.sliderElement.offsetWidth;
-      this.sliderView.offset = this.sliderElement.offsetLeft;
-    }
-
-    if (this.type === constants.TYPE_INTERVAL
-        && this.sliderView instanceof IntervalSliderView
-        && this.sliderView.minPointDOMElement) {
-      this.sliderView.pointWidth = this.sliderView.minPointDOMElement.offsetWidth;
-    } else if (this.sliderView instanceof SingleSliderView && this.sliderView.pointDOMElement) {
-      this.sliderView.pointWidth = this.sliderView.pointDOMElement.offsetWidth;
-    }
-
-    this.sliderView.pointOffset = (this.sliderView.pointWidth / 2) / this.sliderView.length;
-  }
-
-  private setStartedValues(): void {
-    if (this.type === constants.TYPE_INTERVAL
-        && this.sliderView instanceof IntervalSliderView
-        && this.value instanceof Array) {
-      this.sliderView.onChangedValue(this.value, this.positionLength);
-    } else if (this.sliderView instanceof SingleSliderView
-              && typeof this.value === 'number') {
-      this.sliderView.onChangedValue(this.positionLength);
-    }
-  }
-
-  private notifySliderOfNewValue(value: number | number[], newPositionLength: number[]): void {
-    if (this.type === constants.TYPE_INTERVAL
-        && this.sliderView instanceof IntervalSliderView
-        && value instanceof Array
-        && newPositionLength instanceof Array) {
-      this.sliderView.onChangedValue(value, newPositionLength);
-    } else if (this.sliderView instanceof SingleSliderView && typeof value === 'number') {
-      this.sliderView.onChangedValue(newPositionLength);
-    }
+  private notifySliderOfNewValue(newPositionLength: number[]): void {
+    this.sliderView.onChangedValue(newPositionLength);
   }
 
   private notifyHintOfNewValue(value: number | number[], newPositionLength: number[]): void {
-    if (this.type === constants.TYPE_SINGLE && typeof value === 'number') {
+    if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
     } else if (value instanceof Array) {
       this.hintView && (this.hintView.onChangedValue(value, newPositionLength[constants.VALUE_START]));
@@ -163,110 +96,43 @@ class View extends Observer implements IView {
   }
 
   private appendElementToParent(element: HTMLElement): void {
-    this.$parentElement.append(element);
+    this.settings.$parentElement.append(element);
   }
 
   private appendElementToSlider(element: HTMLElement): void {
-    const slider = this.$parentElement.find('.slider');
+    const slider = this.settings.$parentElement.find('.slider');
     slider.append(element);
   }
 
-  private initHint(): void {
-    this.hintView = new HintView({
-      value: this.value,
-      type: this.type,
-      direction: this.direction,
-    });
+  private initHint({ value, type, direction }: IHintSettings): void {
+    this.hintView = new HintView({ value, type, direction });
+    this.hintElement = this.hintView.getDOMElement();
+    this.appendElementToSlider(this.hintElement);
+    this.hintView.setSizes(this.sliderView.length);
 
-    this.hintElement = this.appendHint(this.hintView);
-    this.setHintSizes();
-
-    if (this.type === constants.TYPE_INTERVAL) {
-      this.initHintMaxValue();
+    if (this.settings.type === constants.TYPE_INTERVAL) {
+      this.hintMaxValueView = new HintView({ value, type, direction, isMaxValue: true });
+      this.hintMaxValueElement = this.hintMaxValueView.getDOMElement();
+      this.appendElementToSlider(this.hintMaxValueElement);
+      this.hintMaxValueView.setSizes(this.sliderView.length);
     }
 
-    this.setStartValuesToHint();
+    this.hintView.onChangedValue(this.settings.value, this.settings.positionLength[constants.VALUE_START]);
+    this.hintMaxValueView &&
+      this.hintMaxValueView.onChangedValue(this.settings.value, this.settings.positionLength[constants.VALUE_END]);
   }
 
-  private appendHint(hintView: HintView): HTMLElement {
-    const hintElement = hintView.getDOMElement();
-    this.appendElementToSlider(hintElement);
-    return hintElement;
-  }
+  private initScale({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings): void {
+    this.scaleView = new ScaleView({ sliderLength, direction, minValue, maxValue, step });
+    this.scaleElement = this.scaleView.getDOMElement();
+    this.appendElementToSlider(this.scaleElement);
+    this.scaleView.alignValues();
 
-  private setHintSizes(): void {
-    if (this.direction === constants.DIRECTION_VERTICAL && this.hintView) {
-      this.hintView.offset = (this.hintElement.offsetHeight / 2) / this.sliderView.length;
-    } else if (this.hintView) {
-      this.hintView.offset = (this.hintElement.offsetWidth / 2) / this.sliderView.length;
-    }
-  }
-
-  private initHintMaxValue(): void {
-    this.hintMaxValueView = new HintView({
-      value: this.value,
-      type: this.type,
-      direction: this.direction,
-      isMaxValue: true,
-    });
-
-    this.hintMaxValueElement = this.appendHint(this.hintMaxValueView);
-
-    if (this.hintView) {
-      this.hintMaxValueView.offset = this.hintView.offset;
-    }
-  }
-
-  private setStartValuesToHint(): void {
-    if (this.type === constants.TYPE_SINGLE
-        && typeof this.value === 'number'
-        && this.hintView) {
-      this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
-    } else if (this.value instanceof Array
-               && this.hintView) {
-      this.hintView.onChangedValue(this.value, this.positionLength[constants.VALUE_START]);
-      this.hintMaxValueView
-        && (this.hintMaxValueView).onChangedValue(this.value, this.positionLength[constants.VALUE_END]);
-    }
-  }
-
-  private initScale(): void {
-    const sliderLength = this.sliderView.stripDOMElement
-                         && (this.direction === constants.DIRECTION_HORIZONTAL ?
-                          this.sliderView.stripDOMElement.offsetWidth :
-                          this.sliderView.stripDOMElement.offsetHeight);
-    if (sliderLength) {
-      this.scaleView = new ScaleView({
-        sliderLength,
-        direction: this.direction,
-        minValue: this.minValue,
-        maxValue: this.maxValue,
-        step: this.step,
-      });
-    }
-
-    this.appendScale();
-    this.bindEventsToScale();
-  }
-
-  private appendScale(): void {
-    if (this.scaleView) {
-      this.scaleElement = this.scaleView.getDOMElement();
-      this.appendElementToSlider(this.scaleElement);
-      this.scaleView.alignValues();
-    }
-  }
-
-  private bindEventsToScale(): void {
-    if (this.scaleView) {
-      this.scaleView.onNewValue = (value: number): void => {
-        if (this.type === constants.TYPE_INTERVAL) {
-          this.publish('dispatchNewSettings', { value: [value] }, 'stateUpdated');
-        } else {
-          this.publish('dispatchNewSettings', { value }, 'stateUpdated');
-        }
-      };
-    }
+    this.scaleView.onNewValue = (value: number): void => {
+      this.settings.type === constants.TYPE_INTERVAL ?
+                            this.publish('dispatchNewSettings', { value: [value] }, 'stateUpdated')
+                            : this.publish('dispatchNewSettings', { value }, 'stateUpdated');
+    };
   }
 }
 

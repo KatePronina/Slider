@@ -26,6 +26,14 @@ class HintView extends ComponentView implements IHintView {
     this.setNewValue();
   }
 
+  public setSizes(sliderLength: number): void {
+    if (this.direction === constants.DIRECTION_VERTICAL) {
+      this.offset = (this.element.offsetHeight / 2) / sliderLength;
+    } else {
+      this.offset = (this.element.offsetWidth / 2) / sliderLength;
+    }
+  }
+
   private setNewValue(): void {
     if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
       this.value instanceof Array && (this.element.textContent = this.value[constants.VALUE_END].toString());

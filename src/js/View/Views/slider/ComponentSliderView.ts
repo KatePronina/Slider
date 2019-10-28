@@ -6,6 +6,7 @@ import ComponentView from '../ComponentView';
 abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
   public barDOMElement: HTMLElement | null;
   public stripDOMElement: HTMLElement | null;
+  public pointDOMElement: HTMLElement | null;
   public length: number;
   public offset: number;
   public pointWidth: number;
@@ -14,15 +15,30 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
   protected minValue: number;
   protected maxValue: number;
   protected direction: 'horizontal' | 'vertical';
-  protected value: number | number[];
+  // protected value: number | number[];
 
-  public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
+  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
     super();
 
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;
-    this.value = value;
+    // this.value = value;
+  }
+
+  public setSliderSizes(): void {
+    if (this.direction === constants.DIRECTION_VERTICAL) {
+      this.length = this.element.offsetHeight;
+      this.offset = this.element.offsetTop;
+    } else {
+      this.length = this.element.offsetWidth;
+      this.offset = this.element.offsetLeft;
+    }
+
+    if (this.pointDOMElement) {
+      this.pointWidth = this.pointDOMElement.offsetWidth;
+      this.pointOffset = (this.pointWidth / 2) / this.length;
+    }
   }
 
   protected template = require('./templates/template.hbs');

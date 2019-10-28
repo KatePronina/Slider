@@ -4,13 +4,11 @@ import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class SingleSliderView extends ComponentSliderView implements ISingleSliderView {
-  public pointDOMElement: HTMLElement | null;
-
   private percent: number;
   private isMouseDown: boolean;
 
-  public constructor({ direction, minValue, maxValue, value }: ISliderSettings) {
-    super({ direction, minValue, maxValue, value });
+  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
+    super({ direction, minValue, maxValue });
 
     this.isMouseDown = false;
     this.createDOMElement();
