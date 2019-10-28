@@ -56,7 +56,6 @@ class Controller extends Observer implements IController {
         break;
       case 'stateUpdated':
         const $parentElement = this.view.getParentElement();
-        this.view.remove();
         this.view.initViews({ $parentElement, ...settings });
         break;
     }

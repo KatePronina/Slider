@@ -28,6 +28,8 @@ class View extends Observer implements IView {
   }
 
   public initViews(settings: IFullSettings): void {
+    settings.$parentElement.html('');
+
     const { positionLength, ...newSettings } = settings;
     const { direction, minValue, maxValue, value, type, step } = settings;
 
@@ -53,10 +55,6 @@ class View extends Observer implements IView {
 
     this.sliderView.update(newPositionLength);
     this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
-  }
-
-  public remove = (): void => {
-    this.settings.$parentElement.html('');
   }
 
   public getParentElement(): JQuery {
