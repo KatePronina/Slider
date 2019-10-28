@@ -56,12 +56,8 @@ class Controller extends Observer implements IController {
         break;
       case 'stateUpdated':
         const $parentElement = this.view.getParentElement();
-        const { positionLength, ...newSettings } = settings;
-
-        if (positionLength) {
-          this.view.remove();
-          this.view.initSlider({ positionLength, $parentElement, ...newSettings });
-        }
+        this.view.remove();
+        this.view.initViews({ $parentElement, ...settings });
         break;
     }
     this.notifySubscribers(eventType);

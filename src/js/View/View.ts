@@ -24,11 +24,32 @@ class View extends Observer implements IView {
 
   public constructor(settings: IFullSettings) {
     super();
+    this.initViews(settings);
+  }
+
+  public initViews(settings: IFullSettings): void {
     const { positionLength, ...newSettings } = settings;
     positionLength && this.initSlider({ positionLength, ...newSettings });
   }
 
-  public initSlider = (settings: IViewSettings): void => {
+  public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
+    this.settings.value = value;
+    this.settings.positionLength = newPositionLength;
+
+    this.notifySliderOfNewValue(newPositionLength);
+
+    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
+  }
+
+  public remove = (): void => {
+    this.settings.$parentElement.html('');
+  }
+
+  public getParentElement(): JQuery {
+    return this.settings.$parentElement;
+  }
+
+  private initSlider = (settings: IViewSettings): void => {
     this.settings = settings;
     const { direction, minValue, maxValue, value, type, step } = this.settings;
 
@@ -52,23 +73,6 @@ class View extends Observer implements IView {
                           parseInt(`${this.sliderView.stripDOMElement.outerWidth()}`, 10) :
                           parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
     this.settings.scale && this.initScale({ sliderLength, direction, minValue, maxValue, step });
-  }
-
-  public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
-    this.settings.value = value;
-    this.settings.positionLength = newPositionLength;
-
-    this.notifySliderOfNewValue(newPositionLength);
-
-    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
-  }
-
-  public remove = (): void => {
-    this.settings.$parentElement.html('');
-  }
-
-  public getParentElement(): JQuery {
-    return this.settings.$parentElement;
   }
 
   private bindEventsToSlider(): void {
