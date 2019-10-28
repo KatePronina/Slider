@@ -41,7 +41,8 @@ class View extends Observer implements IView {
         break;
     }
 
-    this.appendSlider();
+    this.sliderElement = this.sliderView.sliderElement;
+    this.appendElementToParent(this.sliderElement);
     this.sliderView.setSliderSizes();
     this.sliderView.onChangedValue(this.settings.positionLength);
     this.bindEventsToSlider();
@@ -74,11 +75,6 @@ class View extends Observer implements IView {
     this.sliderView.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('dispatchNewSettings', { positionPercent, valueType }, 'positionPercentUpdated');
     };
-  }
-
-  private appendSlider(): void {
-    this.sliderElement = this.sliderView.sliderElement;
-    this.appendElementToParent(this.sliderElement);
   }
 
   private notifySliderOfNewValue(newPositionLength: number[]): void {
