@@ -16,36 +16,33 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
   public onChangedValue(newPositionLength: number[]): void {
     const positionLength = newPositionLength[constants.VALUE_START];
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.barDOMElement && (this.barDOMElement.style.height = `${positionLength}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.top = `${positionLength - (this.pointOffset * 100)}%`);
-    } else {
-      this.barDOMElement && (this.barDOMElement.style.width = `${positionLength}%`);
-      this.pointDOMElement && (this.pointDOMElement.style.left = `${positionLength - (this.pointOffset * 100)}%`);
-    }
+
+    this.barDOMElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
+    this.pointDOMElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength - (this.pointOffset * 100)}%`);
   }
 
   public onPositionPercentChange = (positionPercent: number): void => {};
 
   private createDOMElement(): void {
-    const sliderElement = document.createElement('div');
-    sliderElement.classList.add('slider-wrapper');
+    const sliderElement = $(document.createElement('div'));
+    sliderElement.addClass('slider-wrapper');
 
     const context = {
       isVertical: this.direction === constants.DIRECTION_VERTICAL,
       isSingle: true,
     };
-    sliderElement.innerHTML = this.template(context);
 
-    this.element = sliderElement;
-    this.barDOMElement = sliderElement.querySelector('.slider__bar');
-    this.pointDOMElement = sliderElement.querySelector('.slider__point');
-    this.stripDOMElement = sliderElement.querySelector('.slider');
+    sliderElement.html(this.template(context));
+
+    this.sliderElement = sliderElement;
+    this.barDOMElement = sliderElement.find('.slider__bar');
+    this.pointDOMElement = sliderElement.find('.slider__point');
+    this.stripDOMElement = sliderElement.find('.slider');
     this.bindEventsToSlider();
   }
 
   private bindEventsToSlider(): void {
-    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.pointMousedownHandler);
+    this.pointDOMElement.on('mousedown', this.pointMousedownHandler);
   }
 
   private pointMousedownHandler = (): void => {

@@ -4,18 +4,18 @@ import constants from '../../../constants';
 import ComponentView from '../ComponentView';
 
 abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
-  public barDOMElement: HTMLElement | null;
-  public stripDOMElement: HTMLElement | null;
-  public pointDOMElement: HTMLElement | null;
+  public stripDOMElement: JQuery<HTMLDivElement>;
+  public sliderElement: JQuery<HTMLDivElement>;
   public length: number;
   public offset: number;
   public pointWidth: number;
   public pointOffset: number;
 
+  protected barDOMElement: JQuery<HTMLDivElement>;
+  protected pointDOMElement: JQuery<HTMLDivElement>;
   protected minValue: number;
   protected maxValue: number;
   protected direction: 'horizontal' | 'vertical';
-  // protected value: number | number[];
 
   public constructor({ direction, minValue, maxValue }: ISliderSettings) {
     super();
@@ -23,20 +23,25 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;
-    // this.value = value;
   }
 
   public setSliderSizes(): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.length = this.element.offsetHeight;
-      this.offset = this.element.offsetTop;
+      this.length = parseInt(`${this.sliderElement.outerHeight()}`, 10);
+      const offset = this.sliderElement.offset();
+      if (offset) {
+        this.offset = parseInt(`${offset.top}`, 10);
+      }
     } else {
-      this.length = this.element.offsetWidth;
-      this.offset = this.element.offsetLeft;
+      this.length = parseInt(`${this.sliderElement.outerWidth()}`, 10);
+      const offset = this.sliderElement.offset();
+      if (offset) {
+        this.offset = parseInt(`${offset.left}`, 10);
+      }
     }
 
     if (this.pointDOMElement) {
-      this.pointWidth = this.pointDOMElement.offsetWidth;
+      this.pointWidth = parseInt(`${this.pointDOMElement.outerWidth()}`, 10);
       this.pointOffset = (this.pointWidth / 2) / this.length;
     }
   }

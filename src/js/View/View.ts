@@ -16,7 +16,7 @@ class View extends Observer implements IView {
   private hintView?: HintView;
   private hintMaxValueView?: HintView;
   private scaleView?: ScaleView;
-  private sliderElement: HTMLElement | null;
+  private sliderElement: JQuery<HTMLDivElement>;
   private hintElement: HTMLElement;
   private hintMaxValueElement: HTMLElement;
   private scaleElement: HTMLElement;
@@ -47,11 +47,10 @@ class View extends Observer implements IView {
     this.bindEventsToSlider();
 
     this.settings.hint && this.initHint({ value, type, direction });
-    const sliderLength = this.sliderView.stripDOMElement
-                         && (this.settings.direction === constants.DIRECTION_HORIZONTAL ?
-                          this.sliderView.stripDOMElement.offsetWidth :
-                          this.sliderView.stripDOMElement.offsetHeight);
-    this.settings.scale && sliderLength && this.initScale({ sliderLength, direction, minValue, maxValue, step });
+    const sliderLength = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
+                          parseInt(`${this.sliderView.stripDOMElement.outerWidth()}`, 10) :
+                          parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
+    this.settings.scale && this.initScale({ sliderLength, direction, minValue, maxValue, step });
   }
 
   public onChangedValue = (value: number | number[], newPositionLength: number[]): void => {
@@ -78,7 +77,7 @@ class View extends Observer implements IView {
   }
 
   private appendSlider(): void {
-    this.sliderElement = this.sliderView.getDOMElement();
+    this.sliderElement = this.sliderView.sliderElement;
     this.appendElementToParent(this.sliderElement);
   }
 
@@ -95,7 +94,7 @@ class View extends Observer implements IView {
     }
   }
 
-  private appendElementToParent(element: HTMLElement): void {
+  private appendElementToParent(element: JQuery<HTMLDivElement>): void {
     this.settings.$parentElement.append(element);
   }
 

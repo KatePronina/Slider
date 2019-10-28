@@ -4,9 +4,7 @@ import constants from '../../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
-  public pointDOMElement: HTMLElement | null;
-  public maxPointDOMElement: HTMLElement | null;
-
+  private maxPointDOMElement: JQuery<HTMLDivElement>;
   private minPercent: number;
   private maxPercent: number;
   private isMinMouseDown: boolean;
@@ -31,44 +29,40 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   public onPositionPercentChange = (positionPercent: number[], valueType: string) => {};
 
   private setNewVerticalPosition(newPositionLength: number[]): void {
-    this.pointDOMElement && (this.pointDOMElement.style.top = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-    this.maxPointDOMElement && (this.maxPointDOMElement.style.top = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-    if (this.barDOMElement) {
-      this.barDOMElement.style.top = `${newPositionLength[constants.VALUE_START]}%`;
-      this.barDOMElement.style.height = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
-    }
+    this.pointDOMElement.css('top', `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.maxPointDOMElement.css('top', `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+    this.barDOMElement.css('top', `${newPositionLength[constants.VALUE_START]}%`);
+    this.barDOMElement.css('height', `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
 
   private setNewHorizontalPosition(newPositionLength: number[]): void {
-    this.pointDOMElement && (this.pointDOMElement.style.left = `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-    this.maxPointDOMElement && (this.maxPointDOMElement.style.left = `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-    if (this.barDOMElement) {
-      this.barDOMElement.style.left = `${newPositionLength[constants.VALUE_START]}%`;
-      this.barDOMElement.style.width = `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`;
-    }
+    this.pointDOMElement.css('left', `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.maxPointDOMElement.css('left', `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+    this.barDOMElement.css('left', `${newPositionLength[constants.VALUE_START]}%`);
+    this.barDOMElement.css('width', `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
 
   private createDOMElement(): void {
-    const sliderElement = document.createElement('div');
-    sliderElement.classList.add('slider-wrapper');
+    const sliderElement = $(document.createElement('div'));
+    sliderElement.addClass('slider-wrapper');
 
     const context = {
       isVertical: this.direction === constants.DIRECTION_VERTICAL,
       isSingle: false,
     };
-    sliderElement.innerHTML = this.template(context);
+    sliderElement.html(this.template(context));
 
-    this.element = sliderElement;
-    this.barDOMElement = sliderElement.querySelector('.slider__bar');
-    this.stripDOMElement = sliderElement.querySelector('.slider');
-    this.pointDOMElement = sliderElement.querySelector('.slider__point_min');
-    this.maxPointDOMElement = sliderElement.querySelector('.slider__point_max');
+    this.sliderElement = sliderElement;
+    this.barDOMElement = sliderElement.find('.slider__bar');
+    this.stripDOMElement = sliderElement.find('.slider');
+    this.pointDOMElement = sliderElement.find('.slider__point_min');
+    this.maxPointDOMElement = sliderElement.find('.slider__point_max');
     this.bindEventsToSlider();
   }
 
   private bindEventsToSlider(): void {
-    this.pointDOMElement && this.pointDOMElement.addEventListener('mousedown', this.minPointMousedownHandler);
-    this.maxPointDOMElement && this.maxPointDOMElement.addEventListener('mousedown', this.maxPointMousedownHandler);
+    this.pointDOMElement.on('mousedown', this.minPointMousedownHandler);
+    this.maxPointDOMElement.on('mousedown', this.maxPointMousedownHandler);
   }
 
   private minPointMousedownHandler = (): void => {
@@ -76,8 +70,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.pointDOMElement && this.pointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
-    this.maxPointDOMElement && this.maxPointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
+    this.pointDOMElement.addClass(constants.POINT_ACTIVE_CLASS);
+    this.maxPointDOMElement.removeClass(constants.POINT_ACTIVE_CLASS);
   }
 
   private maxPointMousedownHandler = (): void => {
@@ -85,8 +79,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.pointDOMElement && this.pointDOMElement.classList.remove(constants.POINT_ACTIVE_CLASS);
-    this.maxPointDOMElement && this.maxPointDOMElement.classList.add(constants.POINT_ACTIVE_CLASS);
+    this.pointDOMElement.removeClass(constants.POINT_ACTIVE_CLASS);
+    this.maxPointDOMElement.addClass(constants.POINT_ACTIVE_CLASS);
   }
 
   private bindEventsToDocument(): void {

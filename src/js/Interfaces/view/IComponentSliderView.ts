@@ -1,6 +1,5 @@
-export default interface IScaleView {
-  barDOMElement: HTMLElement | null;
-  stripDOMElement: HTMLElement | null;
+export default interface IComponentSliderView {
+  stripDOMElement: JQuery<HTMLDivElement>;
   length: number;
   offset: number;
   pointWidth: number;
