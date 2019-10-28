@@ -63,7 +63,7 @@ class View extends Observer implements IView {
     }
 
     this.sliderElement = this.sliderView.sliderElement;
-    this.appendElementToParent(this.sliderElement);
+    this.insertElementToParent(this.sliderElement);
     this.sliderView.setSliderSizes();
     this.sliderView.onChangedValue(this.settings.positionLength);
     this.bindEventsToSlider();
@@ -94,11 +94,11 @@ class View extends Observer implements IView {
     }
   }
 
-  private appendElementToParent(element: JQuery<HTMLDivElement>): void {
+  private insertElementToParent(element: JQuery<HTMLDivElement>): void {
     this.settings.$parentElement.append(element);
   }
 
-  private appendElementToSlider(element: HTMLElement): void {
+  private insertElementToSlider(element: HTMLElement): void {
     const slider = this.settings.$parentElement.find('.slider');
     slider.append(element);
   }
@@ -106,13 +106,13 @@ class View extends Observer implements IView {
   private initHint({ value, type, direction }: IHintSettings): void {
     this.hintView = new HintView({ value, type, direction });
     this.hintElement = this.hintView.getDOMElement();
-    this.appendElementToSlider(this.hintElement);
+    this.insertElementToSlider(this.hintElement);
     this.hintView.setSizes(this.sliderView.length);
 
     if (this.settings.type === constants.TYPE_INTERVAL) {
       this.hintMaxValueView = new HintView({ value, type, direction, isMaxValue: true });
       this.hintMaxValueElement = this.hintMaxValueView.getDOMElement();
-      this.appendElementToSlider(this.hintMaxValueElement);
+      this.insertElementToSlider(this.hintMaxValueElement);
       this.hintMaxValueView.setSizes(this.sliderView.length);
     }
 
@@ -124,7 +124,7 @@ class View extends Observer implements IView {
   private initScale({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings): void {
     this.scaleView = new ScaleView({ sliderLength, direction, minValue, maxValue, step });
     this.scaleElement = this.scaleView.getDOMElement();
-    this.appendElementToSlider(this.scaleElement);
+    this.insertElementToSlider(this.scaleElement);
     this.scaleView.alignValues();
 
     this.scaleView.onNewValue = (value: number): void => {
