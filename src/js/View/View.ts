@@ -29,7 +29,22 @@ class View extends Observer implements IView {
 
   public initViews(settings: IFullSettings): void {
     const { positionLength, ...newSettings } = settings;
-    positionLength && this.initSlider({ positionLength, ...newSettings });
+    const { direction, minValue, maxValue, value, type, step } = settings;
+
+    if (positionLength) {
+      this.initSlider({ positionLength, ...newSettings });
+    }
+
+    if (settings.hint) {
+      this.initHint({ value, type, direction });
+    }
+
+    if (settings.scale) {
+      const sliderLength = settings.direction === constants.DIRECTION_HORIZONTAL ?
+                          parseInt(`${this.sliderView.stripDOMElement.outerWidth()}`, 10) :
+                          parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
+      this.initScale({ sliderLength, direction, minValue, maxValue, step });
+    }
   }
 
   public updateViews = (value: number | number[], newPositionLength: number[]): void => {
@@ -50,7 +65,7 @@ class View extends Observer implements IView {
 
   private initSlider = (settings: IViewSettings): void => {
     this.settings = settings;
-    const { direction, minValue, maxValue, value, type, step } = this.settings;
+    const { direction, minValue, maxValue } = this.settings;
 
     switch (this.settings.type) {
       case constants.TYPE_SINGLE:
@@ -66,12 +81,6 @@ class View extends Observer implements IView {
     this.sliderView.setSliderSizes();
     this.sliderView.update(this.settings.positionLength);
     this.bindEventsToSlider();
-
-    this.settings.hint && this.initHint({ value, type, direction });
-    const sliderLength = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
-                          parseInt(`${this.sliderView.stripDOMElement.outerWidth()}`, 10) :
-                          parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
-    this.settings.scale && this.initScale({ sliderLength, direction, minValue, maxValue, step });
   }
 
   private bindEventsToSlider(): void {
