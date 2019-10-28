@@ -36,8 +36,7 @@ class View extends Observer implements IView {
     this.settings.value = value;
     this.settings.positionLength = newPositionLength;
 
-    this.notifySliderOfNewValue(newPositionLength);
-
+    this.sliderView.update(newPositionLength);
     this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
   }
 
@@ -79,10 +78,6 @@ class View extends Observer implements IView {
     this.sliderView.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('dispatchNewSettings', { positionPercent, valueType }, 'positionPercentUpdated');
     };
-  }
-
-  private notifySliderOfNewValue(newPositionLength: number[]): void {
-    this.sliderView.update(newPositionLength);
   }
 
   private notifyHintOfNewValue(value: number | number[], newPositionLength: number[]): void {
