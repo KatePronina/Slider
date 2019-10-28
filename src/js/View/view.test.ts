@@ -171,31 +171,6 @@ describe('DOM actions', (): void => {
   });
 });
 
-describe('Removing slider', (): void => {
-  test('Should remove slider from parent element', (): void => {
-    const view = new View({
-      $parentElement: $('#foo'),
-      positionLength: [0],
-      type: 'single',
-      minValue: 0,
-      maxValue: 100,
-      value: 0,
-      step: 1,
-      direction: 'horizontal',
-      hint: true,
-      scale: false,
-    });
-
-    view.remove();
-
-    expect(view).toBeDefined();
-    expect(document.querySelectorAll('#foo').length).toEqual(1);
-    expect(document.querySelectorAll('.slider').length).toEqual(0);
-    expect(document.querySelectorAll('.slider__bar').length).toEqual(0);
-    expect(document.querySelectorAll('.slider__point').length).toEqual(0);
-  });
-});
-
 describe('InitSlider', (): void => {
   test('Should init new slider', (): void => {
     const view = new View({
@@ -211,8 +186,7 @@ describe('InitSlider', (): void => {
       scale: false,
     });
 
-    view.remove();
-    view.initSlider({
+    view.initViews({
       $parentElement: $('#foo'),
       positionLength: [5, 10],
       type: 'interval',
