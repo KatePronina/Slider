@@ -186,8 +186,7 @@ describe('InitSlider', (): void => {
       scale: false,
     });
 
-    view.initViews({
-      $parentElement: $('#foo'),
+    view.redrawSlider({
       positionLength: [5, 10],
       type: 'interval',
       minValue: 0,
