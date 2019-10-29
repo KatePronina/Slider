@@ -47,7 +47,7 @@ $.fn.slider = function callSlider(method, ...args) {
   
   return {
     setSettings(settings) {
-      slider.publish('dispatchNewSettings', settings, 'stateUpdated');
+      slider.publish('dispatchNewOptions', { ...settings, eventType: 'stateUpdated'} );
     }
   }
 };
