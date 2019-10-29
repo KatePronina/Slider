@@ -1,6 +1,6 @@
-import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
-import ISingleSliderView from '../../../Interfaces/view/ISingleSliderView';
-import constants from '../../../constants';
+import ISliderSettings from '../../Interfaces/view/ISliderSettings';
+import ISingleSliderView from '../../Interfaces/view/ISingleSliderView';
+import constants from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class SingleSliderView extends ComponentSliderView implements ISingleSliderView {

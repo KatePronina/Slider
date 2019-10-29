@@ -1,5 +1,5 @@
 import Model from '../Model/Model';
-import View from '../View/View';
+import View from '../Views/View';
 import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
 import INewParams from '../Interfaces/controller/INewParams';

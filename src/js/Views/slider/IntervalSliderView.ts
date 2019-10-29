@@ -1,6 +1,6 @@
-import ISliderSettings from '../../../Interfaces/view/ISliderSettings';
-import IIntervalSliderView from '../../../Interfaces/view/IIntervalSliderView';
-import constants from '../../../constants';
+import ISliderSettings from '../../Interfaces/view/ISliderSettings';
+import IIntervalSliderView from '../../Interfaces/view/IIntervalSliderView';
+import constants from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {

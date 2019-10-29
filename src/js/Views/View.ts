@@ -5,10 +5,10 @@ import IHintSettings from '../Interfaces/view/IHintSettings';
 import constants from '../constants';
 import Observer from '../Observer/Observer';
 
-import SingleSliderView from './Views/slider/SingleSliderView';
-import IntervalSliderView from './Views/slider/IntervalSliderView';
-import HintView from './Views/hint/HintView';
-import ScaleView from './Views/scale/ScaleView';
+import SingleSliderView from './slider/SingleSliderView';
+import IntervalSliderView from './slider/IntervalSliderView';
+import HintView from './hint/HintView';
+import ScaleView from './scale/ScaleView';
 import IScaleSettings from '../Interfaces/view/IScaleSettings';
 import IModelSettings from '../Interfaces/model/IModelSettings';
 

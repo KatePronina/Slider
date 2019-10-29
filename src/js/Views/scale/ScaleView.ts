@@ -1,6 +1,6 @@
-import IScaleSettings from '../../../Interfaces/view/IScaleSettings';
-import IScaleView from '../../../Interfaces/view/IScaleView';
-import constants from '../../../constants';
+import IScaleSettings from '../../Interfaces/view/IScaleSettings';
+import IScaleView from '../../Interfaces/view/IScaleView';
+import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 class ScaleView extends ComponentView implements IScaleView {
