@@ -10,6 +10,7 @@ import IntervalSliderView from './Views/slider/IntervalSliderView';
 import HintView from './Views/hint/HintView';
 import ScaleView from './Views/scale/ScaleView';
 import IScaleSettings from '../Interfaces/view/IScaleSettings';
+import IModelSettings from '../Interfaces/model/IModelSettings';
 
 class View extends Observer implements IView {
   private sliderView: SingleSliderView | IntervalSliderView;
@@ -27,9 +28,20 @@ class View extends Observer implements IView {
     this.initViews(settings);
   }
 
-  public initViews(settings: IFullSettings): void {
-    settings.$parentElement.html('');
+  public redrawSlider(newSettings: IModelSettings): void {
+    this.settings.$parentElement.html('');
+    this.initViews({ ...newSettings, $parentElement: this.settings.$parentElement });
+  }
 
+  public updateViews = (value: number | number[], newPositionLength: number[]): void => {
+    this.settings.value = value;
+    this.settings.positionLength = newPositionLength;
+
+    this.sliderView.update(newPositionLength);
+    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
+  }
+
+  private initViews(settings: IFullSettings): void {
     const { positionLength, ...newSettings } = settings;
     const { direction, minValue, maxValue, value, type, step } = settings;
 
@@ -47,18 +59,6 @@ class View extends Observer implements IView {
                           parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
       this.initScale({ sliderLength, direction, minValue, maxValue, step });
     }
-  }
-
-  public updateViews = (value: number | number[], newPositionLength: number[]): void => {
-    this.settings.value = value;
-    this.settings.positionLength = newPositionLength;
-
-    this.sliderView.update(newPositionLength);
-    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
-  }
-
-  public getParentElement(): JQuery {
-    return this.settings.$parentElement;
   }
 
   private initSlider = (settings: IViewSettings): void => {

@@ -1,6 +1,7 @@
 import Controller from './Controller/Controller';
-import IFullSettings from './Interfaces/IFullSettings';
 import Observer from './Observer/Observer';
+import IFullSettings from './Interfaces/IFullSettings';
+import IModelSettings from './Interfaces/model/IModelSettings';
 
 class Application extends Observer {
   private controller: Controller;
@@ -10,11 +11,11 @@ class Application extends Observer {
     this.createSlider(settings);
   }
 
-  private sendStateNotification = (settings: IFullSettings): void => {
+  private sendStateNotification = (settings: IModelSettings): void => {
     this.publish('stateUpdated', settings);
   }
 
-  private sendValueNotification = (settings: IFullSettings): void => {
+  private sendValueNotification = (settings: IModelSettings): void => {
     this.publish('positionPercentUpdated', settings);
   }
 

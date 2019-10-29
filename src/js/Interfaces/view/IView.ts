@@ -1,7 +1,6 @@
-import IFullSettings from '../IFullSettings';
+import IModelSettings from '../../Interfaces/model/IModelSettings';
 
 export default interface IView {
-  initViews(settings: IFullSettings): void;
   updateViews(value: number | number[], newPositionLength: number | number[]): void;
-  getParentElement(): JQuery;
+  redrawSlider(newSettings: IModelSettings): void;
 }

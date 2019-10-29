@@ -35,11 +35,7 @@ class Controller extends Observer implements IController {
 
   public notifySubscribers = (eventType: 'positionPercentUpdated' | 'stateUpdated'): void => {
     const settings = this.model.getState();
-    const $parentElement = this.view.getParentElement();
-    this.publish(eventType, {
-      ...settings,
-      $parentElement,
-    });
+    this.publish(eventType, settings);
   }
 
   private subscribeNotifications(): void {
@@ -55,8 +51,7 @@ class Controller extends Observer implements IController {
         }
         break;
       case 'stateUpdated':
-        const $parentElement = this.view.getParentElement();
-        this.view.initViews({ $parentElement, ...settings });
+        this.view.redrawSlider(settings);
         break;
     }
     this.notifySubscribers(eventType);

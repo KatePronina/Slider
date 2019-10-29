@@ -1,11 +1,12 @@
-import IFullSettings from '../js/Interfaces/IFullSettings';
 import '../js/plugin';
 import constants from '../js/constants';
+import IModelSettings from '../js/Interfaces/model/IModelSettings';
 
 class ConfigurationView {
   private containerDOMElement: Element;
+  private sliderParentElement: JQuery;
   private sliderPlugin: any;
-  private settings: IFullSettings;
+  private settings: IModelSettings;
 
   private currentValueInput: HTMLInputElement | null;
   private currentMinValueInput: HTMLInputElement | null;
@@ -20,6 +21,7 @@ class ConfigurationView {
 
   public constructor(containerDOMElement: Element, sliderClass: string, settings?: any) {
     this.containerDOMElement = containerDOMElement;
+    this.sliderParentElement = $(`.${sliderClass}`);
 
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
@@ -32,8 +34,6 @@ class ConfigurationView {
         onNewSettings: this.onNewSettings,
       }});
     }
-
-    this.renderConfiguration();
   }
 
   private template = require('./templates/template.hbs');
@@ -99,7 +99,7 @@ class ConfigurationView {
   }
 
   private addClassForVerticalSlider(): void {
-    this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
+    this.sliderParentElement.addClass('slider-section__slider_direction_vertical');
   }
 
   private setValueInputs(): void {
@@ -194,9 +194,9 @@ class ConfigurationView {
                                                         constants.DIRECTION_HORIZONTAL;
 
       if (newDirection === constants.DIRECTION_VERTICAL) {
-        this.settings.$parentElement.addClass('slider-section__slider_direction_vertical');
+        this.sliderParentElement.addClass('slider-section__slider_direction_vertical');
       } else {
-        this.settings.$parentElement.removeClass('slider-section__slider_direction_vertical');
+        this.sliderParentElement.removeClass('slider-section__slider_direction_vertical');
       }
 
       this.sliderPlugin.setSettings({ direction: newDirection });
@@ -257,7 +257,7 @@ class ConfigurationView {
     this.settings.value = value;
   }
 
-  private onNewSettings = (settings: IFullSettings) => {
+  private onNewSettings = (settings: IModelSettings) => {
     this.settings = settings;
     this.remove();
     this.renderConfiguration();
