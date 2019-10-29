@@ -45,11 +45,8 @@ class HintView extends ComponentView implements IHintView {
   }
 
   private setNewPosition(percent: number): void {
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.element.style.top = `${percent - (this.offset * 100)}%`;
-    } else {
-      this.element.style.left = `${percent - (this.offset * 100)}%`;
-    }
+    const offsetProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
+    this.element.style[offsetProperty] = `${percent - (this.offset * 100)}%`;
   }
 
   private createDOMElement(): void {
