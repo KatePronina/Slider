@@ -26,18 +26,14 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
   }
 
   public setSliderSizes(): void {
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.length = parseInt(`${this.sliderElement.outerHeight()}`, 10);
-      const offset = this.sliderElement.offset();
-      if (offset) {
-        this.offset = parseInt(`${offset.top}`, 10);
-      }
-    } else {
-      this.length = parseInt(`${this.sliderElement.outerWidth()}`, 10);
-      const offset = this.sliderElement.offset();
-      if (offset) {
-        this.offset = parseInt(`${offset.left}`, 10);
-      }
+    const offset = this.sliderElement.offset();
+    const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
+    const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
+
+    this.length = parseInt(`${this.sliderElement[lengthProperty]()}`, 10);
+
+    if (offset) {
+      this.offset = parseInt(`${offset[positionProperty]}`, 10);
     }
 
     if (this.pointDOMElement) {

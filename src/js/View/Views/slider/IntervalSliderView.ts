@@ -21,26 +21,17 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   public update(newPositionLength: number[]): void {
     this.minPercent = newPositionLength[constants.VALUE_START];
     this.maxPercent = newPositionLength[constants.VALUE_END];
-    this.direction === constants.DIRECTION_VERTICAL ?
-                        this.setNewVerticalPosition(newPositionLength) :
-                        this.setNewHorizontalPosition(newPositionLength);
+
+    const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
+    const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width';
+
+    this.pointDOMElement.css(positionProperty, `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.maxPointDOMElement.css(positionProperty, `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+    this.barDOMElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
+    this.barDOMElement.css(lengthProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
 
   public onPositionPercentChange = (positionPercent: number[], valueType: string) => {};
-
-  private setNewVerticalPosition(newPositionLength: number[]): void {
-    this.pointDOMElement.css('top', `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-    this.maxPointDOMElement.css('top', `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-    this.barDOMElement.css('top', `${newPositionLength[constants.VALUE_START]}%`);
-    this.barDOMElement.css('height', `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
-  }
-
-  private setNewHorizontalPosition(newPositionLength: number[]): void {
-    this.pointDOMElement.css('left', `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
-    this.maxPointDOMElement.css('left', `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
-    this.barDOMElement.css('left', `${newPositionLength[constants.VALUE_START]}%`);
-    this.barDOMElement.css('width', `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
-  }
 
   private createDOMElement(): void {
     const sliderElement = $(document.createElement('div'));
