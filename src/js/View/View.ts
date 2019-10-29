@@ -48,6 +48,11 @@ class View extends Observer implements IView {
     }
   }
 
+  private insertElementToSlider(element: HTMLElement): void {
+    const slider = this.settings.$parentElement.find('.slider');
+    slider.append(element);
+  }
+
   private initViews(settings: IFullSettings): void {
     const { positionLength, ...newSettings } = settings;
     const { direction, minValue, maxValue, value, type, step } = settings;
@@ -82,7 +87,7 @@ class View extends Observer implements IView {
     }
 
     this.sliderElement = this.sliderView.sliderElement;
-    this.insertElementToParent(this.sliderElement);
+    this.settings.$parentElement.append(this.sliderElement);
     this.sliderView.setSliderSizes();
     this.sliderView.update(this.settings.positionLength);
     this.bindEventsToSlider();
@@ -92,15 +97,6 @@ class View extends Observer implements IView {
     this.sliderView.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('dispatchOptions', { positionPercent, valueType, eventType: 'positionPercentUpdated' });
     };
-  }
-
-  private insertElementToParent(element: JQuery<HTMLDivElement>): void {
-    this.settings.$parentElement.append(element);
-  }
-
-  private insertElementToSlider(element: HTMLElement): void {
-    const slider = this.settings.$parentElement.find('.slider');
-    slider.append(element);
   }
 
   private initHint({ value, type, direction }: IHintSettings): void {
