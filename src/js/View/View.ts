@@ -38,7 +38,14 @@ class View extends Observer implements IView {
     this.settings.positionLength = newPositionLength;
 
     this.sliderView.update(newPositionLength);
-    this.settings.hint && this.notifyHintOfNewValue(value, newPositionLength);
+
+    if (this.hintView) {
+      this.hintView.update(value, newPositionLength[constants.VALUE_START]);
+    }
+
+    if (this.hintMaxValueView) {
+      this.hintMaxValueView.update(value, newPositionLength[constants.VALUE_END]);
+    }
   }
 
   private initViews(settings: IFullSettings): void {
@@ -85,15 +92,6 @@ class View extends Observer implements IView {
     this.sliderView.onPositionPercentChange = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('dispatchOptions', { positionPercent, valueType, eventType: 'positionPercentUpdated' });
     };
-  }
-
-  private notifyHintOfNewValue(value: number | number[], newPositionLength: number[]): void {
-    if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
-      this.hintView && (this.hintView.update(value, newPositionLength[constants.VALUE_START]));
-    } else if (value instanceof Array) {
-      this.hintView && (this.hintView.update(value, newPositionLength[constants.VALUE_START]));
-      this.hintMaxValueView && (this.hintMaxValueView.update(value, newPositionLength[constants.VALUE_END]));
-    }
   }
 
   private insertElementToParent(element: JQuery<HTMLDivElement>): void {
