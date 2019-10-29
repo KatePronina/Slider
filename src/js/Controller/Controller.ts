@@ -41,7 +41,7 @@ class Controller extends Observer implements IController {
   }
 
   private subscribeNotifications(): void {
-    this.view.notify(this.updateState, 'dispatchNewOptions');
+    this.view.notify(this.updateState, 'dispatchOptions');
     this.model.notify(this.getState, 'stateUpdated');
   }
 

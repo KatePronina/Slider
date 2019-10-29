@@ -23,7 +23,7 @@ class Application extends Observer {
     this.controller = new Controller(settings);
 
     this.notify(this.controller.notifySubscribers, 'sliderInitialized');
-    this.notify(this.controller.updateState, 'dispatchNewOptions');
+    this.notify(this.controller.updateState, 'dispatchOptions');
 
     this.controller.notify(this.sendStateNotification, 'stateUpdated');
     this.controller.notify(this.sendValueNotification, 'positionPercentUpdated');

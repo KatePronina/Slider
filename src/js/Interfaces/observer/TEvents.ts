@@ -1,5 +1,5 @@
 type TEvents = 'sliderInitialized'
-              | 'dispatchNewOptions'
+              | 'dispatchOptions'
               | 'positionPercentUpdated'
               | 'stateUpdated';
 
