@@ -11,8 +11,7 @@ class Observer implements IObserver {
   }
 
   public notify(callback: Function, type: TEvents): void {
-    const callbacks = this.subscribers[type] ? [...this.subscribers[type], callback] : [callback];
-    this.subscribers[type] = callbacks;
+    this.subscribers[type] = this.subscribers[type] ? [...this.subscribers[type], callback] : [callback];
   }
 
   public publish(type: TEvents, ...data: TData):void {
