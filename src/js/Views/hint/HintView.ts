@@ -22,7 +22,7 @@ class HintView extends ComponentView implements IHintView {
   public update (value: number | number[], percent: number): void {
     this.value = value;
     this.updatePosition(percent);
-    this.updateValue();
+    this.rewriteTextContent();
   }
 
   public setOffset(sliderLength: number): void {
@@ -33,7 +33,7 @@ class HintView extends ComponentView implements IHintView {
     }
   }
 
-  private updateValue(): void {
+  private rewriteTextContent(): void {
     if (this.type === constants.TYPE_INTERVAL && this.value instanceof Array) {
       this.isMaxValue ?
           this.element.textContent = this.value[constants.VALUE_END].toString()
@@ -50,7 +50,7 @@ class HintView extends ComponentView implements IHintView {
 
   private createElement(): void {
     this.element = document.createElement('div');
-    this.updateValue();
+    this.rewriteTextContent();
 
     this.element.classList.add('slider__hint');
     if (this.direction === constants.DIRECTION_VERTICAL) {
