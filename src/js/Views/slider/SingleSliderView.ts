@@ -11,19 +11,19 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     super({ direction, minValue, maxValue });
 
     this.isMouseDown = false;
-    this.createDOMElement();
+    this.createElement();
   }
 
   public update (newPositionLength: number[]): void {
     const positionLength = newPositionLength[constants.VALUE_START];
 
-    this.barDOMElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
-    this.pointDOMElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength - (this.pointOffset * 100)}%`);
+    this.$barElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
+    this.$pointElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength - (this.pointOffset * 100)}%`);
   }
 
   public onPositionPercentChange = (positionPercent: number): void => {};
 
-  private createDOMElement(): void {
+  private createElement(): void {
     const sliderElement = $(document.createElement('div'));
     sliderElement.addClass('slider-wrapper');
 
@@ -34,15 +34,15 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
     sliderElement.html(this.template(context));
 
-    this.sliderElement = sliderElement;
-    this.barDOMElement = sliderElement.find('.slider__bar');
-    this.pointDOMElement = sliderElement.find('.slider__point');
-    this.stripDOMElement = sliderElement.find('.slider');
+    this.$sliderElement = sliderElement;
+    this.$barElement = sliderElement.find('.slider__bar');
+    this.$pointElement = sliderElement.find('.slider__point');
+    this.$stripElement = sliderElement.find('.slider');
     this.bindEventsToSlider();
   }
 
   private bindEventsToSlider(): void {
-    this.pointDOMElement.on('mousedown', this.pointMousedownHandler);
+    this.$pointElement.on('mousedown', this.pointMousedownHandler);
   }
 
   private pointMousedownHandler = (): void => {

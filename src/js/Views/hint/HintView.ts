@@ -4,8 +4,7 @@ import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 class HintView extends ComponentView implements IHintView {
-  public offset: number;
-
+  private offset: number;
   private isMaxValue?: boolean;
   private type: 'single' | 'interval';
   private value: number | number[];
@@ -17,16 +16,16 @@ class HintView extends ComponentView implements IHintView {
     this.type = type;
     this.direction = direction;
     this.isMaxValue = isMaxValue;
-    this.createDOMElement();
+    this.createElement();
   }
 
   public update (value: number | number[], percent: number): void {
     this.value = value;
-    this.setNewPosition(percent);
-    this.setNewValue();
+    this.updatePosition(percent);
+    this.updateValue();
   }
 
-  public setSizes(sliderLength: number): void {
+  public setOffset(sliderLength: number): void {
     if (this.direction === constants.DIRECTION_VERTICAL) {
       this.offset = (this.element.offsetHeight / 2) / sliderLength;
     } else {
@@ -34,24 +33,24 @@ class HintView extends ComponentView implements IHintView {
     }
   }
 
-  private setNewValue(): void {
-    if (this.type === constants.TYPE_INTERVAL && this.isMaxValue) {
-      this.value instanceof Array && (this.element.textContent = this.value[constants.VALUE_END].toString());
-    } else if (this.type === constants.TYPE_INTERVAL) {
-      this.value instanceof Array && (this.element.textContent = this.value[constants.VALUE_START].toString());
-    } else {
-      (typeof this.value === 'number') && (this.element.textContent = this.value.toString());
+  private updateValue(): void {
+    if (this.type === constants.TYPE_INTERVAL && this.value instanceof Array) {
+      this.isMaxValue ?
+          this.element.textContent = this.value[constants.VALUE_END].toString()
+        : this.element.textContent = this.value[constants.VALUE_START].toString();
+    } else if (typeof this.value === 'number') {
+      this.element.textContent = this.value.toString();
     }
   }
 
-  private setNewPosition(percent: number): void {
+  private updatePosition(percent: number): void {
     const offsetProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
     this.element.style[offsetProperty] = `${percent - (this.offset * 100)}%`;
   }
 
-  private createDOMElement(): void {
+  private createElement(): void {
     this.element = document.createElement('div');
-    this.setNewValue();
+    this.updateValue();
 
     this.element.classList.add('slider__hint');
     if (this.direction === constants.DIRECTION_VERTICAL) {

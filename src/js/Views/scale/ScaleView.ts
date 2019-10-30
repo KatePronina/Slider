@@ -4,7 +4,7 @@ import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 class ScaleView extends ComponentView implements IScaleView {
-  public sliderLength: number;
+  private sliderLength: number;
   private direction: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
@@ -17,11 +17,11 @@ class ScaleView extends ComponentView implements IScaleView {
     this.maxValue = maxValue;
     this.step = step;
     this.sliderLength = sliderLength;
-    this.createDOMElement();
-    this.bindEvents();
+    this.createElement();
+    this.element.addEventListener('click', this.scaleClickHandler);
   }
 
-  public alignValues(): void {
+  public alignValueElements(): void {
     const valueElements = this.element.querySelectorAll('.slider__scale-value');
 
     valueElements.forEach((element): void => {
@@ -35,24 +35,17 @@ class ScaleView extends ComponentView implements IScaleView {
   public onNewValue = (value: number): void => {};
 
   private setOffset(element: HTMLElement, elementOffset: number): void {
-    if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      const { left } = element.style;
-      const elementCurrentOffset = left && (parseInt(left.slice(0, -1), 10));
+    const positionProperty = this.direction === constants.DIRECTION_HORIZONTAL ? element.style.left : element.style.top;
+    const elementCurrentOffset = positionProperty && (parseInt(positionProperty.slice(0, -1), 10));
 
-      if (elementCurrentOffset || elementCurrentOffset === 0) {
-        element.style.left = `${elementCurrentOffset - elementOffset}%`;
-      }
-    } else {
-      const { top } = element.style;
-      const elementCurrentOffset = top && parseInt(top.slice(0, -1), 10);
-
-      if (elementCurrentOffset || elementCurrentOffset === 0) {
-        element.style.top = `${elementCurrentOffset - elementOffset}%`;
-      }
+    if (elementCurrentOffset || elementCurrentOffset === 0) {
+      this.direction === constants.DIRECTION_HORIZONTAL ?
+                          element.style.left = `${elementCurrentOffset - elementOffset}%`
+                        : element.style.top = `${elementCurrentOffset - elementOffset}%`;
     }
   }
 
-  private createDOMElement(): void {
+  private createElement(): void {
     this.element = document.createElement('div');
     this.element.classList.add('slider__scale');
     if (this.direction === constants.DIRECTION_HORIZONTAL) {
@@ -63,10 +56,10 @@ class ScaleView extends ComponentView implements IScaleView {
       this.element.style.height = `${this.sliderLength}px`;
     }
 
-    this.createValues();
+    this.createValuesElements();
   }
 
-  private createValues(): void {
+  private createValuesElements(): void {
     const valuesNumber = Math.floor((this.maxValue - this.minValue) / this.step);
     const values = [
       this.minValue,
@@ -80,7 +73,7 @@ class ScaleView extends ComponentView implements IScaleView {
       valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
-      const offsetValue = typeof value === 'number' &&  this.countLength(value) - (valueElement.offsetWidth / 2);
+      const offsetValue = typeof value === 'number' &&  this.countPosition(value) - (valueElement.offsetWidth / 2);
       this.direction === constants.DIRECTION_HORIZONTAL ?
                           valueElement.style.left = `${offsetValue}%` :
                           valueElement.style.top = `${offsetValue}%`;
@@ -90,17 +83,13 @@ class ScaleView extends ComponentView implements IScaleView {
     this.element.append(valuesFragment);
   }
 
-  private bindEvents(): void {
-    this.element.addEventListener('click', this.scaleClickHandler);
-  }
-
   private scaleClickHandler = ({ target }: Event): void => {
     if (target instanceof HTMLElement && target.classList.contains('slider__scale-value')) {
       target.textContent && this.onNewValue(parseInt(target.textContent, 10));
     }
   }
 
-  private countLength(value: number): number {
+  private countPosition(value: number): number {
     return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
   }
 }

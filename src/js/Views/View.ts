@@ -17,7 +17,7 @@ class View extends Observer implements IView {
   private hintView?: HintView;
   private hintMaxValueView?: HintView;
   private scaleView?: ScaleView;
-  private sliderElement: JQuery<HTMLDivElement>;
+  private $sliderElement: JQuery<HTMLDivElement>;
   private hintElement: HTMLElement;
   private hintMaxValueElement: HTMLElement;
   private scaleElement: HTMLElement;
@@ -67,8 +67,8 @@ class View extends Observer implements IView {
 
     if (settings.scale) {
       const sliderLength = settings.direction === constants.DIRECTION_HORIZONTAL ?
-                          parseInt(`${this.sliderView.stripDOMElement.outerWidth()}`, 10) :
-                          parseInt(`${this.sliderView.stripDOMElement.outerHeight()}`, 10);
+                          parseInt(`${this.sliderView.$stripElement.outerWidth()}`, 10) :
+                          parseInt(`${this.sliderView.$stripElement.outerHeight()}`, 10);
       this.initScale({ sliderLength, direction, minValue, maxValue, step });
     }
   }
@@ -86,8 +86,8 @@ class View extends Observer implements IView {
         break;
     }
 
-    this.sliderElement = this.sliderView.sliderElement;
-    this.settings.$parentElement.append(this.sliderElement);
+    this.$sliderElement = this.sliderView.$sliderElement;
+    this.settings.$parentElement.append(this.$sliderElement);
     this.sliderView.setSliderSizes();
     this.sliderView.update(this.settings.positionLength);
     this.bindEventsToSlider();
@@ -101,15 +101,15 @@ class View extends Observer implements IView {
 
   private initHint({ value, type, direction }: IHintSettings): void {
     this.hintView = new HintView({ value, type, direction });
-    this.hintElement = this.hintView.getDOMElement();
+    this.hintElement = this.hintView.getElement();
     this.insertElementToSlider(this.hintElement);
-    this.hintView.setSizes(this.sliderView.length);
+    this.hintView.setOffset(this.sliderView.length);
 
     if (this.settings.type === constants.TYPE_INTERVAL) {
       this.hintMaxValueView = new HintView({ value, type, direction, isMaxValue: true });
-      this.hintMaxValueElement = this.hintMaxValueView.getDOMElement();
+      this.hintMaxValueElement = this.hintMaxValueView.getElement();
       this.insertElementToSlider(this.hintMaxValueElement);
-      this.hintMaxValueView.setSizes(this.sliderView.length);
+      this.hintMaxValueView.setOffset(this.sliderView.length);
     }
 
     this.hintView.update(this.settings.value, this.settings.positionLength[constants.VALUE_START]);
@@ -119,9 +119,9 @@ class View extends Observer implements IView {
 
   private initScale({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings): void {
     this.scaleView = new ScaleView({ sliderLength, direction, minValue, maxValue, step });
-    this.scaleElement = this.scaleView.getDOMElement();
+    this.scaleElement = this.scaleView.getElement();
     this.insertElementToSlider(this.scaleElement);
-    this.scaleView.alignValues();
+    this.scaleView.alignValueElements();
 
     this.scaleView.onNewValue = (value: number): void => {
       this.settings.type === constants.TYPE_INTERVAL ?

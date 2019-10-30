@@ -1,5 +1,4 @@
 export default interface IScaleView {
-  sliderLength: number;
-  alignValues(): void;
+  alignValueElements(): void;
   onNewValue(value: number): void;
 }

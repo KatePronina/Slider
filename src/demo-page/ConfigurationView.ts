@@ -3,25 +3,25 @@ import constants from '../js/constants';
 import IModelSettings from '../js/Interfaces/model/IModelSettings';
 
 class ConfigurationView {
-  private containerDOMElement: Element;
-  private sliderParentElement: JQuery;
+  private $containerElement: JQuery<Element>;
+  private $sliderParentElement: JQuery<Element>;
   private sliderPlugin: any;
   private settings: IModelSettings;
 
-  private currentValueInput: HTMLInputElement | null;
-  private currentMinValueInput: HTMLInputElement | null;
-  private currentMaxValueInput: HTMLInputElement | null;
-  private stepSizeInput: HTMLInputElement | null;
-  private minValueInput: HTMLInputElement | null;
-  private maxValueInput: HTMLInputElement | null;
-  private hintToggle: HTMLInputElement | null;
-  private scaleToggle: HTMLInputElement | null;
-  private typeToggle: HTMLInputElement | null;
-  private verticalToggle: HTMLInputElement | null;
+  private $currentValueInput: JQuery<Element>;
+  private $currentMinValueInput: JQuery<Element>;
+  private $currentMaxValueInput: JQuery<Element>;
+  private $stepSizeInput: JQuery<Element>;
+  private $minValueInput: JQuery<Element>;
+  private $maxValueInput: JQuery<Element>;
+  private $hintToggle: JQuery<Element>;
+  private $scaleToggle: JQuery<Element>;
+  private $typeToggle: JQuery<Element>;
+  private $verticalToggle: JQuery<Element>;
 
-  public constructor(containerDOMElement: Element, sliderClass: string, settings?: any) {
-    this.containerDOMElement = containerDOMElement;
-    this.sliderParentElement = $(`.${sliderClass}`);
+  public constructor(containerElement: Element, sliderClass: string, settings?: any) {
+    this.$containerElement = $(containerElement);
+    this.$sliderParentElement = $(`.${sliderClass}`);
 
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
@@ -42,16 +42,16 @@ class ConfigurationView {
     this.appendConfigurationToDOM();
 
     this.setValueInputs();
-    this.stepSizeInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_step');
-    this.minValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_min-value');
-    this.maxValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_max-value');
-    this.hintToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_hint');
-    this.scaleToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_scale');
-    this.typeToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_toggle-interval');
-    this.verticalToggle = this.containerDOMElement.querySelector('.js-configuration__value-input_type_vertical');
+    this.$stepSizeInput = this.$containerElement.find('.js-configuration__value-input_type_step');
+    this.$minValueInput = this.$containerElement.find('.js-configuration__value-input_type_min-value');
+    this.$maxValueInput = this.$containerElement.find('.js-configuration__value-input_type_max-value');
+    this.$hintToggle = this.$containerElement.find('.js-configuration__value-input_type_hint');
+    this.$scaleToggle = this.$containerElement.find('.js-configuration__value-input_type_scale');
+    this.$typeToggle = this.$containerElement.find('.js-configuration__value-input_type_toggle-interval');
+    this.$verticalToggle = this.$containerElement.find('.js-configuration__value-input_type_vertical');
 
     if (this.settings.direction === constants.DIRECTION_VERTICAL) {
-      this.addClassForVerticalSlider();
+      this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
     }
 
     this.bindEventsToInputs();
@@ -95,65 +95,61 @@ class ConfigurationView {
         },
       ],
     };
-    this.containerDOMElement.innerHTML = this.template(context);
-  }
-
-  private addClassForVerticalSlider(): void {
-    this.sliderParentElement.addClass('slider-section__slider_direction_vertical');
+    this.$containerElement.html(this.template(context));
   }
 
   private setValueInputs(): void {
     if (this.settings.type === constants.TYPE_SINGLE) {
-      this.currentValueInput = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-value');
+      this.$currentValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-value');
     } else {
-      this.currentMinValueInput
-        = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-min-value');
-      this.currentMaxValueInput
-        = this.containerDOMElement.querySelector('.js-configuration__value-input_type_current-max-value');
+      this.$currentMinValueInput
+        = this.$containerElement.find('.js-configuration__value-input_type_current-min-value');
+      this.$currentMaxValueInput
+        = this.$containerElement.find('.js-configuration__value-input_type_current-max-value');
     }
   }
 
   private updateInputs(): void {
     this.updateValueInputs();
-    this.stepSizeInput && (this.stepSizeInput.value = (this.settings.step).toString());
-    this.minValueInput && (this.minValueInput.value = (this.settings.minValue).toString());
-    this.maxValueInput && (this.maxValueInput.value = (this.settings.maxValue).toString());
-    this.hintToggle && (this.hintToggle.checked = this.settings.hint);
-    this.scaleToggle && (this.scaleToggle.checked = this.settings.scale);
-    this.typeToggle && (this.typeToggle.checked = this.settings.type === constants.TYPE_INTERVAL);
-    this.verticalToggle && (this.verticalToggle.checked = this.settings.direction === constants.DIRECTION_VERTICAL);
+    this.$stepSizeInput.val(this.settings.step.toString());
+    this.$minValueInput.val(this.settings.minValue.toString());
+    this.$maxValueInput.val(this.settings.maxValue.toString());
+    this.$hintToggle.prop('checked', this.settings.hint);
+    this.$scaleToggle.prop('checked', this.settings.scale);
+    this.$typeToggle.prop('checked', this.settings.type === constants.TYPE_INTERVAL);
+    this.$verticalToggle.prop('checked', this.settings.direction === constants.DIRECTION_VERTICAL);
   }
 
   private updateValueInputs(): void {
     if (this.settings.type === constants.TYPE_SINGLE && typeof this.settings.value === 'number') {
       const value = this.settings.value.toString();
-      this.currentValueInput && (this.currentValueInput.value = value);
+      this.$currentValueInput.val(value);
     } else if (this.settings.value instanceof Array) {
       const minValue = this.settings.value[constants.VALUE_START].toString();
       const maxValue = this.settings.value[constants.VALUE_END].toString();
-      this.currentMinValueInput && (this.currentMinValueInput.value = minValue);
-      this.currentMaxValueInput && (this.currentMaxValueInput.value = maxValue);
+      this.$currentMinValueInput.val(minValue);
+      this.$currentMaxValueInput.val(maxValue);
     }
   }
 
   private bindEventsToInputs(): void {
     this.bindEventsToValueInputs();
 
-    this.stepSizeInput && this.stepSizeInput.addEventListener('input', this.stepInputHandler);
-    this.minValueInput && this.minValueInput.addEventListener('input', this.minValueInputHandler);
-    this.maxValueInput && this.maxValueInput.addEventListener('input', this.maxValueInputHandler);
-    this.hintToggle && this.hintToggle.addEventListener('change', this.hintChangeHandler);
-    this.scaleToggle && this.scaleToggle.addEventListener('change', this.scaleChangeHandler);
-    this.verticalToggle && this.verticalToggle.addEventListener('change', this.directionChangeHandler);
-    this.typeToggle && this.typeToggle.addEventListener('change', this.typeChangeHandler);
+    this.$stepSizeInput.on('input', this.stepInputHandler);
+    this.$minValueInput.on('input', this.minValueInputHandler);
+    this.$maxValueInput.on('input', this.maxValueInputHandler);
+    this.$hintToggle.on('change', this.hintChangeHandler);
+    this.$scaleToggle.on('change', this.scaleChangeHandler);
+    this.$verticalToggle.on('change', this.directionChangeHandler);
+    this.$typeToggle.on('change', this.typeChangeHandler);
   }
 
   private bindEventsToValueInputs() {
     if (this.settings.type === constants.TYPE_SINGLE) {
-      this.currentValueInput && this.bindInputValueEvent(this.currentValueInput);
+      this.bindInputValueEvent(this.$currentValueInput);
     } else {
-      this.currentMinValueInput && this.bindInputValueEvent(this.currentMinValueInput, constants.VALUE_TYPE_MIN);
-      this.currentMaxValueInput && this.bindInputValueEvent(this.currentMaxValueInput, constants.VALUE_TYPE_MAX);
+      this.bindInputValueEvent(this.$currentMinValueInput, constants.VALUE_TYPE_MIN);
+      this.bindInputValueEvent(this.$currentMaxValueInput, constants.VALUE_TYPE_MAX);
     }
   }
 
@@ -194,9 +190,9 @@ class ConfigurationView {
                                                         constants.DIRECTION_HORIZONTAL;
 
       if (newDirection === constants.DIRECTION_VERTICAL) {
-        this.sliderParentElement.addClass('slider-section__slider_direction_vertical');
+        this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
       } else {
-        this.sliderParentElement.removeClass('slider-section__slider_direction_vertical');
+        this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
       }
 
       this.sliderPlugin.setSettings({ direction: newDirection });
@@ -225,15 +221,18 @@ class ConfigurationView {
     return value;
   }
 
-  private bindInputValueEvent(input: HTMLInputElement, valueType?: string): void {
-    input.addEventListener('input', (): void => {
+  private bindInputValueEvent(input: JQuery<Element>, valueType?: string): void {
+    input.on('input', (): void => {
+      const value = input.val();
+      const numberValue = typeof value === 'string' && parseInt(value, 10);
+
       setTimeout((): void => {
-        if (input.value.length === 0) {
+        if (numberValue && Number.isNaN(numberValue)) {
           this.sliderPlugin.setSettings({ value: this.settings.minValue });
-        } else if (valueType) {
-          this.onNewIntervalValue(parseInt(input.value, 10), valueType);
-        } else {
-          this.sliderPlugin.setSettings({ value: parseInt(input.value, 10) });
+        } else if (numberValue && valueType) {
+          this.onNewIntervalValue(numberValue, valueType);
+        } else if (numberValue) {
+          this.sliderPlugin.setSettings({ value: numberValue });
         }
       }, 800);
     });
@@ -249,22 +248,22 @@ class ConfigurationView {
 
   private onNewValue = (value: number | number[]) => {
     if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
-      this.currentValueInput && (this.currentValueInput.value = value.toString());
+      this.$currentValueInput.val(value.toString());
     } else if (value instanceof Array) {
-      this.currentMinValueInput && (this.currentMinValueInput.value = value[constants.VALUE_START].toString());
-      this.currentMaxValueInput && (this.currentMaxValueInput.value = value[constants.VALUE_END].toString());
+      this.$currentMinValueInput.val(value[constants.VALUE_START].toString());
+      this.$currentMaxValueInput.val(value[constants.VALUE_END].toString());
     }
     this.settings.value = value;
   }
 
   private onNewSettings = (settings: IModelSettings) => {
     this.settings = settings;
-    this.remove();
+    this.removeConfiguration();
     this.renderConfiguration();
   }
 
-  private remove(): void {
-    this.containerDOMElement.innerHTML = '';
+  private removeConfiguration(): void {
+    this.$containerElement.html('');
   }
 }
 

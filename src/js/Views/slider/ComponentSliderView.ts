@@ -4,15 +4,15 @@ import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
-  public stripDOMElement: JQuery<HTMLDivElement>;
-  public sliderElement: JQuery<HTMLDivElement>;
+  public $stripElement: JQuery<HTMLDivElement>;
+  public $sliderElement: JQuery<HTMLDivElement>;
   public length: number;
   public offset: number;
   public pointWidth: number;
   public pointOffset: number;
 
-  protected barDOMElement: JQuery<HTMLDivElement>;
-  protected pointDOMElement: JQuery<HTMLDivElement>;
+  protected $barElement: JQuery<HTMLDivElement>;
+  protected $pointElement: JQuery<HTMLDivElement>;
   protected minValue: number;
   protected maxValue: number;
   protected direction: 'horizontal' | 'vertical';
@@ -26,18 +26,18 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
   }
 
   public setSliderSizes(): void {
-    const offset = this.sliderElement.offset();
+    const offset = this.$sliderElement.offset();
     const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
 
-    this.length = parseInt(`${this.sliderElement[lengthProperty]()}`, 10);
+    this.length = parseInt(`${this.$sliderElement[lengthProperty]()}`, 10);
 
     if (offset) {
       this.offset = parseInt(`${offset[positionProperty]}`, 10);
     }
 
-    if (this.pointDOMElement) {
-      this.pointWidth = parseInt(`${this.pointDOMElement.outerWidth()}`, 10);
+    if (this.$pointElement) {
+      this.pointWidth = parseInt(`${this.$pointElement.outerWidth()}`, 10);
       this.pointOffset = (this.pointWidth / 2) / this.length;
     }
   }

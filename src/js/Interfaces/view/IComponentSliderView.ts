@@ -1,5 +1,5 @@
 export default interface IComponentSliderView {
-  stripDOMElement: JQuery<HTMLDivElement>;
+  $stripElement: JQuery<HTMLDivElement>;
   length: number;
   offset: number;
   pointWidth: number;
