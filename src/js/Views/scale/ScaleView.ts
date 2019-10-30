@@ -37,6 +37,7 @@ class ScaleView extends ComponentView implements IScaleView {
   private setOffset(element: HTMLElement, elementOffset: number): void {
     const positionProperty = this.direction === constants.DIRECTION_HORIZONTAL ? element.style.left : element.style.top;
     const elementCurrentOffset = positionProperty && (parseInt(positionProperty.slice(0, -1), 10));
+    // slice из-за процента
 
     if (elementCurrentOffset || elementCurrentOffset === 0) {
       this.direction === constants.DIRECTION_HORIZONTAL ?

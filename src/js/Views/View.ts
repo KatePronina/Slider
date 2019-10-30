@@ -90,10 +90,10 @@ class View extends Observer implements IView {
     this.settings.$parentElement.append(this.$sliderElement);
     this.sliderView.setSliderSizes();
     this.sliderView.update(this.settings.positionLength);
-    this.bindEventsToSlider();
+    this.subscribeSliderView();
   }
 
-  private bindEventsToSlider(): void {
+  private subscribeSliderView(): void {
     this.sliderView.dispatchPositionPercent = (positionPercent: number | number[], valueType?: string): void => {
       this.publish('dispatchOptions', { positionPercent, valueType, eventType: 'positionPercentUpdated' });
     };
