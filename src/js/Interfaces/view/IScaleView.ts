@@ -1,4 +1,4 @@
 export default interface IScaleView {
   alignValueElements(): void;
-  onNewValue(value: number): void;
+  dispatchValue(value: number): void;
 }

@@ -32,7 +32,7 @@ class ScaleView extends ComponentView implements IScaleView {
     });
   }
 
-  public onNewValue = (value: number): void => {};
+  public dispatchValue = (value: number): void => {};
 
   private setOffset(element: HTMLElement, elementOffset: number): void {
     const positionProperty = this.direction === constants.DIRECTION_HORIZONTAL ? element.style.left : element.style.top;
@@ -85,7 +85,7 @@ class ScaleView extends ComponentView implements IScaleView {
 
   private scaleClickHandler = ({ target }: Event): void => {
     if (target instanceof HTMLElement && target.classList.contains('slider__scale-value')) {
-      target.textContent && this.onNewValue(parseInt(target.textContent, 10));
+      target.textContent && this.dispatchValue(parseInt(target.textContent, 10));
     }
   }
 

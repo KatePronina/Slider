@@ -21,7 +21,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.$pointElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength - (this.pointOffset * 100)}%`);
   }
 
-  public onPositionPercentChange = (positionPercent: number): void => {};
+  public dispatchPositionPercent = (positionPercent: number): void => {};
 
   private createElement(): void {
     const sliderElement = $(document.createElement('div'));
@@ -70,7 +70,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
                               event.pageX - this.offset;
 
       this.percent = this.countPercent(eventCoordinate, this.length);
-      this.onPositionPercentChange(this.percent);
+      this.dispatchPositionPercent(this.percent);
     }
   }
 }

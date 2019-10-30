@@ -32,7 +32,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.$barElement.css(lengthProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
 
-  public onPositionPercentChange = (positionPercent: number[], valueType: string) => {};
+  public dispatchPositionPercent = (positionPercent: number[], valueType: string) => {};
 
   private createElement(): void {
     const sliderElement = $(document.createElement('div'));
@@ -95,12 +95,12 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     if (this.isMinMouseDown) {
       this.minPercent = this.countPercent(eventCoordinate, this.length);
-      this.onPositionPercentChange([this.minPercent], constants.VALUE_TYPE_MIN);
+      this.dispatchPositionPercent([this.minPercent], constants.VALUE_TYPE_MIN);
     }
 
     if (this.isMaxMouseDown) {
       this.maxPercent = this.countPercent(eventCoordinate, this.length);
-      this.onPositionPercentChange([this.maxPercent], constants.VALUE_TYPE_MAX);
+      this.dispatchPositionPercent([this.maxPercent], constants.VALUE_TYPE_MAX);
     }
   }
 }
