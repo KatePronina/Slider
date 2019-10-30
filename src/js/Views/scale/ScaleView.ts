@@ -18,7 +18,7 @@ class ScaleView extends ComponentView implements IScaleView {
     this.step = step;
     this.sliderLength = sliderLength;
     this.makeElement();
-    this.element.addEventListener('click', this.scaleClickHandler);
+    this.element.addEventListener('click', this.handleScaleClick);
   }
 
   public alignValueElements(): void {
@@ -37,7 +37,6 @@ class ScaleView extends ComponentView implements IScaleView {
   private setOffset(element: HTMLElement, elementOffset: number): void {
     const positionProperty = this.direction === constants.DIRECTION_HORIZONTAL ? element.style.left : element.style.top;
     const elementCurrentOffset = positionProperty && (parseInt(positionProperty.slice(0, -1), 10));
-    // slice из-за процента
 
     if (elementCurrentOffset || elementCurrentOffset === 0) {
       this.direction === constants.DIRECTION_HORIZONTAL ?
@@ -84,9 +83,10 @@ class ScaleView extends ComponentView implements IScaleView {
     this.element.append(valuesFragment);
   }
 
-  private scaleClickHandler = ({ target }: Event): void => {
-    if (target instanceof HTMLElement && target.classList.contains('slider__scale-value')) {
-      target.textContent && this.dispatchValue(parseInt(target.textContent, 10));
+  private handleScaleClick = ({ target }: Event): void => {
+    if (target && (<HTMLElement>target).classList.contains('slider__scale-value')) {
+      const value = (<HTMLElement>target).textContent;
+      value && this.dispatchValue(parseInt(value, 10));
     }
   }
 
