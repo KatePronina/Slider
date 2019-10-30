@@ -11,7 +11,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     super({ direction, minValue, maxValue });
 
     this.isMouseDown = false;
-    this.createElement();
+    this.makeElement();
   }
 
   public update (newPositionLength: number[]): void {
@@ -23,7 +23,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
   public dispatchPositionPercent = (positionPercent: number): void => {};
 
-  private createElement(): void {
+  private makeElement(): void {
     const sliderElement = $(document.createElement('div'));
     sliderElement.addClass('slider-wrapper');
 

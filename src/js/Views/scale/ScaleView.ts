@@ -17,7 +17,7 @@ class ScaleView extends ComponentView implements IScaleView {
     this.maxValue = maxValue;
     this.step = step;
     this.sliderLength = sliderLength;
-    this.createElement();
+    this.makeElement();
     this.element.addEventListener('click', this.scaleClickHandler);
   }
 
@@ -46,7 +46,7 @@ class ScaleView extends ComponentView implements IScaleView {
     }
   }
 
-  private createElement(): void {
+  private makeElement(): void {
     this.element = document.createElement('div');
     this.element.classList.add('slider__scale');
     if (this.direction === constants.DIRECTION_HORIZONTAL) {

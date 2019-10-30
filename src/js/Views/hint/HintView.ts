@@ -16,7 +16,7 @@ class HintView extends ComponentView implements IHintView {
     this.type = type;
     this.direction = direction;
     this.isMaxValue = isMaxValue;
-    this.createElement();
+    this.makeElement();
   }
 
   public update (value: number | number[], percent: number): void {
@@ -48,7 +48,7 @@ class HintView extends ComponentView implements IHintView {
     this.element.style[offsetProperty] = `${percent - (this.offset * 100)}%`;
   }
 
-  private createElement(): void {
+  private makeElement(): void {
     this.element = document.createElement('div');
     this.rewriteTextContent();
 
