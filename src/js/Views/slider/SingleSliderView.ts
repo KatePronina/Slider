@@ -35,9 +35,9 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     sliderElement.html(this.template(context));
 
     this.$sliderElement = sliderElement;
-    this.$barElement = sliderElement.find('.slider__bar');
-    this.$pointElement = sliderElement.find('.slider__point');
-    this.$stripElement = sliderElement.find('.slider');
+    this.$barElement = sliderElement.find('.js-slider__bar');
+    this.$pointElement = sliderElement.find('.js-slider__point');
+    this.$stripElement = sliderElement.find('.js-slider');
     this.bindEventsToSlider();
   }
 

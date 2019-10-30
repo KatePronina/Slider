@@ -45,10 +45,10 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     sliderElement.html(this.template(context));
 
     this.$sliderElement = sliderElement;
-    this.$barElement = sliderElement.find('.slider__bar');
-    this.$stripElement = sliderElement.find('.slider');
-    this.$pointElement = sliderElement.find('.slider__point_min');
-    this.$maxPointElement = sliderElement.find('.slider__point_max');
+    this.$barElement = sliderElement.find('.js-slider__bar');
+    this.$stripElement = sliderElement.find('.js-slider');
+    this.$pointElement = sliderElement.find('.js-slider__point-min');
+    this.$maxPointElement = sliderElement.find('.js-slider__point-max');
     this.bindEventsToSlider();
   }
 
