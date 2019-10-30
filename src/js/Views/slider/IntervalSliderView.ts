@@ -7,14 +7,14 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   private $maxPointElement: JQuery<HTMLDivElement>;
   private minPercent: number;
   private maxPercent: number;
-  private isMinMouseDown: boolean;
-  private isMaxMouseDown: boolean;
+  private isMouseDownTargetEqualMin: boolean;
+  private isMouseDownTargetEqualMax: boolean;
 
   public constructor({ direction, minValue, maxValue }: ISliderSettings) {
     super({ direction, minValue, maxValue });
 
-    this.isMinMouseDown = false;
-    this.isMaxMouseDown = false;
+    this.isMouseDownTargetEqualMin = false;
+    this.isMouseDownTargetEqualMax = false;
     this.makeElement();
   }
 
@@ -58,7 +58,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private handleMinPointMousedown = (): void => {
-    this.isMinMouseDown = true;
+    this.isMouseDownTargetEqualMin = true;
 
     this.bindEventsToDocument();
 
@@ -67,7 +67,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private handleMaxPointMousedown = (): void => {
-    this.isMaxMouseDown = true;
+    this.isMouseDownTargetEqualMax = true;
 
     this.bindEventsToDocument();
 
@@ -81,8 +81,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private handleDocumentMouseUp = (): void => {
-    this.isMinMouseDown = false;
-    this.isMaxMouseDown = false;
+    this.isMouseDownTargetEqualMin = false;
+    this.isMouseDownTargetEqualMax = false;
 
     document.removeEventListener('mousemove', this.handleDocumentMousemove);
     document.removeEventListener('mouseup', this.handleDocumentMouseUp);
@@ -93,12 +93,12 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
                             event.pageY - this.offset :
                             event.pageX - this.offset;
 
-    if (this.isMinMouseDown) {
+    if (this.isMouseDownTargetEqualMin) {
       this.minPercent = this.countPercent(eventCoordinate, this.length);
       this.dispatchPositionPercent([this.minPercent], constants.VALUE_TYPE_MIN);
     }
 
-    if (this.isMaxMouseDown) {
+    if (this.isMouseDownTargetEqualMax) {
       this.maxPercent = this.countPercent(eventCoordinate, this.length);
       this.dispatchPositionPercent([this.maxPercent], constants.VALUE_TYPE_MAX);
     }
