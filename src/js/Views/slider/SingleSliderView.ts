@@ -42,28 +42,28 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   }
 
   private bindEventsToSlider(): void {
-    this.$pointElement.on('mousedown', this.pointMousedownHandler);
+    this.$pointElement.on('mousedown', this.handlePointMousedown);
   }
 
-  private pointMousedownHandler = (): void => {
+  private handlePointMousedown = (): void => {
     this.isMouseDown = true;
 
     this.bindEventsToDocument();
   }
 
-  private documentMouseUpHandler = (): void => {
+  private handleDocumentMouseup = (): void => {
     this.isMouseDown = false;
 
-    document.removeEventListener('mousemove', this.documentMousemoveHandler);
-    document.removeEventListener('mouseup', this.documentMouseUpHandler);
+    document.removeEventListener('mousemove', this.handleDocumentMousemove);
+    document.removeEventListener('mouseup', this.handleDocumentMouseup);
   }
 
   private bindEventsToDocument(): void {
-    document.addEventListener('mousemove', this.documentMousemoveHandler);
-    document.addEventListener('mouseup', this.documentMouseUpHandler);
+    document.addEventListener('mousemove', this.handleDocumentMousemove);
+    document.addEventListener('mouseup', this.handleDocumentMouseup);
   }
 
-  private documentMousemoveHandler = (event: MouseEvent): void => {
+  private handleDocumentMousemove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
       const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
                               event.pageY - this.offset :

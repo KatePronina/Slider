@@ -135,13 +135,13 @@ class ConfigurationView {
   private bindEventsToInputs(): void {
     this.bindEventsToValueInputs();
 
-    this.$stepSizeInput.on('input', this.stepInputHandler);
-    this.$minValueInput.on('input', this.minValueInputHandler);
-    this.$maxValueInput.on('input', this.maxValueInputHandler);
-    this.$hintToggle.on('change', this.hintChangeHandler);
-    this.$scaleToggle.on('change', this.scaleChangeHandler);
-    this.$verticalToggle.on('change', this.directionChangeHandler);
-    this.$typeToggle.on('change', this.typeChangeHandler);
+    this.$stepSizeInput.on('input', this.handleStepInput);
+    this.$minValueInput.on('input', this.handleMinValueInput);
+    this.$maxValueInput.on('input', this.handleMaxValueInput);
+    this.$hintToggle.on('change', this.handleHintChange);
+    this.$scaleToggle.on('change', this.handleScaleChange);
+    this.$verticalToggle.on('change', this.handleDirectionChange);
+    this.$typeToggle.on('change', this.handleTypeChange);
   }
 
   private bindEventsToValueInputs() {
@@ -159,31 +159,31 @@ class ConfigurationView {
     }
   }
 
-  private stepInputHandler = (event: Event): void => {
+  private handleStepInput = (event: Event): void => {
     this.onNumberInputChange(event, 'step');
   }
 
-  private minValueInputHandler = (event: Event): void => {
+  private handleMinValueInput = (event: Event): void => {
     this.onNumberInputChange(event, 'minValue');
   }
 
-  private maxValueInputHandler = (event: Event): void => {
+  private handleMaxValueInput = (event: Event): void => {
     this.onNumberInputChange(event, 'maxValue');
   }
 
-  private hintChangeHandler = ({ target }: Event): void => {
+  private handleHintChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       this.sliderPlugin.setSettings({ hint: !this.settings.hint });
     }
   }
 
-  private scaleChangeHandler = ({ target }: Event): void => {
+  private handleScaleChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       this.sliderPlugin.setSettings({ scale: !this.settings.scale });
     }
   }
 
-  private directionChangeHandler = ({ target }: Event): void => {
+  private handleDirectionChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       const newDirection = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
                                                         constants.DIRECTION_VERTICAL :
@@ -199,7 +199,7 @@ class ConfigurationView {
     }
   }
 
-  private typeChangeHandler = ({ target }: Event): void => {
+  private handleTypeChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
       const newType = this.settings.type === constants.TYPE_SINGLE ?
                                               constants.TYPE_INTERVAL :

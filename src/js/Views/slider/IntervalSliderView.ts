@@ -53,11 +53,11 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private bindEventsToSlider(): void {
-    this.$pointElement.on('mousedown', this.minPointMousedownHandler);
-    this.$maxPointElement.on('mousedown', this.maxPointMousedownHandler);
+    this.$pointElement.on('mousedown', this.handleMinPointMousedown);
+    this.$maxPointElement.on('mousedown', this.handleMaxPointMousedown);
   }
 
-  private minPointMousedownHandler = (): void => {
+  private handleMinPointMousedown = (): void => {
     this.isMinMouseDown = true;
 
     this.bindEventsToDocument();
@@ -66,7 +66,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.$maxPointElement.removeClass(constants.POINT_ACTIVE_CLASS);
   }
 
-  private maxPointMousedownHandler = (): void => {
+  private handleMaxPointMousedown = (): void => {
     this.isMaxMouseDown = true;
 
     this.bindEventsToDocument();
@@ -76,19 +76,19 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private bindEventsToDocument(): void {
-    document.addEventListener('mousemove', this.documentMousemoveHandler);
-    document.addEventListener('mouseup', this.documentMouseUpHandler);
+    document.addEventListener('mousemove', this.handleDocumentMousemove);
+    document.addEventListener('mouseup', this.handleDocumentMouseUp);
   }
 
-  private documentMouseUpHandler = (): void => {
+  private handleDocumentMouseUp = (): void => {
     this.isMinMouseDown = false;
     this.isMaxMouseDown = false;
 
-    document.removeEventListener('mousemove', this.documentMousemoveHandler);
-    document.removeEventListener('mouseup', this.documentMouseUpHandler);
+    document.removeEventListener('mousemove', this.handleDocumentMousemove);
+    document.removeEventListener('mouseup', this.handleDocumentMouseUp);
   }
 
-  private documentMousemoveHandler = (event: MouseEvent): void => {
+  private handleDocumentMousemove = (event: MouseEvent): void => {
     const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
                             event.pageY - this.offset :
                             event.pageX - this.offset;
