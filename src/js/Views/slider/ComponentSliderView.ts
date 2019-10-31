@@ -25,7 +25,7 @@ abstract class ComponentSliderView extends ComponentView {
     this.positionLength = positionLength;
   }
 
-  protected setSliderSizes(): void {
+  protected getSliderSizes(): void {
     const distanceFromPageBorder = this.$sliderElement.offset();
     const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';

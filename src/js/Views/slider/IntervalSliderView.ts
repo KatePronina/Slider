@@ -5,8 +5,8 @@ import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
   private $maxPointElement: JQuery<HTMLDivElement>;
-  private minPercent: number;
-  private maxPercent: number;
+  private minPositionPercent: number;
+  private maxPositionPercent: number;
   private isMouseDownTargetEqualMin: boolean;
   private isMouseDownTargetEqualMax: boolean;
 
@@ -17,21 +17,21 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.isMouseDownTargetEqualMax = false;
     this.makeElement();
     $parentElement.append(this.$sliderElement);
-    this.setSliderSizes();
+    this.getSliderSizes();
   }
 
   public update(newPositionLength: number[]): void {
-    this.minPercent = newPositionLength[constants.VALUE_START];
-    this.maxPercent = newPositionLength[constants.VALUE_END];
+    this.minPositionPercent = newPositionLength[constants.VALUE_START];
+    this.maxPositionPercent = newPositionLength[constants.VALUE_END];
 
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
-    const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width';
+    const sizeProperty = this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width';
 
     this.$pointElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
     this.$maxPointElement.css(positionProperty,
                               `${newPositionLength[constants.VALUE_END]}%`);
     this.$barElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
-    this.$barElement.css(lengthProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
+    this.$barElement.css(sizeProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
 
   public dispatchPositionPercent = (positionPercent: number[], valueType: string) => {};
@@ -96,13 +96,13 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
                             event.pageX - this.distanceFromPageBorder;
 
     if (this.isMouseDownTargetEqualMin) {
-      this.minPercent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent([this.minPercent], constants.VALUE_TYPE_MIN);
+      this.minPositionPercent = this.countPercent(eventCoordinate, this.size);
+      this.dispatchPositionPercent([this.minPositionPercent], constants.VALUE_TYPE_MIN);
     }
 
     if (this.isMouseDownTargetEqualMax) {
-      this.maxPercent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent([this.maxPercent], constants.VALUE_TYPE_MAX);
+      this.maxPositionPercent = this.countPercent(eventCoordinate, this.size);
+      this.dispatchPositionPercent([this.maxPositionPercent], constants.VALUE_TYPE_MAX);
     }
   }
 }

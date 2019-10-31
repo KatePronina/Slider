@@ -4,7 +4,7 @@ import constants from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class SingleSliderView extends ComponentSliderView implements ISingleSliderView {
-  private percent: number;
+  private positionPercent: number;
   private isMouseDown: boolean;
 
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
@@ -13,7 +13,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.isMouseDown = false;
     this.makeElement();
     $parentElement.append(this.$sliderElement);
-    this.setSliderSizes();
+    this.getSliderSizes();
   }
 
   public update (newPositionLength: number[]): void {
@@ -71,8 +71,8 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
                               event.pageY - this.distanceFromPageBorder :
                               event.pageX - this.distanceFromPageBorder;
 
-      this.percent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent(this.percent);
+      this.positionPercent = this.countPercent(eventCoordinate, this.size);
+      this.dispatchPositionPercent(this.positionPercent);
     }
   }
 }
