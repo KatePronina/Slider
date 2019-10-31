@@ -61,10 +61,10 @@ class View extends Observer implements IView {
     }
 
     if (settings.scale) {
-      const sliderLength = settings.direction === constants.DIRECTION_HORIZONTAL ?
+      const sliderSize = settings.direction === constants.DIRECTION_HORIZONTAL ?
                           parseInt(`${this.sliderView.$stripElement.outerWidth()}`, 10) :
                           parseInt(`${this.sliderView.$stripElement.outerHeight()}`, 10);
-      this.initScale({ sliderLength, direction, minValue, maxValue, step, $parentElement: slider });
+      this.initScale({ sliderSize, direction, minValue, maxValue, step, $parentElement: slider });
     }
   }
 
@@ -94,8 +94,8 @@ class View extends Observer implements IView {
     }
   }
 
-  private initScale({ direction, minValue, maxValue, step, sliderLength, $parentElement }: IScaleSettings): void {
-    this.scaleView = new ScaleView({ sliderLength, direction, minValue, maxValue, step, $parentElement });
+  private initScale({ direction, minValue, maxValue, step, sliderSize, $parentElement }: IScaleSettings): void {
+    this.scaleView = new ScaleView({ sliderSize, direction, minValue, maxValue, step, $parentElement });
 
     this.scaleView.dispatchValue = (value: number): void => {
       this.settings.type === constants.TYPE_INTERVAL ?

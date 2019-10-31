@@ -4,19 +4,19 @@ import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 class ScaleView extends ComponentView implements IScaleView {
-  private sliderLength: number;
+  private sliderSize: number;
   private direction: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private step: number;
 
-  public constructor({ direction, minValue, maxValue, step, sliderLength, $parentElement }: IScaleSettings) {
+  public constructor({ direction, minValue, maxValue, step, sliderSize, $parentElement }: IScaleSettings) {
     super();
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.step = step;
-    this.sliderLength = sliderLength;
+    this.sliderSize = sliderSize;
     this.makeElement();
     $parentElement.append(this.element);
     this.element.addEventListener('click', this.handleScaleClick);
@@ -29,10 +29,10 @@ class ScaleView extends ComponentView implements IScaleView {
     this.element.classList.add('slider__scale');
     if (this.direction === constants.DIRECTION_HORIZONTAL) {
       this.element.classList.add(constants.SCALE_HORIZONTAL_CLASS);
-      this.element.style.width = `${this.sliderLength}px`;
+      this.element.style.width = `${this.sliderSize}px`;
     } else {
       this.element.classList.add(constants.SCALE_VERTICAL_CLASS);
-      this.element.style.height = `${this.sliderLength}px`;
+      this.element.style.height = `${this.sliderSize}px`;
     }
 
     this.createValuesElements();
@@ -54,10 +54,10 @@ class ScaleView extends ComponentView implements IScaleView {
         : valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
-      const offsetValue = this.countPosition(value) - (valueElement.offsetWidth / 2);
+      const positionLength = this.convertValueToPosition(value);
       this.direction === constants.DIRECTION_HORIZONTAL ?
-                          valueElement.style.left = `${offsetValue}%` :
-                          valueElement.style.top = `${offsetValue}%`;
+                          valueElement.style.left = `${positionLength}%` :
+                          valueElement.style.top = `${positionLength}%`;
       valuesFragment.append(valueElement);
     });
 
@@ -71,7 +71,7 @@ class ScaleView extends ComponentView implements IScaleView {
     }
   }
 
-  private countPosition(value: number): number {
+  private convertValueToPosition(value: number): number {
     return ((value - this.minValue) * 100) / (this.maxValue - this.minValue);
   }
 }
