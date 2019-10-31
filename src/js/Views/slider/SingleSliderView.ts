@@ -18,7 +18,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     const positionLength = newPositionLength[constants.VALUE_START];
 
     this.$barElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
-    this.$pointElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength - (this.pointOffset * 100)}%`);
+    this.$pointElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength}%`);
   }
 
   public dispatchPositionPercent = (positionPercent: number): void => {};

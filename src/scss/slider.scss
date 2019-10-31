@@ -25,6 +25,7 @@
     background-color: $orange;
     position: absolute;
     top: -.45rem;
+    transform: translateX(-50%);
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -35,6 +36,7 @@
 
     &_direction_vertical {
       left: -.47rem;
+      transform: translate(0, -50%);
     }
 
     &_actived {
@@ -61,6 +63,7 @@
     border-radius: .3rem;
     color: $white;
     text-align: center;
+    transform: translateX(-50%);
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -71,6 +74,7 @@
 
     &_direction_vertical {
       left: 1.2rem;
+      transform: translate(0, -50%);
     }
   }
 
@@ -91,6 +95,7 @@
     color: $lightgrey;
     font-size: .8rem;
     cursor: pointer;
+    transform: translateX(-50%);
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -98,5 +103,9 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &_direction_vertical {
+      transform: translate(0, -50%);
+    }
   }
 }

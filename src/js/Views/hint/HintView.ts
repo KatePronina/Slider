@@ -4,7 +4,6 @@ import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
 class HintView extends ComponentView implements IHintView {
-  private offset: number;
   private isMaxValue?: boolean;
   private type: 'single' | 'interval';
   private value: number | number[];
@@ -25,14 +24,6 @@ class HintView extends ComponentView implements IHintView {
     this.rewriteTextContent();
   }
 
-  public setOffset(sliderLength: number): void {
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.offset = (this.element.offsetHeight / 2) / sliderLength;
-    } else {
-      this.offset = (this.element.offsetWidth / 2) / sliderLength;
-    }
-  }
-
   private rewriteTextContent(): void {
     if (this.type === constants.TYPE_INTERVAL && this.value instanceof Array) {
       this.isMaxValue ?
@@ -45,7 +36,7 @@ class HintView extends ComponentView implements IHintView {
 
   private updatePosition(percent: number): void {
     const offsetProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
-    this.element.style[offsetProperty] = `${percent - (this.offset * 100)}%`;
+    this.element.style[offsetProperty] = `${percent}%`;
   }
 
   private makeElement(): void {

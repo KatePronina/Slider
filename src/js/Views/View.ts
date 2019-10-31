@@ -103,13 +103,11 @@ class View extends Observer implements IView {
     this.hintView = new HintView({ value, type, direction });
     this.hintElement = this.hintView.getElement();
     this.insertElementToSlider(this.hintElement);
-    this.hintView.setOffset(this.sliderView.length);
 
     if (this.settings.type === constants.TYPE_INTERVAL) {
       this.hintMaxValueView = new HintView({ value, type, direction, isMaxValue: true });
       this.hintMaxValueElement = this.hintMaxValueView.getElement();
       this.insertElementToSlider(this.hintMaxValueElement);
-      this.hintMaxValueView.setOffset(this.sliderView.length);
     }
 
     this.hintView.update(this.settings.value, this.settings.positionLength[constants.VALUE_START]);
@@ -121,7 +119,6 @@ class View extends Observer implements IView {
     this.scaleView = new ScaleView({ sliderLength, direction, minValue, maxValue, step });
     this.scaleElement = this.scaleView.getElement();
     this.insertElementToSlider(this.scaleElement);
-    this.scaleView.alignValueElements();
 
     this.scaleView.dispatchValue = (value: number): void => {
       this.settings.type === constants.TYPE_INTERVAL ?

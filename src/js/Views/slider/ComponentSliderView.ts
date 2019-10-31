@@ -8,8 +8,6 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
   public $sliderElement: JQuery<HTMLDivElement>;
   public length: number;
   public offset: number;
-  public pointWidth: number;
-  public pointOffset: number;
 
   protected $barElement: JQuery<HTMLDivElement>;
   protected $pointElement: JQuery<HTMLDivElement>;
@@ -34,11 +32,6 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
 
     if (offset) {
       this.offset = parseInt(`${offset[positionProperty]}`, 10);
-    }
-
-    if (this.$pointElement) {
-      this.pointWidth = parseInt(`${this.$pointElement.outerWidth()}`, 10);
-      this.pointOffset = (this.pointWidth / 2) / this.length;
     }
   }
 

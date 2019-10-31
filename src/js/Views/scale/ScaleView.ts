@@ -21,29 +21,7 @@ class ScaleView extends ComponentView implements IScaleView {
     this.element.addEventListener('click', this.handleScaleClick);
   }
 
-  public alignValueElements(): void {
-    const valueElements = this.element.querySelectorAll('.slider__scale-value');
-
-    valueElements.forEach((element): void => {
-      if (element instanceof HTMLElement) {
-        const elementOffset = (element.offsetWidth / 2) * 100 / this.sliderLength;
-        this.setOffset(element, elementOffset);
-      }
-    });
-  }
-
   public dispatchValue = (value: number): void => {};
-
-  private setOffset(element: HTMLElement, elementOffset: number): void {
-    const positionProperty = this.direction === constants.DIRECTION_HORIZONTAL ? element.style.left : element.style.top;
-    const elementCurrentOffset = positionProperty && (parseInt(positionProperty.slice(0, -1), 10));
-
-    if (elementCurrentOffset || elementCurrentOffset === 0) {
-      this.direction === constants.DIRECTION_HORIZONTAL ?
-                          element.style.left = `${elementCurrentOffset - elementOffset}%`
-                        : element.style.top = `${elementCurrentOffset - elementOffset}%`;
-    }
-  }
 
   private makeElement(): void {
     this.element = document.createElement('div');
@@ -70,7 +48,9 @@ class ScaleView extends ComponentView implements IScaleView {
     const valuesFragment = document.createDocumentFragment();
     values.forEach((value) => {
       const valueElement = document.createElement('div');
-      valueElement.classList.add('slider__scale-value');
+      this.direction === constants.DIRECTION_VERTICAL ?
+        valueElement.classList.add('slider__scale-value', 'slider__scale-value_direction_vertical')
+        : valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
       const offsetValue = typeof value === 'number' &&  this.countPosition(value) - (valueElement.offsetWidth / 2);

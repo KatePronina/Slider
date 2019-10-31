@@ -25,9 +25,9 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
     const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width';
 
-    this.$pointElement.css(positionProperty, `${newPositionLength[constants.VALUE_START] - (this.pointOffset * 100)}%`);
+    this.$pointElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
     this.$maxPointElement.css(positionProperty,
-                              `${newPositionLength[constants.VALUE_END] - (this.pointOffset * 100)}%`);
+                              `${newPositionLength[constants.VALUE_END]}%`);
     this.$barElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
     this.$barElement.css(lengthProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
   }
