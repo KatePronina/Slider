@@ -122,53 +122,67 @@ class ConfigurationView {
 
   private updateValueInputs(): void {
     if (this.settings.type === constants.TYPE_SINGLE && typeof this.settings.value === 'number') {
-      const value = this.settings.value.toString();
-      this.$currentValueInput.val(value);
+      this.$currentValueInput.val(this.settings.value.toString());
     } else if (this.settings.value instanceof Array) {
-      const minValue = this.settings.value[constants.VALUE_START].toString();
-      const maxValue = this.settings.value[constants.VALUE_END].toString();
-      this.$currentMinValueInput.val(minValue);
-      this.$currentMaxValueInput.val(maxValue);
+      this.$currentMinValueInput.val(this.settings.value[constants.VALUE_START].toString());
+      this.$currentMaxValueInput.val(this.settings.value[constants.VALUE_END].toString());
     }
   }
 
   private bindEventsToInputs(): void {
-    this.bindEventsToValueInputs();
+    if (this.settings.type === constants.TYPE_SINGLE) {
+      this.$currentValueInput.on('blur', this.handleCurrentValueBlur);
+    } else {
+      this.$currentMinValueInput.on('blur', this.handleCurrentMinValueBlur);
+      this.$currentMaxValueInput.on('blur', this.handleCurrentMaxValueBlur);
+    }
 
-    this.$stepSizeInput.on('input', this.handleStepInput);
-    this.$minValueInput.on('input', this.handleMinValueInput);
-    this.$maxValueInput.on('input', this.handleMaxValueInput);
+    this.$stepSizeInput.on('blur', this.handleStepInput);
+    this.$minValueInput.on('blur', this.handleMinValueInput);
+    this.$maxValueInput.on('blur', this.handleMaxValueInput);
     this.$hintToggle.on('change', this.handleHintChange);
     this.$scaleToggle.on('change', this.handleScaleChange);
     this.$verticalToggle.on('change', this.handleDirectionChange);
     this.$typeToggle.on('change', this.handleTypeChange);
   }
 
-  private bindEventsToValueInputs() {
-    if (this.settings.type === constants.TYPE_SINGLE) {
-      this.bindInputValueEvent(this.$currentValueInput);
-    } else {
-      this.bindInputValueEvent(this.$currentMinValueInput, constants.VALUE_TYPE_MIN);
-      this.bindInputValueEvent(this.$currentMaxValueInput, constants.VALUE_TYPE_MAX);
+  private handleCurrentValueBlur = ({ target }: Event) => {
+    const value = parseInt((<HTMLInputElement>target).value, 10);
+    this.sliderPlugin.setSettings({ value });
+  }
+
+  private handleCurrentMinValueBlur = ({ target }: Event) => {
+    const value = parseInt((<HTMLInputElement>target).value, 10);
+
+    if (this.settings.value instanceof Array) {
+      this.sliderPlugin.setSettings({ value: [value, this.settings.value[constants.VALUE_END]] });
     }
   }
 
-  private onNumberInputChange({ target }: Event, property: string) {
-    if (target instanceof HTMLInputElement && target.value.length > 0) {
-      this.sliderPlugin.setSettings({ [property]: parseInt(target.value, 10) });
+  private handleCurrentMaxValueBlur = ({ target }: Event) => {
+    const value = parseInt((<HTMLInputElement>target).value, 10);
+
+    if (this.settings.value instanceof Array) {
+      this.sliderPlugin.setSettings({ value: [this.settings.value[constants.VALUE_START], value] });
     }
   }
 
-  private handleStepInput = (event: Event): void => {
-    this.onNumberInputChange(event, 'step');
+  private handleStepInput = ({ target }: Event): void => {
+    if ((<HTMLInputElement>target).value.length > 0) {
+      this.sliderPlugin.setSettings({ step: parseInt((<HTMLInputElement>target).value, 10) });
+    }
   }
 
-  private handleMinValueInput = (event: Event): void => {
-    this.onNumberInputChange(event, 'minValue');
+  private handleMinValueInput = ({ target }: Event): void => {
+    if ((<HTMLInputElement>target).value.length > 0) {
+      this.sliderPlugin.setSettings({ minValue: parseInt((<HTMLInputElement>target).value, 10) });
+    }
   }
 
-  private handleMaxValueInput = (event: Event): void => {
-    this.onNumberInputChange(event, 'maxValue');
+  private handleMaxValueInput = ({ target }: Event): void => {
+    if ((<HTMLInputElement>target).value.length > 0) {
+      this.sliderPlugin.setSettings({ maxValue: parseInt((<HTMLInputElement>target).value, 10) });
+    }
   }
 
   private handleHintChange = ({ target }: Event): void => {
@@ -219,31 +233,6 @@ class ConfigurationView {
     }
 
     return value;
-  }
-
-  private bindInputValueEvent(input: JQuery<Element>, valueType?: string): void {
-    input.on('input', (): void => {
-      const value = input.val();
-      const numberValue = typeof value === 'string' && parseInt(value, 10);
-
-      setTimeout((): void => {
-        if (numberValue && Number.isNaN(numberValue)) {
-          this.sliderPlugin.setSettings({ value: this.settings.minValue });
-        } else if (numberValue && valueType) {
-          this.onNewIntervalValue(numberValue, valueType);
-        } else if (numberValue) {
-          this.sliderPlugin.setSettings({ value: numberValue });
-        }
-      }, 800);
-    });
-  }
-
-  private onNewIntervalValue = (value: number, valueType: string) => {
-    if (valueType === constants.VALUE_TYPE_MIN && this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [value, this.settings.value[constants.VALUE_END]] });
-    } else if (valueType === constants.VALUE_TYPE_MAX && this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [this.settings.value[constants.VALUE_START], value] });
-    }
   }
 
   private onNewValue = (value: number | number[]) => {
