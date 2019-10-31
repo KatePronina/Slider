@@ -1,24 +1,28 @@
-import Application from './application';
-import DEFAULT_SETTINGS from './defaultSettings';
+import Application from './Application';
+import defaultSettings from './defaultSettings';
 import constants from './constants';
+import IModelSettings from './Interfaces/model/IModelSettings';
+import IPluginSettings from './Interfaces/IPluginSettings';
+import INewParams from './Interfaces/controller/INewParams';
+import IMethods from './Interfaces/IMethods';
 
-$.fn.slider = function callSlider(method, ...args) {
-  let slider;
-  let events = {
-    onNewValue: null,
-    onNewSettings: null,
+$.fn.slider = function callSlider(method: string, ...args) {
+  let slider: Application;
+  const events = {
+    onNewValue: (value: number | number[]) => {},
+    onNewSettings: (settings: IModelSettings) => {},
   };
 
-  const onNewSettings = (settings) => {
+  const onNewSettings = (settings: IModelSettings) => {
     events.onNewSettings(settings);
-  }
+  };
 
-  const onNewValue = (settings) => {
+  const onNewValue = (settings: IModelSettings) => {
     events.onNewValue(settings.value);
-  }
+  };
 
-  const methods = {
-    init(options) {
+  const methods: IMethods = {
+    init(options: IPluginSettings): void {
       const fullSettings = { $parentElement: this, ...options };
       if (typeof fullSettings.value === 'undefined') {
         fullSettings.value = fullSettings.type === constants.TYPE_INTERVAL ?
@@ -41,15 +45,15 @@ $.fn.slider = function callSlider(method, ...args) {
     methods[method].apply(this, args);
   }
   if (typeof method === 'object') {
-    const fullSettings = $.extend(true, { ...DEFAULT_SETTINGS }, method);
+    const fullSettings = $.extend(true, { ...defaultSettings }, method);
     methods.init.call(this, fullSettings);
   }
-  
+
   return {
-    setSettings(settings) {
-      slider.publish('dispatchOptions', { ...settings, eventType: 'stateUpdated'} );
-    }
-  }
+    setSettings(settings: INewParams) {
+      slider.publish('dispatchOptions', { ...settings, eventType: 'stateUpdated' });
+    },
+  };
 };
 
 export default $.fn.slider;
