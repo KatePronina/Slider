@@ -3,6 +3,5 @@ export default interface IScaleSettings {
   maxValue: number;
   step: number;
   direction: 'horizontal' | 'vertical';
-  sliderSize: number;
   $parentElement: JQuery<HTMLElement>;
 }

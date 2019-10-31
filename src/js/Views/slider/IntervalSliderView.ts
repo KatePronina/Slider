@@ -96,12 +96,12 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
                             event.pageX - this.offset;
 
     if (this.isMouseDownTargetEqualMin) {
-      this.minPercent = this.countPercent(eventCoordinate, this.length);
+      this.minPercent = this.countPercent(eventCoordinate, this.size);
       this.dispatchPositionPercent([this.minPercent], constants.VALUE_TYPE_MIN);
     }
 
     if (this.isMouseDownTargetEqualMax) {
-      this.maxPercent = this.countPercent(eventCoordinate, this.length);
+      this.maxPercent = this.countPercent(eventCoordinate, this.size);
       this.dispatchPositionPercent([this.maxPercent], constants.VALUE_TYPE_MAX);
     }
   }

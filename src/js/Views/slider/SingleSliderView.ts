@@ -71,7 +71,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
                               event.pageY - this.offset :
                               event.pageX - this.offset;
 
-      this.percent = this.countPercent(eventCoordinate, this.length);
+      this.percent = this.countPercent(eventCoordinate, this.size);
       this.dispatchPositionPercent(this.percent);
     }
   }

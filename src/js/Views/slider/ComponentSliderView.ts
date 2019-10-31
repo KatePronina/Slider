@@ -1,13 +1,11 @@
 import ISliderSettings from '../../Interfaces/view/ISliderSettings';
-import IComponentSliderView from '../../Interfaces/view/IComponentSliderView';
 import constants from '../../constants';
 import ComponentView from '../ComponentView';
 
-abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
-  public $stripElement: JQuery<HTMLDivElement>;
-  public length: number;
-  public offset: number;
-
+abstract class ComponentSliderView extends ComponentView {
+  protected $stripElement: JQuery<HTMLDivElement>;
+  protected size: number;
+  protected offset: number;
   protected $sliderElement: JQuery<HTMLDivElement>;
   protected $barElement: JQuery<HTMLDivElement>;
   protected $pointElement: JQuery<HTMLDivElement>;
@@ -27,12 +25,12 @@ abstract class ComponentSliderView extends ComponentView implements IComponentSl
     this.positionLength = positionLength;
   }
 
-  public setSliderSizes(): void {
+  protected setSliderSizes(): void {
     const offset = this.$sliderElement.offset();
     const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
 
-    this.length = parseInt(`${this.$sliderElement[lengthProperty]()}`, 10);
+    this.size = parseInt(`${this.$sliderElement[lengthProperty]()}`, 10);
 
     if (offset) {
       this.offset = parseInt(`${offset[positionProperty]}`, 10);
