@@ -92,8 +92,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
   private handleDocumentMousemove = (event: MouseEvent): void => {
     const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
-                            event.pageY - this.offset :
-                            event.pageX - this.offset;
+                            event.pageY - this.distanceFromPageBorder :
+                            event.pageX - this.distanceFromPageBorder;
 
     if (this.isMouseDownTargetEqualMin) {
       this.minPercent = this.countPercent(eventCoordinate, this.size);

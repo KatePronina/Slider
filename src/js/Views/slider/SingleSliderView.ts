@@ -68,8 +68,8 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   private handleDocumentMousemove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
       const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
-                              event.pageY - this.offset :
-                              event.pageX - this.offset;
+                              event.pageY - this.distanceFromPageBorder :
+                              event.pageX - this.distanceFromPageBorder;
 
       this.percent = this.countPercent(eventCoordinate, this.size);
       this.dispatchPositionPercent(this.percent);

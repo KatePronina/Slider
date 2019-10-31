@@ -5,7 +5,7 @@ import ComponentView from '../ComponentView';
 abstract class ComponentSliderView extends ComponentView {
   protected $stripElement: JQuery<HTMLDivElement>;
   protected size: number;
-  protected offset: number;
+  protected distanceFromPageBorder: number;
   protected $sliderElement: JQuery<HTMLDivElement>;
   protected $barElement: JQuery<HTMLDivElement>;
   protected $pointElement: JQuery<HTMLDivElement>;
@@ -26,14 +26,14 @@ abstract class ComponentSliderView extends ComponentView {
   }
 
   protected setSliderSizes(): void {
-    const offset = this.$sliderElement.offset();
+    const distanceFromPageBorder = this.$sliderElement.offset();
     const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
     const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
 
     this.size = parseInt(`${this.$sliderElement[lengthProperty]()}`, 10);
 
-    if (offset) {
-      this.offset = parseInt(`${offset[positionProperty]}`, 10);
+    if (distanceFromPageBorder) {
+      this.distanceFromPageBorder = parseInt(`${distanceFromPageBorder[positionProperty]}`, 10);
     }
   }
 
