@@ -9,13 +9,14 @@ class HintView extends ComponentView implements IHintView {
   private value: number | number[];
   private direction: 'horizontal' | 'vertical';
 
-  public constructor({ value, type, direction, isMaxValue }: IHintSettings) {
+  public constructor({ value, type, direction, isMaxValue, $parentElement }: IHintSettings) {
     super();
     this.value = value;
     this.type = type;
     this.direction = direction;
     this.isMaxValue = isMaxValue;
     this.makeElement();
+    $parentElement.append(this.element);
   }
 
   public update (value: number | number[], percent: number): void {

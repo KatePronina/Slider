@@ -10,7 +10,7 @@ class ScaleView extends ComponentView implements IScaleView {
   private maxValue: number;
   private step: number;
 
-  public constructor({ direction, minValue, maxValue, step, sliderLength }: IScaleSettings) {
+  public constructor({ direction, minValue, maxValue, step, sliderLength, $parentElement }: IScaleSettings) {
     super();
     this.direction = direction;
     this.minValue = minValue;
@@ -18,6 +18,7 @@ class ScaleView extends ComponentView implements IScaleView {
     this.step = step;
     this.sliderLength = sliderLength;
     this.makeElement();
+    $parentElement.append(this.element);
     this.element.addEventListener('click', this.handleScaleClick);
   }
 
@@ -53,7 +54,7 @@ class ScaleView extends ComponentView implements IScaleView {
         : valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
-      const offsetValue = typeof value === 'number' &&  this.countPosition(value) - (valueElement.offsetWidth / 2);
+      const offsetValue = this.countPosition(value) - (valueElement.offsetWidth / 2);
       this.direction === constants.DIRECTION_HORIZONTAL ?
                           valueElement.style.left = `${offsetValue}%` :
                           valueElement.style.top = `${offsetValue}%`;

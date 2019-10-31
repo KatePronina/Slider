@@ -10,12 +10,14 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   private isMouseDownTargetEqualMin: boolean;
   private isMouseDownTargetEqualMax: boolean;
 
-  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
-    super({ direction, minValue, maxValue });
+  public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
+    super({ direction, minValue, maxValue, $parentElement, positionLength });
 
     this.isMouseDownTargetEqualMin = false;
     this.isMouseDownTargetEqualMax = false;
     this.makeElement();
+    $parentElement.append(this.$sliderElement);
+    this.setSliderSizes();
   }
 
   public update(newPositionLength: number[]): void {

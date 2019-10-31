@@ -7,11 +7,13 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   private percent: number;
   private isMouseDown: boolean;
 
-  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
-    super({ direction, minValue, maxValue });
+  public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
+    super({ direction, minValue, maxValue, $parentElement, positionLength });
 
     this.isMouseDown = false;
     this.makeElement();
+    $parentElement.append(this.$sliderElement);
+    this.setSliderSizes();
   }
 
   public update (newPositionLength: number[]): void {

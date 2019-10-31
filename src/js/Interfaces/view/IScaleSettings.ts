@@ -4,4 +4,5 @@ export default interface IScaleSettings {
   step: number;
   direction: 'horizontal' | 'vertical';
   sliderLength: number;
+  $parentElement: JQuery<HTMLElement>;
 }

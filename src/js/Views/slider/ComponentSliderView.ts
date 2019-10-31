@@ -5,22 +5,26 @@ import ComponentView from '../ComponentView';
 
 abstract class ComponentSliderView extends ComponentView implements IComponentSliderView {
   public $stripElement: JQuery<HTMLDivElement>;
-  public $sliderElement: JQuery<HTMLDivElement>;
   public length: number;
   public offset: number;
 
+  protected $sliderElement: JQuery<HTMLDivElement>;
   protected $barElement: JQuery<HTMLDivElement>;
   protected $pointElement: JQuery<HTMLDivElement>;
+  protected $parentElement: JQuery<HTMLElement>;
   protected minValue: number;
   protected maxValue: number;
+  protected positionLength: number[];
   protected direction: 'horizontal' | 'vertical';
 
-  public constructor({ direction, minValue, maxValue }: ISliderSettings) {
+  public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
     super();
 
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;
+    this.$parentElement = $parentElement;
+    this.positionLength = positionLength;
   }
 
   public setSliderSizes(): void {
