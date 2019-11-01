@@ -4,12 +4,10 @@ import ComponentSliderView from './ComponentSliderView';
 
 class SingleSliderView extends ComponentSliderView implements ISingleSliderView {
   private positionPercent: number;
-  private isMouseDown: boolean;
 
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
     super({ direction, minValue, maxValue, $parentElement, positionLength });
 
-    this.isMouseDown = false;
     this.makeElement();
     $parentElement.append(this.$sliderElement);
     this.getSliderSizes();
@@ -47,14 +45,10 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   }
 
   private handlePointMousedown = (): void => {
-    this.isMouseDown = true;
-
     this.bindEventsToDocument();
   }
 
   private handleDocumentMouseup = (): void => {
-    this.isMouseDown = false;
-
     document.removeEventListener('mousemove', this.handleDocumentMousemove);
     document.removeEventListener('mouseup', this.handleDocumentMouseup);
   }
@@ -65,14 +59,12 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   }
 
   private handleDocumentMousemove = (event: MouseEvent): void => {
-    if (this.isMouseDown) {
-      const eventCoordinate = this.direction === DIRECTION_VERTICAL ?
-                              event.pageY - this.distanceFromPageBorder :
-                              event.pageX - this.distanceFromPageBorder;
+    const eventCoordinate = this.direction === DIRECTION_VERTICAL ?
+                            event.pageY - this.distanceFromPageBorder :
+                            event.pageX - this.distanceFromPageBorder;
 
-      this.positionPercent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent(this.positionPercent);
-    }
+    this.positionPercent = this.countPercent(eventCoordinate, this.size);
+    this.dispatchPositionPercent(this.positionPercent);
   }
 }
 
