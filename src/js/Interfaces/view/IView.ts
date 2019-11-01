@@ -61,8 +61,3 @@ export interface IHintSettings {
   isMaxValue?: boolean;
   $parentElement: JQuery<HTMLElement>;
 }
-
-export interface ISingleSliderView {
-  element: HTMLElement;
-  getElement(): HTMLElement;
-}

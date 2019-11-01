@@ -1,9 +1,5 @@
 abstract class ComponentView {
-  public element: HTMLElement;
-
-  public getElement(): HTMLElement {
-    return this.element;
-  }
+  protected element: HTMLElement;
 }
 
 export default ComponentView;
