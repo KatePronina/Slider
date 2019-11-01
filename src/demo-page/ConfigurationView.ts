@@ -1,7 +1,7 @@
 import '../js/plugin';
 import { DIRECTION_VERTICAL, TYPE_SINGLE, TYPE_INTERVAL,
         VALUE_START, VALUE_END, DIRECTION_HORIZONTAL } from '../js/constants';
-import IModelSettings from '../js/Interfaces/model/IModelSettings';
+import { IModelSettings } from '../js/Interfaces/model/IModel';
 
 class ConfigurationView {
   private $containerElement: JQuery<Element>;

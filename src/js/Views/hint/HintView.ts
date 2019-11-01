@@ -1,5 +1,4 @@
-import IHintSettings from '../../Interfaces/view/IHintSettings';
-import IHintView from '../../Interfaces/view/IHintView';
+import { IHintSettings, IHintView } from '../../Interfaces/view/IView';
 import { TYPE_INTERVAL, VALUE_END, VALUE_START, DIRECTION_VERTICAL, HINT_VERTICAL_CLASS } from '../../constants';
 import ComponentView from '../ComponentView';
 

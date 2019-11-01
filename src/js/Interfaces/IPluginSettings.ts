@@ -1,4 +1,4 @@
-import IModelSettings from './model/IModelSettings';
+import { IModelSettings } from './model/IModel';
 
 export default interface IPluginSettings {
   $parentElement: JQuery;

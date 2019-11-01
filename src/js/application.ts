@@ -1,7 +1,7 @@
 import Controller from './Controller/Controller';
 import Observer from './Observer/Observer';
 import IFullSettings from './Interfaces/IFullSettings';
-import IModelSettings from './Interfaces/model/IModelSettings';
+import { IModelSettings } from './Interfaces/model/IModel';
 
 class Application extends Observer {
   private controller: Controller;

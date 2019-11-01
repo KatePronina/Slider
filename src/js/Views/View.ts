@@ -1,7 +1,6 @@
 import IFullSettings from '../Interfaces/IFullSettings';
-import IView from '../Interfaces/view/IView';
-import IViewSettings from '../Interfaces/view/IViewSettings';
-import IHintSettings from '../Interfaces/view/IHintSettings';
+import { IView, IViewSettings, IHintSettings, IScaleSettings } from '../Interfaces/view/IView';
+import { IModelSettings } from '../Interfaces/model/IModel';
 import { VALUE_START, VALUE_END, TYPE_SINGLE, TYPE_INTERVAL } from '../constants';
 import Observer from '../Observer/Observer';
 
@@ -9,8 +8,6 @@ import SingleSliderView from './slider/SingleSliderView';
 import IntervalSliderView from './slider/IntervalSliderView';
 import HintView from './hint/HintView';
 import ScaleView from './scale/ScaleView';
-import IScaleSettings from '../Interfaces/view/IScaleSettings';
-import IModelSettings from '../Interfaces/model/IModelSettings';
 
 class View extends Observer implements IView {
   private sliderView: SingleSliderView | IntervalSliderView;

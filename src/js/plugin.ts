@@ -1,8 +1,8 @@
 import Application from './Application';
 import { TYPE_INTERVAL, DEFAULT_SETTINGS } from './constants';
-import IModelSettings from './Interfaces/model/IModelSettings';
+import { IModelSettings } from './Interfaces/model/IModel';
 import IPluginSettings from './Interfaces/IPluginSettings';
-import INewParams from './Interfaces/controller/INewParams';
+import { INewParams } from './Interfaces/controller/IController';
 import IMethods from './Interfaces/IMethods';
 
 $.fn.slider = function callSlider(method: string, ...args) {

@@ -1,5 +1,4 @@
-import ISliderSettings from '../../Interfaces/view/ISliderSettings';
-import ISingleSliderView from '../../Interfaces/view/ISingleSliderView';
+import { ISliderSettings, ISingleSliderView } from '../../Interfaces/view/IView';
 import { VALUE_START, DIRECTION_VERTICAL } from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 

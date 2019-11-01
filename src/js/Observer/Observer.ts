@@ -1,7 +1,4 @@
-import ISubscribers from '../Interfaces/observer/ISubscribers';
-import IObserver from '../Interfaces/observer/IObserver';
-import TEvents from '../Interfaces/observer/TEvents';
-import TData from '../Interfaces/observer/TData';
+import { IObserver, ISubscribers, TData, TEvents } from '../Interfaces/observer/IObserver';
 
 class Observer implements IObserver {
   private subscribers: ISubscribers;

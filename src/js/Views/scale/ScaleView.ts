@@ -1,5 +1,4 @@
-import IScaleSettings from '../../Interfaces/view/IScaleSettings';
-import IScaleView from '../../Interfaces/view/IScaleView';
+import { IScaleSettings, IScaleView } from '../../Interfaces/view/IView';
 import { DIRECTION_HORIZONTAL, DIRECTION_VERTICAL,
         SCALE_HORIZONTAL_CLASS, SCALE_VERTICAL_CLASS } from '../../constants';
 import ComponentView from '../ComponentView';

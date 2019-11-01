@@ -2,9 +2,8 @@ import Model from '../Model/Model';
 import View from '../Views/View';
 import Observer from '../Observer/Observer';
 import IFullSettings from '../Interfaces/IFullSettings';
-import INewParams from '../Interfaces/controller/INewParams';
-import IController from '../Interfaces/controller/IController';
-import IModelSettings from '../Interfaces/model/IModelSettings';
+import { INewParams, IController } from '../Interfaces/controller/IController';
+import { IModelSettings } from '../Interfaces/model/IModel';
 
 class Controller extends Observer implements IController {
   private model: Model;

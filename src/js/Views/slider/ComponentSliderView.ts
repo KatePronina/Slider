@@ -1,4 +1,4 @@
-import ISliderSettings from '../../Interfaces/view/ISliderSettings';
+import { ISliderSettings } from '../../Interfaces/view/IView';
 import { DIRECTION_VERTICAL, PERCENT_MAX, PERCENT_MIN } from '../../constants';
 import ComponentView from '../ComponentView';
 

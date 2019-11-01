@@ -1,6 +1,4 @@
-import IComponentView from '../Interfaces/view/IComponentView';
-
-abstract class ComponentView implements IComponentView {
+abstract class ComponentView {
   public element: HTMLElement;
 
   public getElement(): HTMLElement {

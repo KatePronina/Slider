@@ -1,8 +1,5 @@
-import { IValidateSingleValue, IValidateIntervalValue, IValidateValues } from '../Interfaces/model/IValidateValues';
-import ICheckValue from '../Interfaces/model/ICheckValue';
-import IConvertPercentsToIntervalValues from '../Interfaces/model/IConvertPercentsToIntervalValues';
-import IModel from '../Interfaces/model/IModel';
-import IModelSettings from '../Interfaces/model/IModelSettings';
+import { IModel, IModelSettings, IValidateSingleValue, IValidateIntervalValue, IValidateValues,
+          ICheckValue, IConvertPercentsToIntervalValues } from '../Interfaces/model/IModel';
 import Observer from '../Observer/Observer';
 import { TYPE_INTERVAL, TYPE_SINGLE, VALUE_TYPE_MIN, VALUE_TYPE_MAX, VALUE_END, VALUE_START } from '../constants';
 

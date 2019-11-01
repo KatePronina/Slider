@@ -1,5 +1,4 @@
-import ISliderSettings from '../../Interfaces/view/ISliderSettings';
-import IIntervalSliderView from '../../Interfaces/view/IIntervalSliderView';
+import { ISliderSettings, IIntervalSliderView } from '../../Interfaces/view/IView';
 import { VALUE_START, VALUE_END, DIRECTION_VERTICAL, POINT_ACTIVE_CLASS, VALUE_TYPE_MAX, VALUE_TYPE_MIN } from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
