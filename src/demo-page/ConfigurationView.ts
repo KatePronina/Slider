@@ -26,13 +26,13 @@ class ConfigurationView {
 
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
-        onNewValue: this.onNewValue,
-        onNewSettings: this.onNewSettings,
+        onNewValue: this.updateValueInInputs,
+        onNewSettings: this.updateSettings,
       }});
     } else {
       this.sliderPlugin = $(`.${sliderClass}`).slider({events: {
-        onNewValue: this.onNewValue,
-        onNewSettings: this.onNewSettings,
+        onNewValue: this.updateValueInInputs,
+        onNewSettings: this.updateSettings,
       }});
     }
   }
@@ -42,7 +42,12 @@ class ConfigurationView {
   private renderConfiguration(): void {
     this.appendConfigurationToDOM();
 
-    this.setValueInputs();
+    if (this.settings.type === TYPE_SINGLE) {
+      this.$currentValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-value');
+    } else {
+      this.$currentMinValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-min-value');
+      this.$currentMaxValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-max-value');
+    }
     this.$stepSizeInput = this.$containerElement.find('.js-configuration__value-input_type_step');
     this.$minValueInput = this.$containerElement.find('.js-configuration__value-input_type_min-value');
     this.$maxValueInput = this.$containerElement.find('.js-configuration__value-input_type_max-value');
@@ -99,19 +104,14 @@ class ConfigurationView {
     this.$containerElement.html(this.template(context));
   }
 
-  private setValueInputs(): void {
-    if (this.settings.type === TYPE_SINGLE) {
-      this.$currentValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-value');
-    } else {
-      this.$currentMinValueInput
-        = this.$containerElement.find('.js-configuration__value-input_type_current-min-value');
-      this.$currentMaxValueInput
-        = this.$containerElement.find('.js-configuration__value-input_type_current-max-value');
-    }
-  }
-
   private updateInputs(): void {
-    this.updateValueInputs();
+    if (this.settings.type === TYPE_SINGLE && typeof this.settings.value === 'number') {
+      this.$currentValueInput.val(this.settings.value.toString());
+    } else if (this.settings.value instanceof Array) {
+      this.$currentMinValueInput.val(this.settings.value[VALUE_START].toString());
+      this.$currentMaxValueInput.val(this.settings.value[VALUE_END].toString());
+    }
+
     this.$stepSizeInput.val(this.settings.step.toString());
     this.$minValueInput.val(this.settings.minValue.toString());
     this.$maxValueInput.val(this.settings.maxValue.toString());
@@ -119,15 +119,6 @@ class ConfigurationView {
     this.$scaleToggle.prop('checked', this.settings.scale);
     this.$typeToggle.prop('checked', this.settings.type === TYPE_INTERVAL);
     this.$verticalToggle.prop('checked', this.settings.direction === DIRECTION_VERTICAL);
-  }
-
-  private updateValueInputs(): void {
-    if (this.settings.type === TYPE_SINGLE && typeof this.settings.value === 'number') {
-      this.$currentValueInput.val(this.settings.value.toString());
-    } else if (this.settings.value instanceof Array) {
-      this.$currentMinValueInput.val(this.settings.value[VALUE_START].toString());
-      this.$currentMaxValueInput.val(this.settings.value[VALUE_END].toString());
-    }
   }
 
   private bindEventsToInputs(): void {
@@ -204,11 +195,9 @@ class ConfigurationView {
                                                         DIRECTION_VERTICAL :
                                                         DIRECTION_HORIZONTAL;
 
-      if (newDirection === DIRECTION_VERTICAL) {
-        this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
-      } else {
-        this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
-      }
+      newDirection === DIRECTION_VERTICAL ?
+                        this.$sliderParentElement.addClass('slider-section__slider_direction_vertical')
+                      : this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
 
       this.sliderPlugin.setSettings({ direction: newDirection });
     }
@@ -236,7 +225,7 @@ class ConfigurationView {
     return value;
   }
 
-  private onNewValue = (value: number | number[]) => {
+  private updateValueInInputs = (value: number | number[]) => {
     if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
       this.$currentValueInput.val(value.toString());
     } else if (value instanceof Array) {
@@ -246,7 +235,7 @@ class ConfigurationView {
     this.settings.value = value;
   }
 
-  private onNewSettings = (settings: IModelSettings) => {
+  private updateSettings = (settings: IModelSettings) => {
     this.settings = settings;
     this.removeConfiguration();
     this.renderConfiguration();
