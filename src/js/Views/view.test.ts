@@ -1,4 +1,5 @@
-import * as $ from 'jquery';
+const $ = require('jquery');
+(window as any).$ = $;
 import View from './View';
 
 beforeEach((): void => {
