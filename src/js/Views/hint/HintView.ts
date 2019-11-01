@@ -1,6 +1,6 @@
 import IHintSettings from '../../Interfaces/view/IHintSettings';
 import IHintView from '../../Interfaces/view/IHintView';
-import constants from '../../constants';
+import { TYPE_INTERVAL, VALUE_END, VALUE_START, DIRECTION_VERTICAL, HINT_VERTICAL_CLASS } from '../../constants';
 import ComponentView from '../ComponentView';
 
 class HintView extends ComponentView implements IHintView {
@@ -26,17 +26,17 @@ class HintView extends ComponentView implements IHintView {
   }
 
   private rewriteTextContent(): void {
-    if (this.type === constants.TYPE_INTERVAL && this.value instanceof Array) {
+    if (this.type === TYPE_INTERVAL && this.value instanceof Array) {
       this.isMaxValue ?
-          this.element.textContent = this.value[constants.VALUE_END].toString()
-        : this.element.textContent = this.value[constants.VALUE_START].toString();
+          this.element.textContent = this.value[VALUE_END].toString()
+        : this.element.textContent = this.value[VALUE_START].toString();
     } else if (typeof this.value === 'number') {
       this.element.textContent = this.value.toString();
     }
   }
 
   private updatePosition(percent: number): void {
-    const offsetProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
+    const offsetProperty = this.direction === DIRECTION_VERTICAL ? 'top' : 'left';
     this.element.style[offsetProperty] = `${percent}%`;
   }
 
@@ -45,8 +45,8 @@ class HintView extends ComponentView implements IHintView {
     this.rewriteTextContent();
 
     this.element.classList.add('slider__hint');
-    if (this.direction === constants.DIRECTION_VERTICAL) {
-      this.element.classList.add(constants.HINT_VERTICAL_CLASS);
+    if (this.direction === DIRECTION_VERTICAL) {
+      this.element.classList.add(HINT_VERTICAL_CLASS);
     }
   }
 }

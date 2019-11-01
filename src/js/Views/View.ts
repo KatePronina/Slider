@@ -2,7 +2,7 @@ import IFullSettings from '../Interfaces/IFullSettings';
 import IView from '../Interfaces/view/IView';
 import IViewSettings from '../Interfaces/view/IViewSettings';
 import IHintSettings from '../Interfaces/view/IHintSettings';
-import constants from '../constants';
+import { VALUE_START, VALUE_END, TYPE_SINGLE, TYPE_INTERVAL } from '../constants';
 import Observer from '../Observer/Observer';
 
 import SingleSliderView from './slider/SingleSliderView';
@@ -38,11 +38,11 @@ class View extends Observer implements IView {
     this.sliderView.update(newPositionLength);
 
     if (this.hintView) {
-      this.hintView.update(value, newPositionLength[constants.VALUE_START]);
+      this.hintView.update(value, newPositionLength[VALUE_START]);
     }
 
     if (this.hintMaxValueView) {
-      this.hintMaxValueView.update(value, newPositionLength[constants.VALUE_END]);
+      this.hintMaxValueView.update(value, newPositionLength[VALUE_END]);
     }
   }
 
@@ -70,10 +70,10 @@ class View extends Observer implements IView {
     const { direction, minValue, maxValue, $parentElement, positionLength } = this.settings;
 
     switch (this.settings.type) {
-      case constants.TYPE_SINGLE:
+      case TYPE_SINGLE:
         this.sliderView = new SingleSliderView({ direction, minValue, maxValue, $parentElement, positionLength });
         break;
-      case constants.TYPE_INTERVAL:
+      case TYPE_INTERVAL:
         this.sliderView = new IntervalSliderView({ direction, minValue, maxValue, $parentElement, positionLength });
         break;
     }
@@ -86,7 +86,7 @@ class View extends Observer implements IView {
   private initHint({ value, type, direction, $parentElement }: IHintSettings): void {
     this.hintView = new HintView({ value, type, direction, $parentElement });
 
-    if (this.settings.type === constants.TYPE_INTERVAL) {
+    if (this.settings.type === TYPE_INTERVAL) {
       this.hintMaxValueView = new HintView({ value, type, direction, $parentElement, isMaxValue: true });
     }
   }
@@ -95,7 +95,7 @@ class View extends Observer implements IView {
     this.scaleView = new ScaleView({ direction, minValue, maxValue, step, $parentElement });
 
     this.scaleView.dispatchValue = (value: number): void => {
-      this.settings.type === constants.TYPE_INTERVAL ?
+      this.settings.type === TYPE_INTERVAL ?
                             this.publish('dispatchOptions', { value: [value], eventType: 'stateUpdated' })
                             : this.publish('dispatchOptions', { value, eventType: 'stateUpdated' });
     };

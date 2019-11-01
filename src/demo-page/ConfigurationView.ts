@@ -1,5 +1,6 @@
 import '../js/plugin';
-import constants from '../js/constants';
+import { DIRECTION_VERTICAL, TYPE_SINGLE, TYPE_INTERVAL,
+        VALUE_START, VALUE_END, DIRECTION_HORIZONTAL } from '../js/constants';
 import IModelSettings from '../js/Interfaces/model/IModelSettings';
 
 class ConfigurationView {
@@ -50,7 +51,7 @@ class ConfigurationView {
     this.$typeToggle = this.$containerElement.find('.js-configuration__value-input_type_toggle-interval');
     this.$verticalToggle = this.$containerElement.find('.js-configuration__value-input_type_vertical');
 
-    if (this.settings.direction === constants.DIRECTION_VERTICAL) {
+    if (this.settings.direction === DIRECTION_VERTICAL) {
       this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
     }
 
@@ -60,7 +61,7 @@ class ConfigurationView {
 
   private appendConfigurationToDOM(): void {
     const context = {
-      isSingle: this.settings.type === constants.TYPE_SINGLE,
+      isSingle: this.settings.type === TYPE_SINGLE,
       valueInputs: [
         {
           label: 'Размер шага',
@@ -99,7 +100,7 @@ class ConfigurationView {
   }
 
   private setValueInputs(): void {
-    if (this.settings.type === constants.TYPE_SINGLE) {
+    if (this.settings.type === TYPE_SINGLE) {
       this.$currentValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-value');
     } else {
       this.$currentMinValueInput
@@ -116,21 +117,21 @@ class ConfigurationView {
     this.$maxValueInput.val(this.settings.maxValue.toString());
     this.$hintToggle.prop('checked', this.settings.hint);
     this.$scaleToggle.prop('checked', this.settings.scale);
-    this.$typeToggle.prop('checked', this.settings.type === constants.TYPE_INTERVAL);
-    this.$verticalToggle.prop('checked', this.settings.direction === constants.DIRECTION_VERTICAL);
+    this.$typeToggle.prop('checked', this.settings.type === TYPE_INTERVAL);
+    this.$verticalToggle.prop('checked', this.settings.direction === DIRECTION_VERTICAL);
   }
 
   private updateValueInputs(): void {
-    if (this.settings.type === constants.TYPE_SINGLE && typeof this.settings.value === 'number') {
+    if (this.settings.type === TYPE_SINGLE && typeof this.settings.value === 'number') {
       this.$currentValueInput.val(this.settings.value.toString());
     } else if (this.settings.value instanceof Array) {
-      this.$currentMinValueInput.val(this.settings.value[constants.VALUE_START].toString());
-      this.$currentMaxValueInput.val(this.settings.value[constants.VALUE_END].toString());
+      this.$currentMinValueInput.val(this.settings.value[VALUE_START].toString());
+      this.$currentMaxValueInput.val(this.settings.value[VALUE_END].toString());
     }
   }
 
   private bindEventsToInputs(): void {
-    if (this.settings.type === constants.TYPE_SINGLE) {
+    if (this.settings.type === TYPE_SINGLE) {
       this.$currentValueInput.on('blur', this.handleCurrentValueBlur);
     } else {
       this.$currentMinValueInput.on('blur', this.handleCurrentMinValueBlur);
@@ -155,7 +156,7 @@ class ConfigurationView {
     const value = parseInt((<HTMLInputElement>target).value, 10);
 
     if (this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [value, this.settings.value[constants.VALUE_END]] });
+      this.sliderPlugin.setSettings({ value: [value, this.settings.value[VALUE_END]] });
     }
   }
 
@@ -163,7 +164,7 @@ class ConfigurationView {
     const value = parseInt((<HTMLInputElement>target).value, 10);
 
     if (this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [this.settings.value[constants.VALUE_START], value] });
+      this.sliderPlugin.setSettings({ value: [this.settings.value[VALUE_START], value] });
     }
   }
 
@@ -199,11 +200,11 @@ class ConfigurationView {
 
   private handleDirectionChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      const newDirection = this.settings.direction === constants.DIRECTION_HORIZONTAL ?
-                                                        constants.DIRECTION_VERTICAL :
-                                                        constants.DIRECTION_HORIZONTAL;
+      const newDirection = this.settings.direction === DIRECTION_HORIZONTAL ?
+                                                        DIRECTION_VERTICAL :
+                                                        DIRECTION_HORIZONTAL;
 
-      if (newDirection === constants.DIRECTION_VERTICAL) {
+      if (newDirection === DIRECTION_VERTICAL) {
         this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
       } else {
         this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
@@ -215,32 +216,32 @@ class ConfigurationView {
 
   private handleTypeChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      const newType = this.settings.type === constants.TYPE_SINGLE ?
-                                              constants.TYPE_INTERVAL :
-                                              constants.TYPE_SINGLE;
+      const newType = this.settings.type === TYPE_SINGLE ?
+                                              TYPE_INTERVAL :
+                                              TYPE_SINGLE;
       const newValue = this.setRequiredTypeForValue(newType, this.settings.value);
       this.sliderPlugin.setSettings({ type: newType, value: newValue });
     }
   }
 
   private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
-    if (type === constants.TYPE_INTERVAL && typeof value === 'number') {
+    if (type === TYPE_INTERVAL && typeof value === 'number') {
       return [value];
     }
 
-    if (type === constants.TYPE_SINGLE && value instanceof Array) {
-      return value[constants.VALUE_START];
+    if (type === TYPE_SINGLE && value instanceof Array) {
+      return value[VALUE_START];
     }
 
     return value;
   }
 
   private onNewValue = (value: number | number[]) => {
-    if (this.settings.type === constants.TYPE_SINGLE && typeof value === 'number') {
+    if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
       this.$currentValueInput.val(value.toString());
     } else if (value instanceof Array) {
-      this.$currentMinValueInput.val(value[constants.VALUE_START].toString());
-      this.$currentMaxValueInput.val(value[constants.VALUE_END].toString());
+      this.$currentMinValueInput.val(value[VALUE_START].toString());
+      this.$currentMaxValueInput.val(value[VALUE_END].toString());
     }
     this.settings.value = value;
   }

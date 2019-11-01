@@ -1,6 +1,5 @@
 import Application from './Application';
-import defaultSettings from './defaultSettings';
-import constants from './constants';
+import { TYPE_INTERVAL, DEFAULT_SETTINGS } from './constants';
 import IModelSettings from './Interfaces/model/IModelSettings';
 import IPluginSettings from './Interfaces/IPluginSettings';
 import INewParams from './Interfaces/controller/INewParams';
@@ -25,7 +24,7 @@ $.fn.slider = function callSlider(method: string, ...args) {
     init(options: IPluginSettings): void {
       const fullSettings = { $parentElement: this, ...options };
       if (typeof fullSettings.value === 'undefined') {
-        fullSettings.value = fullSettings.type === constants.TYPE_INTERVAL ?
+        fullSettings.value = fullSettings.type === TYPE_INTERVAL ?
                                             [fullSettings.minValue, fullSettings.maxValue] :
                                             fullSettings.minValue;
       }
@@ -45,7 +44,7 @@ $.fn.slider = function callSlider(method: string, ...args) {
     methods[method].apply(this, args);
   }
   if (typeof method === 'object') {
-    const fullSettings = $.extend(true, { ...defaultSettings }, method);
+    const fullSettings = $.extend(true, { ...DEFAULT_SETTINGS }, method);
     methods.init.call(this, fullSettings);
   }
 

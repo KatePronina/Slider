@@ -4,7 +4,7 @@ import IConvertPercentsToIntervalValues from '../Interfaces/model/IConvertPercen
 import IModel from '../Interfaces/model/IModel';
 import IModelSettings from '../Interfaces/model/IModelSettings';
 import Observer from '../Observer/Observer';
-import constants from '../constants';
+import { TYPE_INTERVAL, TYPE_SINGLE, VALUE_TYPE_MIN, VALUE_TYPE_MAX, VALUE_END, VALUE_START } from '../constants';
 
 class Model extends Observer implements IModel {
   private state: IModelSettings;
@@ -46,11 +46,11 @@ class Model extends Observer implements IModel {
   }
 
   private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {
-    return settings.type === constants.TYPE_INTERVAL;
+    return settings.type === TYPE_INTERVAL;
   }
 
   private isSingleType(settings: IValidateValues): settings is IValidateSingleValue {
-    return settings.type === constants.TYPE_SINGLE;
+    return settings.type === TYPE_SINGLE;
   }
 
   private validateSingleValue(settings: IValidateSingleValue, eventType?: string): number {
@@ -84,14 +84,14 @@ class Model extends Observer implements IModel {
 
   private convertPercentsToIntervalValues(settings: IConvertPercentsToIntervalValues): number[] {
     switch (settings.valueType) {
-      case constants.VALUE_TYPE_MIN:
+      case VALUE_TYPE_MIN:
         return [
           this.convertPercentToSingleValue(settings.positionPercent[0]),
-          settings.currentValue[constants.VALUE_END],
+          settings.currentValue[VALUE_END],
         ];
-      case constants.VALUE_TYPE_MAX:
+      case VALUE_TYPE_MAX:
         return [
-          settings.currentValue[constants.VALUE_START],
+          settings.currentValue[VALUE_START],
           this.convertPercentToSingleValue(settings.positionPercent[0]),
         ];
       default:
@@ -110,8 +110,8 @@ class Model extends Observer implements IModel {
     }
 
     return [
-      this.countPositionOffsets(newValue[constants.VALUE_START], minValue, maxValue),
-      this.countPositionOffsets(newValue[constants.VALUE_END], minValue, maxValue),
+      this.countPositionOffsets(newValue[VALUE_START], minValue, maxValue),
+      this.countPositionOffsets(newValue[VALUE_END], minValue, maxValue),
     ];
   }
 
@@ -127,27 +127,27 @@ class Model extends Observer implements IModel {
     }
 
     if (this.isSecondValueChange(validValue) && this.state.value instanceof Array) {
-      return [this.state.value[constants.VALUE_START], validValue];
+      return [this.state.value[VALUE_START], validValue];
     }
 
     if (this.state.value instanceof Array) {
-      return [validValue, (this.state.value)[constants.VALUE_END]];
+      return [validValue, (this.state.value)[VALUE_END]];
     }
 
     return [validValue, validValue];
   }
 
   private validateIntervalBoundaryValues (values: number[], valueType?: string): number[] {
-    if (valueType === constants.VALUE_TYPE_MIN && values[constants.VALUE_START] > values[constants.VALUE_END]) {
-      return [values[constants.VALUE_END], values[constants.VALUE_END]];
+    if (valueType === VALUE_TYPE_MIN && values[VALUE_START] > values[VALUE_END]) {
+      return [values[VALUE_END], values[VALUE_END]];
     }
 
-    if (valueType === constants.VALUE_TYPE_MAX && values[constants.VALUE_START] > values[constants.VALUE_END]) {
-      return [values[constants.VALUE_START], values[constants.VALUE_START]];
+    if (valueType === VALUE_TYPE_MAX && values[VALUE_START] > values[VALUE_END]) {
+      return [values[VALUE_START], values[VALUE_START]];
     }
 
-    if (values[constants.VALUE_START] > values[constants.VALUE_END]) {
-      return [values[constants.VALUE_END], values[constants.VALUE_END]];
+    if (values[VALUE_START] > values[VALUE_END]) {
+      return [values[VALUE_END], values[VALUE_END]];
     }
 
     return values;
@@ -170,8 +170,8 @@ class Model extends Observer implements IModel {
 
   private isSecondValueChange(value: number): boolean {
     if (this.state.value instanceof Array) {
-      const endValueDifference = (this.state.value)[constants.VALUE_END] - value;
-      const startValueDifference = value - (this.state.value)[constants.VALUE_START];
+      const endValueDifference = (this.state.value)[VALUE_END] - value;
+      const startValueDifference = value - (this.state.value)[VALUE_START];
       return endValueDifference < startValueDifference;
     }
     return false;

@@ -1,6 +1,6 @@
 import ISliderSettings from '../../Interfaces/view/ISliderSettings';
 import IIntervalSliderView from '../../Interfaces/view/IIntervalSliderView';
-import constants from '../../constants';
+import { VALUE_START, VALUE_END, DIRECTION_VERTICAL, POINT_ACTIVE_CLASS, VALUE_TYPE_MAX, VALUE_TYPE_MIN } from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
@@ -21,17 +21,17 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   public update(newPositionLength: number[]): void {
-    this.minPositionPercent = newPositionLength[constants.VALUE_START];
-    this.maxPositionPercent = newPositionLength[constants.VALUE_END];
+    this.minPositionPercent = newPositionLength[VALUE_START];
+    this.maxPositionPercent = newPositionLength[VALUE_END];
 
-    const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
-    const sizeProperty = this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width';
+    const positionProperty = this.direction === DIRECTION_VERTICAL ? 'top' : 'left';
+    const sizeProperty = this.direction === DIRECTION_VERTICAL ? 'height' : 'width';
 
-    this.$pointElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
+    this.$pointElement.css(positionProperty, `${newPositionLength[VALUE_START]}%`);
     this.$maxPointElement.css(positionProperty,
-                              `${newPositionLength[constants.VALUE_END]}%`);
-    this.$barElement.css(positionProperty, `${newPositionLength[constants.VALUE_START]}%`);
-    this.$barElement.css(sizeProperty, `${newPositionLength[constants.VALUE_END] - newPositionLength[constants.VALUE_START]}%`);
+                              `${newPositionLength[VALUE_END]}%`);
+    this.$barElement.css(positionProperty, `${newPositionLength[VALUE_START]}%`);
+    this.$barElement.css(sizeProperty, `${newPositionLength[VALUE_END] - newPositionLength[VALUE_START]}%`);
   }
 
   public dispatchPositionPercent = (positionPercent: number[], valueType: string) => {};
@@ -41,7 +41,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     sliderElement.addClass('slider-wrapper');
 
     const context = {
-      isVertical: this.direction === constants.DIRECTION_VERTICAL,
+      isVertical: this.direction === DIRECTION_VERTICAL,
       isSingle: false,
     };
     sliderElement.html(this.template(context));
@@ -64,8 +64,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.$pointElement.addClass(constants.POINT_ACTIVE_CLASS);
-    this.$maxPointElement.removeClass(constants.POINT_ACTIVE_CLASS);
+    this.$pointElement.addClass(POINT_ACTIVE_CLASS);
+    this.$maxPointElement.removeClass(POINT_ACTIVE_CLASS);
   }
 
   private handleMaxPointMousedown = (): void => {
@@ -73,8 +73,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.bindEventsToDocument();
 
-    this.$pointElement.removeClass(constants.POINT_ACTIVE_CLASS);
-    this.$maxPointElement.addClass(constants.POINT_ACTIVE_CLASS);
+    this.$pointElement.removeClass(POINT_ACTIVE_CLASS);
+    this.$maxPointElement.addClass(POINT_ACTIVE_CLASS);
   }
 
   private bindEventsToDocument(): void {
@@ -91,18 +91,18 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   }
 
   private handleDocumentMousemove = (event: MouseEvent): void => {
-    const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
+    const eventCoordinate = this.direction === DIRECTION_VERTICAL ?
                             event.pageY - this.distanceFromPageBorder :
                             event.pageX - this.distanceFromPageBorder;
 
     if (this.isMouseDownTargetEqualMin) {
       this.minPositionPercent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent([this.minPositionPercent], constants.VALUE_TYPE_MIN);
+      this.dispatchPositionPercent([this.minPositionPercent], VALUE_TYPE_MIN);
     }
 
     if (this.isMouseDownTargetEqualMax) {
       this.maxPositionPercent = this.countPercent(eventCoordinate, this.size);
-      this.dispatchPositionPercent([this.maxPositionPercent], constants.VALUE_TYPE_MAX);
+      this.dispatchPositionPercent([this.maxPositionPercent], VALUE_TYPE_MAX);
     }
   }
 }

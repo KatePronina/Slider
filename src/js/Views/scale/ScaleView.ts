@@ -1,6 +1,7 @@
 import IScaleSettings from '../../Interfaces/view/IScaleSettings';
 import IScaleView from '../../Interfaces/view/IScaleView';
-import constants from '../../constants';
+import { DIRECTION_HORIZONTAL, DIRECTION_VERTICAL,
+        SCALE_HORIZONTAL_CLASS, SCALE_VERTICAL_CLASS } from '../../constants';
 import ComponentView from '../ComponentView';
 
 class ScaleView extends ComponentView implements IScaleView {
@@ -25,10 +26,10 @@ class ScaleView extends ComponentView implements IScaleView {
   private makeElement(): void {
     this.element = document.createElement('div');
     this.element.classList.add('slider__scale');
-    if (this.direction === constants.DIRECTION_HORIZONTAL) {
-      this.element.classList.add(constants.SCALE_HORIZONTAL_CLASS);
+    if (this.direction === DIRECTION_HORIZONTAL) {
+      this.element.classList.add(SCALE_HORIZONTAL_CLASS);
     } else {
-      this.element.classList.add(constants.SCALE_VERTICAL_CLASS);
+      this.element.classList.add(SCALE_VERTICAL_CLASS);
     }
 
     this.createValuesElements();
@@ -45,13 +46,13 @@ class ScaleView extends ComponentView implements IScaleView {
     const valuesFragment = document.createDocumentFragment();
     values.forEach((value) => {
       const valueElement = document.createElement('div');
-      this.direction === constants.DIRECTION_VERTICAL ?
+      this.direction === DIRECTION_VERTICAL ?
         valueElement.classList.add('slider__scale-value', 'slider__scale-value_direction_vertical')
         : valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
       const positionLength = this.convertValueToPosition(value);
-      this.direction === constants.DIRECTION_HORIZONTAL ?
+      this.direction === DIRECTION_HORIZONTAL ?
                           valueElement.style.left = `${positionLength}%` :
                           valueElement.style.top = `${positionLength}%`;
       valuesFragment.append(valueElement);

@@ -1,6 +1,6 @@
 import ISliderSettings from '../../Interfaces/view/ISliderSettings';
 import ISingleSliderView from '../../Interfaces/view/ISingleSliderView';
-import constants from '../../constants';
+import { VALUE_START, DIRECTION_VERTICAL } from '../../constants';
 import ComponentSliderView from './ComponentSliderView';
 
 class SingleSliderView extends ComponentSliderView implements ISingleSliderView {
@@ -17,10 +17,10 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   }
 
   public update (newPositionLength: number[]): void {
-    const positionLength = newPositionLength[constants.VALUE_START];
+    const positionLength = newPositionLength[VALUE_START];
 
-    this.$barElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
-    this.$pointElement.css(this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength}%`);
+    this.$barElement.css(this.direction === DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
+    this.$pointElement.css(this.direction === DIRECTION_VERTICAL ? 'top' : 'left', `${positionLength}%`);
   }
 
   public dispatchPositionPercent = (positionPercent: number): void => {};
@@ -30,7 +30,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     sliderElement.addClass('slider-wrapper');
 
     const context = {
-      isVertical: this.direction === constants.DIRECTION_VERTICAL,
+      isVertical: this.direction === DIRECTION_VERTICAL,
       isSingle: true,
     };
 
@@ -67,7 +67,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
   private handleDocumentMousemove = (event: MouseEvent): void => {
     if (this.isMouseDown) {
-      const eventCoordinate = this.direction === constants.DIRECTION_VERTICAL ?
+      const eventCoordinate = this.direction === DIRECTION_VERTICAL ?
                               event.pageY - this.distanceFromPageBorder :
                               event.pageX - this.distanceFromPageBorder;
 

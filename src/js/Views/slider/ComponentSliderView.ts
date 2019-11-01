@@ -1,5 +1,5 @@
 import ISliderSettings from '../../Interfaces/view/ISliderSettings';
-import constants from '../../constants';
+import { DIRECTION_VERTICAL, PERCENT_MAX, PERCENT_MIN } from '../../constants';
 import ComponentView from '../ComponentView';
 
 abstract class ComponentSliderView extends ComponentView {
@@ -27,8 +27,8 @@ abstract class ComponentSliderView extends ComponentView {
 
   protected getSliderSizes(): void {
     const distanceFromPageBorder = this.$sliderElement.offset();
-    const lengthProperty = this.direction === constants.DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
-    const positionProperty = this.direction === constants.DIRECTION_VERTICAL ? 'top' : 'left';
+    const lengthProperty = this.direction === DIRECTION_VERTICAL ? 'outerHeight' : 'outerWidth';
+    const positionProperty = this.direction === DIRECTION_VERTICAL ? 'top' : 'left';
 
     this.size = parseInt(`${this.$sliderElement[lengthProperty]()}`, 10);
 
@@ -41,8 +41,8 @@ abstract class ComponentSliderView extends ComponentView {
 
   protected countPercent(coordinate: number, length: number): number {
     let percent = coordinate / length;
-    if (percent > constants.PERCENT_MAX) percent = 1;
-    if (percent < constants.PERCENT_MIN) percent = 0;
+    if (percent > PERCENT_MAX) percent = 1;
+    if (percent < PERCENT_MIN) percent = 0;
     return percent;
   }
 }
