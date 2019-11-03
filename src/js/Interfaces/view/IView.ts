@@ -29,7 +29,7 @@ export interface ISliderSettings {
 }
 
 export interface ISingleSliderView {
-  update(newPositionLength: number[]): void;
+  updateSlider(newPositionLength: number[]): void;
   dispatchPositionPercent(positionPercent: number): void;
 }
 
@@ -46,7 +46,7 @@ export interface IScaleSettings {
 }
 
 export interface IIntervalSliderView {
-  update(value: number[], newPositionLength: number[]): void;
+  updateSlider(value: number[], newPositionLength: number[]): void;
   dispatchPositionPercent(positionPercent: number[], valueType: string): void;
 }
 

@@ -13,7 +13,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.getSliderSizes();
   }
 
-  public update (newPositionLength: number[]): void {
+  public updateSlider(newPositionLength: number[]): void {
     const positionLength = newPositionLength[VALUE_START];
 
     this.$barElement.css(this.direction === DIRECTION_VERTICAL ? 'height' : 'width', `${positionLength}%`);
@@ -37,15 +37,15 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.$barElement = sliderElement.find('.js-slider__bar');
     this.$pointElement = sliderElement.find('.js-slider__point');
     this.$stripElement = sliderElement.find('.js-slider');
-    this.bindEventsToSlider();
+    this.subscribeEventsToSlider();
   }
 
-  private bindEventsToSlider(): void {
+  private subscribeEventsToSlider(): void {
     this.$pointElement.on('mousedown', this.handlePointMousedown);
   }
 
   private handlePointMousedown = (): void => {
-    this.bindEventsToDocument();
+    this.subscribeEventsToDocument();
   }
 
   private handleDocumentMouseup = (): void => {
@@ -53,7 +53,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     document.removeEventListener('mouseup', this.handleDocumentMouseup);
   }
 
-  private bindEventsToDocument(): void {
+  private subscribeEventsToDocument(): void {
     document.addEventListener('mousemove', this.handleDocumentMousemove);
     document.addEventListener('mouseup', this.handleDocumentMouseup);
   }

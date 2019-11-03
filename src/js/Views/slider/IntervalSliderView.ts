@@ -3,23 +3,21 @@ import { VALUE_START, VALUE_END, DIRECTION_VERTICAL, POINT_ACTIVE_CLASS, VALUE_T
 import ComponentSliderView from './ComponentSliderView';
 
 class IntervalSliderView extends ComponentSliderView implements IIntervalSliderView {
-  private $maxPointElement: JQuery<HTMLDivElement>;
+  private $secondPointElement: JQuery<HTMLDivElement>;
   private minPositionPercent: number;
   private maxPositionPercent: number;
-  private isMouseDownTargetEqualMin: boolean;
-  private isMouseDownTargetEqualMax: boolean;
+  private isMouseDownTargetEqualMin: boolean = false;
+  private isMouseDownTargetEqualMax: boolean = false;
 
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
     super({ direction, minValue, maxValue, $parentElement, positionLength });
 
-    this.isMouseDownTargetEqualMin = false;
-    this.isMouseDownTargetEqualMax = false;
     this.establishElement();
     $parentElement.append(this.$sliderElement);
     this.getSliderSizes();
   }
 
-  public update(newPositionLength: number[]): void {
+  public updateSlider(newPositionLength: number[]): void {
     this.minPositionPercent = newPositionLength[VALUE_START];
     this.maxPositionPercent = newPositionLength[VALUE_END];
 
@@ -27,7 +25,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     const sizeProperty = this.direction === DIRECTION_VERTICAL ? 'height' : 'width';
 
     this.$pointElement.css(positionProperty, `${newPositionLength[VALUE_START]}%`);
-    this.$maxPointElement.css(positionProperty,
+    this.$secondPointElement.css(positionProperty,
                               `${newPositionLength[VALUE_END]}%`);
     this.$barElement.css(positionProperty, `${newPositionLength[VALUE_START]}%`);
     this.$barElement.css(sizeProperty, `${newPositionLength[VALUE_END] - newPositionLength[VALUE_START]}%`);
@@ -49,34 +47,34 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.$barElement = sliderElement.find('.js-slider__bar');
     this.$stripElement = sliderElement.find('.js-slider');
     this.$pointElement = sliderElement.find('.js-slider__point-min');
-    this.$maxPointElement = sliderElement.find('.js-slider__point-max');
-    this.bindEventsToSlider();
+    this.$secondPointElement = sliderElement.find('.js-slider__point-max');
+    this.subscribeEventsToSlider();
   }
 
-  private bindEventsToSlider(): void {
+  private subscribeEventsToSlider(): void {
     this.$pointElement.on('mousedown', this.handleMinPointMousedown);
-    this.$maxPointElement.on('mousedown', this.handleMaxPointMousedown);
+    this.$secondPointElement.on('mousedown', this.handleMaxPointMousedown);
   }
 
   private handleMinPointMousedown = (): void => {
     this.isMouseDownTargetEqualMin = true;
 
-    this.bindEventsToDocument();
+    this.subscribeEventsToDocument();
 
     this.$pointElement.addClass(POINT_ACTIVE_CLASS);
-    this.$maxPointElement.removeClass(POINT_ACTIVE_CLASS);
+    this.$secondPointElement.removeClass(POINT_ACTIVE_CLASS);
   }
 
   private handleMaxPointMousedown = (): void => {
     this.isMouseDownTargetEqualMax = true;
 
-    this.bindEventsToDocument();
+    this.subscribeEventsToDocument();
 
     this.$pointElement.removeClass(POINT_ACTIVE_CLASS);
-    this.$maxPointElement.addClass(POINT_ACTIVE_CLASS);
+    this.$secondPointElement.addClass(POINT_ACTIVE_CLASS);
   }
 
-  private bindEventsToDocument(): void {
+  private subscribeEventsToDocument(): void {
     document.addEventListener('mousemove', this.handleDocumentMousemove);
     document.addEventListener('mouseup', this.handleDocumentMouseUp);
   }

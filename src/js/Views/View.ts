@@ -31,7 +31,7 @@ class View extends Observer implements IView {
     this.settings.value = value;
     this.settings.positionLength = newPositionLength;
 
-    this.sliderView.update(newPositionLength);
+    this.sliderView.updateSlider(newPositionLength);
 
     if (this.hintView) {
       this.hintView.updateHint(value, newPositionLength[VALUE_START]);

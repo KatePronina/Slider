@@ -60,7 +60,7 @@ class ConfigurationView {
       this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
     }
 
-    this.bindEventsToInputs();
+    this.subscribeEventsToInputs();
     this.updateInputs();
   }
 
@@ -121,7 +121,7 @@ class ConfigurationView {
     this.$verticalToggle.prop('checked', this.settings.direction === DIRECTION_VERTICAL);
   }
 
-  private bindEventsToInputs(): void {
+  private subscribeEventsToInputs(): void {
     if (this.settings.type === TYPE_SINGLE) {
       this.$currentValueInput.on('blur', this.handleCurrentValueBlur);
     } else {

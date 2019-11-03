@@ -3,7 +3,7 @@ import { DIRECTION_HORIZONTAL, DIRECTION_VERTICAL,
         SCALE_HORIZONTAL_CLASS, SCALE_VERTICAL_CLASS } from '../../constants';
 
 class ScaleView implements IScaleView {
-  private element: HTMLElement;
+  private scaleElement: HTMLElement;
   private direction: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
@@ -15,19 +15,19 @@ class ScaleView implements IScaleView {
     this.maxValue = maxValue;
     this.step = step;
     this.establishElement();
-    $parentElement.append(this.element);
-    this.element.addEventListener('click', this.handleScaleClick);
+    $parentElement.append(this.scaleElement);
+    this.scaleElement.addEventListener('click', this.handleScaleClick);
   }
 
   public dispatchValue = (value: number): void => {};
 
   private establishElement(): void {
-    this.element = document.createElement('div');
-    this.element.classList.add('slider__scale');
+    this.scaleElement = document.createElement('div');
+    this.scaleElement.classList.add('slider__scale');
     if (this.direction === DIRECTION_HORIZONTAL) {
-      this.element.classList.add(SCALE_HORIZONTAL_CLASS);
+      this.scaleElement.classList.add(SCALE_HORIZONTAL_CLASS);
     } else {
-      this.element.classList.add(SCALE_VERTICAL_CLASS);
+      this.scaleElement.classList.add(SCALE_VERTICAL_CLASS);
     }
 
     this.createValuesElements();
@@ -56,7 +56,7 @@ class ScaleView implements IScaleView {
       valuesFragment.append(valueElement);
     });
 
-    this.element.append(valuesFragment);
+    this.scaleElement.append(valuesFragment);
   }
 
   private handleScaleClick = ({ target }: Event): void => {
