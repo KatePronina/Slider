@@ -51,7 +51,7 @@ export interface IIntervalSliderView {
 }
 
 export interface IHintView {
-  update(value: number | number[], percent: number): void;
+  updateHint(value: number | number[], percent: number): void;
 }
 
 export interface IHintSettings {

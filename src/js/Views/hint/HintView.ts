@@ -17,13 +17,13 @@ class HintView implements IHintView {
     $parentElement.append(this.element);
   }
 
-  public update (value: number | number[], percent: number): void {
+  public updateHint (value: number | number[], percent: number): void {
     this.value = value;
     this.updatePosition(percent);
-    this.rewriteTextContent();
+    this.rewriteHintValue();
   }
 
-  private rewriteTextContent(): void {
+  private rewriteHintValue(): void {
     if (this.type === TYPE_INTERVAL && this.value instanceof Array) {
       this.isMaxValue ?
           this.element.textContent = this.value[VALUE_END].toString()
@@ -40,7 +40,7 @@ class HintView implements IHintView {
 
   private establishElement(): void {
     this.element = document.createElement('div');
-    this.rewriteTextContent();
+    this.rewriteHintValue();
 
     this.element.classList.add('slider__hint');
     if (this.direction === DIRECTION_VERTICAL) {

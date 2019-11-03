@@ -34,11 +34,11 @@ class View extends Observer implements IView {
     this.sliderView.update(newPositionLength);
 
     if (this.hintView) {
-      this.hintView.update(value, newPositionLength[VALUE_START]);
+      this.hintView.updateHint(value, newPositionLength[VALUE_START]);
     }
 
     if (this.hintMaxValueView) {
-      this.hintMaxValueView.update(value, newPositionLength[VALUE_END]);
+      this.hintMaxValueView.updateHint(value, newPositionLength[VALUE_END]);
     }
   }
 
