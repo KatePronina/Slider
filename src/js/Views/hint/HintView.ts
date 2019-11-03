@@ -13,7 +13,7 @@ class HintView implements IHintView {
     this.type = type;
     this.direction = direction;
     this.isMaxValue = isMaxValue;
-    this.makeElement();
+    this.establishElement();
     $parentElement.append(this.element);
   }
 
@@ -38,7 +38,7 @@ class HintView implements IHintView {
     this.element.style[offsetProperty] = `${percent}%`;
   }
 
-  private makeElement(): void {
+  private establishElement(): void {
     this.element = document.createElement('div');
     this.rewriteTextContent();
 

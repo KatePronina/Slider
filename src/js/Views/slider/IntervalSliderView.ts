@@ -14,7 +14,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.isMouseDownTargetEqualMin = false;
     this.isMouseDownTargetEqualMax = false;
-    this.makeElement();
+    this.establishElement();
     $parentElement.append(this.$sliderElement);
     this.getSliderSizes();
   }
@@ -35,7 +35,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
   public dispatchPositionPercent = (positionPercent: number[], valueType: string) => {};
 
-  private makeElement(): void {
+  private establishElement(): void {
     const sliderElement = $(document.createElement('div'));
     sliderElement.addClass('slider-wrapper');
 
