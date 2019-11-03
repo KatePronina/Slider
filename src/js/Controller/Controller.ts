@@ -48,7 +48,7 @@ class Controller extends Observer implements IController {
     switch (eventType) {
       case 'positionPercentUpdated':
         if (settings.positionLength) {
-          this.view.updateViews(settings.value, settings.positionLength);
+          this.view.changeSlider(settings.value, settings.positionLength);
         }
         break;
       case 'stateUpdated':

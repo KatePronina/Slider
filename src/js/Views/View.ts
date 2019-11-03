@@ -19,16 +19,15 @@ class View extends Observer implements IView {
   public constructor(settings: IFullSettings) {
     super();
     this.initViews(settings);
-    settings.positionLength && this.updateViews(settings.value, settings.positionLength);
   }
 
   public redrawSlider(newSettings: IModelSettings): void {
     this.settings.$parentElement.html('');
     this.initViews({ ...newSettings, $parentElement: this.settings.$parentElement });
-    newSettings.positionLength && this.updateViews(newSettings.value, newSettings.positionLength);
+    newSettings.positionLength && this.changeSlider(newSettings.value, newSettings.positionLength);
   }
 
-  public updateViews = (value: number | number[], newPositionLength: number[]): void => {
+  public changeSlider = (value: number | number[], newPositionLength: number[]): void => {
     this.settings.value = value;
     this.settings.positionLength = newPositionLength;
 
@@ -59,6 +58,10 @@ class View extends Observer implements IView {
 
     if (settings.scale) {
       this.initScale({ direction, minValue, maxValue, step, $parentElement: slider });
+    }
+
+    if (positionLength) {
+      this.changeSlider(value, positionLength);
     }
   }
 

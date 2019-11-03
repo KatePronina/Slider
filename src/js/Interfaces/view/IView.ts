@@ -1,7 +1,7 @@
 import { IModelSettings } from '../model/IModel';
 
 export interface IView {
-  updateViews(value: number | number[], newPositionLength: number | number[]): void;
+  changeSlider(value: number | number[], newPositionLength: number | number[]): void;
   redrawSlider(newSettings: IModelSettings): void;
 }
 
