@@ -30,33 +30,30 @@ class ScaleView implements IScaleView {
       this.scaleElement.classList.add(SCALE_VERTICAL_CLASS);
     }
 
-    this.createValuesElements();
+    this.establishValuesElements();
   }
 
-  private createValuesElements(): void {
+  private establishValuesElements(): void {
     const valuesNumber = Math.floor((this.maxValue - this.minValue) / this.step);
     const values = [
       this.minValue,
       ...Array.from({ length: valuesNumber }, (_, index) => (index + 1) * this.step + this.minValue),
       this.maxValue,
-    ];
-
-    const valuesFragment = document.createDocumentFragment();
-    values.forEach((value) => {
+    ]
+    .map((value) => {
       const valueElement = document.createElement('div');
       this.direction === DIRECTION_VERTICAL ?
         valueElement.classList.add('slider__scale-value', 'slider__scale-value_direction_vertical')
         : valueElement.classList.add('slider__scale-value');
       valueElement.textContent = value.toString();
 
-      const positionLength = this.convertValueToPosition(value);
       this.direction === DIRECTION_HORIZONTAL ?
-                          valueElement.style.left = `${positionLength}%` :
-                          valueElement.style.top = `${positionLength}%`;
-      valuesFragment.append(valueElement);
+                          valueElement.style.left = `${this.convertValueToPosition(value)}%` :
+                          valueElement.style.top = `${this.convertValueToPosition(value)}%`;
+      return valueElement;
     });
 
-    this.scaleElement.append(valuesFragment);
+    this.scaleElement.append(...values);
   }
 
   private handleScaleClick = ({ target }: Event): void => {
