@@ -1,15 +1,14 @@
 import { IHintSettings, IHintView } from '../../Interfaces/view/IView';
 import { TYPE_INTERVAL, VALUE_END, VALUE_START, DIRECTION_VERTICAL, HINT_VERTICAL_CLASS } from '../../constants';
-import ComponentView from '../ComponentView';
 
-class HintView extends ComponentView implements IHintView {
+class HintView implements IHintView {
+  private element: HTMLElement;
   private isMaxValue?: boolean;
   private type: 'single' | 'interval';
   private value: number | number[];
   private direction: 'horizontal' | 'vertical';
 
   public constructor({ value, type, direction, isMaxValue, $parentElement }: IHintSettings) {
-    super();
     this.value = value;
     this.type = type;
     this.direction = direction;

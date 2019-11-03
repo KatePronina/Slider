@@ -1,16 +1,15 @@
 import { IScaleSettings, IScaleView } from '../../Interfaces/view/IView';
 import { DIRECTION_HORIZONTAL, DIRECTION_VERTICAL,
         SCALE_HORIZONTAL_CLASS, SCALE_VERTICAL_CLASS } from '../../constants';
-import ComponentView from '../ComponentView';
 
-class ScaleView extends ComponentView implements IScaleView {
+class ScaleView implements IScaleView {
+  private element: HTMLElement;
   private direction: 'horizontal' | 'vertical';
   private minValue: number;
   private maxValue: number;
   private step: number;
 
   public constructor({ direction, minValue, maxValue, step, $parentElement }: IScaleSettings) {
-    super();
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;

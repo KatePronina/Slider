@@ -1,8 +1,8 @@
 import { ISliderSettings } from '../../Interfaces/view/IView';
 import { DIRECTION_VERTICAL, PERCENT_MAX, PERCENT_MIN } from '../../constants';
-import ComponentView from '../ComponentView';
 
-abstract class ComponentSliderView extends ComponentView {
+abstract class ComponentSliderView {
+  protected element: HTMLElement;
   protected $stripElement: JQuery<HTMLDivElement>;
   protected size: number;
   protected distanceFromPageBorder: number;
@@ -16,8 +16,6 @@ abstract class ComponentSliderView extends ComponentView {
   protected direction: 'horizontal' | 'vertical';
 
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
-    super();
-
     this.direction = direction;
     this.minValue = minValue;
     this.maxValue = maxValue;
