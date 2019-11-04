@@ -26,13 +26,13 @@ class ConfigurationView {
 
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
-        valueUpdated: this.updateValueInInputs,
-        settingsUpdated: this.updateSettings,
+        valueUpdated: this.updateValueInputs,
+        settingsUpdated: this.redrawConfiguration,
       }});
     } else {
       this.sliderPlugin = $(`.${sliderClass}`).slider({events: {
-        valueUpdated: this.updateValueInInputs,
-        settingsUpdated: this.updateSettings,
+        valueUpdated: this.updateValueInputs,
+        settingsUpdated: this.redrawConfiguration,
       }});
     }
   }
@@ -225,7 +225,7 @@ class ConfigurationView {
     return value;
   }
 
-  private updateValueInInputs = (value: number | number[]) => {
+  private updateValueInputs = (value: number | number[]) => {
     if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
       this.$currentValueInput.val(value.toString());
     } else if (value instanceof Array) {
@@ -235,7 +235,7 @@ class ConfigurationView {
     this.settings.value = value;
   }
 
-  private updateSettings = (settings: IModelSettings) => {
+  private redrawConfiguration = (settings: IModelSettings) => {
     this.settings = settings;
     this.removeConfiguration();
     this.renderConfiguration();
