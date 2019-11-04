@@ -36,12 +36,12 @@ class Controller extends Observer implements IController {
 
   public notifySubscribers = (eventType: 'positionPercentUpdated' | 'stateUpdated'): void => {
     const settings = this.model.getState();
-    this.publish(eventType, settings);
+    this.notify(eventType, settings);
   }
 
   private subscribeNotifications(): void {
-    this.view.notify(this.updateState, 'dispatchOptions');
-    this.model.notify(this.getState, 'stateUpdated');
+    this.view.subscribe(this.updateState, 'dispatchOptions');
+    this.model.subscribe(this.getState, 'stateUpdated');
   }
 
   private getState = (settings: IModelSettings, eventType: 'positionPercentUpdated' | 'stateUpdated') => {

@@ -17,7 +17,7 @@ class Model extends Observer implements IModel {
 
   public dispatchState(newState: IModelSettings, eventType: 'positionPercentUpdated' | 'stateUpdated'): void {
     this.state = this.validateState(newState, eventType);
-    this.publish('stateUpdated', this.state, eventType);
+    this.notify('stateUpdated', this.state, eventType);
   }
 
   private validateState(state: IModelSettings, eventType?: 'positionPercentUpdated' | 'stateUpdated'): IModelSettings {

@@ -12,21 +12,21 @@ class Application extends Observer {
   }
 
   private notifyAboutState = (settings: IModelSettings): void => {
-    this.publish('stateUpdated', settings);
+    this.notify('stateUpdated', settings);
   }
 
   private notifyAboutValue = (settings: IModelSettings): void => {
-    this.publish('positionPercentUpdated', settings);
+    this.notify('positionPercentUpdated', settings);
   }
 
   private establishSlider(settings: IFullSettings): void {
     this.controller = new Controller(settings);
 
-    this.notify(this.controller.notifySubscribers, 'sliderInitialized');
-    this.notify(this.controller.updateState, 'dispatchOptions');
+    this.subscribe(this.controller.notifySubscribers, 'sliderInitialized');
+    this.subscribe(this.controller.updateState, 'dispatchOptions');
 
-    this.controller.notify(this.notifyAboutState, 'stateUpdated');
-    this.controller.notify(this.notifyAboutValue, 'positionPercentUpdated');
+    this.controller.subscribe(this.notifyAboutState, 'stateUpdated');
+    this.controller.subscribe(this.notifyAboutValue, 'positionPercentUpdated');
   }
 }
 

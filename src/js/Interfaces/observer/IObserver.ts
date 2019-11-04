@@ -3,8 +3,8 @@ import { IModelSettings } from '../model/IModel';
 import { INewParams } from '../controller/IController';
 
 export interface IObserver {
-  notify(callback: Function, type: TEvents): void;
-  publish(type: TEvents, ...data: TData): void;
+  subscribe(callback: Function, type: TEvents): void;
+  notify(type: TEvents, ...data: TData): void;
 }
 
 export interface ISubscribers {

@@ -45,7 +45,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: 10 }, 'stateUpdated');
@@ -67,7 +67,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: 10000 }, 'stateUpdated');
@@ -89,7 +89,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: -10000 }, 'stateUpdated');
@@ -112,7 +112,7 @@ describe('Setting value', (): void => {
       positionLength: null,
     });
 
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [5, 10] }, 'stateUpdated');
@@ -134,7 +134,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [6, 9] }, 'stateUpdated');
@@ -156,7 +156,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [5, 70] }, 'stateUpdated');
@@ -178,7 +178,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [70, 70] }, 'stateUpdated');
@@ -200,7 +200,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [5, 50] }, 'stateUpdated');
@@ -222,7 +222,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [50, 72] }, 'stateUpdated');
@@ -244,7 +244,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [-50, 110] }, 'stateUpdated');
@@ -266,7 +266,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [100, 100] }, 'stateUpdated');
@@ -288,7 +288,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [33, 36] }, 'stateUpdated');
@@ -310,7 +310,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [51] }, 'stateUpdated');
@@ -332,7 +332,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [21] }, 'stateUpdated');
@@ -354,7 +354,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [150] }, 'stateUpdated');
@@ -376,7 +376,7 @@ describe('Setting value', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({ ...settings, value: [-10] }, 'stateUpdated');
@@ -400,7 +400,7 @@ describe('Setting state', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     model.dispatchState({
       type: 'interval',
@@ -439,7 +439,7 @@ describe('Setting state', (): void => {
       scale: true,
       positionLength: null,
     });
-    model.notify(() => {}, 'stateUpdated');
+    model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
     model.dispatchState({

@@ -7,11 +7,11 @@ class Observer implements IObserver {
     this.subscribers = {};
   }
 
-  public notify(callback: Function, type: TEvents): void {
+  public subscribe(callback: Function, type: TEvents): void {
     this.subscribers[type] = this.subscribers[type] ? [...this.subscribers[type], callback] : [callback];
   }
 
-  public publish(type: TEvents, ...data: TData):void {
+  public notify(type: TEvents, ...data: TData):void {
     const subscribers = this.subscribers[type];
 
     subscribers.forEach((subscriber) => {
