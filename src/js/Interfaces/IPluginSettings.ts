@@ -11,7 +11,7 @@ export default interface IPluginSettings {
   hint: boolean;
   scale: boolean;
   events: {
-    onNewValue: (value: number | number[]) => {};
-    onNewSettings: (settings: IModelSettings) => {};
+    valueUpdated: (value: number | number[]) => {};
+    settingsUpdated: (settings: IModelSettings) => {};
   };
 }

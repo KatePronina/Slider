@@ -26,13 +26,13 @@ class ConfigurationView {
 
     if (settings) {
       this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
-        onNewValue: this.updateValueInInputs,
-        onNewSettings: this.updateSettings,
+        valueUpdated: this.updateValueInInputs,
+        settingsUpdated: this.updateSettings,
       }});
     } else {
       this.sliderPlugin = $(`.${sliderClass}`).slider({events: {
-        onNewValue: this.updateValueInInputs,
-        onNewSettings: this.updateSettings,
+        valueUpdated: this.updateValueInInputs,
+        settingsUpdated: this.updateSettings,
       }});
     }
   }

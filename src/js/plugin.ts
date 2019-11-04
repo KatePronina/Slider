@@ -8,16 +8,16 @@ import IMethods from './Interfaces/IMethods';
 $.fn.slider = function callSlider(method: string, ...args) {
   let slider: Application;
   const events = {
-    onNewValue: (value: number | number[]) => {},
-    onNewSettings: (settings: IModelSettings) => {},
+    publishUpdatedValue: (value: number | number[]) => {},
+    publishUpdatedSettings: (settings: IModelSettings) => {},
   };
 
-  const onNewSettings = (settings: IModelSettings) => {
-    events.onNewSettings(settings);
+  const publishUpdatedSettings = (settings: IModelSettings) => {
+    events.publishUpdatedSettings(settings);
   };
 
-  const onNewValue = (settings: IModelSettings) => {
-    events.onNewValue(settings.value);
+  const publishUpdatedValue = (settings: IModelSettings) => {
+    events.publishUpdatedValue(settings.value);
   };
 
   const methods: IMethods = {
@@ -30,11 +30,11 @@ $.fn.slider = function callSlider(method: string, ...args) {
       }
 
       slider = new Application(fullSettings);
-      events.onNewValue = options.events.onNewValue;
-      events.onNewSettings = options.events.onNewSettings;
+      events.publishUpdatedValue = options.events.valueUpdated;
+      events.publishUpdatedSettings = options.events.settingsUpdated;
 
-      slider.subscribe(onNewSettings, 'stateUpdated');
-      slider.subscribe(onNewValue, 'positionPercentUpdated');
+      slider.subscribe(publishUpdatedSettings, 'stateUpdated');
+      slider.subscribe(publishUpdatedValue, 'positionPercentUpdated');
 
       slider.notify('sliderInitialized', 'stateUpdated');
     },
