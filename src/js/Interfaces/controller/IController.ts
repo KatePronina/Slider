@@ -4,6 +4,15 @@ export interface IController {
 }
 
 export interface INewParams {
-  [key: string]: number | number[] | boolean | string | undefined;
+  type?: 'single' | 'interval';
+  minValue?: number;
+  maxValue?: number;
+  value?: number | number[];
+  step?: number;
+  direction?: 'horizontal' | 'vertical';
+  hint?: boolean;
+  scale?: boolean;
+  positionPercent?: number | number[];
+  valueType?: string;
   eventType?: 'positionPercentUpdated' | 'stateUpdated';
 }
