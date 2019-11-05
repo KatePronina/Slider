@@ -1,3 +1,5 @@
+import { ISliderData } from '../demo-page/Interfaces/ISliderData';
+
 export const DEFAULT_SETTINGS = {
   type: 'single',
   minValue: 0,
@@ -7,7 +9,8 @@ export const DEFAULT_SETTINGS = {
   hint: true,
   scale: false,
 };
-export const slidersData = [
+
+export const slidersData: ISliderData[] = [
   {
     configurationClass: 'js-first-slider-section__configuration',
     sliderClass: 'js-first-slider',

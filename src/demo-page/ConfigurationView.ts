@@ -2,6 +2,7 @@ import '../js/plugin';
 import { DIRECTION_VERTICAL, TYPE_SINGLE, TYPE_INTERVAL,
         VALUE_START, VALUE_END, DIRECTION_HORIZONTAL } from '../js/constants';
 import { IModelSettings } from '../js/Interfaces/model/IModel';
+import { INewParams } from '../js/Interfaces/controller/IController';
 
 class ConfigurationView {
   private $containerElement: JQuery<Element>;
@@ -20,21 +21,14 @@ class ConfigurationView {
   private $typeToggle: JQuery<Element>;
   private $verticalToggle: JQuery<Element>;
 
-  public constructor(containerElement: Element, sliderClass: string, settings?: any) {
+  public constructor(containerElement: Element, sliderClass: string, settings: INewParams = {}) {
     this.$containerElement = $(containerElement);
     this.$sliderParentElement = $(`.${sliderClass}`);
 
-    if (settings) {
-      this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
-        valueUpdated: this.updateValueInputs,
-        settingsUpdated: this.redrawConfiguration,
-      }});
-    } else {
-      this.sliderPlugin = $(`.${sliderClass}`).slider({events: {
-        valueUpdated: this.updateValueInputs,
-        settingsUpdated: this.redrawConfiguration,
-      }});
-    }
+    this.sliderPlugin = $(`.${sliderClass}`).slider({ ...settings, events: {
+      valueUpdated: this.updateValueInputs,
+      settingsUpdated: this.redrawConfiguration,
+    }});
   }
 
   private template = require('./templates/template.hbs');
