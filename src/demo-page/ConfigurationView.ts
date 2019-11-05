@@ -1,10 +1,11 @@
+import { IConfigurationView } from './interfaces';
 import '../js/plugin';
 import { DIRECTION_VERTICAL, TYPE_SINGLE, TYPE_INTERVAL,
         VALUE_START, VALUE_END, DIRECTION_HORIZONTAL } from '../js/constants';
 import { IModelSettings } from '../js/Interfaces/model/IModel';
 import { INewParams } from '../js/Interfaces/controller/IController';
 
-class ConfigurationView {
+class ConfigurationView implements IConfigurationView {
   private $containerElement: JQuery<Element>;
   private $sliderParentElement: JQuery<Element>;
   private sliderPlugin: any;
@@ -31,7 +32,7 @@ class ConfigurationView {
     }});
   }
 
-  public updateValueInputs = (value: number | number[]) => {
+  public updateValueInputs = (value: number | number[]): void => {
     if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
       this.$currentValueInput.val(value.toString());
     } else if (value instanceof Array) {
@@ -41,7 +42,7 @@ class ConfigurationView {
     this.settings.value = value;
   }
 
-  public redrawConfiguration = (settings: IModelSettings) => {
+  public redrawConfiguration = (settings: IModelSettings): void => {
     this.settings = settings;
     this.removeConfiguration();
     this.renderConfiguration();

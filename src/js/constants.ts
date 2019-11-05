@@ -1,4 +1,4 @@
-import { ISliderData } from '../demo-page/Interfaces/ISliderData';
+import { ISliderData } from '../demo-page/interfaces';
 
 export const DEFAULT_SETTINGS = {
   type: 'single',
