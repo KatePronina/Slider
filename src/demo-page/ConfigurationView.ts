@@ -34,7 +34,7 @@ class ConfigurationView {
   private template = require('./templates/template.hbs');
 
   private renderConfiguration(): void {
-    this.appendConfigurationToDOM();
+    this.drawConfigurationTemplate();
 
     if (this.settings.type === TYPE_SINGLE) {
       this.$currentValueInput = this.$containerElement.find('.js-configuration__value-input_type_current-value');
@@ -58,7 +58,7 @@ class ConfigurationView {
     this.updateInputs();
   }
 
-  private appendConfigurationToDOM(): void {
+  private drawConfigurationTemplate(): void {
     const context = {
       isSingle: this.settings.type === TYPE_SINGLE,
       valueInputs: [
