@@ -46,6 +46,8 @@ class ConfigurationView implements IConfigurationView {
     this.settings = settings;
     this.removeConfiguration();
     this.renderConfiguration();
+    this.updateInputs();
+    this.subscribeEventsToInputs();
   }
 
   private template = require('./templates/template.hbs');
@@ -70,9 +72,6 @@ class ConfigurationView implements IConfigurationView {
     if (this.settings.direction === DIRECTION_VERTICAL) {
       this.$sliderParentElement.addClass('slider-section__slider_direction_vertical');
     }
-
-    this.subscribeEventsToInputs();
-    this.updateInputs();
   }
 
   private drawConfigurationTemplate(): void {
@@ -149,6 +148,22 @@ class ConfigurationView implements IConfigurationView {
     this.$typeToggle.on('change', this.handleTypeChange);
   }
 
+  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
+    if (type === TYPE_INTERVAL && typeof value === 'number') {
+      return [value];
+    }
+
+    if (type === TYPE_SINGLE && value instanceof Array) {
+      return value[VALUE_START];
+    }
+
+    return value;
+  }
+
+  private removeConfiguration(): void {
+    this.$containerElement.html('');
+  }
+
   private handleCurrentValueBlur = ({ target }: Event) => {
     const value = parseInt((<HTMLInputElement>target).value, 10);
     this.sliderPlugin.setSettings({ value });
@@ -222,22 +237,6 @@ class ConfigurationView implements IConfigurationView {
       const newValue = this.setRequiredTypeForValue(newType, this.settings.value);
       this.sliderPlugin.setSettings({ type: newType, value: newValue });
     }
-  }
-
-  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
-    if (type === TYPE_INTERVAL && typeof value === 'number') {
-      return [value];
-    }
-
-    if (type === TYPE_SINGLE && value instanceof Array) {
-      return value[VALUE_START];
-    }
-
-    return value;
-  }
-
-  private removeConfiguration(): void {
-    this.$containerElement.html('');
   }
 }
 
