@@ -31,6 +31,22 @@ class ConfigurationView {
     }});
   }
 
+  public updateValueInputs = (value: number | number[]) => {
+    if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
+      this.$currentValueInput.val(value.toString());
+    } else if (value instanceof Array) {
+      this.$currentMinValueInput.val(value[VALUE_START].toString());
+      this.$currentMaxValueInput.val(value[VALUE_END].toString());
+    }
+    this.settings.value = value;
+  }
+
+  public redrawConfiguration = (settings: IModelSettings) => {
+    this.settings = settings;
+    this.removeConfiguration();
+    this.renderConfiguration();
+  }
+
   private template = require('./templates/template.hbs');
 
   private renderConfiguration(): void {
@@ -217,22 +233,6 @@ class ConfigurationView {
     }
 
     return value;
-  }
-
-  private updateValueInputs = (value: number | number[]) => {
-    if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
-      this.$currentValueInput.val(value.toString());
-    } else if (value instanceof Array) {
-      this.$currentMinValueInput.val(value[VALUE_START].toString());
-      this.$currentMaxValueInput.val(value[VALUE_END].toString());
-    }
-    this.settings.value = value;
-  }
-
-  private redrawConfiguration = (settings: IModelSettings) => {
-    this.settings = settings;
-    this.removeConfiguration();
-    this.renderConfiguration();
   }
 
   private removeConfiguration(): void {
