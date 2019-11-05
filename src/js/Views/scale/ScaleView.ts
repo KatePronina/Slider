@@ -14,14 +14,12 @@ class ScaleView implements IScaleView {
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.step = step;
-    this.establishElement();
-    $parentElement.append(this.scaleElement);
-    this.scaleElement.addEventListener('click', this.handleScaleClick);
+    this.establishElement($parentElement);
   }
 
   public dispatchValue = (value: number): void => {};
 
-  private establishElement(): void {
+  private establishElement($parentElement: JQuery<HTMLElement>): void {
     this.scaleElement = document.createElement('div');
     this.scaleElement.classList.add('slider__scale');
     if (this.direction === DIRECTION_HORIZONTAL) {
@@ -31,6 +29,8 @@ class ScaleView implements IScaleView {
     }
 
     this.establishValuesElements();
+    $parentElement.append(this.scaleElement);
+    this.scaleElement.addEventListener('click', this.handleScaleClick);
   }
 
   private establishValuesElements(): void {

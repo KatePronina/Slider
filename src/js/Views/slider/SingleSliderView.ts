@@ -8,9 +8,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
     super({ direction, minValue, maxValue, $parentElement, positionLength });
 
-    this.establishElement();
-    $parentElement.append(this.$sliderElement);
-    this.getSliderSizes();
+    this.establishElement($parentElement);
   }
 
   public updateSlider(newPositionLength: number[]): void {
@@ -22,7 +20,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
   public dispatchPositionPercent = (positionPercent: number): void => {};
 
-  private establishElement(): void {
+  private establishElement($parentElement: JQuery<HTMLElement>): void {
     const sliderElement = $(document.createElement('div'));
     sliderElement.addClass('slider-wrapper');
 
@@ -38,6 +36,8 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.$pointElement = sliderElement.find('.js-slider__point');
     this.$stripElement = sliderElement.find('.js-slider');
     this.subscribeEventsToSlider();
+    $parentElement.append(this.$sliderElement);
+    this.getSliderSizes();
   }
 
   private subscribeEventsToSlider(): void {

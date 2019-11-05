@@ -12,9 +12,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
   public constructor({ direction, minValue, maxValue, $parentElement, positionLength }: ISliderSettings) {
     super({ direction, minValue, maxValue, $parentElement, positionLength });
 
-    this.establishElement();
-    $parentElement.append(this.$sliderElement);
-    this.getSliderSizes();
+    this.establishElement($parentElement);
   }
 
   public updateSlider(newPositionLength: number[]): void {
@@ -33,7 +31,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
   public dispatchPositionPercent = (positionPercent: number[], valueType: string) => {};
 
-  private establishElement(): void {
+  private establishElement($parentElement: JQuery<HTMLElement>): void {
     const sliderElement = $(document.createElement('div'));
     sliderElement.addClass('slider-wrapper');
 
@@ -49,6 +47,8 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
     this.$pointElement = sliderElement.find('.js-slider__point-min');
     this.$secondPointElement = sliderElement.find('.js-slider__point-max');
     this.subscribeEventsToSlider();
+    $parentElement.append(this.$sliderElement);
+    this.getSliderSizes();
   }
 
   private subscribeEventsToSlider(): void {

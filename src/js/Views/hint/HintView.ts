@@ -13,8 +13,7 @@ class HintView implements IHintView {
     this.type = type;
     this.direction = direction;
     this.isMaxValue = isMaxValue;
-    this.establishElement();
-    $parentElement.append(this.hintElement);
+    this.establishElement($parentElement);
   }
 
   public updateHint (value: number | number[], percent: number): void {
@@ -38,7 +37,7 @@ class HintView implements IHintView {
     this.hintElement.style[offsetProperty] = `${percent}%`;
   }
 
-  private establishElement(): void {
+  private establishElement($parentElement: JQuery<HTMLElement>): void {
     this.hintElement = document.createElement('div');
     this.rewriteHintValue();
 
@@ -46,6 +45,8 @@ class HintView implements IHintView {
     if (this.direction === DIRECTION_VERTICAL) {
       this.hintElement.classList.add(HINT_VERTICAL_CLASS);
     }
+
+    $parentElement.append(this.hintElement);
   }
 }
 
