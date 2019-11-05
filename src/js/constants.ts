@@ -7,6 +7,46 @@ export const DEFAULT_SETTINGS = {
   hint: true,
   scale: false,
 };
+export const slidersData = [
+  {
+    configurationClass: 'js-first-slider-section__configuration',
+    sliderClass: 'js-first-slider',
+  },
+  {
+    configurationClass: 'js-second-slider-section__configuration',
+    sliderClass: 'js-second-slider',
+    settings: {
+      minValue: 3,
+      maxValue: 19,
+      step: 5,
+      value: 8,
+      scale: true,
+    },
+  },
+  {
+    configurationClass: 'js-third-slider-section__configuration',
+    sliderClass: 'js-third-slider',
+    settings: {
+      minValue: 2,
+      maxValue: 31,
+      step: 8,
+      direction: 'vertical',
+      scale: true,
+    },
+  },
+  {
+    configurationClass: 'js-fourth-slider-section__configuration',
+    sliderClass: 'js-fourth-slider',
+    settings: {
+      type: 'interval',
+      value: [5, 25],
+      direction: 'vertical',
+      scale: true,
+      step: 5,
+      hint: true,
+    },
+  },
+];
 export const TYPE_SINGLE = 'single';
 export const TYPE_INTERVAL = 'interval';
 export const VALUE_START = 0;
