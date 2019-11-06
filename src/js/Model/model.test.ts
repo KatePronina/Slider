@@ -15,7 +15,6 @@ describe('Constructor', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
 
     const state = model.getState();
@@ -36,67 +35,64 @@ describe('Setting value', (): void => {
   test('Should update value', (): void => {
     const model = new Model({
       type: 'single',
-      value: 15,
+      value: [15],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: 10 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [10] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
-    expect(newSettings.value).toEqual(10);
+    expect(newSettings.value).toEqual([10]);
   });
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
       type: 'single',
-      value: 15,
+      value: [15],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: 10000 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [10000] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
-    expect(newSettings.value).toEqual(30);
+    expect(newSettings.value).toEqual([30]);
   });
 
   test('Should not update wrong value', (): void => {
     const model = new Model({
       type: 'single',
-      value: 15,
+      value: [15],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
     const settings = model.getState();
-    model.dispatchState({ ...settings, value: -10000 }, 'stateUpdated');
+    model.dispatchState({ ...settings, value: [-10000] }, 'stateUpdated');
 
     const newSettings = model.getState();
 
-    expect(newSettings.value).toEqual(5);
+    expect(newSettings.value).toEqual([5]);
   });
 
   test('Should update interval value', (): void => {
@@ -109,7 +105,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
 
     model.subscribe(() => {}, 'stateUpdated');
@@ -132,7 +127,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -154,7 +148,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -176,7 +169,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -198,7 +190,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -220,7 +211,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -242,7 +232,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -264,7 +253,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -286,7 +274,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -308,7 +295,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -330,7 +316,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -352,7 +337,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -374,7 +358,6 @@ describe('Setting value', (): void => {
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -391,14 +374,13 @@ describe('Setting state', (): void => {
   test('Should update state', (): void => {
     const model = new Model({
       type: 'single',
-      value: 15,
+      value: [15],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -411,7 +393,6 @@ describe('Setting state', (): void => {
       direction: 'vertical',
       hint: true,
       scale: false,
-      positionLength: null,
     }, 'stateUpdated');
 
     const newSettings = model.getState();
@@ -430,14 +411,13 @@ describe('Setting state', (): void => {
   test('Should update state', (): void => {
     const model = new Model({
       type: 'single',
-      value: 15,
+      value: [15],
       minValue: 5,
       maxValue: 30,
       step: 5,
       direction: 'vertical',
       hint: false,
       scale: true,
-      positionLength: null,
     });
     model.subscribe(() => {}, 'stateUpdated');
 
@@ -449,7 +429,7 @@ describe('Setting state', (): void => {
 
     const newSettings = model.getState();
 
-    expect(newSettings.value).toEqual(17);
+    expect(newSettings.value).toEqual([17]);
     expect(newSettings.step).toEqual(6);
   });
 });
