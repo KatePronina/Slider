@@ -156,12 +156,9 @@ class Model extends Observer implements IModel {
   }
 
   private isSecondValueChange(value: number): boolean {
-    if (this.state.value instanceof Array) {
-      const endValueDifference = (this.state.value)[VALUE_END] - value;
-      const startValueDifference = value - (this.state.value)[VALUE_START];
-      return endValueDifference < startValueDifference;
-    }
-    return false;
+    const endValueDifference = (this.state.value)[VALUE_END] - value;
+    const startValueDifference = value - (this.state.value)[VALUE_START];
+    return endValueDifference < startValueDifference;
   }
 }
 

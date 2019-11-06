@@ -124,18 +124,12 @@ class ConfigurationView implements IConfigurationView {
 
   private handleCurrentMinValueBlur = ({ target }: Event) => {
     const value = parseInt((<HTMLInputElement>target).value, 10);
-
-    if (this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [value, this.settings.value[VALUE_END]] });
-    }
+    this.sliderPlugin.setSettings({ value: [value, this.settings.value[VALUE_END]] });
   }
 
   private handleCurrentMaxValueBlur = ({ target }: Event) => {
     const value = parseInt((<HTMLInputElement>target).value, 10);
-
-    if (this.settings.value instanceof Array) {
-      this.sliderPlugin.setSettings({ value: [this.settings.value[VALUE_START], value] });
-    }
+    this.sliderPlugin.setSettings({ value: [this.settings.value[VALUE_START], value] });
   }
 
   private handleStepInput = ({ target }: Event): void => {
@@ -156,39 +150,31 @@ class ConfigurationView implements IConfigurationView {
     }
   }
 
-  private handleHintChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement) {
-      this.sliderPlugin.setSettings({ hint: !this.settings.hint });
-    }
+  private handleHintChange = (): void => {
+    this.sliderPlugin.setSettings({ hint: !this.settings.hint });
   }
 
-  private handleScaleChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement) {
-      this.sliderPlugin.setSettings({ scale: !this.settings.scale });
-    }
+  private handleScaleChange = (): void => {
+    this.sliderPlugin.setSettings({ scale: !this.settings.scale });
   }
 
-  private handleDirectionChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement) {
-      const newDirection = this.settings.direction === DIRECTION_HORIZONTAL ?
-                                                        DIRECTION_VERTICAL :
-                                                        DIRECTION_HORIZONTAL;
+  private handleDirectionChange = (): void => {
+    const newDirection = this.settings.direction === DIRECTION_HORIZONTAL ?
+                                                      DIRECTION_VERTICAL :
+                                                      DIRECTION_HORIZONTAL;
 
-      newDirection === DIRECTION_VERTICAL ?
-                        this.$sliderParentElement.addClass('slider-section__slider_direction_vertical')
-                      : this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
+    newDirection === DIRECTION_VERTICAL ?
+                      this.$sliderParentElement.addClass('slider-section__slider_direction_vertical')
+                    : this.$sliderParentElement.removeClass('slider-section__slider_direction_vertical');
 
-      this.sliderPlugin.setSettings({ direction: newDirection });
-    }
+    this.sliderPlugin.setSettings({ direction: newDirection });
   }
 
-  private handleTypeChange = ({ target }: Event): void => {
-    if (target instanceof HTMLInputElement) {
-      const currentType = this.settings.type === TYPE_SINGLE ?
-                                              TYPE_INTERVAL :
-                                              TYPE_SINGLE;
-      this.sliderPlugin.setSettings({ type: currentType });
-    }
+  private handleTypeChange = (): void => {
+    const currentType = this.settings.type === TYPE_SINGLE ?
+                                            TYPE_INTERVAL :
+                                            TYPE_SINGLE;
+    this.sliderPlugin.setSettings({ type: currentType });
   }
 }
 
