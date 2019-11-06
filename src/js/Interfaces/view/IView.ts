@@ -51,11 +51,11 @@ export interface IIntervalSliderView {
 }
 
 export interface IHintView {
-  updateHint(value: number | number[], percent: number): void;
+  updateHint(value: number[], percent: number): void;
 }
 
 export interface IHintSettings {
-  value: number | number[];
+  value: number[];
   type: 'single' | 'interval';
   direction: 'horizontal' | 'vertical';
   isMaxValue?: boolean;

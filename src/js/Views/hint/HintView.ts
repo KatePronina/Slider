@@ -5,7 +5,7 @@ class HintView implements IHintView {
   private hintElement: HTMLElement;
   private isMaxValue?: boolean;
   private type: 'single' | 'interval';
-  private value: number | number[];
+  private value: number[];
   private direction: 'horizontal' | 'vertical';
 
   public constructor({ value, type, direction, isMaxValue, $parentElement }: IHintSettings) {
@@ -16,19 +16,19 @@ class HintView implements IHintView {
     this.establishElement($parentElement);
   }
 
-  public updateHint (value: number | number[], percent: number): void {
+  public updateHint (value: number[], percent: number): void {
     this.value = value;
     this.updatePosition(percent);
     this.rewriteHintValue();
   }
 
   private rewriteHintValue(): void {
-    if (this.type === TYPE_INTERVAL && this.value instanceof Array) {
+    if (this.type === TYPE_INTERVAL) {
       this.isMaxValue ?
           this.hintElement.textContent = this.value[VALUE_END].toString()
         : this.hintElement.textContent = this.value[VALUE_START].toString();
-    } else if (typeof this.value === 'number') {
-      this.hintElement.textContent = this.value.toString();
+    } else {
+      this.hintElement.textContent = this.value[VALUE_START].toString();
     }
   }
 

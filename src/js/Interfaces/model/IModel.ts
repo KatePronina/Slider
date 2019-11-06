@@ -13,7 +13,7 @@ export interface IModelSettings {
   type: 'single' | 'interval';
   minValue: number;
   maxValue: number;
-  value: number | number[];
+  value: number[];
   step: number;
   direction: 'horizontal' | 'vertical';
   hint: boolean;
@@ -25,7 +25,7 @@ export interface IModelSettings {
 
 export interface IValidateValues {
   type: 'single' | 'interval';
-  value: number | number[];
+  value: number[];
   minValue: number;
   maxValue: number;
   step: number;
@@ -34,7 +34,7 @@ export interface IValidateValues {
 
 export interface IValidateSingleValue extends IValidateValues {
   type: 'single';
-  value: number;
+  value: number[];
   positionPercent?: number;
 }
 

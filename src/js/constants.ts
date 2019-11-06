@@ -59,7 +59,7 @@ export const slidersData: ISliderData[] = [
       minValue: 3,
       maxValue: 19,
       step: 5,
-      value: 8,
+      value: [8],
       scale: true,
     },
   },

@@ -3,7 +3,7 @@ export default interface IFullSettings {
   type: 'single' | 'interval';
   minValue: number;
   maxValue: number;
-  value: number | number[];
+  value: number[];
   step: number;
   direction: 'horizontal' | 'vertical';
   hint: boolean;

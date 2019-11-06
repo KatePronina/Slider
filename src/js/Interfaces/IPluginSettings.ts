@@ -5,13 +5,13 @@ export default interface IPluginSettings {
   type: 'single' | 'interval';
   minValue: number;
   maxValue: number;
-  value: number | number[];
+  value: number[];
   step: number;
   direction: 'horizontal' | 'vertical';
   hint: boolean;
   scale: boolean;
   events: {
-    valueUpdated: (value: number | number[]) => {};
+    valueUpdated: (value: number[]) => {};
     settingsUpdated: (settings: IModelSettings) => {};
   };
 }

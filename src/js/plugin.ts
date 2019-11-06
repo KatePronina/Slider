@@ -8,7 +8,7 @@ import IMethods from './Interfaces/IMethods';
 $.fn.slider = function callSlider(method: string, ...args) {
   let slider: Application;
   const events = {
-    publishUpdatedValue: (value: number | number[]) => {},
+    publishUpdatedValue: (value: number[]) => {},
     publishUpdatedSettings: (settings: IModelSettings) => {},
   };
 
@@ -26,7 +26,7 @@ $.fn.slider = function callSlider(method: string, ...args) {
       if (typeof fullSettings.value === 'undefined') {
         fullSettings.value = fullSettings.type === TYPE_INTERVAL ?
                                             [fullSettings.minValue, fullSettings.maxValue] :
-                                            fullSettings.minValue;
+                                            [fullSettings.minValue];
       }
 
       slider = new Application(fullSettings);

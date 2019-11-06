@@ -23,11 +23,14 @@ class View extends Observer implements IView {
 
   public redrawSlider(newSettings: IModelSettings): void {
     this.settings.$parentElement.html('');
+    this.hintView = undefined;
+    this.hintMaxValueView = undefined;
+    this.scaleView = undefined;
     this.initViews({ ...newSettings, $parentElement: this.settings.$parentElement });
     newSettings.positionLength && this.changeSlider(newSettings.value, newSettings.positionLength);
   }
 
-  public changeSlider = (value: number | number[], newPositionLength: number[]): void => {
+  public changeSlider = (value: number[], newPositionLength: number[]): void => {
     this.settings.value = value;
     this.settings.positionLength = newPositionLength;
 
@@ -95,9 +98,7 @@ class View extends Observer implements IView {
     this.scaleView = new ScaleView({ direction, minValue, maxValue, step, $parentElement });
 
     this.scaleView.dispatchValue = (value: number): void => {
-      this.settings.type === TYPE_INTERVAL ?
-                            this.notify('dispatchOptions', { value: [value], eventType: 'stateUpdated' })
-                            : this.notify('dispatchOptions', { value, eventType: 'stateUpdated' });
+      this.notify('dispatchOptions', { value: [value], eventType: 'stateUpdated' });
     };
   }
 }

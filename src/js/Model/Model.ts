@@ -30,43 +30,37 @@ class Model extends Observer implements IModel {
     return { ...state, positionLength, value };
   }
 
-  private validateValue(settings: IValidateValues, eventType?: string): number | number[] {
-    if (this.isIntervalType(settings)) {
-      return this.validateIntervalValues(settings, eventType);
+  private validateValue(settings: IValidateValues, eventType?: string): number[] {
+    const { type } = settings;
+
+    if (type === TYPE_INTERVAL) {
+      return this.validateIntervalValues({ ...settings, type }, eventType);
     }
 
-    if (this.isSingleType(settings)) {
-      return this.validateSingleValue(settings, eventType);
+    if (type === TYPE_SINGLE) {
+      return this.validateSingleValue({ ...settings, type }, eventType);
     }
 
     return settings.value;
   }
 
-  private isIntervalType(settings: IValidateValues): settings is IValidateIntervalValue {
-    return settings.type === TYPE_INTERVAL;
-  }
-
-  private isSingleType(settings: IValidateValues): settings is IValidateSingleValue {
-    return settings.type === TYPE_SINGLE;
-  }
-
-  private validateSingleValue(settings: IValidateSingleValue, eventType?: string): number {
+  private validateSingleValue(settings: IValidateSingleValue, eventType?: string): number[] {
     const { minValue, maxValue, value, step, positionPercent } = settings;
 
     const newValue = eventType === 'positionPercentUpdated' && positionPercent ?
                       this.validateSingleBoundaryValue({
                         minValue, maxValue, step, value: this.convertPercentToSingleValue(positionPercent),
                       })
-                      : this.validateSingleBoundaryValue({ minValue, maxValue, step, value });
+                      : this.validateSingleBoundaryValue({ minValue, maxValue, step, value: value[VALUE_START] });
 
-    return newValue;
+    return [newValue];
   }
 
   private validateIntervalValues(settings: IValidateIntervalValue, eventType?: string): number[] {
     const { minValue, maxValue, step, value: currentValue, positionPercent, valueType } = settings;
 
     if (currentValue.length === 1) {
-      return this.convertSingleValueToInterval({ minValue, maxValue, step, value: currentValue[0] });
+      return this.convertSingleValueToInterval({ minValue, maxValue, step, value: currentValue[VALUE_START] });
     }
 
     const values = eventType === 'positionPercentUpdated' && positionPercent && valueType ?
@@ -83,13 +77,13 @@ class Model extends Observer implements IModel {
     switch (settings.valueType) {
       case VALUE_TYPE_MIN:
         return [
-          this.convertPercentToSingleValue(settings.positionPercent[0]),
+          this.convertPercentToSingleValue(settings.positionPercent[VALUE_START]),
           settings.currentValue[VALUE_END],
         ];
       case VALUE_TYPE_MAX:
         return [
           settings.currentValue[VALUE_START],
-          this.convertPercentToSingleValue(settings.positionPercent[0]),
+          this.convertPercentToSingleValue(settings.positionPercent[VALUE_START]),
         ];
       default:
         return settings.currentValue;
@@ -101,9 +95,9 @@ class Model extends Observer implements IModel {
     return parseInt(value.toFixed(), 10);
   }
 
-  private convertValueToPosition(newValue: number | number[], minValue: number, maxValue: number): number[] {
-    if (typeof newValue === 'number') {
-      return [this.countPositionOffsets(newValue, minValue, maxValue)];
+  private convertValueToPosition(newValue: number[], minValue: number, maxValue: number): number[] {
+    if (newValue.length === 1) {
+      return [this.countPositionOffsets(newValue[VALUE_START], minValue, maxValue)];
     }
 
     return [
@@ -119,19 +113,15 @@ class Model extends Observer implements IModel {
   private convertSingleValueToInterval(settings: ICheckValue): number[] {
     const validValue = this.validateSingleBoundaryValue(settings);
 
-    if (typeof this.state.value === 'number') {
+    if (this.state.value.length === 1) {
       return [settings.value, this.state.maxValue];
     }
 
-    if (this.isSecondValueChange(validValue) && this.state.value instanceof Array) {
+    if (this.isSecondValueChange(validValue)) {
       return [this.state.value[VALUE_START], validValue];
     }
 
-    if (this.state.value instanceof Array) {
-      return [validValue, (this.state.value)[VALUE_END]];
-    }
-
-    return [validValue, validValue];
+    return [validValue, (this.state.value)[VALUE_END]];
   }
 
   private validateIntervalBoundaryValues (values: number[], valueType?: string): number[] {

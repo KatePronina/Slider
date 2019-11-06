@@ -32,10 +32,10 @@ class ConfigurationView implements IConfigurationView {
     }});
   }
 
-  public updateValueInputs = (value: number | number[]): void => {
-    if (this.settings.type === TYPE_SINGLE && typeof value === 'number') {
-      this.$currentValueInput.val(value.toString());
-    } else if (value instanceof Array) {
+  public updateValueInputs = (value: number[]): void => {
+    if (this.settings.type === TYPE_SINGLE) {
+      this.$currentValueInput.val(value[VALUE_START].toString());
+    } else {
       this.$currentMinValueInput.val(value[VALUE_START].toString());
       this.$currentMaxValueInput.val(value[VALUE_END].toString());
     }
@@ -80,9 +80,9 @@ class ConfigurationView implements IConfigurationView {
   }
 
   private updateInputs(): void {
-    if (this.settings.type === TYPE_SINGLE && typeof this.settings.value === 'number') {
-      this.$currentValueInput.val(this.settings.value.toString());
-    } else if (this.settings.value instanceof Array) {
+    if (this.settings.type === TYPE_SINGLE) {
+      this.$currentValueInput.val(this.settings.value[VALUE_START].toString());
+    } else {
       this.$currentMinValueInput.val(this.settings.value[VALUE_START].toString());
       this.$currentMaxValueInput.val(this.settings.value[VALUE_END].toString());
     }
@@ -111,18 +111,6 @@ class ConfigurationView implements IConfigurationView {
     this.$scaleToggle.on('change', this.handleScaleChange);
     this.$verticalToggle.on('change', this.handleDirectionChange);
     this.$typeToggle.on('change', this.handleTypeChange);
-  }
-
-  private setRequiredTypeForValue(type: string, value: number | number[]): number | number[] {
-    if (type === TYPE_INTERVAL && typeof value === 'number') {
-      return [value];
-    }
-
-    if (type === TYPE_SINGLE && value instanceof Array) {
-      return value[VALUE_START];
-    }
-
-    return value;
   }
 
   private removeConfiguration(): void {
@@ -199,8 +187,7 @@ class ConfigurationView implements IConfigurationView {
       const currentType = this.settings.type === TYPE_SINGLE ?
                                               TYPE_INTERVAL :
                                               TYPE_SINGLE;
-      const newValue = this.setRequiredTypeForValue(currentType, this.settings.value);
-      this.sliderPlugin.setSettings({ type: currentType, value: newValue });
+      this.sliderPlugin.setSettings({ type: currentType });
     }
   }
 }
