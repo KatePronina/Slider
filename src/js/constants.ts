@@ -10,6 +10,43 @@ export const DEFAULT_SETTINGS = {
   scale: false,
 };
 
+export const inputsContext = {
+  isSingle: true,
+  valueInputs: [
+    {
+      label: 'Размер шага',
+      type: 'step',
+      minValue: 1,
+    },
+    {
+      label: 'Минимальное значение',
+      type: 'min-value',
+    },
+    {
+      label: 'Максимальное значение',
+      type: 'max-value',
+    },
+  ],
+  checkboxInputs: [
+    {
+      label: 'Подсказка',
+      type: 'hint',
+    },
+    {
+      label: 'Шкала',
+      type: 'scale',
+    },
+    {
+      label: 'Два значения',
+      type: 'toggle-interval',
+    },
+    {
+      label: 'Вертикальный вид',
+      type: 'vertical',
+    },
+  ],
+};
+
 export const slidersData: ISliderData[] = [
   {
     configurationClass: 'js-first-slider-section__configuration',

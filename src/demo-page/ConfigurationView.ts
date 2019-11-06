@@ -1,7 +1,7 @@
 import { IConfigurationView } from './interfaces';
 import '../js/plugin';
 import { DIRECTION_VERTICAL, TYPE_SINGLE, TYPE_INTERVAL,
-        VALUE_START, VALUE_END, DIRECTION_HORIZONTAL } from '../js/constants';
+        VALUE_START, VALUE_END, DIRECTION_HORIZONTAL, inputsContext } from '../js/constants';
 import { IModelSettings } from '../js/Interfaces/model/IModel';
 import { INewParams } from '../js/Interfaces/controller/IController';
 
@@ -75,43 +75,8 @@ class ConfigurationView implements IConfigurationView {
   }
 
   private drawConfigurationTemplate(): void {
-    const context = {
-      isSingle: this.settings.type === TYPE_SINGLE,
-      valueInputs: [
-        {
-          label: 'Размер шага',
-          type: 'step',
-          minValue: 1,
-        },
-        {
-          label: 'Минимальное значение',
-          type: 'min-value',
-        },
-        {
-          label: 'Максимальное значение',
-          type: 'max-value',
-        },
-      ],
-      checkboxInputs: [
-        {
-          label: 'Подсказка',
-          type: 'hint',
-        },
-        {
-          label: 'Шкала',
-          type: 'scale',
-        },
-        {
-          label: 'Два значения',
-          type: 'toggle-interval',
-        },
-        {
-          label: 'Вертикальный вид',
-          type: 'vertical',
-        },
-      ],
-    };
-    this.$containerElement.html(this.template(context));
+    inputsContext.isSingle = this.settings.type === TYPE_SINGLE;
+    this.$containerElement.html(this.template(inputsContext));
   }
 
   private updateInputs(): void {
