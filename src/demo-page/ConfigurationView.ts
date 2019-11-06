@@ -231,11 +231,11 @@ class ConfigurationView implements IConfigurationView {
 
   private handleTypeChange = ({ target }: Event): void => {
     if (target instanceof HTMLInputElement) {
-      const newType = this.settings.type === TYPE_SINGLE ?
+      const currentType = this.settings.type === TYPE_SINGLE ?
                                               TYPE_INTERVAL :
                                               TYPE_SINGLE;
-      const newValue = this.setRequiredTypeForValue(newType, this.settings.value);
-      this.sliderPlugin.setSettings({ type: newType, value: newValue });
+      const newValue = this.setRequiredTypeForValue(currentType, this.settings.value);
+      this.sliderPlugin.setSettings({ type: currentType, value: newValue });
     }
   }
 }
