@@ -119,7 +119,7 @@ class ConfigurationView implements IConfigurationView {
 
   private handleCurrentValueBlur = ({ target }: Event) => {
     const value = parseInt((<HTMLInputElement>target).value, 10);
-    this.sliderPlugin.setSettings({ value });
+    this.sliderPlugin.setSettings({ value: [value] });
   }
 
   private handleCurrentMinValueBlur = ({ target }: Event) => {
