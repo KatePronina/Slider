@@ -16,24 +16,20 @@
 
 ## Использование
 ```javascript
-$('.slider').slider()
+const mySliderPlugin = $('.slider-class-name').slider({
+  minValue: 3,
+  maxValue: 19,
+  step: 5,
+  value: [8],
+  scale: true,
+});
 ```
-С настройками:
-```javascript
-$('.slider').slider({
-                    minValue: 3,
-                    maxValue: 19,
-                    step: 5,
-                    value: 8,
-                    scale: true,
-                    configuration: true,
-                  })
-```
+
 ### Настройки
 | Опция  | Тип  | Значение по умолчанию | Описание |
 | :------------: |:---------------:| :---------:|:--:|
 | type     | string | 'single' |  Определяет тип слайдера: с одним значением ('single') или с двумя ('interval') |
-| value     | number или number[] | Равно минимальному возможному значению (при типе слайдера 'single') или минимальному и максимальному возможным значениям (при типе слайдера 'interval') |  Задает значение слайдера
+| value     | number[] | Равно минимальному возможному значению (при типе слайдера 'single') или минимальному и максимальному возможным значениям (при типе слайдера 'interval') |  Задает значение слайдера
 | minValue | number | 0 | Минимальное возможное значение |
 | maxValue | number | 100 | Максимальное возможное значение |
 | step | number | 1 | Шаг значений |
@@ -44,38 +40,27 @@ $('.slider').slider({
 
 ### Установка значения слайдера
 
-**Для типа 'single':**
 ```javascript
-$('.slider').slider('setValue', 5);
+const mySliderPlugin = $('.slider-class-name').slider({
+  minValue: 10,
+  maxValue: 150,
+});
+
+mySliderPlugin.setSettings({ value: [20] }); // для типа single
+mySliderPlugin.setSettings({ value: [20, 40] }); // для типа interval
 ```
-**Для типа 'interval':**
-```javascript
-$('.slider').slider('setValue', [40, 50]);
-```
-Установка только начального значения:
-```javascript
-$('.slider').slider('setValue', 20, 'min');
-```
-Установка только конечного значения:
-```javascript
-$('.slider').slider('setValue', 40, 'max');
-```
-Установка одного значения с автоматическим определением типа значения (начального или конечного):
-```javascript
-$('.slider').slider('setValue', 60);
-```
+
 ## Архитектура
 ### UML-диаграмма
 ![UML](https://github.com/KatePronina/Slider/raw/master/schemes/UML%20Diagram.jpg)
-### Взаимодействие слоёв MVC
-![MVC](https://github.com/KatePronina/Slider/raw/master/schemes/MVC%20Diagram.jpg)
+
 ### Описание
 #### Model
 Содержит состояние, связанное с бизнес-логикой (type, minValue, maxValue, number, value, step), и не содержит состояния данных визуального отображения.
 #### View
 Занимается отрисовкой слайдера. Использует views каждого компонента слайдера: создает необходимые view в соответствии с переданными параметрами, добавляет обработку событий, связывает views каждого компонента между собой.
 
-**SingleSliderView, IntervalSliderView, ScaleView, HintView, ConfigurationView** - компоненты слайдера, каждый компонент отрисовывает и обрабатывает события от своего элемента. Все компоненты объединены наследованием от абстрактного класса *ComponentView*.
+**SingleSliderView, IntervalSliderView, ScaleView, HintView, ConfigurationView** - компоненты слайдера, каждый компонент отрисовывает и обрабатывает события от своего элемента.
 
 **SingleSliderView, IntervalSliderView** - два компонента одной сущности. View выбирает для использования только один из них в зависимости от переданных параметров. Компоненты объединены наследованием от абстрактного класса ComponentSlider.
 
