@@ -1,6 +1,6 @@
 # Slider (jQuery plugin)
 
-[Демо-страница](https://katepronina.github.io/Slider/ "Демо-страница")
+[Демо-страница](https://katepronina.github.io/Slider/dist)
 
 ### Clone repository
 `git clone https://github.com/KatePronina/Slider`
