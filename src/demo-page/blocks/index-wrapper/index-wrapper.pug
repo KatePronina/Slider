@@ -1,0 +1,6 @@
+include ../slider-section/slider-section.pug
+
+mixin index-wrapper(slidersData)
+  .index-wrapper
+    each slider in slidersData
+      +slider-section(slider)

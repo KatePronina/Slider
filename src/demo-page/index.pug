@@ -1,3 +1,5 @@
+include ./blocks/index-wrapper/index-wrapper.pug
+
 html(lang='ru')
   head
     meta(charset='UTF-8')
@@ -24,9 +26,7 @@ html(lang='ru')
     meta(name='msapplication-TileImage', content='src/favicons/ms-icon-144x144.png')
     meta(name='theme-color', content='#ffffff')
   body
-    .wrapper
-      -
-        const sliders = [
+    +index-wrapper([
           {
             number: 'first',
             title: 'Слайдер с настройками по умолчанию'
@@ -45,10 +45,4 @@ html(lang='ru')
             title: 'Слайдер с двумя значениями',
             sectionWithHeight: true,
           },
-        ]
-      each slider in sliders
-        - const sliderHeightClass = slider.sectionWithHeight ? 'slider-section__slider_direction_vertical' : '';  
-        section.slider-section
-          h2.slider-section__title= slider.title
-          div.slider-section__slider(class=`js-${slider.number}-slider ${sliderHeightClass}`)
-          div.slider-section__configuration(class=`js-${slider.number}-slider-section__configuration`)
+        ])

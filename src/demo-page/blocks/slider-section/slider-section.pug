@@ -1,0 +1,6 @@
+mixin slider-section({ title, number, sectionWithHeight })
+  - const sliderHeightClass = sectionWithHeight ? 'slider-section__slider_direction_vertical' : '';  
+  section.slider-section
+    h2.slider-section__title= title
+    div.slider-section__slider(class=`js-${number}-slider ${sliderHeightClass}`)
+    div.slider-section__configuration(class=`js-${number}-slider-section__configuration`)
