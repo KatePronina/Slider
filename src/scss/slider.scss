@@ -1,13 +1,20 @@
 @import './colors.scss';
 
 .slider {
-  height: .25rem;
-  position: relative;
-  background-color: $lightgrey;
+  display: inline-block;
+  padding: 1rem 0;
+  width: 100%;
+  box-sizing: border-box;
 
-  &_direction_vertical {
-    width: .25rem;
-    height: 100%;
+  &__element {
+    height: .25rem;
+    position: relative;
+    background-color: $lightgrey;
+
+    &_direction_vertical {
+      width: .25rem;
+      height: 100%;
+    }
   }
 
   &__point {
@@ -101,10 +108,4 @@
       transform: translate(0, -50%);
     }
   }
-}
-.slider-wrapper {
-  display: inline-block;
-  padding: 1rem 0;
-  width: 100%;
-  box-sizing: border-box;
 }

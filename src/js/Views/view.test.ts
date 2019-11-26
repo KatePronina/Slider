@@ -112,7 +112,7 @@ describe('DOM actions', (): void => {
       scale: false,
     });
 
-    expect(document.querySelectorAll('.slider-wrapper').length).toEqual(1);
+    expect(document.querySelectorAll('.slider').length).toEqual(1);
     expect(document.querySelectorAll('.slider').length).toEqual(1);
     expect(document.querySelectorAll('.slider__bar').length).toEqual(1);
     expect(document.querySelectorAll('.slider__point').length).toEqual(1);

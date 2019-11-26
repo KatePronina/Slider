@@ -53,7 +53,7 @@ class View extends Observer implements IView {
       this.initSlider({ positionLength, $parentElement, ...newSettings });
     }
 
-    const slider = $parentElement.find('.slider');
+    const slider = $parentElement.find('.js-slider__element');
 
     if (settings.hint) {
       this.initHint({ value, type, direction, $parentElement: slider });

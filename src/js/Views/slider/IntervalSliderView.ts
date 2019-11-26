@@ -33,7 +33,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
   private establishElement($parentElement: JQuery<HTMLElement>): void {
     const sliderElement = $(document.createElement('div'));
-    sliderElement.addClass('slider-wrapper');
+    sliderElement.addClass('slider');
 
     const context = {
       isVertical: this.direction === DIRECTION_VERTICAL,
@@ -43,7 +43,7 @@ class IntervalSliderView extends ComponentSliderView implements IIntervalSliderV
 
     this.$sliderElement = sliderElement;
     this.$barElement = sliderElement.find('.js-slider__bar');
-    this.$stripElement = sliderElement.find('.js-slider');
+    this.$stripElement = sliderElement.find('.js-slider__element');
     this.$pointElement = sliderElement.find('.js-slider__point-min');
     this.$secondPointElement = sliderElement.find('.js-slider__point-max');
     this.subscribeEventsToSlider();

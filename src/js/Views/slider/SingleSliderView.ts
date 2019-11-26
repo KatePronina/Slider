@@ -22,7 +22,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
 
   private establishElement($parentElement: JQuery<HTMLElement>): void {
     const sliderElement = $(document.createElement('div'));
-    sliderElement.addClass('slider-wrapper');
+    sliderElement.addClass('slider');
 
     const context = {
       isVertical: this.direction === DIRECTION_VERTICAL,
@@ -34,7 +34,7 @@ class SingleSliderView extends ComponentSliderView implements ISingleSliderView 
     this.$sliderElement = sliderElement;
     this.$barElement = sliderElement.find('.js-slider__bar');
     this.$pointElement = sliderElement.find('.js-slider__point');
-    this.$stripElement = sliderElement.find('.js-slider');
+    this.$stripElement = sliderElement.find('.js-slider__element');
     this.subscribeEventsToSlider();
     $parentElement.append(this.$sliderElement);
     this.getSliderSizes();
