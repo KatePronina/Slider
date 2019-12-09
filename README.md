@@ -52,7 +52,7 @@ mySliderPlugin.setSettings({ value: [20, 40] }); // для типа interval
 
 ## Архитектура
 ### UML-диаграмма
-![UML](https://github.com/KatePronina/Slider/raw/master/schemes/UML%20Diagram.png)
+![UML](https://github.com/KatePronina/Slider/raw/master/schemes/uml.png)
 
 ### Описание
 #### Model
